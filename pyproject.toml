@@ -1,0 +1,10 @@
+[project]
+name = "segresearch"
+version = "0.1.0"
+description = "Autonomous research loop: where should a byte-level model start its patches?"
+requires-python = ">=3.11"
+dependencies = [
+    "jax>=0.4.30",
+    "optax>=0.2.2",
+    "numpy>=1.26",
+]

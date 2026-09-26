@@ -48,7 +48,7 @@ When the loop has run for a while, evaluate the result yourself:
 uv run test_final.py
 ```
 
-A smoke test of the whole pipeline in about two minutes on CPU:
+A smoke test of the whole pipeline in under a minute:
 
 ```bash
 SEGR_SMOKE=1 uv run prepare.py && SEGR_SMOKE=1 uv run run.py
@@ -56,10 +56,10 @@ SEGR_SMOKE=1 uv run prepare.py && SEGR_SMOKE=1 uv run run.py
 
 ## Compute
 
-Everything is written in JAX and runs on CPU or GPU.
+Everything is written in [MLX](https://github.com/ml-explore/mlx) and runs on the GPU of an Apple Silicon Mac.
 
-- **CPU (single core, measured):** `prepare.py` about 1.5 hours one-time (three formats, each with a small and a strong scorer); one experiment about 12 minutes.
-- **GPU:** install JAX with CUDA support (`uv add "jax[cuda12]"`), after which both should drop to minutes.
+- **Apple Silicon (M-series GPU):** the smoke test takes under a minute; a full experiment should take a few minutes instead of the ~12 CPU-minutes the original JAX version needed.
+- The port matches the original JAX model numerically (forward passes agree to ~3e-7; same AdamW and warmup-cosine schedule). Random initialization differs, so absolute numbers shift slightly relative to JAX-era runs; compare runs made with the same framework.
 
 `prepare.py` prints each scorer's entropy by role. **The reference model must learn the long-range answers** (well under 0.5 bits); if it warns otherwise, increase `REFERENCE["steps"]` in `prepare.py` before starting the loop.
 

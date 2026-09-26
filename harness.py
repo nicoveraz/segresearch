@@ -14,12 +14,11 @@ Every experiment uses the same model, data, steps and seed, so differences come 
 """
 import ast
 
-import jax
-import jax.numpy as jnp
+import mlx.core as mx
+import mlx.nn as nn
 import numpy as np
-import optax
 
-from prepare import BUDGET, CTX, MAIN_BS, MAIN_STEPS, RI, ROLES, V, _ln
+from prepare import BUDGET, CTX, MAIN_BS, MAIN_STEPS, RI, ROLES, V, _ln, adamw, log_softmax_np, make_step
 
 D = 64
 ALLOWED_IMPORTS = {"numpy", "math", "collections", "itertools", "functools", "heapq", "typing", "__future__"}
@@ -91,67 +90,58 @@ def masks(module, sig_train, sig_eval):
 
 # ----------------------------------------------------------------------------- BLT-lite model
 def _init(key):
-    ks = jax.random.split(key, 16); s = 0.02
-    n = lambda k, sh: jax.random.normal(k, sh) * s
-    blk = lambda k: {"ln1": jnp.ones(D), "ln2": jnp.ones(D), "qkv": n(k[0], (D, 3 * D)),
+    ks = mx.random.split(key, 16); s = 0.02
+    n = lambda k, sh: mx.random.normal(sh, key=k) * s
+    blk = lambda k: {"ln1": mx.ones(D), "ln2": mx.ones(D), "qkv": n(k[0], (D, 3 * D)),
                      "o": n(k[1], (D, D)), "w1": n(k[2], (D, 4 * D)), "w2": n(k[3], (4 * D, D))}
     return {"emb": n(ks[0], (V, D)), "off": n(ks[1], (CTX, D)), "ppos": n(ks[2], (CTX, D)),
             "g": [blk(ks[3:7]), blk(ks[7:11])], "loc": blk(ks[11:15]),
-            "gproj": n(ks[15], (D, D)), "lnf": jnp.ones(D)}
+            "gproj": n(ks[15], (D, D)), "lnf": mx.ones(D)}
 
 
 def _block(L, h, mask, nh=4):
     B, T, _ = h.shape; hd = D // nh
-    q, k, v = jnp.split(_ln(h, L["ln1"]) @ L["qkv"], 3, -1)
+    q, k, v = mx.split(_ln(h, L["ln1"]) @ L["qkv"], 3, axis=-1)
     sh = lambda t: t.reshape(B, T, nh, hd).transpose(0, 2, 1, 3)
-    a = jnp.where(mask[:, None], sh(q) @ sh(k).transpose(0, 1, 3, 2) / np.sqrt(hd), -1e9)
-    h = h + (jax.nn.softmax(a, -1) @ sh(v)).transpose(0, 2, 1, 3).reshape(B, T, D) @ L["o"]
-    return h + jax.nn.gelu(_ln(h, L["ln2"]) @ L["w1"]) @ L["w2"]
+    a = mx.where(mask[:, None], sh(q) @ sh(k).transpose(0, 1, 3, 2) / np.sqrt(hd), -1e9)
+    h = h + (mx.softmax(a, axis=-1) @ sh(v)).transpose(0, 2, 1, 3).reshape(B, T, D) @ L["o"]
+    return h + nn.gelu_approx(_ln(h, L["ln2"]) @ L["w1"]) @ L["w2"]
 
 
 def _model(p, x, bd):
     """x: (B,T) bytes; bd: (B,T+1) patch-start flags for bytes x_0..x_T, bd[:,0] == 1.
     Position t predicts x_{t+1}."""
     B, T = x.shape
-    pid = jnp.cumsum(bd[:, :T], 1) - 1
-    start = jnp.where(bd[:, :T] == 1, jnp.arange(T)[None], 0)
-    off = jnp.arange(T)[None] - jax.lax.cummax(start, axis=1)
+    ar = mx.arange(T)
+    one_hot = lambda i: (i[:, :, None] == ar).astype(mx.float32)   # index -1 -> all-zero row
+    pid = mx.cumsum(bd[:, :T], axis=1) - 1
+    start = mx.where(bd[:, :T] == 1, ar[None], 0)
+    off = ar[None] - mx.cummax(start, axis=1)
     e = p["emb"][x] + p["off"][off]
-    pe = jnp.einsum("btp,btd->bpd", jax.nn.one_hot(pid, T), e) + p["ppos"][None]
+    pe = one_hot(pid).transpose(0, 2, 1) @ e + p["ppos"][None]
     G = pe
-    causal = jnp.tril(jnp.ones((T, T), bool))[None].repeat(B, 0)
+    causal = (ar[:, None] >= ar[None])[None]
     for L in p["g"]:
         G = _block(L, G, causal)
-    gidx = jnp.where(bd[:, 1:T + 1] == 1, pid, pid - 1)       # fresh context iff x_{t+1} starts a patch
-    ctx = jnp.einsum("btp,bpd->btd", jax.nn.one_hot(gidx, T), G)
+    gidx = mx.where(bd[:, 1:T + 1] == 1, pid, pid - 1)       # fresh context iff x_{t+1} starts a patch
+    ctx = one_hot(gidx) @ G
     h = e + ctx @ p["gproj"]
-    local = (pid[:, :, None] == pid[:, None, :]) & jnp.tril(jnp.ones((T, T), bool))[None]
+    local = (pid[:, :, None] == pid[:, None, :]) & causal
     h = _block(p["loc"], h, local)
     return _ln(h, p["lnf"]) @ p["emb"].T
 
 
 def train_eval(train_bytes, train_mask, eval_bytes, eval_mask, eval_roles, seed=0):
     tr = train_bytes.astype(np.int32); btr = train_mask.astype(np.int32)
-    p = _init(jax.random.PRNGKey(seed))
-    opt = optax.adamw(optax.warmup_cosine_decay_schedule(0, 3e-3, min(100, MAIN_STEPS // 4), MAIN_STEPS, 3e-4),
-                      weight_decay=0.01)
-    st = opt.init(p)
-
-    def lossf(p, x, y, bd):
-        return optax.softmax_cross_entropy_with_integer_labels(_model(p, x, bd), y).mean()
-
-    @jax.jit
-    def step(p, st, x, y, bd):
-        l, g = jax.value_and_grad(lossf)(p, x, y, bd)
-        u, st = opt.update(g, st, p)
-        return optax.apply_updates(p, u), st, l
+    lossf = lambda p, x, y, bd: nn.losses.cross_entropy(_model(p, x, bd), y, reduction="mean")
+    p, step = make_step(_init(mx.random.key(seed)), lossf, adamw(3e-3, MAIN_STEPS, 3e-4))
 
     rng = np.random.default_rng(seed)
     for _ in range(MAIN_STEPS):
         i = rng.integers(0, len(tr) - CTX - 1, MAIN_BS)
         x = np.stack([tr[j:j + CTX] for j in i]); y = np.stack([tr[j + 1:j + CTX + 1] for j in i])
         bd = np.stack([btr[j:j + CTX + 1] for j in i]); bd[:, 0] = 1
-        p, st, _ = step(p, st, x, y, bd)
+        step(x, y, bd)
 
     ev = eval_bytes.astype(np.int32); bev = eval_mask.astype(np.int32)
     n = (len(ev) - 1) // CTX
@@ -159,12 +149,8 @@ def train_eval(train_bytes, train_mask, eval_bytes, eval_mask, eval_roles, seed=
     Y = np.stack([ev[k * CTX + 1:(k + 1) * CTX + 1] for k in range(n)])
     Rl = np.stack([eval_roles[k * CTX + 1:(k + 1) * CTX + 1] for k in range(n)])
     BD = np.stack([bev[k * CTX:k * CTX + CTX + 1] for k in range(n)]); BD[:, 0] = 1
-    f = jax.jit(_model); lps = []
-    for b in range(0, n, 128):
-        lg = np.asarray(f(p, X[b:b + 128], BD[b:b + 128]), np.float64)
-        lg -= lg.max(-1, keepdims=True)
-        lps.append(lg - np.log(np.exp(lg).sum(-1, keepdims=True)))
-    lp = np.concatenate(lps)
+    lp = np.concatenate([log_softmax_np(_model(p, mx.array(X[b:b + 128]), mx.array(BD[b:b + 128])))
+                         for b in range(0, n, 128)])
     bits = -np.take_along_axis(lp, Y[..., None], -1)[..., 0] / np.log(2)
     acc = lp.argmax(-1) == Y
     keep = np.zeros_like(bits, bool); keep[:, CTX // 2:] = True   # score bytes with >= CTX/2 context

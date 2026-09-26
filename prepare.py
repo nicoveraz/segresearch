@@ -25,11 +25,13 @@ Usage:  uv run prepare.py          # one-time; trains scorers and caches signals
 import os
 import time
 from dataclasses import dataclass
+from functools import partial
 
-import jax
-import jax.numpy as jnp
+import mlx.core as mx
+import mlx.nn as nn
+import mlx.optimizers as optim
 import numpy as np
-import optax
+from mlx.utils import tree_map
 
 # ----------------------------------------------------------------------------- constants
 SMOKE = os.environ.get("SEGR_SMOKE") == "1"
@@ -114,80 +116,110 @@ def generate(fmt, n_records, seed):
     return np.array(b, np.uint8), np.array(r, np.int8)
 
 
+# ----------------------------------------------------------------------------- MLX training utilities
+class _Params(nn.Module):
+    """Wraps a plain parameter tree so MLX's optimizer and compile can update it in place."""
+    def __init__(self, tree):
+        super().__init__()
+        for k, v in tree.items():
+            setattr(self, k, v)
+
+
+def adamw(lr, steps, end_lr):
+    """AdamW with linear warmup to lr, then cosine decay to end_lr (optax.warmup_cosine_decay_schedule)."""
+    warm = min(100, steps // 4)
+    sched = optim.join_schedules([optim.linear_schedule(0.0, lr, warm), optim.cosine_decay(lr, steps - warm, end_lr)],
+                                 [warm])
+    return optim.AdamW(sched, weight_decay=0.01, bias_correction=True)
+
+
+def make_step(params, lossf, opt):
+    """Compiled training step. lossf(p, *batch) -> scalar loss. Returns (model, step); step(*batch)
+    updates model's parameters in place and returns the loss. model is dict-like: model["emb"], ..."""
+    model = _Params(params)
+    vg = nn.value_and_grad(model, lambda *b: lossf(model, *b))
+    state = [model.state, opt.state]
+
+    @partial(mx.compile, inputs=state, outputs=state)
+    def _step(*batch):
+        l, g = vg(*batch)
+        opt.update(model, g)
+        return l
+
+    def step(*batch):
+        l = _step(*(mx.array(b) for b in batch))
+        mx.eval(l, state)
+        return l
+    return model, step
+
+
+def log_softmax_np(lg):
+    """float64 log-softmax of an MLX logits array, as numpy."""
+    lg = np.array(lg.astype(mx.float32), np.float64)
+    lg -= lg.max(-1, keepdims=True)
+    return lg - np.log(np.exp(lg).sum(-1, keepdims=True))
+
+
 # ----------------------------------------------------------------------------- small causal LM
 def _ln(x, g):
     m = x.mean(-1, keepdims=True); v = ((x - m) ** 2).mean(-1, keepdims=True)
-    return (x - m) / jnp.sqrt(v + 1e-5) * g
+    return (x - m) * mx.rsqrt(v + 1e-5) * g
 
 
 def init_lm(key, d, n_layers):
-    ks = jax.random.split(key, 2 + 4 * n_layers); s = 0.02
-    p = {"emb": jax.random.normal(ks[0], (V, d)) * s, "pos": jax.random.normal(ks[1], (CTX, d)) * s,
-         "lnf": jnp.ones(d), "layers": []}
+    ks = mx.random.split(key, 2 + 4 * n_layers); s = 0.02
+    n = lambda k, sh: mx.random.normal(sh, key=k) * s
+    p = {"emb": n(ks[0], (V, d)), "pos": n(ks[1], (CTX, d)), "lnf": mx.ones(d), "layers": []}
     for i in range(n_layers):
         k = ks[2 + 4 * i: 6 + 4 * i]
-        p["layers"].append({"ln1": jnp.ones(d), "ln2": jnp.ones(d),
-                            "qkv": jax.random.normal(k[0], (d, 3 * d)) * s,
-                            "o": jax.random.normal(k[1], (d, d)) * s,
-                            "w1": jax.random.normal(k[2], (d, 4 * d)) * s,
-                            "w2": jax.random.normal(k[3], (4 * d, d)) * s})
+        p["layers"].append({"ln1": mx.ones(d), "ln2": mx.ones(d),
+                            "qkv": n(k[0], (d, 3 * d)), "o": n(k[1], (d, d)),
+                            "w1": n(k[2], (d, 4 * d)), "w2": n(k[3], (4 * d, d))})
     return p
 
 
 def lm_forward(p, x, n_heads):
     T = x.shape[1]; d = p["emb"].shape[1]; hd = d // n_heads
     h = p["emb"][x] + p["pos"][:T]
-    mask = jnp.tril(jnp.ones((T, T), bool))
+    ar = mx.arange(T)
+    mask = ar[:, None] >= ar[None]
     for L in p["layers"]:
-        q, k, v = jnp.split(_ln(h, L["ln1"]) @ L["qkv"], 3, -1)
+        q, k, v = mx.split(_ln(h, L["ln1"]) @ L["qkv"], 3, axis=-1)
         sh = lambda t: t.reshape(t.shape[0], T, n_heads, hd).transpose(0, 2, 1, 3)
         q, k, v = sh(q), sh(k), sh(v)
-        a = jnp.where(mask, q @ k.transpose(0, 1, 3, 2) / np.sqrt(hd), -1e9)
-        h = h + (jax.nn.softmax(a, -1) @ v).transpose(0, 2, 1, 3).reshape(h.shape) @ L["o"]
-        h = h + jax.nn.gelu(_ln(h, L["ln2"]) @ L["w1"]) @ L["w2"]
+        a = mx.where(mask, q @ k.transpose(0, 1, 3, 2) / np.sqrt(hd), -1e9)
+        h = h + (mx.softmax(a, axis=-1) @ v).transpose(0, 2, 1, 3).reshape(h.shape) @ L["o"]
+        h = h + nn.gelu_approx(_ln(h, L["ln2"]) @ L["w1"]) @ L["w2"]
     return _ln(h, p["lnf"]) @ p["emb"].T
 
 
 def train_lm(stream, cfg, ckpts, seed):
-    p = init_lm(jax.random.PRNGKey(seed), cfg["d"], cfg["layers"])
-    steps = cfg["steps"]
-    opt = optax.adamw(optax.warmup_cosine_decay_schedule(0, cfg["lr"], min(100, steps // 4), steps,
-                                                         cfg["lr"] * 0.1), weight_decay=0.01)
-    st = opt.init(p); nh = cfg["heads"]
-
-    def lossf(p, x, y):
-        return optax.softmax_cross_entropy_with_integer_labels(lm_forward(p, x, nh), y).mean()
-
-    @jax.jit
-    def step(p, st, x, y):
-        l, g = jax.value_and_grad(lossf)(p, x, y)
-        u, st = opt.update(g, st, p)
-        return optax.apply_updates(p, u), st, l
+    steps, nh = cfg["steps"], cfg["heads"]
+    opt = adamw(cfg["lr"], steps, cfg["lr"] * 0.1)
+    lossf = lambda p, x, y: nn.losses.cross_entropy(lm_forward(p, x, nh), y, reduction="mean")
+    model, step = make_step(init_lm(mx.random.key(seed), cfg["d"], cfg["layers"]), lossf, opt)
 
     rng = np.random.default_rng(seed); out = {}
     s32 = stream.astype(np.int32)
     for s in range(1, steps + 1):
         i = rng.integers(0, len(s32) - CTX - 1, 32)
-        p, st, l = step(p, st, np.stack([s32[j:j + CTX] for j in i]), np.stack([s32[j + 1:j + CTX + 1] for j in i]))
+        l = step(np.stack([s32[j:j + CTX] for j in i]), np.stack([s32[j + 1:j + CTX + 1] for j in i]))
         if s in ckpts:
-            out[s] = jax.tree_util.tree_map(np.asarray, p)
-            print(f"    step {s:6d} loss {float(l):.3f}", flush=True)
+            out[s] = tree_map(lambda a: a, model.parameters())   # MLX arrays are immutable: a snapshot
+            print(f"    step {s:6d} loss {l.item():.3f}", flush=True)
     return out
 
 
 def score_stream(p, n_heads, stream):
     """Per-byte entropy and surprisal (bits) of predicting byte i from bytes < i.
     Every byte i >= CTX//2 + 1 is scored with at least CTX//2 bytes of context; earlier bytes are 0."""
-    f = jax.jit(lambda p, x: lm_forward(p, x, n_heads))
     H = np.zeros(len(stream), np.float32); S = np.zeros(len(stream), np.float32)
     s32 = stream.astype(np.int32); half = CTX // 2
     starts = np.arange(0, len(s32) - CTX, half)
     for b in range(0, len(starts), 256):
         st = starts[b:b + 256]
         X = np.stack([s32[s:s + CTX] for s in st])
-        lg = np.asarray(f(p, X), np.float64)
-        lg -= lg.max(-1, keepdims=True)
-        lp = lg - np.log(np.exp(lg).sum(-1, keepdims=True))
+        lp = log_softmax_np(lm_forward(p, mx.array(X), n_heads))
         h = -(np.exp(lp) * lp).sum(-1) / np.log(2)
         for s, hr, lr in zip(st, h, lp):
             tgt = s32[s + half + 1: s + CTX + 1]

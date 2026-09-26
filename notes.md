@@ -111,3 +111,7 @@ Step-200 model: record starts 0.03-0.05, answers 0.40 (A). Step-1000: record sta
 
 ### Final test run (human request, before going to sleep)
 Human asked me to run `test_final.py` here and keep advancing. To keep the held-out test clean I saved the output to `test_final.log` **without reading it** and will not read it while I keep searching. Tested rule: H2 at commit in `test_final.commit`. Any rule found after this point has NOT been through the final test.
+
+### H7: H2 + a patch start at every learnable byte (small-model entropy exceeds reference by > 1 bit, reference < 1 bit)
+Screen: rate 0.186 / 0.176; record starts 0.90 / 0.99 (as H2); answer bytes covered 0.81 (H2: 0.38, first digit only).
+Hypothesis: long plateaus at ~2.2 because later answer digits are predicted with a stale global state. Giving every answer digit a fresh global step should lower long (target < 2.1 on both seeds). Local may get slightly worse (the answer's digits are split from each other) or better (each digit gets global context). This is excess-vs-reference used as an *addition* to alignment instead of a replacement.

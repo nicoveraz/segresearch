@@ -122,3 +122,6 @@ Idea: fields inside a template sit at fixed distances; record starts follow vari
 
 ### Overnight plan: replicate the single-seed claims
 H3 (seed 1), operand oracle (seed 1), H6 (seed 1), baseline (seed 2). Rules evaluated from saved copies via a scratch script; boundary.py stays H2.
+Replications (seed 1):
+- H3 (no answer starts): 1.312, long 2.43, local 0.54. vs H2 seed 1: 1.175, long 2.26, local 0.42. **Confirmed on 2 seeds**: dropping answer starts costs long ~0.2-0.25 bits and local ~0.1-0.15.
+- Oracle record+answer+operand: local 0.60 (vs 0.04 without operand starts, same seed). **Confirmed on 2 seeds**: operand starts cost local sums 0.4-0.55 bits.

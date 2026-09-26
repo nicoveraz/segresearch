@@ -115,3 +115,10 @@ Human asked me to run `test_final.py` here and keep advancing. To keep the held-
 ### H7: H2 + a patch start at every learnable byte (small-model entropy exceeds reference by > 1 bit, reference < 1 bit)
 Screen: rate 0.186 / 0.176; record starts 0.90 / 0.99 (as H2); answer bytes covered 0.81 (H2: 0.38, first digit only).
 Hypothesis: long plateaus at ~2.2 because later answer digits are predicted with a stale global state. Giving every answer digit a fresh global step should lower long (target < 2.1 on both seeds). Local may get slightly worse (the answer's digits are split from each other) or better (each digit gets global context). This is excess-vs-reference used as an *addition* to alignment instead of a replacement.
+Result: DISCARD. 1.188 (seed 0), rate 0.181. Long 2.29 — inside H2's range (2.23-2.32). **Hypothesis wrong**: a fresh global step at every answer digit does not help. The long plateau is not stale context for later digits; the global model struggles to retrieve stored values at all. More compute, no gain.
+
+### H8 screen: suppress jumps at a fixed offset from the previous jump (learned per 2-byte left context in fit())
+Idea: fields inside a template sit at fixed distances; record starts follow variable-length records. Screen: operands still 0.19-0.46, record starts drop to 0.78-0.83. Fails because 2-byte contexts are shared by fields at different offsets (in B, "s " precedes both the second operand, 8 after the first, and the second query variable, 7 after the first). Not run. Every direction in program.md has now been tried; the entropy-jump family looks saturated at H2.
+
+### Overnight plan: replicate the single-seed claims
+H3 (seed 1), operand oracle (seed 1), H6 (seed 1), baseline (seed 2). Rules evaluated from saved copies via a scratch script; boundary.py stays H2.

@@ -2,10 +2,15 @@
 
 ## Current beliefs (keep this section updated)
 
-- **MAIN_STEPS raised 2000 -> 8000 (human-approved, commit 6fab685).** At 2000 steps seed noise (~0.5 bits) swamped every rule difference and no mask learned ANS_LONG. At 8000 the baseline spans 1.23-1.28 over 3 seeds. Results from before this change are not comparable to results after. (high confidence)
-- **Alignment dominates local sums.** Oracle record-starts (8.5% of bytes) solves local sums (0.02-0.05 bits) on 2/3 seeds vs 0.39-0.42 for the 25% entropy baseline. The third seed failed to learn them (1.28), so occasional non-learning runs remain. (medium-high)
-- **Allocation is what moves long-range answers.** ANS_LONG only drops (2.12-2.31 vs 2.45-2.59) when a patch starts exactly at each answer (oracle rec+ans1). Record starts alone do not help long answers. First evidence that the two mechanisms separate: alignment for local, a boundary at the answer for long-range. (medium, 2 seeds)
-- Working practice: because some runs fail to learn local sums outright, I replicate any candidate that would be kept with --seed 1, not only changes under 0.02 bits.
+**Best rule: H2**, small-model entropy *jump* (H[i] - H[i-1]), top 15% (threshold fitted on train). val_ans_bits 1.154 / 1.175 / 1.196 (3 seeds, mean 1.175) vs entropy baseline ~1.25 at 25%. Oracle ceiling (record + answer starts, uses labels) ~0.90-0.99 at ~10%.
+
+- **MAIN_STEPS raised 2000 -> 8000 (human-approved, commit 6fab685).** At 2000 steps seed noise swamped every difference and nothing learned long answers. Earlier numbers are not comparable. (high)
+- **Local sums are an alignment problem.** They are solved (~0.04 bits) when each record is one patch and the answer starts its own patch. Splitting the operands into separate patches costs ~0.4 bits (oracle 0.07 -> 0.49), which is exactly H2's remaining deficit (0.41). Patches must also stay record-sized: at ~40 bytes per patch (H5) sum-pooling blurs the operands and local sums collapse to 2.25. (high)
+- **Long-range answers need a patch start at the answer, and that is not enough on its own.** Removing answer starts while keeping record starts (H3) returns long to baseline (2.49). With answer starts plus complete record starts (oracles, H1, H2), long reaches ~2.1-2.3; with answer starts but patchy record starts (H5, H6) it stays at ~2.6. Long plateaus around 2.1-2.3 for every mask tried, probably the 2-layer global model's limit on cross-patch retrieval at this budget. (medium: long is noisy, up to ~0.35 bits between seeds for the same mask)
+- **So: alignment and allocation are complementary, not rival.** Alignment (record-sized patches with a computation's inputs together) drives local sums; allocation (a fresh global step at each answer) is necessary for long-range answers. The entropy jump gets both cheaply because it marks the first byte of every unit, which includes records and answers. (medium-high)
+- **Detecting learnable bytes is not the same as good boundaries** (pilot finding reproduced: excess-vs-reference 2.60 at 2000 steps). But the strong model is useful as a *filter*: "small-model jump while the strong model is confident" finds answer starts almost perfectly (0.96-1.00, nothing else).
+- **What blocks further progress:** no available signal separates record starts from operand/value/variable starts (all look like "big entropy jump after a predictable byte"). Rules that trade record coverage for fewer operand starts lose more than they gain (H6). Min-gap suppression works only with a format-tuned gap, likely to fail on held-out C.
+- Practice: every kept rule is replicated on >= 2 seeds; long-range differences under ~0.3 bits on one seed are treated as unproven. Rules only use signals at positions <= i, so the mask cannot leak future bytes (and avoid surprisal, which would leak byte i itself).
 
 ## Log
 
@@ -97,3 +102,6 @@ Evidence so far on what long needs: answer starts are necessary (H3, H5, and H6'
 Next: H2 with seed 2 to measure long's run-to-run noise.
 Result: H2 seed 2: 1.196, long 2.320 (A 2.40, B 2.24). **Long is not bimodal for H2**: 2.23 / 2.26 / 2.32 over three seeds (A 2.28-2.40, B 2.18-2.24). Run-to-run noise on long is ~±0.1, so H6's 2.58 on A is likely a real drop. H2 3-seed mean 1.175.
 Leading suspect for H6's A-long drop: value starts (H2 starts ~60% of values on A, H6 none). This contradicts the single-seed oracle (value starts hurt long, 2.53 vs 2.31). Replicating that oracle with seed 1.
+
+### Oracle replication, seed 1
+record+answer: long 2.14, ans 0.900. + value starts: long 2.19, ans 0.922. **Value starts make no clear difference** (seed 0 said they hurt: 2.53 vs 2.31). The same mask moved long by 0.34 bits across seeds, so single-seed long comparisons are unreliable. H6's A-long drop is not explained by value starts and may be partly noise.

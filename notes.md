@@ -108,3 +108,6 @@ record+answer: long 2.14, ans 0.900. + value starts: long 2.19, ans 0.922. **Val
 
 ### Screen: entropy jump from earlier patcher checkpoints (15%)
 Step-200 model: record starts 0.03-0.05, answers 0.40 (A). Step-1000: record starts 0.54 (A) / 0.89 (B). Final (step 4000, = H2): 0.90 / 0.99. The jump only marks unit starts once the small model has learned the templates, so the final checkpoint is best. The entropy-jump family looks saturated at H2.
+
+### Final test run (human request, before going to sleep)
+Human asked me to run `test_final.py` here and keep advancing. To keep the held-out test clean I saved the output to `test_final.log` **without reading it** and will not read it while I keep searching. Tested rule: H2 at commit in `test_final.commit`. Any rule found after this point has NOT been through the final test.

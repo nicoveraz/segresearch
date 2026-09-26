@@ -49,7 +49,7 @@ SEEDS = {"train": 1, "val": 2, "test": 3}
 PATCHER = dict(d=32, layers=1, heads=2, lr=3e-3,
                steps=150 if SMOKE else 4000,
                ckpts=(50, 100, 150) if SMOKE else (200, 1000, 4000))
-REFERENCE = dict(d=64, layers=3, heads=4, lr=2e-3, steps=100 if SMOKE else 24000)
+REFERENCE = dict(d=64, layers=3, heads=4, lr=2e-3, steps=100 if SMOKE else 64000)
 FORMATS_DEV = ("A", "B")
 FORMAT_HIDDEN = "C"
 ROLES = ["TEXT", "STRUCT", "HEX", "VAR", "VALUE", "OPERAND", "ANS_LOCAL", "ANS_LONG"]

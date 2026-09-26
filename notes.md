@@ -2,7 +2,44 @@
 
 ## Current beliefs (keep this section updated)
 
-- Starting point from the pilot: alignment (keeping dependencies inside a patch) beat allocation (sending patches to hard bytes) when every dependency fit in one record. Untested: long-range dependencies.
+- **MAIN_STEPS raised 2000 -> 8000 (human-approved, commit 6fab685).** At 2000 steps seed noise (~0.5 bits) swamped every rule difference and no mask learned ANS_LONG. At 8000 the baseline spans 1.23-1.28 over 3 seeds. Results from before this change are not comparable to results after. (high confidence)
+- **Alignment dominates local sums.** Oracle record-starts (8.5% of bytes) solves local sums (0.02-0.05 bits) on 2/3 seeds vs 0.39-0.42 for the 25% entropy baseline. The third seed failed to learn them (1.28), so occasional non-learning runs remain. (medium-high)
+- **Allocation is what moves long-range answers.** ANS_LONG only drops (2.12-2.31 vs 2.45-2.59) when a patch starts exactly at each answer (oracle rec+ans1). Record starts alone do not help long answers. First evidence that the two mechanisms separate: alignment for local, a boundary at the answer for long-range. (medium, 2 seeds)
+- Working practice: because some runs fail to learn local sums outright, I replicate any candidate that would be kept with --seed 1, not only changes under 0.02 bits.
 
 ## Log
 
+### Setup (sep26)
+MLX port, reference at 64k steps; reference ANS_LONG 0.09 / 0.26 / 0.16 bits (A / B / C). One run = 51s on GPU.
+
+### Baseline and reference rules (seed 0, val, 25% budget)
+| rule | ans | local | long | rate |
+|---|---|---|---|---|
+| blt_entropy (baseline) | 2.436 | 2.268 | 2.678 | 0.245 |
+| stride | 2.598 | – | 2.635 | 0.250 |
+| excess_vs_reference | 2.603 | – | 2.680 | 0.250 |
+| trajectory_gated | 2.638 | – | 2.739 | 0.248 |
+
+Baseline mechanism: on format A it spends the budget on HEX (start rate 1.00) and never starts at answers (0.00); on B answers get 0.77. Excess-vs-reference does hit answers (0.95–1.00) and is not better — pilot finding reproduced (detecting learnable bytes ≠ good boundaries).
+
+### Oracle diagnostics (use role labels; NOT a usable rule — ceilings only)
+| mask | rate | ans (s0 / s1 / s2) | long |
+|---|---|---|---|
+| record starts | 0.085 | 1.957 / 2.286 / 2.020 | ~2.63 |
+| record starts + first byte of long answers | 0.093 | 2.586 / 1.765 / 2.384 | ~2.60 |
+| record starts + first byte of every answer | 0.105 | 2.026 | 2.651 |
+| first byte of every answer only | 0.020 | 2.630 | 2.648 |
+| baseline (entropy) | 0.245 | 2.436 / 2.080 / – | ~2.65 |
+
+Interpretation: seed variance (up to ~0.8 bits on local sums for one mask) dominates every between-mask difference except "answers only", which is clearly bad. Long answers are never learned.
+
+Next: testing whether a longer harness training budget (8000 steps, scratch override, no repo change) reduces variance and lets ANS_LONG be learned. If so, propose raising MAIN_STEPS to the human (fixed file).
+
+### Longer harness budget (8000 steps; scratch override before the change was committed)
+| mask | ans s0 / s1 / s2 | local | long |
+|---|---|---|---|
+| baseline (entropy) | 1.276 / 1.231 / 1.254 | 0.39-0.42 | 2.45-2.50 |
+| oracle record starts | 1.026 / 1.090 / 1.761 | 0.016 / 0.048 / 1.281 | 2.45-2.59 |
+| oracle record starts + answer starts | 0.987 / 0.892 / – | 0.04-0.07 | 2.12-2.31 |
+
+Variance of the baseline dropped ~7x; local sums get learned; long answers start to respond, only to an answer-start boundary. Human approved raising MAIN_STEPS to 8000. One run now takes ~6.5 min.

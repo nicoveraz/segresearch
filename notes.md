@@ -75,3 +75,10 @@ Neither extra placement helps long; value starts hurt it. Long seems capped arou
 Allocation half works: answer starts 0.96-1.00, nothing else. Alignment half fails: reference jump catches only ~57% of record starts at a 9% budget, because hex/value/operand/variable starts jump as much or more. Not run.
 Feature diagnostic (roles used only to rank features): no available signal (entropies, jumps, previous-byte entropy/surprisal, early-checkpoint entropy, previous-byte frequency or branching entropy from train counts) cleanly separates record starts from other field starts. Every field start looks the same: a big jump after a fully predictable byte. Weak hint: the early (step-200) checkpoint entropy is lower at record starts (3.6-3.8 vs 4.2-4.5).
 Next: oracle record+answer+operand starts, to test whether H2's operand starts are what cost it on local sums.
+Result (seed 0): record+answer+**operand** starts: local 0.49 (vs 0.07 without operand starts), long 2.12, ans 1.160 — right at H2's level. **Operand starts are what cost H2 on local sums.** Splitting a sum's inputs across patches hurts even though the global model can see every earlier patch.
+H5 screen (early-checkpoint entropy to pick record starts among field starts): rec starts only 0.65-0.74 on A, prefers VAR starts. Worse than H2. Not run.
+Principle I'm keeping: rules only use signals at positions <= i (causal), so the mask cannot leak future bytes into the model.
+
+### H5: answer starts only (~2.5% of bytes)
+Rule: start where the small model's entropy jumps by > 1 bit AND the reference entropy < 1 bit (learnable unit start). Screen: answer starts 0.96-0.99; nothing else except VAR 0.15; rate 0.030 / 0.022.
+Hypothesis: local sums improve (operands never split; A's baseline without answer or operand starts already had local 0.125). Long gets worse: with ~2.5% starts each patch sum-pools ~40 bytes, which should blur the stored values long answers must retrieve. Tests how low the rate can go.

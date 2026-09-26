@@ -125,3 +125,13 @@ H3 (seed 1), operand oracle (seed 1), H6 (seed 1), baseline (seed 2). Rules eval
 Replications (seed 1):
 - H3 (no answer starts): 1.312, long 2.43, local 0.54. vs H2 seed 1: 1.175, long 2.26, local 0.42. **Confirmed on 2 seeds**: dropping answer starts costs long ~0.2-0.25 bits and local ~0.1-0.15.
 - Oracle record+answer+operand: local 0.60 (vs 0.04 without operand starts, same seed). **Confirmed on 2 seeds**: operand starts cost local sums 0.4-0.55 bits.
+- H6 seed 1: 1.504, long 2.46 (A 2.44), B local 1.49. **H6's long drop confirmed** (vs H2 2.23-2.32); cause still unexplained (not value starts, per the oracle replication). Open question.
+- Baseline seed 2: 1.256. **Baseline 3-seed mean 1.252 vs H2 1.175**: H2's lead (~0.08 bits) holds.
+- Side finding: the baseline gets A's local sums to 0.13 on every seed (better than H2's 0.34). On A it never starts at answers, so each sum's answer sits in the same patch as its unsplit operands and the local decoder computes it. Local sums work either way as long as operands are not split.
+
+### Diagnostic: entropy at the byte before a unit start
+Only ~13-17% of record starts have a slightly uncertain previous byte (small model > 0.05 bits, e.g. where an answer's length is uncertain); the rest look exactly like field starts. The strong model is ~0 before every start. **Not a usable record-start detector.** The blocker stands.
+
+## Where things stand (end of overnight session)
+- Best rule: H2 (tested by test_final.py; output in test_final.log, unread by me).
+- Open questions: why H6 loses long on A; whether any label-free signal can separate record starts from operand starts (all 8 attempts failed); whether long can go below ~2.1 with any mask at this harness budget.

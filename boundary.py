@@ -19,15 +19,23 @@ imports limited to numpy/math/collections/itertools/functools/heapq/typing. The 
 generic: it will be tested on a held-out corpus format with different delimiters and keywords.
 
 Current rule: entropy jump. A patch starts where the small model's entropy rises relative to the
-previous byte, i.e. at the first byte of each unpredictable field, not throughout it.
+previous byte, i.e. at the first byte of each unpredictable field, not throughout it. Only the
+largest 15% of jumps (threshold fitted on train) start a patch.
 """
 import numpy as np
 
 
-def fit(sig):
-    return None
+RATE = 0.15
 
 
-def score(sig, state):
+def _jump(sig):
     h = sig.patcher_entropy[max(sig.patcher_entropy)]
     return np.diff(h, prepend=h[0])
+
+
+def fit(sig):
+    return np.quantile(_jump(sig), 1 - RATE)
+
+
+def score(sig, thr):
+    return _jump(sig) > thr

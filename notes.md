@@ -82,3 +82,12 @@ Principle I'm keeping: rules only use signals at positions <= i (causal), so the
 ### H5: answer starts only (~2.5% of bytes)
 Rule: start where the small model's entropy jumps by > 1 bit AND the reference entropy < 1 bit (learnable unit start). Screen: answer starts 0.96-0.99; nothing else except VAR 0.15; rate 0.030 / 0.022.
 Hypothesis: local sums improve (operands never split; A's baseline without answer or operand starts already had local 0.125). Long gets worse: with ~2.5% starts each patch sum-pools ~40 bytes, which should blur the stored values long answers must retrieve. Tests how low the rate can go.
+Result: DISCARD. 2.401 (seed 0), rate 0.026. Local collapsed too (2.25), not only long (2.62). **Prediction wrong on local.** With ~40 bytes per patch, sum-pooling blurs the operands: the answer's global context no longer carries them cleanly.
+Mechanism (sharpened by H5 + operand oracle): a computation's inputs are cheap to use when they sit together in one small patch; across patches the 2-layer global model must retrieve and combine them, which it does poorly. Long answers always need cross-patch retrieval, which is why they plateau ~2.1-2.3. Patches must also stay small (record-sized) for pooling to preserve content.
+
+### H6 screens
+- Suppression window (after a random-field start, block further random-field starts for K bytes; always allow learnable starts): works only for some K and the best K differs by format (A: K=8 gives record starts 0.93, operands only at record starts; B: 0.67). Choosing K amounts to fitting record length; likely to break on held-out C. Not run.
+- Top-X% jumps + forced learnable starts: at X=10%, rate 0.13/0.11; record starts 0.84 (A) / 0.61 (B); operands 0.21 / 0.41; answers 0.99-1.00. Running as H6.
+
+### H6: top 10% entropy jumps + all learnable starts (small-model jump > 1 bit with reference < 1 bit)
+Hypothesis: fewer operand starts (A) should help local sums; fewer record starts (B) should hurt them. Expect roughly H2's level (~1.16) at lower compute (~12%). If worse, record-start coverage matters more than avoiding operand starts.

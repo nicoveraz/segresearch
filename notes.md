@@ -91,3 +91,7 @@ Mechanism (sharpened by H5 + operand oracle): a computation's inputs are cheap t
 
 ### H6: top 10% entropy jumps + all learnable starts (small-model jump > 1 bit with reference < 1 bit)
 Hypothesis: fewer operand starts (A) should help local sums; fewer record starts (B) should hurt them. Expect roughly H2's level (~1.16) at lower compute (~12%). If worse, record-start coverage matters more than avoiding operand starts.
+Result: DISCARD. 1.529 (seed 0), rate 0.118. A: local 0.19 (better than H2's 0.34, fewer operand starts, as predicted), long 2.58. B: local 1.41 (record starts 0.61, as predicted), long 2.58.
+**Surprise: long went back to baseline level on both formats although every answer still gets a start.** Record-start coverage by record kind on A is similar to H2 (0.83-0.88 vs 0.88-0.91), so it does not explain A's long drop. The clearest A difference is value starts (H2 0.30, H6 0.00), but the oracle said value starts hurt long. Either long is noisier than assumed (runs cluster at ~2.1-2.3 "partly learned" vs ~2.5-2.6 "not learned", which looks bimodal), or value starts matter in context.
+Evidence so far on what long needs: answer starts are necessary (H3, H5, and H6's missing record coverage all ~2.5-2.6 without full record+answer coverage), but not sufficient. Confidence on long-range claims lowered until replicated.
+Next: H2 with seed 2 to measure long's run-to-run noise.

@@ -105,3 +105,6 @@ Leading suspect for H6's A-long drop: value starts (H2 starts ~60% of values on 
 
 ### Oracle replication, seed 1
 record+answer: long 2.14, ans 0.900. + value starts: long 2.19, ans 0.922. **Value starts make no clear difference** (seed 0 said they hurt: 2.53 vs 2.31). The same mask moved long by 0.34 bits across seeds, so single-seed long comparisons are unreliable. H6's A-long drop is not explained by value starts and may be partly noise.
+
+### Screen: entropy jump from earlier patcher checkpoints (15%)
+Step-200 model: record starts 0.03-0.05, answers 0.40 (A). Step-1000: record starts 0.54 (A) / 0.89 (B). Final (step 4000, = H2): 0.90 / 0.99. The jump only marks unit starts once the small model has learned the templates, so the final checkpoint is best. The entropy-jump family looks saturated at H2.

@@ -41,7 +41,7 @@ if SMOKE:
 
 CTX = 128                 # bytes per training window
 BUDGET = 0.25             # max fraction of bytes that may start a patch (= global model steps)
-MAIN_STEPS = 60 if SMOKE else 2000
+MAIN_STEPS = 60 if SMOKE else 8000
 MAIN_BS = 32
 N_RECORDS = {"train": 3000, "val": 400, "test": 400} if SMOKE else \
             {"train": 120_000, "val": 3000, "test": 3000}

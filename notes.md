@@ -206,3 +206,15 @@ Two separators per format (chosen at random per record), 2-3 operand sums, deriv
 - **Screen on D: H12 learns the wrong separator, "="** (it appears in 4 of 6 record kinds and is always followed by a jump; each true separator now covers only half the records). H12 on D: record starts 0.00, value starts 0.38, answer starts 1.00, rate 0.061. H2 on D: record starts 0.59, answer starts 0.51 (local) / 1.00 (long), operands 0.32.
 - Prediction: H12 does badly on the hard suite (splits stored facts, no record alignment); the oracle shows what the principle is worth here.
 - **Fix (commit on master, merged):** derived variables inherited their own record index, so some queries depended on values up to ~12 records (~180 bytes) back, beyond the 64-127 bytes of context. Format E's reference could not learn long answers (1.84 bits). Derived variables now carry the index of the oldest record they depend on. Cache rebuilt. Format D reference after fix: **ANS_LONG 0.31** (was 0.69).
+
+## FINAL TEST (read after H12 was frozen)
+test_final.py on H12 (commit cb04a18, MAIN_STEPS 16000), test splits, seed 0:
+| rule | A | B | **C (held out)** | long C | rate |
+|---|---|---|---|---|---|
+| **H12** | 0.471 | 0.703 | **0.477** | 1.22 | 0.10 |
+| blt_entropy | 0.973 | 1.284 | 1.207 | 2.59 | 0.25 |
+| trajectory_gated | 1.597 | 1.587 | 0.993 | 2.07 | 0.25 |
+| excess_vs_reference | 1.388 | 1.445 | 1.447 | 2.55 | 0.25 |
+| stride | 1.780 | 1.760 | 1.358 | 2.24 | 0.25 |
+**H12 generalizes to the held-out format**: 0.477 on C vs baseline 1.207 (2.5x lower) at 40% of the compute; long 1.22 vs 2.59. Best rule on every format.
+Earlier run (H2, MAIN_STEPS 8000, test_final.log): H2 on C 0.998 vs baseline 1.262 — also generalized.

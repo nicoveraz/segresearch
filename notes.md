@@ -168,3 +168,7 @@ Result (16000 steps): baseline seed 0: 1.170 (local 0.32, long 2.39). H2 seed 1:
 ### MAIN_STEPS raised to 16000 (human-approved, commit cdb8fa9)
 New reference numbers (from the 16000-step scratch runs, same code path): baseline 1.170 (s0); **H2 1.100 / 1.050, mean 1.075**; oracle record+answer 0.673 / 0.760. All earlier results.tsv rows are 8000-step and not comparable. One run ~13 min.
 Goal now: close the H2-to-oracle gap by avoiding value/operand starts without losing record starts.
+
+### H10 (16k): top 13% entropy jumps + every learnable start
+Screen: A: record starts 0.90, VALUE 0.01, OPERAND 0.25, answers 1.00 (close to the oracle). B: record starts 0.85, VALUE 0.50, OPERAND 0.46. In B values jump more than record starts, so no threshold drops values without dropping records first; in A the reverse.
+Hypothesis: at 16k, keeping values with their variables should pay off on A's long answers (H2 A long 2.10-2.35 -> clearly lower); B slightly worse (record starts 0.85 vs 0.99). Net: better than H2 if the stored-fact effect is as large as the oracle suggested.

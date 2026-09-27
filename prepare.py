@@ -27,6 +27,9 @@ structure of A-C while keeping the same roles. Each record ends with one of TWO 
 random, so no single byte marks every record; local sums have 2 or 3 operands; and a "derive" record
 (set y=x+13) defines a variable from another, so a query over y needs two hops of lookup. run.py and
 test_final.py pick the suite up from the same environment variable.
+
+Wide-alphabet suite (SEGR_SUITE=wide, own cache): formats A-C unchanged except that variables are drawn
+from 16 names instead of 4, so a variable name is no longer easier to predict than an answer digit.
 """
 import os
 import time
@@ -42,9 +45,12 @@ from mlx.utils import tree_map
 # ----------------------------------------------------------------------------- constants
 SMOKE = os.environ.get("SEGR_SMOKE") == "1"
 HARD = os.environ.get("SEGR_SUITE") == "hard"
+WIDE = os.environ.get("SEGR_SUITE") == "wide"     # formats A-C with 16 variable names instead of 4
 CACHE = os.path.expanduser(os.environ.get("SEGR_CACHE", "~/.cache/segresearch"))
 if HARD:
     CACHE += "-hard"
+if WIDE:
+    CACHE += "-wide"
 if SMOKE:
     CACHE += "-smoke"
 
@@ -68,7 +74,7 @@ V = 256
 # ----------------------------------------------------------------------------- corpus
 PHRASES = ["pt stable", "no chest pain", "bp normal", "afebrile", "alert and oriented",
            "denies nausea", "lungs clear", "abdomen soft"]
-VARS = "wxyz"
+VARS = "ghijklmnopqrstuv" if WIDE else "wxyz"   # wide: a variable name carries ~4 bits, more than a digit
 HEXCH = "0123456789abcdef"
 SEP = {"A": "\n", "B": ";", "C": "|"}
 TEMPLATES = {

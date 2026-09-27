@@ -146,6 +146,8 @@ def generate_hard(fmt, n_records, seed):
     b, r, starts, last = [], [], [], {}
     for i in range(n_records):
         kind = HARD_KINDS[rng.choice(len(HARD_KINDS), p=HARD_KIND_P)]
+        # last[v] = (value, index of the OLDEST record the value depends on): a derived variable is only
+        # usable while its whole dependency chain is within MAX_QUERY_LAG records, i.e. inside the context
         recent = sorted(v for v, (_, j) in last.items() if i - j <= MAX_QUERY_LAG)
         if (kind == "query" and len(recent) < 2) or (kind == "derive" and len(recent) < 1):
             kind = "assign"
@@ -168,7 +170,7 @@ def generate_hard(fmt, n_records, seed):
             v = VARS[rng.integers(len(VARS))]; n = int(rng.integers(10, 100)); last[v] = (n, i)
             parts = [(f["assign"][0], "STRUCT"), (v, "VAR"), (f["assign"][1], "STRUCT"), (str(n), "VALUE")]
         elif kind == "derive":
-            v = str(rng.choice([x for x in VARS if x != w])); last[v] = (last[w][0] + k, i)
+            v = str(rng.choice([x for x in VARS if x != w])); last[v] = (last[w][0] + k, last[w][1])
             pre, mid, plus = f["derive"]
             parts = [(pre, "STRUCT"), (v, "VAR"), (mid, "STRUCT"), (w, "VAR"), (plus, "STRUCT"), (str(k), "VALUE")]
         else:

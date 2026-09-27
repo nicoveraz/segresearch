@@ -2,7 +2,10 @@
 
 ## Current beliefs (keep this section updated)
 
-**Best rule: H2**, small-model entropy *jump* (H[i] - H[i-1]), top 15% (threshold fitted on train). val_ans_bits 1.154 / 1.175 / 1.196 (3 seeds, mean 1.175) vs entropy baseline ~1.25 at 25%. Oracle ceiling (record + answer starts, uses labels) ~0.90-0.99 at ~10%.
+**Headline (updated after 16000-step diagnostics): alignment matters for BOTH kinds of answer; allocation (a start at the answer) is necessary but not sufficient.**
+- Local sums need the sum's inputs in one patch (operand starts cost 0.4-0.55 bits, 2 seeds).
+- Long-range answers need each *stored fact* (variable + value) in one patch, plus a patch start at the answer. With 16000 training steps the clean oracle learns long-range answers on A (1.08 / 1.32 bits, 2 seeds) while adding value starts sends A back to 2.03 and H2 (which starts at values) stays at 2.35. At 8000 steps every mask plateaus ~2.2 and this is invisible. (medium-high; B has not learned long by 16000 yet)
+- So the answer to "alignment or allocation?" here: **alignment to units of meaning is the dominant factor for both short- and long-range dependencies; allocation of a fresh global step to the answer is a necessary complement for long-range ones.** Allocating global steps to hard bytes per se (baseline entropy, excess-vs-reference, every answer digit) does not help.
 
 - **MAIN_STEPS raised 2000 -> 8000 (human-approved, commit 6fab685).** At 2000 steps seed noise swamped every difference and nothing learned long answers. Earlier numbers are not comparable. (high)
 - **Local sums are an alignment problem.** They are solved (~0.04 bits) when each record is one patch and the answer starts its own patch. Splitting the operands into separate patches costs ~0.4 bits (oracle 0.07 -> 0.49), which is exactly H2's remaining deficit (0.41). Patches must also stay record-sized: at ~40 bytes per patch (H5) sum-pooling blurs the operands and local sums collapse to 2.25. (high)
@@ -144,3 +147,6 @@ H2 and oracle record+answer at MAIN_STEPS=16000 (scratch override; repo stays at
 Result (seed 0, 16000 steps): H2: ans 1.100, local 0.36, long 2.17 (A 2.35, B 1.98). Oracle record+answer: ans 0.673, local 0.02, **long 1.61 (A 1.08, B 2.15)**.
 **The 8000-step long plateau was a training-budget limit, and it was hiding a big difference.** With more training, the clean aligned mask starts learning long-range answers (A: 1.08), while H2 barely moves. So long-range answers need alignment too, not only a start at the answer.
 New hypothesis: retrieval needs each *stored fact* (assignment: variable + value) in one patch. H2 starts patches at values/variables (A: VALUE 0.30, VAR 0.17), splitting facts across patches. Test at 16000: oracle record+value+answer (splits var from value; predict A long well above 1.08) and oracle record+answer seed 1 (is 1.08 repeatable?).
+Result (16000 steps): oracle record+**value**+answer, seed 0: long **A 2.03** (vs 1.08 without value starts), B 2.48 (vs 2.15); ans 0.939 vs 0.673. Oracle record+answer, seed 1: long A **1.32**, B 2.33; ans 0.760.
+**Stored-fact hypothesis supported (paired, seed 0, both formats): splitting an assignment's variable from its value wrecks long-range learning.** The clean oracle's long-range learning on A is repeatable (1.08, 1.32); B has not learned long by 16000 on either seed.
+Recommendation for the human: at MAIN_STEPS=8000 every mask plateaus near 2.2 on long, which hides this effect. Raising MAIN_STEPS to 16000 (~13 min/run on GPU) would let the loop see it. Not changed (fixed file; human asleep).

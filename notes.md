@@ -198,3 +198,4 @@ Prediction confirmed on both seeds: removing the query split unlocks long-range 
 
 ### Robustness of H12 (rule frozen after this)
 Sensitivity: JUMP 0.7 / 1.5, ALWAYS 0.9 / 0.99, CONFIDENT 0.5 / 1.5 each change at most 6 patch starts out of ~40k val bytes (A, B). The learned separator and Otsu cut absorb the constants; no retraining needed. Third seed running. Final test on H12 (commit in test_final_h12.commit) running; output saved unread until the rule is frozen.
+H12 seed 2: 0.701 (A long 1.33, B 2.03). **3-seed mean 0.706** (0.648 / 0.768 / 0.701) vs oracle 0.717 (2 seeds). **H12 is frozen**: no more tuning on formats A/B, so reading the final test is now safe.

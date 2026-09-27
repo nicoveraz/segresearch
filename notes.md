@@ -164,3 +164,7 @@ Result (16000 steps): baseline seed 0: 1.170 (local 0.32, long 2.39). H2 seed 1:
 2. **Main finding: alignment dominates for both local and long-range dependencies.** Local sums need their operands in one patch; long-range answers need each stored fact (variable + value) in one patch, plus a patch start at the answer. Allocation of global steps to hard or learnable bytes per se does not help (baseline, excess-vs-reference, H7).
 3. **The 8000-step harness hides the long-range effect** (every mask plateaus ~2.2). Recommend raising MAIN_STEPS to 16000 (~13 min/run) if the loop continues.
 4. **Open problem:** a label-free signal that separates record starts from mid-record field starts. Nine attempts failed; all entropy-based signals see every field start the same way. This is where the remaining ~0.35 bits (at 16k) are.
+
+### MAIN_STEPS raised to 16000 (human-approved, commit cdb8fa9)
+New reference numbers (from the 16000-step scratch runs, same code path): baseline 1.170 (s0); **H2 1.100 / 1.050, mean 1.075**; oracle record+answer 0.673 / 0.760. All earlier results.tsv rows are 8000-step and not comparable. One run ~13 min.
+Goal now: close the H2-to-oracle gap by avoiding value/operand starts without losing record starts.

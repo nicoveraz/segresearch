@@ -261,3 +261,6 @@ Wide-alphabet results (seed 0, 16k, original model): label-based mask 0.861 (lon
 2. Most of that effect is architectural: with BLT-style cross-attention pooling or a cross-patch local decoder, splitting a computation's inputs mostly stops mattering, and in the full BLT-like model even answer starts barely matter at this budget.
 3. Allocating patches to hard or learnable bytes (Rho-1) is worse than raw entropy at the full budget; learned chunking (simplified H-Net) did not beat hand-placed masks in either model.
 4. H12 does not transfer: it fails with two separators and with a 16-name variable alphabet.
+
+### BLT-like model at 48k steps (is its insensitivity to patching a budget effect?)
+xattn + cross-patch decoder, seed 0, 48000 steps: clean record+answer, record only, +value, +variable, +operand, and baseline raw entropy. Running.

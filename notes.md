@@ -186,3 +186,8 @@ Screen: record starts 1.00 / 1.00, answer starts 0.99 / 0.96, VALUE 0.00, HEX 0.
 Hypothesis: approaches the oracle at 16k (ans ~0.7-0.8 vs H2 1.075); local ~0.03; A long far below H2's 2.1-2.35.
 Result: **KEEP. 0.941 / 0.900, mean 0.920 vs H2 1.075 (-0.155), at rate 0.112 vs 0.150.** Local sums solved: 0.024 / 0.024 (H2 ~0.36). Long 2.26 / 2.16 — only slightly better than H2 (2.17 / 2.04), still far from the oracle on A (1.08 / 1.32).
 Suspected remaining gap: the learnable-start term also fires at the second variable of queries (VAR 0.35), splitting "z+" | "x=". Next: separate answers from query variables by the small-minus-reference gap (answers ~3.3 bits; a variable should be less).
+Diagnostic: at learnable starts the small-minus-reference gap is <= 2.01 bits for variables (one of ~4) and >= 3.22 for answers (one of 10 digits), both formats.
+
+### H12: H11, but keep only the upper group of learnable starts (Otsu split of the gap, fitted on train)
+Learned cut: 2.55 (A) / 2.53 (B) bits — not hand-set. Screen: VAR 0.35 -> 0.18 (remaining are query variables at record starts), record starts 1.00, answers 0.95-0.99, rate 0.118 / 0.091. This is essentially the oracle record+answer mask.
+Hypothesis: removing the query split lets long-range learning happen as in the oracle: A long well below H11's 2.13-2.33 (oracle 1.08 / 1.32); overall ~0.7-0.8.

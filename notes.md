@@ -264,3 +264,8 @@ Wide-alphabet results (seed 0, 16k, original model): label-based mask 0.861 (lon
 
 ### BLT-like model at 48k steps (is its insensitivity to patching a budget effect?)
 xattn + cross-patch decoder, seed 0, 48000 steps: clean record+answer, record only, +value, +variable, +operand, and baseline raw entropy. Running.
+Results (48k, seed 0; answer bits, long in parentheses): clean record+answer **0.566 (1.37)**; +value 0.618 (1.51); +variable 0.631 (1.54); record only (no answer starts) 0.736 (1.79); +operand 0.810 (1.97); baseline raw entropy 0.899 (2.16) at 25%. Local sums solved everywhere (<= 0.03).
+**The 16k insensitivity was a budget effect.** Once the BLT-like model learns long-range answers, placement matters again: answer starts +0.17 bits, operand splits +0.24 (on long-range answers, not local), value/variable splits +0.05-0.07 (much smaller than the ~1 bit in the simplified model). Clean alignment beats raw entropy by 0.33 bits at less than half the compute. One seed.
+
+## Conclusions (final for this round)
+The principle survives in a BLT-like model with enough training, at reduced strength: start a patch at each unit and at each output, keep a computation's inputs together; do not spend patches on surprising bytes. Its large size in the simplified model was partly architectural (sum pooling, patch-local decoder) and at 16k partly masked by undertraining.

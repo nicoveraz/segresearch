@@ -250,3 +250,14 @@ H12 0.527 (A 0.484, B 0.569; long 1.26), label-based mask 0.579 (long 1.38), H2 
 ### Wide variable alphabet (reviewer point 2)
 Cache built (SEGR_SUITE=wide). Reference ANS_LONG: A 0.16, B 1.00 (above 0.5), C 0.28.
 **Screen: H12's answer filter breaks as predicted.** With 16 names a variable's small-minus-reference gap (median 3.9 bits) exceeds an answer digit's (3.3). Otsu still splits cleanly (cut 3.64 / 3.58) but keeps the variables: answer starts 0.00 on both formats; record starts still 1.00. Training runs: H12, H11 (no filter) and the label-based mask on wide A/B.
+Wide-alphabet results (seed 0, 16k, original model): label-based mask 0.861 (long 1.99 / 1.98); H11 (no filter) 0.999 (long 2.20 / 2.45); **H12 1.077 (long 2.58 / 2.48 = baseline level; no answer starts)**. Reviewer point 2 confirmed: H12's filter relies on the 4-name generator artifact, and with 16 names H12 falls below the simpler H11.
+
+### BLT-like model (xattn + cross-patch decoder): answer starts and learned chunking
+- Record starts only: 1.01 (s0) / 0.96 (s1); long A 2.19, B 2.58 (means). Record + answer starts: 0.97 / 0.95; long A 2.21, B 2.40. **Answer starts make little difference here**, but no mask learns long-range answers well in this model by 16k (2.1-2.6 bits), so long-range effects have little room to show. The BLT-like model at this budget is insensitive to patching.
+- Learned chunking (H-Net-style) in the BLT-like model: **1.334** (A 1.27, B 1.40; local 0.36 / 0.57; long 2.57 / 2.61; rate 0.10). Still worse than hand-placed masks in the same model (~0.95-1.01).
+
+## Revised conclusions (after review)
+1. In the simplified model (sum pooling, patch-local decoder), aligning patches to units and starting a patch at each answer matters a lot; H12 exploits it and matches the best label-based mask.
+2. Most of that effect is architectural: with BLT-style cross-attention pooling or a cross-patch local decoder, splitting a computation's inputs mostly stops mattering, and in the full BLT-like model even answer starts barely matter at this budget.
+3. Allocating patches to hard or learnable bytes (Rho-1) is worse than raw entropy at the full budget; learned chunking (simplified H-Net) did not beat hand-placed masks in either model.
+4. H12 does not transfer: it fails with two separators and with a 16-name variable alphabet.

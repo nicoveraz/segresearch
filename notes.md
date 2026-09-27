@@ -150,3 +150,9 @@ New hypothesis: retrieval needs each *stored fact* (assignment: variable + value
 Result (16000 steps): oracle record+**value**+answer, seed 0: long **A 2.03** (vs 1.08 without value starts), B 2.48 (vs 2.15); ans 0.939 vs 0.673. Oracle record+answer, seed 1: long A **1.32**, B 2.33; ans 0.760.
 **Stored-fact hypothesis supported (paired, seed 0, both formats): splitting an assignment's variable from its value wrecks long-range learning.** The clean oracle's long-range learning on A is repeatable (1.08, 1.32); B has not learned long by 16000 on either seed.
 Recommendation for the human: at MAIN_STEPS=8000 every mask plateaus near 2.2 on long, which hides this effect. Raising MAIN_STEPS to 16000 (~13 min/run on GPU) would let the loop see it. Not changed (fixed file; human asleep).
+
+### H9 screen: keep jumps only after bytes that lead into varied entropy patterns (learned per preceding byte in fit())
+Some settings do exactly the right thing on A (value starts 0.00, record starts 0.90, answers 1.00) but on B drop every record start (the space before operands/values/answers leads into more varied patterns than the separator). Not robust; not run. Ninth failed attempt at a label-free record-vs-field detector.
+
+### 16000-step comparison: baseline (seed 0) and H2 (seed 1)
+Does H2's lead over the baseline hold with more training, and is H2's 16k result repeatable?

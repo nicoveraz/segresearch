@@ -21,6 +21,12 @@ learnable left to right.
 
 Usage:  uv run prepare.py          # one-time; trains scorers and caches signals
         SEGR_SMOKE=1 uv run prepare.py   # tiny end-to-end smoke test
+
+Harder suite (SEGR_SUITE=hard, own cache): formats D and E (dev) and F (held out) break the easy
+structure of A-C while keeping the same roles. Each record ends with one of TWO separators chosen at
+random, so no single byte marks every record; local sums have 2 or 3 operands; and a "derive" record
+(set y=x+13) defines a variable from another, so a query over y needs two hops of lookup. run.py and
+test_final.py pick the suite up from the same environment variable.
 """
 import os
 import time
@@ -35,7 +41,10 @@ from mlx.utils import tree_map
 
 # ----------------------------------------------------------------------------- constants
 SMOKE = os.environ.get("SEGR_SMOKE") == "1"
+HARD = os.environ.get("SEGR_SUITE") == "hard"
 CACHE = os.path.expanduser(os.environ.get("SEGR_CACHE", "~/.cache/segresearch"))
+if HARD:
+    CACHE += "-hard"
 if SMOKE:
     CACHE += "-smoke"
 
@@ -50,8 +59,8 @@ PATCHER = dict(d=32, layers=1, heads=2, lr=3e-3,
                steps=150 if SMOKE else 4000,
                ckpts=(50, 100, 150) if SMOKE else (200, 1000, 4000))
 REFERENCE = dict(d=64, layers=3, heads=4, lr=2e-3, steps=100 if SMOKE else 64000)
-FORMATS_DEV = ("A", "B")
-FORMAT_HIDDEN = "C"
+FORMATS_DEV = ("D", "E") if HARD else ("A", "B")
+FORMAT_HIDDEN = "F" if HARD else "C"
 ROLES = ["TEXT", "STRUCT", "HEX", "VAR", "VALUE", "OPERAND", "ANS_LOCAL", "ANS_LONG"]
 RI = {r: i for i, r in enumerate(ROLES)}
 V = 256
@@ -114,6 +123,65 @@ def generate(fmt, n_records, seed):
             b.extend(s.encode()); r.extend([RI[role]] * len(s))
         b.extend(sep.encode()); r.extend([RI["STRUCT"]] * len(sep))
     return np.array(b, np.uint8), np.array(r, np.int8)
+
+
+# ----------------------------------------------------------------------------- harder corpus (SEGR_SUITE=hard)
+# Per format: two record separators (one picked at random per record), and the keywords of each kind.
+HARD_FORMATS = {
+    "D": dict(seps=["\n", ";"], hex="id:", sum_pre="", plus="+", eq="=",
+              assign=("set ", "="), derive=("set ", "=", "+"), query=("", "+", "=")),
+    "E": dict(seps=[". ", "\n"], hex="ref#", sum_pre="", plus=" plus ", eq=" is ",
+              assign=("let ", " be "), derive=("let ", " be ", " plus "), query=("", " plus ", " is ")),
+    "F": dict(seps=["|", " / "], hex="uid ", sum_pre="sum ", plus=" ", eq=" = ",
+              assign=("", " <- "), derive=("", " <- ", " + "), query=("sum ", " ", " = ")),
+}
+HARD_KINDS = ["text", "hex", "local", "assign", "derive", "query"]
+HARD_KIND_P = [0.20, 0.15, 0.15, 0.20, 0.10, 0.20]
+
+
+def generate_hard(fmt, n_records, seed):
+    """Like generate(), plus a per-byte record-start flag (for diagnostics only; never given to rules)."""
+    rng = np.random.default_rng(seed)
+    f = HARD_FORMATS[fmt]
+    b, r, starts, last = [], [], [], {}
+    for i in range(n_records):
+        kind = HARD_KINDS[rng.choice(len(HARD_KINDS), p=HARD_KIND_P)]
+        recent = sorted(v for v, (_, j) in last.items() if i - j <= MAX_QUERY_LAG)
+        if (kind == "query" and len(recent) < 2) or (kind == "derive" and len(recent) < 1):
+            kind = "assign"
+        if kind == "derive":
+            w = str(rng.choice(recent)); k = int(rng.integers(10, 100))
+            if last[w][0] + k > 999:
+                kind = "assign"
+        parts = []
+        if kind == "text":
+            parts = [(PHRASES[rng.integers(len(PHRASES))], "TEXT")]
+        elif kind == "hex":
+            parts = [(f["hex"], "STRUCT"), ("".join(rng.choice(list(HEXCH), 8)), "HEX")]
+        elif kind == "local":
+            ops = [int(x) for x in rng.integers(10, 100, int(rng.integers(2, 4)))]
+            parts = [(f["sum_pre"], "STRUCT")]
+            for n, x in enumerate(ops):
+                parts += ([(f["plus"], "STRUCT")] if n else []) + [(str(x), "OPERAND")]
+            parts += [(f["eq"], "STRUCT"), (str(sum(ops))[::-1], "ANS_LOCAL")]
+        elif kind == "assign":
+            v = VARS[rng.integers(len(VARS))]; n = int(rng.integers(10, 100)); last[v] = (n, i)
+            parts = [(f["assign"][0], "STRUCT"), (v, "VAR"), (f["assign"][1], "STRUCT"), (str(n), "VALUE")]
+        elif kind == "derive":
+            v = str(rng.choice([x for x in VARS if x != w])); last[v] = (last[w][0] + k, i)
+            pre, mid, plus = f["derive"]
+            parts = [(pre, "STRUCT"), (v, "VAR"), (mid, "STRUCT"), (w, "VAR"), (plus, "STRUCT"), (str(k), "VALUE")]
+        else:
+            v, w = rng.choice(recent, 2, replace=False)
+            pre, plus, eq = f["query"]
+            parts = [(pre, "STRUCT"), (str(v), "VAR"), (plus, "STRUCT"), (str(w), "VAR"), (eq, "STRUCT"),
+                     (str(last[v][0] + last[w][0])[::-1], "ANS_LONG")]
+        first = len(b)
+        for s, role in parts + [(f["seps"][rng.integers(len(f["seps"]))], "STRUCT")]:
+            b.extend(s.encode()); r.extend([RI[role]] * len(s))
+        starts.append(first)
+    rec = np.zeros(len(b), bool); rec[starts] = True
+    return np.array(b, np.uint8), np.array(r, np.int8), rec
 
 
 # ----------------------------------------------------------------------------- MLX training utilities
@@ -270,7 +338,8 @@ def main():
         t0 = time.time()
         if os.path.exists(_path(fmt)):
             print(f"format {fmt}: cached at {_path(fmt)}"); continue
-        data = {sp: generate(fmt, N_RECORDS[sp], SEEDS[sp]) for sp in N_RECORDS}
+        gen = generate_hard if fmt in HARD_FORMATS else generate
+        data = {sp: gen(fmt, N_RECORDS[sp], SEEDS[sp]) for sp in N_RECORDS}
         print(f"format {fmt}: train {len(data['train'][0]):,} bytes. Example:\n"
               + data["val"][0][:160].tobytes().decode(), flush=True)
         print("  training patcher (small model)", flush=True)
@@ -278,8 +347,10 @@ def main():
         print("  training reference (strong model)", flush=True)
         ref = train_lm(data["train"][0], REFERENCE, {REFERENCE["steps"]}, seed=1)[REFERENCE["steps"]]
         out = {}
-        for sp, (bts, roles) in data.items():
+        for sp, (bts, roles, *extra) in data.items():
             out[f"{sp}_bytes"], out[f"{sp}_roles"] = bts, roles
+            if extra:                                   # hard suite: record starts, for diagnostics only
+                out[f"{sp}_recstart"] = extra[0]
             for s, p in pat.items():
                 H, S = score_stream(p, PATCHER["heads"], bts)
                 out[f"{sp}_Hp_{s}"] = H

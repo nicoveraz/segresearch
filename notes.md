@@ -179,3 +179,8 @@ New hypothesis: queries need their *inputs* (the two variable names) in one patc
 Result (16k): oracle record+answer+**variable** starts: A long 2.14 (s0) / 2.00 (s1) vs 1.08 / 1.32 without variable starts; local stays 0.02-0.04; ans 0.956 / 0.847 vs 0.673 / 0.760.
 **Confirmed on 2 seeds: variable starts wreck long-range learning.** Assignments stay "z=26" together under this mask, so the damage is most likely the query split ("z+" | "x="): the query's two inputs land in different patches — the operand problem again.
 This explains H10: it kept values with their variables but still split query variables (VAR 0.33), so A long did not improve.
+
+### H11: learned unit separator + learnable-unit starts
+Idea: the ideal mask is record starts + answer starts, nothing else. Answer starts are already detectable. For record starts, learn the separator from the train split: the most frequent byte value that is followed by a >1-bit entropy jump at least 95% of the time. Stats on train: A picks newline (follow-jump 0.99, freq 0.095; "=" "+" ":" also always followed by a jump but rarer); B picks ";" (1.00, 0.074; space is more frequent but only 0.51). By the same logic C should pick its separator. No byte value in the code; a statistic learned in fit(), which program.md allows. Flagging it anyway: this is the rule that most directly "finds the delimiter", so the held-out format C test is what will tell whether it is generic.
+Screen: record starts 1.00 / 1.00, answer starts 0.99 / 0.96, VALUE 0.00, HEX 0.00, rate 0.126 / 0.097 — essentially the oracle.
+Hypothesis: approaches the oracle at 16k (ans ~0.7-0.8 vs H2 1.075); local ~0.03; A long far below H2's 2.1-2.35.

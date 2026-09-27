@@ -141,3 +141,6 @@ test_final.py finished (exit 0, 6 lines). Output still unread by me.
 
 ### Diagnostic: is the long plateau (~2.1-2.3) a budget limit or a capacity limit?
 H2 and oracle record+answer at MAIN_STEPS=16000 (scratch override; repo stays at 8000), seed 0. If long falls well below 2.1 for both, the plateau is the training budget; if it stays ~2.2, it is the 2-layer global model's capacity.
+Result (seed 0, 16000 steps): H2: ans 1.100, local 0.36, long 2.17 (A 2.35, B 1.98). Oracle record+answer: ans 0.673, local 0.02, **long 1.61 (A 1.08, B 2.15)**.
+**The 8000-step long plateau was a training-budget limit, and it was hiding a big difference.** With more training, the clean aligned mask starts learning long-range answers (A: 1.08), while H2 barely moves. So long-range answers need alignment too, not only a start at the answer.
+New hypothesis: retrieval needs each *stored fact* (assignment: variable + value) in one patch. H2 starts patches at values/variables (A: VALUE 0.30, VAR 0.17), splitting facts across patches. Test at 16000: oracle record+value+answer (splits var from value; predict A long well above 1.08) and oracle record+answer seed 1 (is 1.08 repeatable?).

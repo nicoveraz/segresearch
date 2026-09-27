@@ -243,3 +243,6 @@ excess_vs_reference: 1.519 (s0), 1.410 (s1), mean **1.46** vs baseline 1.17 (s0)
 
 ### Learned chunking (H-Net-style, simplified; learned_chunking.py; original model: sum pooling, patch-local decoder; 1 seed)
 Original formats: 1.414 (A 1.08, B 1.74; rate 0.13 / 0.15) vs baseline 1.17, H12 0.71. Hard corpus: 2.325 (D 2.38, E 2.27; rate 0.10 / 0.12) vs baseline 2.00, H2 1.87, label-based mask 0.84. Weakest rule on the hard corpus in this architecture; its fair test is the BLT-like model (xattn + cross-patch), where splits are not penalized.
+
+### 32k convergence check (reviewer point 6; seed 0; original model)
+H12 0.527 (A 0.484, B 0.569; long 1.26), label-based mask 0.579 (long 1.38), H2 1.050 (long 1.96). At 16k: 0.648 / 0.673 / 1.100. **Ranking stable** (H12 ~ mask << H2); H12 and the mask keep improving on long-range answers, H2 barely moves.

@@ -236,3 +236,10 @@ Long-range bits (A / B):
 *B's local-sum skill failed to form on that run (local 1.30); unrelated to the split since the decoder sees across patches.
 Local sums: operand splits cost nothing with the cross-patch decoder (0.005 / 0.005); with xattn + patch-local decoder A 0.003, B 1.04.
 **Tentative (1 seed): in a BLT-like model the split penalties vanish or fall within noise.** The local-sum alignment effect is caused by the patch-local decoder; most of the long-range effect by sum pooling + patch-local decoder. Long-range learning itself is erratic across runs (clean masks 1.08-2.37). Seed-1 replicates (xattn patch-local, 4 masks) and sum patch-local + operand at 16k (2 seeds) running.
+- Replicates so far: xattn patch-local clean seed 1: A long 1.32 (seed 0: 1.94), B local 0.73 (skill partly failed). xattn patch-local + operand seed 1: A local 0.013, **B local 1.30** (seed 0: 1.04). With a patch-local decoder, operand splits hurt on B even with BLT-style pooling; not on A. With the cross-patch decoder they cost nothing.
+
+### Rho-1 at 16k (validation, reviewer point 1)
+excess_vs_reference: 1.519 (s0), 1.410 (s1), mean **1.46** vs baseline 1.17 (s0). Confirmed worse than raw entropy at the full budget.
+
+### Learned chunking (H-Net-style, simplified; learned_chunking.py; original model: sum pooling, patch-local decoder; 1 seed)
+Original formats: 1.414 (A 1.08, B 1.74; rate 0.13 / 0.15) vs baseline 1.17, H12 0.71. Hard corpus: 2.325 (D 2.38, E 2.27; rate 0.10 / 0.12) vs baseline 2.00, H2 1.87, label-based mask 0.84. Weakest rule on the hard corpus in this architecture; its fair test is the BLT-like model (xattn + cross-patch), where splits are not penalized.

@@ -156,3 +156,11 @@ Some settings do exactly the right thing on A (value starts 0.00, record starts 
 
 ### 16000-step comparison: baseline (seed 0) and H2 (seed 1)
 Does H2's lead over the baseline hold with more training, and is H2's 16k result repeatable?
+Result (16000 steps): baseline seed 0: 1.170 (local 0.32, long 2.39). H2 seed 1: 1.050 (local 0.36, long 2.04); with seed 0 (1.100) H2 mean 1.075. Oracle record+answer mean 0.717 (0.673 / 0.760).
+**Ranking holds with more training and the gaps widen**: baseline 1.17 > H2 1.08 > oracle 0.72. H2 beats the baseline on long (2.04-2.17 vs 2.39). The remaining H2-to-oracle gap (~0.35 bits) is the alignment H2 cannot find: values and operands split out of their records.
+
+## Summary for the human (morning)
+1. **Best label-free rule: H2** (entropy jump, top 15%). Beats the BLT-entropy baseline at 8000 steps (1.175 vs 1.252, 3 seeds each) and at 16000 (1.08 vs 1.17), with 40% less compute. Final test on held-out formats ran on H2 (`test_final.log`, unread by me).
+2. **Main finding: alignment dominates for both local and long-range dependencies.** Local sums need their operands in one patch; long-range answers need each stored fact (variable + value) in one patch, plus a patch start at the answer. Allocation of global steps to hard or learnable bytes per se does not help (baseline, excess-vs-reference, H7).
+3. **The 8000-step harness hides the long-range effect** (every mask plateaus ~2.2). Recommend raising MAIN_STEPS to 16000 (~13 min/run) if the loop continues.
+4. **Open problem:** a label-free signal that separates record starts from mid-record field starts. Nine attempts failed; all entropy-based signals see every field start the same way. This is where the remaining ~0.35 bits (at 16k) are.

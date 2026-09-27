@@ -223,3 +223,16 @@ Earlier run (H2, MAIN_STEPS 8000, test_final.log): H2 on C 0.998 vs baseline 1.2
 - **Format E results (16k, seed 0)**: oracle **0.980** (local 0.15, long 2.21 — long not learnable on E for any mask, see reference); baseline 1.692 (local 1.35, record starts 0.85); H2 1.910 (local 1.57, record starts 0.94); **H12 2.366 (worst: learns newline, one of two separators; record starts 0.49, rate 0.046, answer starts 0.79)**.
 - **Hard-suite summary (D+E average, 1 seed)**: oracle 0.843, H2 1.867, baseline 2.003, H12 2.094. **The principle holds (oracle 2.2x better than the best rule); H12's single-separator trick does not survive a second separator; H2 (separator-free) is the most robust label-free rule.** The open problem is a label-free unit detector for messy data.
 - Held-out format F cache built for future use; no final test run on the hard suite (no rule was developed on it).
+
+## Pooling ablation (reviewer's top priority): is "inputs in one patch" an architectural artifact?
+Harness switches (commit on master): SEGR_POOL=xattn (BLT-style cross-attention pooling), SEGR_LOCAL=window (local decoder sees the previous 32 bytes across patch boundaries). Oracle masks, 16k steps, seed 0, formats A / B.
+Long-range bits (A / B):
+| setting | clean | +value | +variable | +operand |
+|---|---|---|---|---|
+| sum, patch-local (original) | 1.08 / 2.15 | 2.03 / 2.48 | 2.14 / (8k-era) | (8k: local 0.49-0.60) |
+| sum, cross-patch window | 1.76 / 2.05 | 1.26 / 1.94 | 1.93 / 2.06 | 2.05 / 2.18 |
+| xattn, patch-local | 1.94 / 1.91 | 1.65 / 1.82 | 2.03 / 2.15 | 1.78 / 2.00 |
+| xattn, cross-patch window | 2.37 / 2.28 | 1.96 / 2.62* | 1.94 / 2.09 | 1.90 / 2.47 |
+*B's local-sum skill failed to form on that run (local 1.30); unrelated to the split since the decoder sees across patches.
+Local sums: operand splits cost nothing with the cross-patch decoder (0.005 / 0.005); with xattn + patch-local decoder A 0.003, B 1.04.
+**Tentative (1 seed): in a BLT-like model the split penalties vanish or fall within noise.** The local-sum alignment effect is caused by the patch-local decoder; most of the long-range effect by sum pooling + patch-local decoder. Long-range learning itself is erratic across runs (clean masks 1.08-2.37). Seed-1 replicates (xattn patch-local, 4 masks) and sum patch-local + operand at 16k (2 seeds) running.

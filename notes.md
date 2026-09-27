@@ -218,3 +218,4 @@ test_final.py on H12 (commit cb04a18, MAIN_STEPS 16000), test splits, seed 0:
 | stride | 1.780 | 1.760 | 1.358 | 2.24 | 0.25 |
 **H12 generalizes to the held-out format**: 0.477 on C vs baseline 1.207 (2.5x lower) at 40% of the compute; long 1.22 vs 2.59. Best rule on every format.
 Earlier run (H2, MAIN_STEPS 8000, test_final.log): H2 on C 0.998 vs baseline 1.262 — also generalized.
+- Format E reference after fix: ANS_LONG **1.09** (was 1.84). Still above 0.5: E's records are ~15 bytes, so 6 records back plus a two-hop chain often exceeds the 64-127 bytes of context. E's long-range numbers are hard for every rule, and H12's answer detection (which needs the reference to be confident) may be weaker there. D (0.31) is the clean comparison.

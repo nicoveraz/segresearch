@@ -246,3 +246,7 @@ Original formats: 1.414 (A 1.08, B 1.74; rate 0.13 / 0.15) vs baseline 1.17, H12
 
 ### 32k convergence check (reviewer point 6; seed 0; original model)
 H12 0.527 (A 0.484, B 0.569; long 1.26), label-based mask 0.579 (long 1.38), H2 1.050 (long 1.96). At 16k: 0.648 / 0.673 / 1.100. **Ranking stable** (H12 ~ mask << H2); H12 and the mask keep improving on long-range answers, H2 barely moves.
+
+### Wide variable alphabet (reviewer point 2)
+Cache built (SEGR_SUITE=wide). Reference ANS_LONG: A 0.16, B 1.00 (above 0.5), C 0.28.
+**Screen: H12's answer filter breaks as predicted.** With 16 names a variable's small-minus-reference gap (median 3.9 bits) exceeds an answer digit's (3.3). Otsu still splits cleanly (cut 3.64 / 3.58) but keeps the variables: answer starts 0.00 on both formats; record starts still 1.00. Training runs: H12, H11 (no filter) and the label-based mask on wide A/B.

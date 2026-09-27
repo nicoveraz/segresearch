@@ -11,8 +11,15 @@ Architecture (BLT-lite):
     state of the last COMPLETED patch. A byte that starts a patch is predicted with fresh global
     context; bytes inside a patch only see stale global context.
 Every experiment uses the same model, data, steps and seed, so differences come from the mask.
+
+Ablation switches (environment; defaults reproduce the model above exactly):
+  SEGR_POOL=xattn     patch embedding by cross-attention, as in BLT: each patch starts from the mean of
+                      its bytes and attends over them (4 heads), instead of a plain sum
+  SEGR_LOCAL=window   the local decoder attends to the previous SEGR_WINDOW bytes (default 32) across
+                      patch boundaries, instead of only to bytes of its own patch
 """
 import ast
+import os
 
 import mlx.core as mx
 import mlx.nn as nn
@@ -21,6 +28,10 @@ import numpy as np
 from prepare import BUDGET, CTX, MAIN_BS, MAIN_STEPS, RI, ROLES, V, _ln, adamw, log_softmax_np, make_step
 
 D = 64
+POOL = os.environ.get("SEGR_POOL", "sum")
+LOCAL = os.environ.get("SEGR_LOCAL", "patch")
+WINDOW = int(os.environ.get("SEGR_WINDOW", "32"))
+assert POOL in ("sum", "xattn") and LOCAL in ("patch", "window")
 ALLOWED_IMPORTS = {"numpy", "math", "collections", "itertools", "functools", "heapq", "typing", "__future__"}
 FORBIDDEN_NAMES = {"ord", "chr", "eval", "exec", "open", "compile", "__import__", "globals", "locals",
                    "getattr", "setattr", "vars", "input", "breakpoint"}
@@ -94,9 +105,28 @@ def _init(key):
     n = lambda k, sh: mx.random.normal(sh, key=k) * s
     blk = lambda k: {"ln1": mx.ones(D), "ln2": mx.ones(D), "qkv": n(k[0], (D, 3 * D)),
                      "o": n(k[1], (D, D)), "w1": n(k[2], (D, 4 * D)), "w2": n(k[3], (4 * D, D))}
-    return {"emb": n(ks[0], (V, D)), "off": n(ks[1], (CTX, D)), "ppos": n(ks[2], (CTX, D)),
-            "g": [blk(ks[3:7]), blk(ks[7:11])], "loc": blk(ks[11:15]),
-            "gproj": n(ks[15], (D, D)), "lnf": mx.ones(D)}
+    p = {"emb": n(ks[0], (V, D)), "off": n(ks[1], (CTX, D)), "ppos": n(ks[2], (CTX, D)),
+         "g": [blk(ks[3:7]), blk(ks[7:11])], "loc": blk(ks[11:15]),
+         "gproj": n(ks[15], (D, D)), "lnf": mx.ones(D)}
+    if POOL == "xattn":                      # extra keys derived separately, so the default init is unchanged
+        kx = mx.random.split(mx.random.split(key, 17)[16], 4)
+        p["xattn"] = {"ln": mx.ones(D), "q": n(kx[0], (D, D)), "k": n(kx[1], (D, D)),
+                      "v": n(kx[2], (D, D)), "o": n(kx[3], (D, D))}
+    return p
+
+
+def _xattn_pool(X, e, pid, one_hot, nh=4):
+    """BLT-style pooling: each patch query (the mean of its bytes) attends over the bytes of its patch."""
+    B, T, _ = e.shape; hd = D // nh
+    oh = one_hot(pid)                                               # (B, T, P)
+    mean = (oh.transpose(0, 2, 1) @ e) / mx.maximum(oh.sum(1)[:, :, None], 1.0)
+    en = _ln(e, X["ln"])
+    sh = lambda t: t.reshape(B, T, nh, hd).transpose(0, 2, 1, 3)
+    q, k, v = sh(_ln(mean, X["ln"]) @ X["q"]), sh(en @ X["k"]), sh(en @ X["v"])
+    mine = (pid[:, None, :] == mx.arange(T)[None, :, None])[:, None]   # (B, 1, P, T): byte t is in patch p
+    a = mx.where(mine, q @ k.transpose(0, 1, 3, 2) / np.sqrt(hd), -1e9)
+    out = (mx.softmax(a, axis=-1) @ v).transpose(0, 2, 1, 3).reshape(B, T, D)
+    return mean + out @ X["o"]
 
 
 def _block(L, h, mask, nh=4):
@@ -118,15 +148,18 @@ def _model(p, x, bd):
     start = mx.where(bd[:, :T] == 1, ar[None], 0)
     off = ar[None] - mx.cummax(start, axis=1)
     e = p["emb"][x] + p["off"][off]
-    pe = one_hot(pid).transpose(0, 2, 1) @ e + p["ppos"][None]
-    G = pe
+    pooled = _xattn_pool(p["xattn"], e, pid, one_hot) if POOL == "xattn" else one_hot(pid).transpose(0, 2, 1) @ e
+    G = pooled + p["ppos"][None]
     causal = (ar[:, None] >= ar[None])[None]
     for L in p["g"]:
         G = _block(L, G, causal)
     gidx = mx.where(bd[:, 1:T + 1] == 1, pid, pid - 1)       # fresh context iff x_{t+1} starts a patch
     ctx = one_hot(gidx) @ G
     h = e + ctx @ p["gproj"]
-    local = (pid[:, :, None] == pid[:, None, :]) & causal
+    if LOCAL == "window":
+        local = causal & ((ar[:, None] - ar[None]) < WINDOW)[None]
+    else:
+        local = (pid[:, :, None] == pid[:, None, :]) & causal
     h = _block(p["loc"], h, local)
     return _ln(h, p["lnf"]) @ p["emb"].T
 

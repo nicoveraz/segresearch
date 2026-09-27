@@ -2,7 +2,9 @@
 
 ## Current beliefs (keep this section updated)
 
-**Headline (updated at 16k): one principle explains everything so far — keep every computation's inputs inside one patch, and give the output a fresh global step.**
+**Best rule: H12 (commit 6847b72)** — patch after a separator learned from the train split, plus at the most learnable unit starts (small-model jump > 1 bit, reference confident, small-minus-reference gap above an Otsu split learned on train). **val_ans_bits 0.708 (2 seeds, 16k) = the label-using oracle (0.717)**, at ~10% of bytes; baseline 1.17 at 25%. Not yet through the final test: the learned separator is the part most at risk on held-out format C.
+
+**Headline: keep every computation's inputs inside one patch, and give the output a fresh global step.** H12 is the direct implementation of that principle and reaches the oracle.
 - Local sums: operands in one patch (operand starts cost 0.4-0.55 bits, 2 seeds at 8k).
 - Long-range answers: each stored fact in one patch (value starts: A long 1.08 -> 2.03) AND the query's variable names in one patch (variable starts: A long 1.08/1.32 -> 2.14/2.00, 2 seeds) AND a start at the answer (removing it: long back to baseline, 2 seeds). Only the clean record+answer oracle learns long answers (A 1.08 / 1.32 at 16k); B has not learned them by 16k under any mask.
 - At 8000 steps every mask plateaus ~2.2 on long and this is invisible; hence MAIN_STEPS 16000.
@@ -191,3 +193,5 @@ Diagnostic: at learnable starts the small-minus-reference gap is <= 2.01 bits fo
 ### H12: H11, but keep only the upper group of learnable starts (Otsu split of the gap, fitted on train)
 Learned cut: 2.55 (A) / 2.53 (B) bits — not hand-set. Screen: VAR 0.35 -> 0.18 (remaining are query variables at record starts), record starts 1.00, answers 0.95-0.99, rate 0.118 / 0.091. This is essentially the oracle record+answer mask.
 Hypothesis: removing the query split lets long-range learning happen as in the oracle: A long well below H11's 2.13-2.33 (oracle 1.08 / 1.32); overall ~0.7-0.8.
+Result: **KEEP. 0.648 / 0.768, mean 0.708 — matches the label-using oracle (0.673 / 0.760, mean 0.717)** at rate 0.105. vs H11 0.920, H2 1.075, baseline 1.17.
+Prediction confirmed on both seeds: removing the query split unlocks long-range learning. Long A 1.22 / 1.56 (H11 2.33 / 2.13), B 1.82 / 2.12 (B now learns too; the oracle had not by 16k). Local 0.04 / 0.02.

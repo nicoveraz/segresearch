@@ -2,9 +2,10 @@
 
 ## Current beliefs (keep this section updated)
 
-**Headline (updated after 16000-step diagnostics): alignment matters for BOTH kinds of answer; allocation (a start at the answer) is necessary but not sufficient.**
-- Local sums need the sum's inputs in one patch (operand starts cost 0.4-0.55 bits, 2 seeds).
-- Long-range answers need each *stored fact* (variable + value) in one patch, plus a patch start at the answer. With 16000 training steps the clean oracle learns long-range answers on A (1.08 / 1.32 bits, 2 seeds) while adding value starts sends A back to 2.03 and H2 (which starts at values) stays at 2.35. At 8000 steps every mask plateaus ~2.2 and this is invisible. (medium-high; B has not learned long by 16000 yet)
+**Headline (updated at 16k): one principle explains everything so far — keep every computation's inputs inside one patch, and give the output a fresh global step.**
+- Local sums: operands in one patch (operand starts cost 0.4-0.55 bits, 2 seeds at 8k).
+- Long-range answers: each stored fact in one patch (value starts: A long 1.08 -> 2.03) AND the query's variable names in one patch (variable starts: A long 1.08/1.32 -> 2.14/2.00, 2 seeds) AND a start at the answer (removing it: long back to baseline, 2 seeds). Only the clean record+answer oracle learns long answers (A 1.08 / 1.32 at 16k); B has not learned them by 16k under any mask.
+- At 8000 steps every mask plateaus ~2.2 on long and this is invisible; hence MAIN_STEPS 16000.
 - So the answer to "alignment or allocation?" here: **alignment to units of meaning is the dominant factor for both short- and long-range dependencies; allocation of a fresh global step to the answer is a necessary complement for long-range ones.** Allocating global steps to hard bytes per se (baseline entropy, excess-vs-reference, every answer digit) does not help.
 
 - **MAIN_STEPS raised 2000 -> 8000 (human-approved, commit 6fab685).** At 2000 steps seed noise swamped every difference and nothing learned long answers. Earlier numbers are not comparable. (high)
@@ -175,3 +176,6 @@ Hypothesis: at 16k, keeping values with their variables should pay off on A's lo
 Result: DISCARD. 1.238 / 1.128, mean 1.183 vs H2 1.075. A: local 0.18 / 0.19 (better than H2's 0.31-0.32: fewer operand splits), but **A long 2.40 / 2.19 — same as H2 (2.35 / 2.10) despite values now staying with their variables.** B: local 0.89 / 0.73 (record starts 0.85), as predicted.
 Prediction on A long was wrong: unsplit stored facts are not sufficient. Remaining A differences from the oracle: VAR starts 0.33 (incl. the second variable of each query), 10% of record starts missed, hex-id starts.
 New hypothesis: queries need their *inputs* (the two variable names) in one patch, just as local sums need their operands together. Test: oracle record+answer+variable starts at 16k. Prediction: A long far above the clean oracle's 1.08.
+Result (16k): oracle record+answer+**variable** starts: A long 2.14 (s0) / 2.00 (s1) vs 1.08 / 1.32 without variable starts; local stays 0.02-0.04; ans 0.956 / 0.847 vs 0.673 / 0.760.
+**Confirmed on 2 seeds: variable starts wreck long-range learning.** Assignments stay "z=26" together under this mask, so the damage is most likely the query split ("z+" | "x="): the query's two inputs land in different patches — the operand problem again.
+This explains H10: it kept values with their variables but still split query variables (VAR 0.33), so A long did not improve.

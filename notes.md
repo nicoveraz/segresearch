@@ -195,3 +195,6 @@ Learned cut: 2.55 (A) / 2.53 (B) bits — not hand-set. Screen: VAR 0.35 -> 0.18
 Hypothesis: removing the query split lets long-range learning happen as in the oracle: A long well below H11's 2.13-2.33 (oracle 1.08 / 1.32); overall ~0.7-0.8.
 Result: **KEEP. 0.648 / 0.768, mean 0.708 — matches the label-using oracle (0.673 / 0.760, mean 0.717)** at rate 0.105. vs H11 0.920, H2 1.075, baseline 1.17.
 Prediction confirmed on both seeds: removing the query split unlocks long-range learning. Long A 1.22 / 1.56 (H11 2.33 / 2.13), B 1.82 / 2.12 (B now learns too; the oracle had not by 16k). Local 0.04 / 0.02.
+
+### Robustness of H12 (rule frozen after this)
+Sensitivity: JUMP 0.7 / 1.5, ALWAYS 0.9 / 0.99, CONFIDENT 0.5 / 1.5 each change at most 6 patch starts out of ~40k val bytes (A, B). The learned separator and Otsu cut absorb the constants; no retraining needed. Third seed running. Final test on H12 (commit in test_final_h12.commit) running; output saved unread until the rule is frozen.

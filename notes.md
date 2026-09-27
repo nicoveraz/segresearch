@@ -199,3 +199,9 @@ Prediction confirmed on both seeds: removing the query split unlocks long-range 
 ### Robustness of H12 (rule frozen after this)
 Sensitivity: JUMP 0.7 / 1.5, ALWAYS 0.9 / 0.99, CONFIDENT 0.5 / 1.5 each change at most 6 patch starts out of ~40k val bytes (A, B). The learned separator and Otsu cut absorb the constants; no retraining needed. Third seed running. Final test on H12 (commit in test_final_h12.commit) running; output saved unread until the rule is frozen.
 H12 seed 2: 0.701 (A long 1.33, B 2.03). **3-seed mean 0.706** (0.648 / 0.768 / 0.701) vs oracle 0.717 (2 seeds). **H12 is frozen**: no more tuning on formats A/B, so reading the final test is now safe.
+
+## Harder corpus (SEGR_SUITE=hard; formats D, E dev, F held out)
+Two separators per format (chosen at random per record), 2-3 operand sums, derive records (set y=x+13) making two-hop queries. Cache built with the same scorers (reference 64k steps).
+- Format D reference: ANS_LOCAL 0.03, **ANS_LONG 0.69** (above the 0.5 sanity bar; two-hop queries are harder). Proceeding; noted as a limitation.
+- **Screen on D: H12 learns the wrong separator, "="** (it appears in 4 of 6 record kinds and is always followed by a jump; each true separator now covers only half the records). H12 on D: record starts 0.00, value starts 0.38, answer starts 1.00, rate 0.061. H2 on D: record starts 0.59, answer starts 0.51 (local) / 1.00 (long), operands 0.32.
+- Prediction: H12 does badly on the hard suite (splits stored facts, no record alignment); the oracle shows what the principle is worth here.

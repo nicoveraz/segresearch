@@ -135,3 +135,9 @@ Only ~13-17% of record starts have a slightly uncertain previous byte (small mod
 ## Where things stand (end of overnight session)
 - Best rule: H2 (tested by test_final.py; output in test_final.log, unread by me).
 - Open questions: why H6 loses long on A; whether any label-free signal can separate record starts from operand starts (all 8 attempts failed); whether long can go below ~2.1 with any mask at this harness budget.
+
+### After the final test
+test_final.py finished (exit 0, 6 lines). Output still unread by me.
+
+### Diagnostic: is the long plateau (~2.1-2.3) a budget limit or a capacity limit?
+H2 and oracle record+answer at MAIN_STEPS=16000 (scratch override; repo stays at 8000), seed 0. If long falls well below 2.1 for both, the plateau is the training budget; if it stays ~2.2, it is the 2-layer global model's capacity.

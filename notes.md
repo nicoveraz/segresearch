@@ -269,3 +269,6 @@ Results (48k, seed 0; answer bits, long in parentheses): clean record+answer **0
 
 ## Conclusions (final for this round)
 The principle survives in a BLT-like model with enough training, at reduced strength: start a patch at each unit and at each output, keep a computation's inputs together; do not spend patches on surprising bytes. Its large size in the simplified model was partly architectural (sum pooling, patch-local decoder) and at 16k partly masked by undertraining.
+
+## Real-text check (GSM8K)
+realtext.py: GSM8K worked solutions; answer spans = computed result inside <<expr=R>>, its copy after >>, final answer after ####. Small entropy model trained on GSM8K train. Screen (val): BLT entropy at 25% covers only **2%** of answer-span starts (its boundaries fall mostly inside words); entropy+ans (same budget) and words+ans (19.7%) cover 100%. Queued: 4 masks x 2 seeds, BLT-like model (xattn + cross-patch decoder), 32k steps.

@@ -272,3 +272,15 @@ The principle survives in a BLT-like model with enough training, at reduced stre
 
 ## Real-text check (GSM8K)
 realtext.py: GSM8K worked solutions; answer spans = computed result inside <<expr=R>>, its copy after >>, final answer after ####. Small entropy model trained on GSM8K train. Screen (val): BLT entropy at 25% covers only **2%** of answer-span starts (its boundaries fall mostly inside words); entropy+ans (same budget) and words+ans (19.7%) cover 100%. Queued: 4 masks x 2 seeds, BLT-like model (xattn + cross-patch decoder), 32k steps.
+**GSM8K results (BLT-like model, 32k steps, 2 seeds; bits per byte):**
+| mask | rate | answers | computed R | final | copy | text | bpb |
+|---|---|---|---|---|---|---|---|
+| entropy (BLT) | 0.25 | 2.20 | 2.44 | 1.38 | 0.52 | 1.80 | 1.688 |
+| **entropy+ans** | 0.25 | **1.86** | 2.17 | **0.82** | 0.12 | 1.80 | 1.674 |
+| words | 0.185 | 2.10 | 2.40 | 1.10 | 0.33 | 1.69 | 1.581 |
+| **words+ans** | 0.197 | **1.65** | 1.94 | **0.67** | 0.05 | 1.68 | **1.562** |
+**The answer-start effect holds on real text**: at the same compute, moving boundaries to answer starts cuts answer loss by 0.34 bits (entropy) / 0.45 (words), final answers most (1.38 -> 0.82), with no cost on other text. Word-aligned patches beat BLT entropy outright (1.58 vs 1.69 bpb at less compute). Seeds agree within 0.01-0.08.
+
+### BLT-like 48k replicates and label-free rules
+Clean record+answer: 0.566 / 0.594 / 0.592 (mean **0.584**). Record only: 0.736 / 0.746 / 0.731 (**0.738**; answer starts +0.15, 3 seeds). Operand splits: 0.810 / 0.572 / 0.548 (seed 0 was an outlier; **no consistent penalty**). Value splits: 0.618 / 0.712 / 0.730 (0.687). Variable splits: 0.631 / 0.755 / running. Baseline raw entropy: 0.899 / 0.835 / 0.798 (**0.844**).
+Label-free rules (seed 0): **H2 0.508 (beats the label-based mask)**, H12 0.639, learned chunking 0.996. In a model where splits barely hurt, H2's extra starts at every unit (including answers) seem to help. Needs replication.

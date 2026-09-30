@@ -55,7 +55,7 @@ NPZ = os.path.join(CACHE, "math.npz")
 MATH_CONFIGS = ["algebra", "counting_and_probability", "geometry", "intermediate_algebra",
                 "number_theory", "prealgebra", "precalculus"]
 N_VAL_GSM, N_VAL_MATH = (60, 60) if SMOKE else (660, 700)    # validation problems (from each test set)
-N_ACC = 20 if SMOKE else 300                                  # accuracy targets evaluated per answer type
+N_ACC = int(os.environ.get("SEGR_MATH_NACC", 20 if SMOKE else 300))   # accuracy targets per answer type
 ANSWER_ROLES = {"computed": "ANS_LOCAL", "copy": "VALUE", "final": "ANS_LONG", "boxed": "VAR"}
 SYNTAX = [b"=", b"\\boxed{", b"#### ", b">>"]
 

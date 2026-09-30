@@ -296,3 +296,16 @@ Runs (BLT-like, 32k, seeds 0/1): jump25, words+jump20, words+jump25. Compare wit
 Stdlib source; "answers" = identifiers repeating a name seen <= 120 bytes earlier in the file. BLT-like, 32k, 2 seeds (means; identifiers / overall bpb):
 entropy (25%) 2.27 / 1.996; jump25 (25%) 2.22 / 1.973; entropy+ans (24%, labels) 2.17 / 1.992; **words (10.5%) 2.17 / 1.842**; words+jump (11%) 2.19 / 1.862; words+ans (11%, labels) 2.13 / 1.858.
 **Word alignment is the big win on code** (0.15 bits better overall than BLT entropy at < half the compute). The entropy jump again beats BLT's level rule, by less than on GSM8K (0.05 on identifiers), consistent with BLT entropy already catching 77% of identifier starts in code. Answer starts add a little on identifiers, nothing overall: identifier starts mostly coincide with word starts already.
+
+## Specialized-math experiment (mathexp.py): GSM8K + MATH, accuracy
+Corpus 9.7 MB train / 0.85 MB val (GSM8K + MATH interleaved). BLT-like, D=64, 32k steps. Exact match of greedy decoding given the true prefix, 300 targets per type, boundaries decided online by each rule.
+**Seed 0** (final answer bits / exact match; computed acc; boxed acc; overall bpb):
+| rule | rate | final | computed acc | boxed acc | bpb |
+|---|---|---|---|---|---|
+| entropy (BLT) | 0.25 | 2.81 / **13%** | 5.3% | 4.7% | 1.767 |
+| jump (label-free) | 0.25 | 1.28 / **70%** | 4.3% | 4.7% | 1.782 |
+| syntax+jump | 0.25 | 1.02 / 76% | 7.7% | 4.0% | 1.785 |
+| words | 0.17 | 1.49 / 62% | 3.7% | 4.0% | 1.703 |
+| words+jump (label-free) | 0.185 | 1.06 / 70% | 3.0% | 3.7% | 1.711 |
+| **words+syntax** | 0.185 | **0.80 / 81%** | 7.3% | 3.3% | **1.691** |
+Final answers (a copy of the last computed result) go from 13% to 70% correct just by switching BLT's entropy level to entropy jump at the same compute; 81% with word starts + math syntax. Syntax boundaries roughly double computed-result accuracy (~7.5% vs 3-5%), but arithmetic is mostly beyond this model. MATH boxed answers ~4% for every rule (too hard at this size). Seed 1 running.

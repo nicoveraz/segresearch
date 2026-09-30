@@ -19,6 +19,8 @@ Masks compared at the same budget (<= 25% of bytes start a patch):
     entropy+ans      top (25% - a) of entropy, plus a patch start at the first byte of every answer span
     words            a patch start at the first byte of every word (after a space or newline)
     words+ans        word starts plus answer starts
+    jump25           label-free: top 25% of rises in the small model's entropy (H2's signal)
+    words+jump20/25  label-free: word starts plus the largest non-word entropy rises, to 20% / 25% of bytes
 Answer starts come from the annotation syntax (a hand-written structural heuristic, not a learned rule):
 the question is whether the effect exists on real text before building a detector for it.
 
@@ -112,6 +114,14 @@ def masks(name, z, split):
         return words
     if name == "words+ans":
         return words | starts
+    # label-free: rises in the small model's entropy (H2's signal), thresholds fitted on train
+    J, Jtr = np.diff(H, prepend=H[0]), np.diff(Htr, prepend=Htr[0])
+    if name == "jump25":
+        return J > np.quantile(Jtr, 1 - BUDGET)
+    if name in ("words+jump20", "words+jump25"):
+        extra = {"words+jump20": 0.015, "words+jump25": 0.065}[name]   # top non-word jumps, as a share of all bytes
+        wtr = _word_starts(z["train_bytes"])
+        return words | (J > np.quantile(Jtr[~wtr], 1 - extra / (~wtr).mean()))
     raise SystemExit(f"unknown mask {name}")
 
 

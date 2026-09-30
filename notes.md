@@ -346,3 +346,10 @@ words+syntax 9.7% / 76.1% / 2.40 / 1.695; +digits 7.8% / 75.1% / 2.39 / 1.699; r
 **Operand alignment: small consistent loss gain, no significant accuracy gain** (bpb below its twin 5/5, below the reference 4/5 by ~0.008; final +1.4 points vs reference, z 1.2).
 **Solid:** random extra boundaries hurt on every seed (bpb +0.011 / +0.020 vs reference; computed acc 9.7 -> 7.9%). Placement matters, but these targeted placements barely beat the reference.
 Lesson (rule 3 in program.md): the 2-seed "promising" gains were noise; do not report 2-seed accuracy differences of 2-4 points as effects.
+
+## Blind spot on Scratchpad Patching (simplified; harness SEGR_SCRATCH=1)
+Model: sum pooling, cross-patch local decoder, patches every 8 bytes (12.5%) + 6% transient scratchpads (global step over the partial current patch; later patches do not attend to them). Checked: default model unchanged, no-scratchpad case matches, causal.
+Screen (share of answer starts that get a scratchpad): entropy level (the paper's trigger) 5%, random 2%, entropy jump 23%, math syntax + jumps 87%.
+Runs (2 seeds, 32k, accuracy on 1000 computed / 660 final): sp:none (12.5%), sp:dense5 (20% patches, no scratchpads), sp:entropy, sp:jump, sp:syntax, sp:random (each 18.5% total).
+Prediction if the blind spot carries over: sp:entropy final-answer accuracy near sp:random / sp:none; sp:syntax (and partly sp:jump) clearly higher.
+(Note: a first launch was stopped within minutes because a git step left the scratchpad harness code in a stash; relaunched after committing it.)

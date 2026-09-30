@@ -326,3 +326,5 @@ Code (2 seeds; identifiers / bpb): words 2.21 / 1.889; words+jump20 2.20 / 1.895
 
 ## New math strategies (2 seeds, BLT-like, 32k)
 words+syntax+digits (fresh patch per result digit; rate 0.192) and words+syntax+ops (operand-aligned; rate 0.207), against words+syntax (0.185): final 76%, computed 7.0%, bpb 1.697. Running.
+Results (2 seeds; computed acc / computed bits / final acc / bpb): words+syntax 7.0% / 2.42 / 76% / 1.697; **+digits 8.9% / 2.36 / 75% / 1.695** (both seeds above the reference on computed results: 8.7, 9.0 vs 7.0, 7.0); **+ops 7.5% / 2.39 / 79% / 1.688** (both seeds above on final answers: +2.7, +3.4 points).
+Consistent direction but not significant: +1.9 / +3 points on 600 samples are within about one standard error of the difference, and both rules spend slightly more compute (+0.7 / +2.2 points of bytes). Next if pursued: matched-compute controls (same number of extra boundaries at random positions), more seeds and samples, or a larger model where computed results are off the floor.

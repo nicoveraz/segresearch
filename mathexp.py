@@ -21,6 +21,10 @@ Patch rules, in two compute groups:
           words+syntax+ops      plus a patch after each operator (+ - * /) and after '<<' (operand-aligned)
           words+syntax+rand07/22  matched-compute controls: as many extra boundaries as +digits / +ops add,
                                 at pseudo-random positions (a hash of the previous three bytes)
+    Scratchpad Patching (run with SEGR_SCRATCH=1 SEGR_LOCAL=window): patches every 8 bytes plus 6% scratchpads
+          sp:none / sp:dense5   no scratchpads (patches every 8 / every 5 bytes)
+          sp:entropy            scratchpads where next-byte entropy is high (the paper's trigger)
+          sp:jump / sp:syntax / sp:random   scratchpads at entropy rises / math syntax + rises / random positions
     Math syntax = the byte right after '=', '\\boxed{', '#### ' or '>>': a hand-written rule that a
     math-specialized model may legitimately use. No rule uses the answer labels.
 
@@ -208,6 +212,9 @@ def _rand_extra(b, q):
     return _hash_prev(b) < q
 
 
+SP_RATE = 0.06        # scratchpads, as a share of all bytes
+
+
 class Rule:
     """A patch rule with thresholds fitted on the training split, applicable to any byte window + entropies."""
     def __init__(self, name, z):
@@ -215,6 +222,23 @@ class Rule:
         btr, Htr = z["train_bytes"], z["train_H"]
         Jtr = np.diff(Htr, prepend=Htr[0]); wtr = realtext._word_starts(btr); str_ = _syntax_starts(btr)
         target_words = (wtr | str_).mean()                           # the words+syntax budget, shared by the word group
+        if name.startswith("sp:"):
+            # Scratchpad Patching: fixed patches every K bytes, plus SP_RATE scratchpads chosen by a trigger
+            self.K = 5 if name == "sp:dense5" else 8
+            free = np.arange(len(btr)) % self.K != 0
+            if name == "sp:entropy":
+                self.thr = np.quantile(Htr[free], 1 - SP_RATE / free.mean())
+            elif name == "sp:jump":
+                self.thr = np.quantile(Jtr[free], 1 - SP_RATE / free.mean())
+            elif name == "sp:syntax":
+                syn = str_ & free; rest = free & ~syn
+                self.thr = np.quantile(Jtr[rest], 1 - max(SP_RATE - syn.mean(), 0) / rest.mean())
+            elif name == "sp:random":
+                hv = _hash_prev(btr); qs = np.linspace(0, 0.2, 401)
+                self.q = qs[np.argmin([abs((free & (hv < q)).mean() - SP_RATE) for q in qs])]
+            elif name not in ("sp:none", "sp:dense5"):
+                raise SystemExit(f"unknown rule {name}")
+            return
         if name == "entropy":
             self.thr = np.quantile(Htr, 1 - BUDGET)
         elif name == "jump":
@@ -235,6 +259,13 @@ class Rule:
 
     def mask(self, b, H):
         J = np.diff(H, prepend=H[0]) if len(H) else H
+        if self.name.startswith("sp:"):
+            stride = np.arange(len(b)) % self.K == 0
+            trig = {"sp:entropy": lambda: H > self.thr, "sp:jump": lambda: J > self.thr,
+                    "sp:syntax": lambda: _syntax_starts(b) | (J > self.thr),
+                    "sp:random": lambda: _hash_prev(b) < self.q}.get(self.name, lambda: np.zeros(len(b), bool))()
+            flags = stride.astype(np.int8); flags[trig & ~stride] = 2      # 1 = patch start, 2 = scratchpad
+            return flags
         if self.name == "entropy":
             return H > self.thr
         if self.name == "jump":
@@ -280,7 +311,8 @@ def _bits(p, ev_bytes, ev_mask, ev_roles):
                          for b in range(0, n, 128)])
     bits = -np.take_along_axis(lp, Y[..., None], -1)[..., 0] / np.log(2)
     keep = np.zeros_like(bits, bool); keep[:, CTX // 2:] = True
-    out = {"bpb": float(bits[keep].mean()), "rate": float(ev_mask.mean())}
+    out = {"bpb": float(bits[keep].mean()), "rate": float((ev_mask > 0).mean()),
+           "patch_rate": float((ev_mask == 1).mean()), "scratch_rate": float((ev_mask == 2).mean())}
     for k, role in ANSWER_ROLES.items():
         m = keep & (R == RI[role])
         out[f"{k}_bits"] = float(bits[m].mean()) if m.any() else float("nan")
@@ -340,7 +372,7 @@ def run(name, seed, steps):
     o = _bits(p, z["val_bytes"], m_va, z["val_roles"])
     o.update(_accuracy(p, pat, rule, z["val_bytes"], z["val_roles"], seed))
     print(f"RESULT math rule={name} seed={seed} steps={steps} D={harness.D} glayers={harness.GLAYERS} "
-          f"pool={harness.POOL} local={harness.LOCAL} rate={o['rate']:.3f} bpb={o['bpb']:.4f} | "
+          f"pool={harness.POOL} local={harness.LOCAL} rate={o['rate']:.3f} (patches {o['patch_rate']:.3f}, scratchpads {o['scratch_rate']:.3f}) bpb={o['bpb']:.4f} | "
           + " ".join(f"{k}: {o[k + '_bits']:.3f} bits, acc {o.get(k + '_acc', float('nan')):.3f} (n={o.get(k + '_n', 0)})"
                      for k in ANSWER_ROLES) + f" | {time.time() - t0:.0f}s", flush=True)
 
@@ -350,9 +382,11 @@ if __name__ == "__main__":
         prepare_cache()
     elif sys.argv[1] == "rates":
         z = np.load(NPZ)
-        for n in ("entropy", "jump", "syntax+jump", "words", "words+jump", "words+syntax", "words+syntax+digits", "words+syntax+ops", "words+syntax+rand07", "words+syntax+rand22"):
+        for n in ("entropy", "jump", "syntax+jump", "words", "words+jump", "words+syntax", "words+syntax+digits", "words+syntax+ops", "words+syntax+rand07", "words+syntax+rand22",
+                  "sp:none", "sp:dense5", "sp:entropy", "sp:jump", "sp:syntax", "sp:random"):
             r = Rule(n, z); m = r.mask(z["val_bytes"], z["val_H"]); a = realtext._answer_starts(z["val_roles"]) | \
                 ((z["val_roles"] == RI["VAR"]) & ~np.r_[False, z["val_roles"][:-1] == RI["VAR"]])
-            print(f"{n:13s} train {r.mask(z['train_bytes'], z['train_H']).mean():.3f} val {m.mean():.3f} | answer starts covered {m[a].mean():.2f}")
+            print(f"{n:13s} train {(r.mask(z['train_bytes'], z['train_H']) > 0).mean():.3f} val {(m > 0).mean():.3f} "
+                  f"(scratchpads {(m == 2).mean():.3f}) | answer starts covered {(m[a] > 0).mean():.2f}, by a scratchpad {(m[a] == 2).mean():.2f}")
     else:
         run(sys.argv[2], int(sys.argv[3]), int(sys.argv[4]))

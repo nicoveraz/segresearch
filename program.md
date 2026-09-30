@@ -20,6 +20,21 @@ So the open question is: **alignment or allocation?** Is the best rule one that 
 
 Your job is not just to lower a number. It is to find out *why* rules work, and to leave behind a clear account in `notes.md`.
 
+## Standards from earlier rounds (read before designing any experiment)
+
+Each rule below exists because breaking it produced a wrong conclusion in the `autoresearch/sep26` round (full account in that branch's `notes.md`).
+
+1. **Test in the BLT-like model.** Run with `SEGR_POOL=xattn SEGR_LOCAL=window` (cross-attention pooling, a local decoder that sees across patch boundaries). The default sum-pooling, patch-local model inflates split penalties by up to a full bit. Treat default-model results as exploratory only.
+2. **Check the model has learned the skill before comparing rules.** If long-range answers are near baseline level (about 2.2 bits or worse) for every mask, including the label-based one, the budget is too small and differences are meaningless. The BLT-like model needed 48,000 steps (`harness.MAIN_STEPS`). Confirm any headline ranking at 2x the steps.
+3. **Three seeds before any claim.** Kept rules and headline comparisons need at least three seeds (`--seed 0/1/2`). Single-seed differences under about 0.4 bits on long-range answers are noise: a single-seed operand penalty and a single-seed "rule beats the label-based mask" both vanished on replication.
+4. **Check the data is learnable.** The reference model must reach well under 0.5 bits on long-range answers, and every answer's dependencies must fit inside the context the model sees (64 to 127 bytes). A generator bug once put two-hop dependencies out of reach.
+5. **Vary the generator's fixed counts.** A rule that works because there are exactly four variable names, or exactly one separator byte, is exploiting the generator. Check candidate rules against the `wide` (16 variable names) and `hard` (two separators, chains) suites.
+6. **Test a different structure, not just different syntax.** Format C only changes delimiters and keywords; the `hard` suite changes structure and is the real generalization test.
+7. **Compare at matched compute.** Always report the boundary rate; a rule that wins by spending more patches has not won.
+8. **Label-based masks are reference points, not optima.** Say "the best label-based mask tried", never "the oracle" as a ceiling.
+9. **Freeze before the final test.** Run `test_final.py` only on a frozen rule, and never read held-out results while still iterating.
+10. **Check real text.** Synthetic results need a real-text check (`realtext.py`, GSM8K). Its answer starts come from annotation syntax; a label-free detector is still missing.
+
 ## Setup (once, with the human)
 
 1. Agree on a run tag with the human (e.g. `sep26`). Create the branch: `git checkout -b autoresearch/<tag>`.

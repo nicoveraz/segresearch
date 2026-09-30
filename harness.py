@@ -18,6 +18,10 @@ Ablation switches (environment; defaults reproduce the model above exactly):
   SEGR_LOCAL=window   the local decoder attends to the previous SEGR_WINDOW bytes (default 32) across
                       patch boundaries, instead of only to bytes of its own patch
   SEGR_D, SEGR_GLAYERS  model width (default 64) and global transformer depth (default 2)
+  SEGR_SCRATCH=1      scratchpads (Scratchpad Patching, Zheng et al. 2026, simplified): a flag value of 2 at byte i
+                      means "before predicting byte i, run the global model on the bytes of the current patch seen
+                      so far (sum-pooled) and use that fresh state until the next patch or scratchpad". Scratchpads
+                      are transient: later patches do not attend to them. Flag 1 still starts a patch.
 """
 import ast
 import os
@@ -34,7 +38,9 @@ assert GLAYERS >= 2
 POOL = os.environ.get("SEGR_POOL", "sum")
 LOCAL = os.environ.get("SEGR_LOCAL", "patch")
 WINDOW = int(os.environ.get("SEGR_WINDOW", "32"))
+SCRATCH = os.environ.get("SEGR_SCRATCH") == "1"      # scratchpads (flag value 2), as in Scratchpad Patching
 assert POOL in ("sum", "xattn") and LOCAL in ("patch", "window")
+assert not (SCRATCH and POOL != "sum"), "scratchpads are implemented for sum pooling only"
 ALLOWED_IMPORTS = {"numpy", "math", "collections", "itertools", "functools", "heapq", "typing", "__future__"}
 FORBIDDEN_NAMES = {"ord", "chr", "eval", "exec", "open", "compile", "__import__", "globals", "locals",
                    "getattr", "setattr", "vars", "input", "breakpoint"}
@@ -152,6 +158,8 @@ def _block(L, h, mask, nh=4):
 def _model(p, x, bd):
     """x: (B,T) bytes; bd: (B,T+1) patch-start flags for bytes x_0..x_T, bd[:,0] == 1.
     Position t predicts x_{t+1}."""
+    if SCRATCH:
+        return _model_scratch(p, x, bd)
     B, T = x.shape
     ar = mx.arange(T)
     one_hot = lambda i: (i[:, :, None] == ar).astype(mx.float32)   # index -1 -> all-zero row
@@ -166,6 +174,44 @@ def _model(p, x, bd):
         G = _block(L, G, causal)
     gidx = mx.where(bd[:, 1:T + 1] == 1, pid, pid - 1)       # fresh context iff x_{t+1} starts a patch
     ctx = one_hot(gidx) @ G
+    h = e + ctx @ p["gproj"]
+    if LOCAL == "window":
+        local = causal & ((ar[:, None] - ar[None]) < WINDOW)[None]
+    else:
+        local = (pid[:, :, None] == pid[:, None, :]) & causal
+    h = _block(p["loc"], h, local)
+    return _ln(h, p["lnf"]) @ p["emb"].T
+
+
+def _model_scratch(p, x, flags):
+    """Scratchpad variant. flags (B,T+1): 1 = byte starts a patch, 2 = scratchpad before predicting this byte."""
+    B, T = x.shape
+    ar = mx.arange(T)
+    one_hot = lambda i: (i[:, :, None] == ar).astype(mx.float32)   # index -1 -> all-zero row
+    bd = (flags == 1).astype(mx.int32)
+    sp = flags[:, 1:T + 1] == 2                                   # scratchpad for predicting x_{t+1}, from bytes <= t
+    pid = mx.cumsum(bd[:, :T], axis=1) - 1
+    start = mx.cummax(mx.where(bd[:, :T] == 1, ar[None], 0), axis=1)   # first byte of the current patch
+    off = ar[None] - start
+    e = p["emb"][x] + p["off"][off]
+    pooled = one_hot(pid).transpose(0, 2, 1) @ e
+    ce = mx.cumsum(e, axis=1)
+    before = mx.concatenate([mx.zeros((B, 1, e.shape[2])), ce[:, :-1]], axis=1)
+    partial = ce - mx.take_along_axis(before, start[:, :, None], axis=1)   # bytes of the current patch up to t
+    X = mx.concatenate([pooled + p["ppos"][:T][None], partial + p["ppos"][pid]], axis=1)
+    causal = (ar[:, None] >= ar[None])[None]
+    top = mx.concatenate([mx.broadcast_to(causal, (B, T, T)), mx.zeros((B, T, T), mx.bool_)], axis=2)
+    bottom = mx.concatenate([ar[None, None, :] < pid[:, :, None],                 # completed patches only
+                             mx.broadcast_to((ar[:, None] == ar[None])[None], (B, T, T))], axis=2)
+    mask = mx.concatenate([top, bottom], axis=1)
+    for L in p["g"]:
+        X = _block(L, X, mask)
+    Gp, Gs = X[:, :T], X[:, T:]
+    last = mx.cummax(mx.where(sp, ar[None], -1), axis=1)                        # latest scratchpad at or before t
+    use_sp = (last >= start) & (bd[:, 1:T + 1] == 0)
+    ctx_patch = one_hot(mx.where(bd[:, 1:T + 1] == 1, pid, pid - 1)) @ Gp
+    ctx_sp = one_hot(last) @ Gs
+    ctx = mx.where(use_sp[:, :, None], ctx_sp, ctx_patch)
     h = e + ctx @ p["gproj"]
     if LOCAL == "window":
         local = causal & ((ar[:, None] - ar[None]) < WINDOW)[None]

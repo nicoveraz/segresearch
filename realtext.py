@@ -148,7 +148,11 @@ def _answer_starts(roles):
 
 
 def _word_starts(b):
-    return np.r_[True, (b[:-1] == 32) | (b[:-1] == 10)] & (b != 32) & (b != 10)
+    """A patch starts right after a space or newline that does not itself follow one (SpaceByte's rule).
+    Causal: the flag for byte t depends only on bytes before t. (An earlier version also required byte t
+    itself not to be a space, which leaked information about the byte being predicted.)"""
+    sp = (b == 32) | (b == 10)
+    return np.r_[True, sp[:-1] & ~np.r_[False, sp[:-2]]]
 
 
 def _top(score, train_score, rate):

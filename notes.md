@@ -291,3 +291,8 @@ Screen (val): BLT entropy *level* catches 2% of answer starts at 25%; the entrop
 Runs (BLT-like, 32k, seeds 0/1): jump25, words+jump20, words+jump25. Compare with entropy 2.20, words 2.10, entropy+ans 1.86, words+ans 1.65 (answer bits).
 **Results (2 seeds, means; answers / final / computed / overall bpb):** jump25 **1.78** / 0.75 / 2.09 / 1.662; words+jump20 **1.82** / **0.66** / 2.17 / **1.579**; words+jump25 1.82 / 0.68 / 2.16 / 1.624. Seeds agree within 0.02-0.06.
 **Label-free works on real text.** At BLT's own budget, switching entropy *level* to entropy *jump* cuts answer loss 2.20 -> 1.78, beating even the labeled entropy+ans (1.86), and overall bpb improves (1.688 -> 1.662). Word starts + non-word jumps matches the labeled words+ans on final answers (0.66 vs 0.67) and overall (1.579 vs 1.562) at the same compute, recovering ~60% of its advantage on all answers. Remaining gap: computed results (2.17 vs 1.94), whose starts show little entropy rise.
+
+## Real text 2: Python code (SEGR_REALDATA=code)
+Stdlib source; "answers" = identifiers repeating a name seen <= 120 bytes earlier in the file. BLT-like, 32k, 2 seeds (means; identifiers / overall bpb):
+entropy (25%) 2.27 / 1.996; jump25 (25%) 2.22 / 1.973; entropy+ans (24%, labels) 2.17 / 1.992; **words (10.5%) 2.17 / 1.842**; words+jump (11%) 2.19 / 1.862; words+ans (11%, labels) 2.13 / 1.858.
+**Word alignment is the big win on code** (0.15 bits better overall than BLT entropy at < half the compute). The entropy jump again beats BLT's level rule, by less than on GSM8K (0.05 on identifiers), consistent with BLT entropy already catching 77% of identifier starts in code. Answer starts add a little on identifiers, nothing overall: identifier starts mostly coincide with word starts already.

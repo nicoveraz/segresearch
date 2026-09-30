@@ -17,6 +17,8 @@ Patch rules, in two compute groups:
           words          a patch at every word start
           words+jump     word starts plus the largest non-word entropy rises (label-free)
           words+syntax   word starts plus math-syntax starts
+          words+syntax+digits   plus a fresh patch after each digit of a number that began right after '='
+          words+syntax+ops      plus a patch after each operator (+ - * /) and after '<<' (operand-aligned)
     Math syntax = the byte right after '=', '\\boxed{', '#### ' or '>>': a hand-written rule that a
     math-specialized model may legitimately use. No rule uses the answer labels.
 
@@ -175,6 +177,24 @@ def _syntax_starts(b):
     return m
 
 
+def _after_result_digits(b):
+    """True at t when byte t-1 is a digit in a number that began right after '=' (a fresh patch per result digit)."""
+    digit = (b >= 48) & (b <= 57)
+    m = np.zeros(len(b), bool); run_after_eq = False
+    for i in range(len(b) - 1):
+        if digit[i]:
+            if i == 0 or not digit[i - 1]:
+                run_after_eq = i > 0 and b[i - 1] == 61                # '='
+            m[i + 1] = run_after_eq
+    return m
+
+
+def _after_operators(b):
+    """True at t when byte t-1 is an arithmetic operator or ends '<<' (operand-aligned patches)."""
+    prev = np.r_[0, b[:-1]]
+    return np.isin(prev, [43, 45, 42, 47]) | np.r_[False, False, (b[:-2] == 60) & (b[1:-1] == 60)]
+
+
 class Rule:
     """A patch rule with thresholds fitted on the training split, applicable to any byte window + entropies."""
     def __init__(self, name, z):
@@ -192,7 +212,7 @@ class Rule:
         elif name == "words+jump":
             extra = target_words - wtr.mean()
             self.thr = np.quantile(Jtr[~wtr], 1 - extra / (~wtr).mean())
-        elif name not in ("words", "words+syntax"):
+        elif name not in ("words", "words+syntax", "words+syntax+digits", "words+syntax+ops"):
             raise SystemExit(f"unknown rule {name}")
 
     def mask(self, b, H):
@@ -208,6 +228,10 @@ class Rule:
             return words
         if self.name == "words+syntax":
             return words | _syntax_starts(b)
+        if self.name == "words+syntax+digits":
+            return words | _syntax_starts(b) | _after_result_digits(b)
+        if self.name == "words+syntax+ops":
+            return words | _syntax_starts(b) | _after_operators(b)
         return words | (J > self.thr)                                  # words+jump
 
 
@@ -306,7 +330,7 @@ if __name__ == "__main__":
         prepare_cache()
     elif sys.argv[1] == "rates":
         z = np.load(NPZ)
-        for n in ("entropy", "jump", "syntax+jump", "words", "words+jump", "words+syntax"):
+        for n in ("entropy", "jump", "syntax+jump", "words", "words+jump", "words+syntax", "words+syntax+digits", "words+syntax+ops"):
             r = Rule(n, z); m = r.mask(z["val_bytes"], z["val_H"]); a = realtext._answer_starts(z["val_roles"]) | \
                 ((z["val_roles"] == RI["VAR"]) & ~np.r_[False, z["val_roles"][:-1] == RI["VAR"]])
             print(f"{n:13s} train {r.mask(z['train_bytes'], z['train_H']).mean():.3f} val {m.mean():.3f} | answer starts covered {m[a].mean():.2f}")

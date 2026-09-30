@@ -323,3 +323,6 @@ Other math strategies to test next: a fresh patch per result digit inside comput
 Math (2 seeds; final acc / computed acc / bpb): entropy 11% / 5.5% / 1.771; words 58% / 4.8% / 1.709; jump 68% / 4.2% / 1.780; words+jump 68% / 4.1% / 1.714; syntax+jump 72% / 6.2% / 1.771; **words+syntax 76% / 7.0% / 1.697**.
 GSM8K (2 seeds; answers / final / bpb): words 2.01 / 1.02 / 1.584; words+jump20 1.80 / 0.69 / 1.580; words+ans 1.61 / 0.66 / 1.562 (leaky: 2.10, 1.82, 1.65 on answers; essentially unchanged).
 Code (2 seeds; identifiers / bpb): words 2.21 / 1.889; words+jump20 2.20 / 1.895 (leaky: 2.17 / 1.842). The leak inflated code's word-start gain; corrected, words still beat BLT entropy by 0.11 bpb and 0.06 on identifiers at < half the compute. Jumps add nothing on top of words for code.
+
+## New math strategies (2 seeds, BLT-like, 32k)
+words+syntax+digits (fresh patch per result digit; rate 0.192) and words+syntax+ops (operand-aligned; rate 0.207), against words+syntax (0.185): final 76%, computed 7.0%, bpb 1.697. Running.

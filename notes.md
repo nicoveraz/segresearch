@@ -338,3 +338,11 @@ rand07 (twin of +digits) 6.2% / 2.49 / 74% / 1.712; rand22 (twin of +ops) 7.5% /
 - The two math-specific rules are byte-patching analogs of known tokenizer practice: per-digit patches ~ single-digit tokenization (LLaMA-style; "Tokenization counts", arXiv 2402.14903); number/operand alignment ~ digit place-value alignment studied for tokenizers (TokEval, arXiv 2608.18062, COLM 2026). If confirmed: "tokenizer wisdom transfers to patching", useful but not a new idea.
 - "Disentangling Language Modeling and Boundaries" (arXiv 2608.03599): boundary placement can be changed post hoc, nearly independently of capability. Suggests a cheap test on a real trained byte model: re-place boundaries at answer starts without retraining.
 - Also relevant: SpaceByte (word-aligned patches), BLT (includes the entropy-jump "approximate monotonic" rule), H-Net (learned chunking), ByteSpan.
+
+### Confirmation, 5 seeds (seeds 2-4 scored on 1000 computed / 660 final / 700 boxed)
+Pooled (computed acc n=3600 / final acc n=2580 / computed bits / bpb):
+words+syntax 9.7% / 76.1% / 2.40 / 1.695; +digits 7.8% / 75.1% / 2.39 / 1.699; rand07 7.9% / 76.2% / 2.47 / 1.706; +ops 9.7% / 77.5% / 2.38 / 1.687; rand22 7.9% / 76.2% / 2.46 / 1.715.
+**Per-digit patches: NOT confirmed** (accuracy = random twin, z -0.1; computed acc below the reference, 7.8 vs 9.7%). Only consistent effect: lower loss on result digits than its twin (5/5 seeds), which does not become correct answers.
+**Operand alignment: small consistent loss gain, no significant accuracy gain** (bpb below its twin 5/5, below the reference 4/5 by ~0.008; final +1.4 points vs reference, z 1.2).
+**Solid:** random extra boundaries hurt on every seed (bpb +0.011 / +0.020 vs reference; computed acc 9.7 -> 7.9%). Placement matters, but these targeted placements barely beat the reference.
+Lesson (rule 3 in program.md): the 2-seed "promising" gains were noise; do not report 2-seed accuracy differences of 2-4 points as effects.

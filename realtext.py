@@ -26,6 +26,8 @@ the question is whether the effect exists on real text before building a detecto
 
     uv run realtext.py prepare                   # download GSM8K, train the small entropy model, cache signals
     SEGR_POOL=xattn SEGR_LOCAL=window uv run realtext.py run MASK SEED STEPS
+    SEGR_REALDATA=code ...           # Python standard-library source instead of GSM8K; "answers" are
+                                     # identifiers repeating a name seen <= 120 bytes earlier in the file
 """
 import json
 import os
@@ -37,9 +39,13 @@ import numpy as np
 import prepare
 from prepare import BUDGET, PATCHER, RI
 
-CACHE = os.path.expanduser(os.environ.get("SEGR_CACHE", "~/.cache/segresearch")) + "-gsm8k"
+DATA = os.environ.get("SEGR_REALDATA", "gsm8k")      # gsm8k | code
+assert DATA in ("gsm8k", "code")
+CACHE = os.path.expanduser(os.environ.get("SEGR_CACHE", "~/.cache/segresearch")) + f"-{DATA}"
+NPZ = os.path.join(CACHE, f"{DATA}.npz")
 URL = "https://raw.githubusercontent.com/openai/grade-school-math/master/grade_school_math/data/{}.jsonl"
 N_VAL = 660          # the first 660 GSM8K test problems are validation; the rest stay unused (held out)
+CODE_TRAIN_BYTES, CODE_VAL_BYTES = 4_000_000, 350_000
 
 
 def _load(split):
@@ -74,10 +80,55 @@ def _encode(problems):
     return np.frombuffer(bytes(b), np.uint8).copy(), np.array(r, np.int8)
 
 
+def _encode_code(paths, limit):
+    """Python source as bytes. 'Answers' are identifiers that repeat a name seen earlier in the same file:
+    ANS_LOCAL if the previous occurrence started <= 32 bytes before, ANS_LONG if 33-120 bytes before
+    (within the model's context). Everything else is TEXT; files are separated by a blank line (STRUCT)."""
+    import io, keyword, tokenize
+    b, r = bytearray(), []
+    for path in paths:
+        src = open(path, "rb").read()
+        if not src.isascii():
+            continue
+        text = src.decode()
+        try:
+            toks = list(tokenize.generate_tokens(io.StringIO(text).readline))
+        except (tokenize.TokenError, SyntaxError, IndentationError):
+            continue
+        line_start = np.r_[0, np.cumsum([len(l) for l in text.splitlines(keepends=True)])]
+        roles = np.full(len(text), RI["TEXT"], np.int8)
+        last = {}
+        for t in toks:
+            if t.type != tokenize.NAME or keyword.iskeyword(t.string):
+                continue
+            s = int(line_start[t.start[0] - 1] + t.start[1])
+            prev = last.get(t.string)
+            if prev is not None and s - prev <= 120:
+                roles[s:s + len(t.string)] = RI["ANS_LOCAL" if s - prev <= 32 else "ANS_LONG"]
+            last[t.string] = s
+        b.extend(src + b"\n\n"); r.extend(roles.tolist() + [RI["STRUCT"]] * 2)
+        if len(b) >= limit:
+            break
+    return np.frombuffer(bytes(b), np.uint8).copy(), np.array(r, np.int8)
+
+
+def _code_data():
+    import glob, hashlib, sysconfig
+    root = sysconfig.get_paths()["stdlib"]
+    files = sorted(f for f in glob.glob(root + "/**/*.py", recursive=True)
+                   if "/test" not in f and "site-packages" not in f and "/idlelib" not in f)
+    is_val = lambda f: int(hashlib.md5(os.path.relpath(f, root).encode()).hexdigest(), 16) % 12 == 0   # ~8% of files
+    return {"train": _encode_code([f for f in files if not is_val(f)], CODE_TRAIN_BYTES),
+            "val": _encode_code([f for f in files if is_val(f)], CODE_VAL_BYTES)}
+
+
 def prepare_cache():
     os.makedirs(CACHE, exist_ok=True)
-    train, test = _load("train"), _load("test")
-    data = {"train": _encode(train), "val": _encode(test[:N_VAL])}
+    if DATA == "code":
+        data = _code_data()
+    else:
+        train, test = _load("train"), _load("test")
+        data = {"train": _encode(train), "val": _encode(test[:N_VAL])}
     for sp, (bts, roles) in data.items():
         print(f"{sp}: {len(bts):,} bytes; answer-span shares: "
               + ", ".join(f"{n} {np.mean(roles == RI[n]):.3f}" for n in ("OPERAND", "ANS_LOCAL", "VALUE", "ANS_LONG")))
@@ -87,8 +138,8 @@ def prepare_cache():
     for sp, (bts, roles) in data.items():
         H, S = prepare.score_stream(pat, PATCHER["heads"], bts)
         out.update({f"{sp}_bytes": bts, f"{sp}_roles": roles, f"{sp}_H": H})
-    np.savez_compressed(os.path.join(CACHE, "gsm8k.npz"), **out)
-    print("cached", os.path.join(CACHE, "gsm8k.npz"))
+    np.savez_compressed(NPZ, **out)
+    print("cached", NPZ)
 
 
 def _answer_starts(roles):
@@ -100,15 +151,22 @@ def _word_starts(b):
     return np.r_[True, (b[:-1] == 32) | (b[:-1] == 10)] & (b != 32) & (b != 10)
 
 
+def _top(score, train_score, rate):
+    """score above the train threshold for `rate`; if distribution shift pushes the share above `rate`,
+    refit the threshold on this split (the harness does the same for boundary.py rules)."""
+    m = score > np.quantile(train_score, 1 - rate)
+    return m if m.mean() <= rate else score > np.quantile(score, 1 - rate)
+
+
 def masks(name, z, split):
     b, roles, H = z[f"{split}_bytes"], z[f"{split}_roles"], z[f"{split}_H"]
     Htr = z["train_H"]
     if name == "entropy":
-        return H > np.quantile(Htr, 1 - BUDGET)
+        return _top(H, Htr, BUDGET)
     starts = _answer_starts(roles)
     if name == "entropy+ans":
-        room = BUDGET - _answer_starts(z["train_roles"]).mean()
-        return (H > np.quantile(Htr, 1 - room)) | starts
+        room = min(BUDGET - _answer_starts(z["train_roles"]).mean(), BUDGET - starts.mean())
+        return _top(H, Htr, room) | starts
     words = _word_starts(b)
     if name == "words":
         return words
@@ -117,7 +175,7 @@ def masks(name, z, split):
     # label-free: rises in the small model's entropy (H2's signal), thresholds fitted on train
     J, Jtr = np.diff(H, prepend=H[0]), np.diff(Htr, prepend=Htr[0])
     if name == "jump25":
-        return J > np.quantile(Jtr, 1 - BUDGET)
+        return _top(J, Jtr, BUDGET)
     if name in ("words+jump20", "words+jump25"):
         extra = {"words+jump20": 0.015, "words+jump25": 0.065}[name]   # top non-word jumps, as a share of all bytes
         wtr = _word_starts(z["train_bytes"])
@@ -128,13 +186,13 @@ def masks(name, z, split):
 def run(name, seed, steps):
     import harness
     harness.MAIN_STEPS = steps
-    z = np.load(os.path.join(CACHE, "gsm8k.npz"))
+    z = np.load(NPZ)
     m_tr, m_va = masks(name, z, "train"), masks(name, z, "val")
     for sp, m in (("train", m_tr), ("val", m_va)):
         if m.mean() > BUDGET + 0.01:
             raise SystemExit(f"{name}: rate {m.mean():.3f} on {sp} is above the budget")
     o = harness.train_eval(z["train_bytes"], m_tr, z["val_bytes"], m_va, z["val_roles"], seed=seed)
-    print(f"RESULT gsm8k mask={name} seed={seed} steps={steps} pool={harness.POOL} local={harness.LOCAL} | "
+    print(f"RESULT {DATA} mask={name} seed={seed} steps={steps} pool={harness.POOL} local={harness.LOCAL} | "
           f"ans {o['ans_bits']:.4f} (computed {o['ANS_LOCAL_bits']:.3f}, final {o['ANS_LONG_bits']:.3f}) | "
           f"copy {o['VALUE_bits']:.3f} | text {o['TEXT_bits']:.3f} | bpb {o['bpb']:.4f} | rate {o['boundary_rate']:.3f}", flush=True)
 

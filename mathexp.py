@@ -19,6 +19,8 @@ Patch rules, in two compute groups:
           words+syntax   word starts plus math-syntax starts
           words+syntax+digits   plus a fresh patch after each digit of a number that began right after '='
           words+syntax+ops      plus a patch after each operator (+ - * /) and after '<<' (operand-aligned)
+          words+syntax+rand07/22  matched-compute controls: as many extra boundaries as +digits / +ops add,
+                                at pseudo-random positions (a hash of the previous three bytes)
     Math syntax = the byte right after '=', '\\boxed{', '#### ' or '>>': a hand-written rule that a
     math-specialized model may legitimately use. No rule uses the answer labels.
 
@@ -195,6 +197,17 @@ def _after_operators(b):
     return np.isin(prev, [43, 45, 42, 47]) | np.r_[False, False, (b[:-2] == 60) & (b[1:-1] == 60)]
 
 
+def _hash_prev(b):
+    """A pseudo-random value in [0, 1) at each t from bytes t-3..t-1: deterministic, causal, uninformative."""
+    x = np.r_[0, 0, 0, b.astype(np.uint64)]
+    h = (x[2:-1] * np.uint64(961) + x[1:-2] * np.uint64(31) + x[:-3]) * np.uint64(2654435761) % np.uint64(2 ** 32)
+    return h.astype(np.float64) / 2 ** 32
+
+
+def _rand_extra(b, q):
+    return _hash_prev(b) < q
+
+
 class Rule:
     """A patch rule with thresholds fitted on the training split, applicable to any byte window + entropies."""
     def __init__(self, name, z):
@@ -212,6 +225,11 @@ class Rule:
         elif name == "words+jump":
             extra = target_words - wtr.mean()
             self.thr = np.quantile(Jtr[~wtr], 1 - extra / (~wtr).mean())
+        elif name in ("words+syntax+rand07", "words+syntax+rand22"):
+            # matched-compute controls: extra boundaries at pseudo-random positions, as many as +digits / +ops add
+            base = wtr | str_; extra = {"words+syntax+rand07": 0.0074, "words+syntax+rand22": 0.0228}[name]
+            hv = _hash_prev(btr); qs = np.linspace(0, 0.2, 401)
+            self.q = qs[np.argmin([abs((base | (hv < q)).mean() - base.mean() - extra) for q in qs])]
         elif name not in ("words", "words+syntax", "words+syntax+digits", "words+syntax+ops"):
             raise SystemExit(f"unknown rule {name}")
 
@@ -232,6 +250,8 @@ class Rule:
             return words | _syntax_starts(b) | _after_result_digits(b)
         if self.name == "words+syntax+ops":
             return words | _syntax_starts(b) | _after_operators(b)
+        if self.name in ("words+syntax+rand07", "words+syntax+rand22"):
+            return words | _syntax_starts(b) | _rand_extra(b, self.q)
         return words | (J > self.thr)                                  # words+jump
 
 
@@ -330,7 +350,7 @@ if __name__ == "__main__":
         prepare_cache()
     elif sys.argv[1] == "rates":
         z = np.load(NPZ)
-        for n in ("entropy", "jump", "syntax+jump", "words", "words+jump", "words+syntax", "words+syntax+digits", "words+syntax+ops"):
+        for n in ("entropy", "jump", "syntax+jump", "words", "words+jump", "words+syntax", "words+syntax+digits", "words+syntax+ops", "words+syntax+rand07", "words+syntax+rand22"):
             r = Rule(n, z); m = r.mask(z["val_bytes"], z["val_H"]); a = realtext._answer_starts(z["val_roles"]) | \
                 ((z["val_roles"] == RI["VAR"]) & ~np.r_[False, z["val_roles"][:-1] == RI["VAR"]])
             print(f"{n:13s} train {r.mask(z['train_bytes'], z['train_H']).mean():.3f} val {m.mean():.3f} | answer starts covered {m[a].mean():.2f}")

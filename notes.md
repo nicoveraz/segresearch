@@ -309,3 +309,12 @@ Corpus 9.7 MB train / 0.85 MB val (GSM8K + MATH interleaved). BLT-like, D=64, 32
 | words+jump (label-free) | 0.185 | 1.06 / 70% | 3.0% | 3.7% | 1.711 |
 | **words+syntax** | 0.185 | **0.80 / 81%** | 7.3% | 3.3% | **1.691** |
 Final answers (a copy of the last computed result) go from 13% to 70% correct just by switching BLT's entropy level to entropy jump at the same compute; 81% with word starts + math syntax. Syntax boundaries roughly double computed-result accuracy (~7.5% vs 3-5%), but arithmetic is mostly beyond this model. MATH boxed answers ~4% for every rule (too hard at this size). Seed 1 running.
+
+## FLAW FOUND: word-start rule leaked the predicted byte (commit 7338f28)
+`realtext._word_starts` flagged byte t when byte t-1 was a space AND byte t was not a space: the flag for t depended on t itself, revealing information about the byte being predicted. In code it marked exactly where indentation runs end (4.9% of bytes flagged differently from the causal rule, about half of all word starts); in GSM8K 0.6%. Fixed to SpaceByte's causal rule (patch after a space/newline not preceded by one).
+**Invalid until rerun:** every word-based result on GSM8K (words, words+ans, words+jump20/25), code (words, words+jump20, words+ans), and math (words, words+jump, words+syntax). Code "+ans" masks are also invalid in principle (the flag reveals that a repeated identifier starts; no causal version) and are dropped. Unaffected: entropy / jump / syntax rules, all synthetic results, GSM8K entropy+ans (answer starts there are fixed by syntax).
+Reruns queued (causal rule, 2 seeds): math words / words+jump / words+syntax; GSM8K words / words+jump20 / words+ans; code words / words+jump20.
+
+## New strategy screen: retrieval-triggered boundaries (attention reaching > 16 bytes back)
+Negative with the current small model (1 layer, 32 dims): catches copies and MATH boxed answers but 0% of GSM8K final answers even at 25%. The small model cannot retrieve, so its attention does not mark retrieval moments. Parked; revisit with a stronger scorer.
+Other math strategies to test next: a fresh patch per result digit inside computed results; operand-aligned patches (each number and operator its own unit).

@@ -17,6 +17,7 @@ Ablation switches (environment; defaults reproduce the model above exactly):
                       its bytes and attends over them (4 heads), instead of a plain sum
   SEGR_LOCAL=window   the local decoder attends to the previous SEGR_WINDOW bytes (default 32) across
                       patch boundaries, instead of only to bytes of its own patch
+  SEGR_D, SEGR_GLAYERS  model width (default 64) and global transformer depth (default 2)
 """
 import ast
 import os
@@ -27,7 +28,9 @@ import numpy as np
 
 from prepare import BUDGET, CTX, MAIN_BS, MAIN_STEPS, RI, ROLES, V, _ln, adamw, log_softmax_np, make_step
 
-D = 64
+D = int(os.environ.get("SEGR_D", "64"))               # model width
+GLAYERS = int(os.environ.get("SEGR_GLAYERS", "2"))    # global transformer depth
+assert GLAYERS >= 2
 POOL = os.environ.get("SEGR_POOL", "sum")
 LOCAL = os.environ.get("SEGR_LOCAL", "patch")
 WINDOW = int(os.environ.get("SEGR_WINDOW", "32"))
@@ -106,7 +109,7 @@ def _init(key):
     blk = lambda k: {"ln1": mx.ones(D), "ln2": mx.ones(D), "qkv": n(k[0], (D, 3 * D)),
                      "o": n(k[1], (D, D)), "w1": n(k[2], (D, 4 * D)), "w2": n(k[3], (4 * D, D))}
     p = {"emb": n(ks[0], (V, D)), "off": n(ks[1], (CTX, D)), "ppos": n(ks[2], (CTX, D)),
-         "g": [blk(ks[3:7]), blk(ks[7:11])], "loc": blk(ks[11:15]),
+         "g": [blk(ks[3:7]), blk(ks[7:11])] + [blk(k) for k in _extra_keys(key, GLAYERS - 2)], "loc": blk(ks[11:15]),
          "gproj": n(ks[15], (D, D)), "lnf": mx.ones(D)}
     if POOL == "xattn":                      # extra keys derived separately, so the default init is unchanged
         kx = mx.random.split(mx.random.split(key, 17)[16], 4)
@@ -129,6 +132,14 @@ def _xattn_pool(X, e, pid, one_hot, nh=4):
     return mean + out @ X["o"]
 
 
+def _extra_keys(key, n):
+    """Keys for global layers beyond the default two, derived separately so the default init is unchanged."""
+    if n == 0:
+        return []
+    ks = mx.random.split(mx.random.split(key, 19)[18], 4 * n)
+    return [ks[4 * j: 4 * j + 4] for j in range(n)]
+
+
 def _block(L, h, mask, nh=4):
     B, T, _ = h.shape; hd = D // nh
     q, k, v = mx.split(_ln(h, L["ln1"]) @ L["qkv"], 3, axis=-1)
@@ -149,7 +160,7 @@ def _model(p, x, bd):
     off = ar[None] - mx.cummax(start, axis=1)
     e = p["emb"][x] + p["off"][off]
     pooled = _xattn_pool(p["xattn"], e, pid, one_hot) if POOL == "xattn" else one_hot(pid).transpose(0, 2, 1) @ e
-    G = pooled + p["ppos"][None]
+    G = pooled + p["ppos"][:T][None]
     causal = (ar[:, None] >= ar[None])[None]
     for L in p["g"]:
         G = _block(L, G, causal)

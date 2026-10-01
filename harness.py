@@ -21,7 +21,9 @@ Ablation switches (environment; defaults reproduce the model above exactly):
   SEGR_SCRATCH=1      scratchpads (Scratchpad Patching, Zheng et al. 2026, simplified): a flag value of 2 at byte i
                       means "before predicting byte i, run the global model on the bytes of the current patch seen
                       so far (sum-pooled) and use that fresh state until the next patch or scratchpad". Scratchpads
-                      are transient: later patches do not attend to them. Flag 1 still starts a patch.
+                      are transient: later patches do not attend to them. Flag 1 still starts a patch. With
+                      SEGR_POOL=xattn, patches and scratchpads are pooled by cross-attention with the mean as the
+                      query, as in the paper.
 """
 import ast
 import os
@@ -40,7 +42,6 @@ LOCAL = os.environ.get("SEGR_LOCAL", "patch")
 WINDOW = int(os.environ.get("SEGR_WINDOW", "32"))
 SCRATCH = os.environ.get("SEGR_SCRATCH") == "1"      # scratchpads (flag value 2), as in Scratchpad Patching
 assert POOL in ("sum", "xattn") and LOCAL in ("patch", "window")
-assert not (SCRATCH and POOL != "sum"), "scratchpads are implemented for sum pooling only"
 ALLOWED_IMPORTS = {"numpy", "math", "collections", "itertools", "functools", "heapq", "typing", "__future__"}
 FORBIDDEN_NAMES = {"ord", "chr", "eval", "exec", "open", "compile", "__import__", "globals", "locals",
                    "getattr", "setattr", "vars", "input", "breakpoint"}
@@ -183,6 +184,17 @@ def _model(p, x, bd):
     return _ln(h, p["lnf"]) @ p["emb"].T
 
 
+def _xattn_partial(X, e, mean, pid, nh=4):
+    """Scratchpad pooling at every position t: query = mean of the current patch's bytes up to t, attending over them."""
+    B, T, _ = e.shape; hd = D // nh; ar = mx.arange(T)
+    en = _ln(e, X["ln"])
+    sh = lambda t: t.reshape(B, T, nh, hd).transpose(0, 2, 1, 3)
+    q, k, v = sh(_ln(mean, X["ln"]) @ X["q"]), sh(en @ X["k"]), sh(en @ X["v"])
+    seen = ((pid[:, :, None] == pid[:, None, :]) & (ar[None, None, :] <= ar[None, :, None]))[:, None]
+    a = mx.where(seen, q @ k.transpose(0, 1, 3, 2) / np.sqrt(hd), -1e9)
+    return mean + (mx.softmax(a, axis=-1) @ v).transpose(0, 2, 1, 3).reshape(B, T, D) @ X["o"]
+
+
 def _model_scratch(p, x, flags):
     """Scratchpad variant. flags (B,T+1): 1 = byte starts a patch, 2 = scratchpad before predicting this byte."""
     B, T = x.shape
@@ -194,10 +206,16 @@ def _model_scratch(p, x, flags):
     start = mx.cummax(mx.where(bd[:, :T] == 1, ar[None], 0), axis=1)   # first byte of the current patch
     off = ar[None] - start
     e = p["emb"][x] + p["off"][off]
-    pooled = one_hot(pid).transpose(0, 2, 1) @ e
     ce = mx.cumsum(e, axis=1)
     before = mx.concatenate([mx.zeros((B, 1, e.shape[2])), ce[:, :-1]], axis=1)
     partial = ce - mx.take_along_axis(before, start[:, :, None], axis=1)   # bytes of the current patch up to t
+    if POOL == "xattn":
+        # as in the paper: cross-attention over the patch's bytes, with their mean as the query; for a scratchpad,
+        # over the bytes of the current patch seen so far
+        pooled = _xattn_pool(p["xattn"], e, pid, one_hot)
+        partial = _xattn_partial(p["xattn"], e, partial / (ar[None] - start + 1)[:, :, None].astype(mx.float32), pid)
+    else:
+        pooled = one_hot(pid).transpose(0, 2, 1) @ e
     X = mx.concatenate([pooled + p["ppos"][:T][None], partial + p["ppos"][pid]], axis=1)
     causal = (ar[:, None] >= ar[None])[None]
     top = mx.concatenate([mx.broadcast_to(causal, (B, T, T)), mx.zeros((B, T, T), mx.bool_)], axis=2)

@@ -29,6 +29,7 @@ In the pilot every dependency fit inside a record. This repo adds **long-range q
 | `baselines.py` | Reference rules: stride, BLT entropy, excess vs. reference, gated trajectory | Fixed |
 | `run.py` | One experiment on the dev formats (A, B), validation split | Fixed |
 | `test_final.py` | Final evaluation on test splits, including held-out format C | **Human only** |
+| `test_causal.py` | Causality test for every rule and model: masks and predictions must not see the byte being predicted | Fixed |
 
 ## Quick start
 

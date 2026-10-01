@@ -471,3 +471,16 @@ Reference, same model at its usual budget: entropy (25% of bytes) 10.9% / 44.8% 
 - The effect is large where BLT-1B has the skill and the value is computed (GSM8K results: +21-27 points), small where the value is a lookup or copy (code identifiers +3, proof steps +1-5, trace copies +3-7), and unmeasurable where BLT-1B lacks the skill (trace arithmetic 20% at default, logic answers at chance).
 - Standard 2 applies: test where the skill is learned. Next: train MLX models on the generated logic and trace tasks (which they can learn) and compare patching rules in training, instead of probing BLT-1B.
 - Dependence tables do not transfer across formats (math -> traces 0% coverage); a refit per domain is needed, and on its own a table can hurt (dep alone). entropy + dependence is the safe combination where the table fits the format.
+
+### Label-free trigger trained into the model (deptrigger.py + mathexp.py entdep10/dep10; D=128, 10% budget, 32k steps, 2 seeds)
+Dependence fitted with the harness's own model, no labels:
+- v1 ("remove", as for BLT-1B; reference trained on entropy 25%): failed the screen. Top contexts were LaTeX; arithmetic below average; entdep10 covered 3% of answer starts, dep10 0%. The reference rarely had a boundary at results (13% of answer starts), so it never learned to use one. Not trained.
+- v2 ("marginal"; reference trained on random 25% patches, gain of adding one boundary at t to a random 10% layout, bytes t..t+3, 4096 windows x 32 candidates): top contexts include '<<', '=6', '=<', 'x=', '>>'. Answer-start coverage: entropy10 8%, entdep10 13%, **dep10 51%**, syntax+entropy10 100%.
+computed acc / final acc / bpb (means; seeds in brackets):
+- entropy10: 7.0% / 12.9% / 1.655 (earlier)
+- entdep10: 9.7% [7.2, 12.2] / 22.5% [13.2, 31.8] / 1.676
+- **dep10: 19.2% [17.3, 21.0] / 68.8% [68.0, 69.5] / 1.676**
+- syntax+entropy10 (hand-written): 25.3% / 72.4% / 1.633 (earlier)
+- **With no labels and no hand-written syntax, dependence alone recovers most of the hand-written gain at a 10% budget**: computed results 7% -> 19% (hand-written 25%), final answers 13% -> 69% (hand-written 72%). It also beats BLT entropy at 25% of bytes (10.9% / 44.8%) with 2.5x fewer patches.
+- Cost: overall bpb 1.676 vs 1.655 for entropy10 (+1.3%); the hand-written rule has no such cost (1.633).
+- entdep10 (z-sum) is dominated by entropy, which is low at answers; it barely helps. The combination that worked on BLT-1B does not transfer; on BLT-1B dependence alone hurt final answers, here it is the best label-free rule. Rules were fixed before training (no tuning on answer coverage).

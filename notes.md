@@ -362,3 +362,9 @@ Larger model runs started: D=128, 4 global layers, BLT-like (xattn + cross-patch
 - Learned trigger (gaintrigger.py): measures where a scratchpad lowers the loss on the rest of its patch, fits a ridge regression on causal features (no answer labels); sp16:learned x 2 seeds queued after fitting.
 - Real model (realblt.py): Meta's BLT-1B (itazap/blt-1b-hf, 15.4 GB) with patch boundaries changed at inference; four layouts (default, +answer, -answer, jump at equal patch count) on GSM8K final answers. Downloading; will run when the GPU is free.
 - **Learned trigger fitted (gaintrigger.py, 16k-step random-scratchpad model, 400 windows = 48k positions):** gains are very skewed (mean 0.026, p90 0.92 nats); ridge prediction correlates only 0.18 with measured gain. Largest weights on rare previous bytes (X +1.10, Y +0.53, ! +0.49), likely overfitting; '=' +0.12, newline +0.15, '#' -0.15. Screen: gives a scratchpad to 14% of answer starts (entropy 5%, random 2%, syntax 93%). Runs queued as-is. Refinement if it helps: stronger regularization or a minimum byte count, a classification target (gain > threshold), and saving the measured gains for refits.
+
+### Larger model (D=128, 4 global layers; BLT-like; 2 seeds)
+final acc / computed acc / bpb (means): entropy 44.8% / 10.9% / 1.442; jump 74.0% / 9.0% / 1.453; **words+syntax 79.4% / 32.3% / 1.412** (seeds: computed 33.8, 30.8).
+- The blind spot shrinks but persists: BLT entropy 11% -> 45% on final answers at 4x size, still ~30 points behind jump / words+syntax.
+- **New at this size: alignment changes arithmetic.** words+syntax gets 3x the computed-result accuracy of both entropy rules (32% vs 9-11%); at D=64 every rule was at 4-10%. Arithmetic was capacity-limited; with capacity, placement matters for the computation itself.
+- Attribution open: word alignment (numbers as units) vs the boundary after '='. Queued: words and syntax-only at D=128.

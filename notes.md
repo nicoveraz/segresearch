@@ -358,3 +358,6 @@ Prediction if the blind spot carries over: sp:entropy final-answer accuracy near
 
 ## Round "do all" (2026-10-01): faithful SP, learned trigger, larger model
 Larger model runs started: D=128, 4 global layers, BLT-like (xattn + cross-patch), math, 32k, seeds 0/1: entropy, jump, words+syntax.
+- Faithful Scratchpad Patching: scratchpads pooled by cross-attention with the mean as query (as in the paper), patches every 16 bytes (the paper's headline setting); sp16:{none, dense8, entropy, jump, syntax, random} x 2 seeds queued. Screen: entropy trigger gives 5% of answer starts a scratchpad, syntax 93%.
+- Learned trigger (gaintrigger.py): measures where a scratchpad lowers the loss on the rest of its patch, fits a ridge regression on causal features (no answer labels); sp16:learned x 2 seeds queued after fitting.
+- Real model (realblt.py): Meta's BLT-1B (itazap/blt-1b-hf, 15.4 GB) with patch boundaries changed at inference; four layouts (default, +answer, -answer, jump at equal patch count) on GSM8K final answers. Downloading; will run when the GPU is free.

@@ -25,6 +25,8 @@ Patch rules, in two compute groups:
           sp:none / sp:dense5   no scratchpads (patches every 8 / every 5 bytes)
           sp:entropy            scratchpads where next-byte entropy is high (the paper's trigger)
           sp:jump / sp:syntax / sp:random   scratchpads at entropy rises / math syntax + rises / random positions
+          sp16:*                same with patches every 16 bytes (the paper's headline setting); sp16:dense8 =
+                                patches every 8 bytes, no scratchpads (matched compute)
     Math syntax = the byte right after '=', '\\boxed{', '#### ' or '>>': a hand-written rule that a
     math-specialized model may legitimately use. No rule uses the answer labels.
 
@@ -222,9 +224,11 @@ class Rule:
         btr, Htr = z["train_bytes"], z["train_H"]
         Jtr = np.diff(Htr, prepend=Htr[0]); wtr = realtext._word_starts(btr); str_ = _syntax_starts(btr)
         target_words = (wtr | str_).mean()                           # the words+syntax budget, shared by the word group
-        if name.startswith("sp:"):
+        if name.startswith(("sp:", "sp16:")):
             # Scratchpad Patching: fixed patches every K bytes, plus SP_RATE scratchpads chosen by a trigger
-            self.K = 5 if name == "sp:dense5" else 8
+            prefix, trig = name.split(":")
+            self.K = {"dense5": 5, "dense8": 8}.get(trig, 16 if prefix == "sp16" else 8)
+            name = "sp:" + trig
             free = np.arange(len(btr)) % self.K != 0
             if name == "sp:entropy":
                 self.thr = np.quantile(Htr[free], 1 - SP_RATE / free.mean())
@@ -236,8 +240,9 @@ class Rule:
             elif name == "sp:random":
                 hv = _hash_prev(btr); qs = np.linspace(0, 0.2, 401)
                 self.q = qs[np.argmin([abs((free & (hv < q)).mean() - SP_RATE) for q in qs])]
-            elif name not in ("sp:none", "sp:dense5"):
+            elif name not in ("sp:none", "sp:dense5", "sp:dense8"):
                 raise SystemExit(f"unknown rule {name}")
+            self.name = name
             return
         if name == "entropy":
             self.thr = np.quantile(Htr, 1 - BUDGET)
@@ -383,7 +388,8 @@ if __name__ == "__main__":
     elif sys.argv[1] == "rates":
         z = np.load(NPZ)
         for n in ("entropy", "jump", "syntax+jump", "words", "words+jump", "words+syntax", "words+syntax+digits", "words+syntax+ops", "words+syntax+rand07", "words+syntax+rand22",
-                  "sp:none", "sp:dense5", "sp:entropy", "sp:jump", "sp:syntax", "sp:random"):
+                  "sp:none", "sp:dense5", "sp:entropy", "sp:jump", "sp:syntax", "sp:random",
+                  "sp16:none", "sp16:dense8", "sp16:entropy", "sp16:jump", "sp16:syntax", "sp16:random"):
             r = Rule(n, z); m = r.mask(z["val_bytes"], z["val_H"]); a = realtext._answer_starts(z["val_roles"]) | \
                 ((z["val_roles"] == RI["VAR"]) & ~np.r_[False, z["val_roles"][:-1] == RI["VAR"]])
             print(f"{n:13s} train {(r.mask(z['train_bytes'], z['train_H']) > 0).mean():.3f} val {(m > 0).mean():.3f} "

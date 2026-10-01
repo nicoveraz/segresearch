@@ -368,3 +368,15 @@ final acc / computed acc / bpb (means): entropy 44.8% / 10.9% / 1.442; jump 74.0
 - The blind spot shrinks but persists: BLT entropy 11% -> 45% on final answers at 4x size, still ~30 points behind jump / words+syntax.
 - **New at this size: alignment changes arithmetic.** words+syntax gets 3x the computed-result accuracy of both entropy rules (32% vs 9-11%); at D=64 every rule was at 4-10%. Arithmetic was capacity-limited; with capacity, placement matters for the computation itself.
 - Attribution open: word alignment (numbers as units) vs the boundary after '='. Queued: words and syntax-only at D=128.
+
+### Faithful Scratchpad Patching (xattn pooling, 16-byte patches, 6% scratchpads; 2 seeds; final acc / bpb)
+none 6.5% / 1.934; random 5.8% / 1.919; **entropy (paper's trigger) 6.0%** / 1.927; jump 6.0% / 1.917; learned 8.8% / 1.914; dense8 (12.5% patches) 9.5% / 1.870; **syntax 40.3%** (49.2, 31.4) / 1.906.
+**Confirms the blind spot with the paper's pooling and patch size:** the entropy trigger is indistinguishable from random or no scratchpads for answers; answer-start scratchpads give ~7x. Resolves the earlier caveat: with faithful pooling, syntax scratchpads beat denser patches at equal compute (40% vs 9.5%); the sum-pooled version had underpowered scratchpads. Computed results ~5% for every setup (small model).
+Learned trigger (14% of answer starts covered): 8.8%, slightly above chance; needs the refinements noted above.
+
+### Attribution on the larger model (2 seeds; computed acc / final acc / bpb)
+words 16.5% / 61% / 1.440; stride6+syntax 16.5% / 73% / 1.568; **words+syntax 32.3% / 79% / 1.412**.
+**Interaction:** either part alone gives the same 16.5% on computed results; together 32%. Arithmetic needs numbers aligned as whole units AND a fresh step at the result. Final answers come mostly from the result boundary.
+
+### Real model: BLT-1B (in progress)
+Format: GSM8K question + solution (calculator annotations removed) + "The final answer is " (+ "$" if the solution used it); target = the answer as the solution last wrote it. 10-problem check: BLT-1B's own entropy patches already start at the answer in 100% of cases (its entropy model is uncertain after "The final answer is "); removing that boundary drops exact match 100% -> 70% and raises answer loss 0.39 -> 1.12 bits.

@@ -5,7 +5,7 @@ patch_lengths). For GSM8K test problems the model reads the question and the wor
 is scored on the final answer, under four patch layouts:
 
     default      BLT's own entropy patches (global threshold on its entropy model)
-    +answer      default plus a boundary at the first answer byte (decided from the syntax '#### ')
+    +answer      default plus a boundary at the first answer byte (decided from the preceding phrase)
     -answer      default with any boundary at the first answer byte removed
     jump         patches where the entropy model's entropy rises most, with the same number of patches as default
 
@@ -16,6 +16,7 @@ Runs in its own environment (PyTorch + transformers), not the project's MLX one:
 """
 import json
 import os
+import re
 import sys
 import time
 
@@ -43,8 +44,16 @@ def main(n_problems):
     t0 = time.time()
     for i, p in enumerate(problems):
         sol, ans = p["answer"].rsplit("#### ", 1)
-        prefix = p["question"] + "\n" + sol + "#### "
-        ids = tok(prefix + ans.strip(), return_tensors="pt").input_ids.to(dev)
+        sol = re.sub(r"<<[^>]*>>", "", sol).strip()                       # calculator annotations are a GSM8K artifact
+        ans = ans.strip()
+        # score the answer as the solution last wrote it (thousands separators, a leading $)
+        pat = "".join(c + ",?" if c.isdigit() else re.escape(c) for c in ans).rstrip("?").rstrip(",")
+        hits = list(re.finditer(r"(\$?)(" + pat + r")(?![\d])", sol))
+        dollar = ""
+        if hits:
+            dollar, ans = hits[-1].group(1), hits[-1].group(2)
+        prefix = p["question"] + "\n" + sol + "\nThe final answer is " + dollar
+        ids = tok(prefix + ans, return_tensors="pt").input_ids.to(dev)
         n_pre = tok(prefix, return_tensors="pt").input_ids.shape[1]
         n = ids.shape[1]; a0 = n_pre                                         # first answer token
         with torch.no_grad():
@@ -63,7 +72,7 @@ def main(n_problems):
         for name, st in layouts.items():
             pl = lengths_from_starts(st, n).to(dev)
             with torch.no_grad():
-                logits = model(input_ids=ids, patch_lengths=pl).logits[0].float()
+                logits = model(input_ids=ids, patch_lengths=pl, use_cache=False).logits[0].float()
             lp = torch.log_softmax(logits, -1)
             tgt = ids[0, a0:]                                                # answer tokens, predicted from position t-1
             pred = lp[a0 - 1:n - 1]

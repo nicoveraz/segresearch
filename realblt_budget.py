@@ -8,6 +8,10 @@ be computed. Patch boundaries are changed at inference time (no training). Layou
     default        BLT's own entropy patches (about 30% of bytes)
     entropy@R      the top R of positions by BLT-1B's own entropy (R = 15%, 10%)
     results@R      the same count, with a boundary forced right after every '= ' (replacing the lowest-ranked)
+    dep@R          the top R by a label-free "boundary dependence" score: how much BLT-1B's own loss on the next
+                   4 bytes rises when its patches are cut from ~30% to 10%, averaged per preceding 2-byte context
+                   on GSM8K TRAIN problems (a causal lookup; fitted by blt_screens/dependence_screen.py)
+    entdep@R       the top R by entropy + dependence (each standardized)
 
 Scored on every in-line computed result (the number right after '= ' in the worked solution) and on the final
 answer: bits per byte (teacher forced) and exact match (every byte is the model's top choice).
@@ -29,6 +33,7 @@ from transformers import AutoTokenizer, BltForCausalLM
 MODEL = "itazap/blt-1b-hf"
 GSM = os.path.expanduser("~/.cache/segresearch-gsm8k/test.jsonl")
 BUDGETS = (0.15, 0.10)
+DEP = os.path.expanduser("~/.cache/segresearch-blt/dependence_table.npy")
 MAX_TOKENS = 1000
 
 
@@ -42,7 +47,9 @@ def main(n_problems):
     tok = AutoTokenizer.from_pretrained(MODEL)
     model = BltForCausalLM.from_pretrained(MODEL, dtype=torch.bfloat16).to(dev).eval()
     cfg = model.config
-    layouts = ["default"] + [f"{k}@{int(r * 100)}" for r in BUDGETS for k in ("entropy", "results")]
+    layouts = ["default"] + [f"{k}@{int(r * 100)}" for r in BUDGETS for k in ("entropy", "results", "dep", "entdep")]
+    tab = np.load(DEP, allow_pickle=True).item()
+    dep_at = lambda b, i: tab["T2"].get((b[i - 2], b[i - 1]), tab["T1"].get(b[i - 1], tab["glob"])) if i >= 2 else -np.inf
     stats = {l: {"res_bits": [], "res_exact": [], "fin_bits": [], "fin_exact": [], "rate": []} for l in layouts}
     covered = {l: [] for l in layouts}
     t0 = time.time(); used = 0
@@ -69,6 +76,10 @@ def main(n_problems):
         e = ent[0].float().cpu().numpy()
         score = np.full(n, -np.inf); score[2:] = e[1:n - 1]                # BLT: token t starts a patch if entropy[t-1] is high
         default = np.r_[0, np.cumsum(default_len[0].cpu().numpy())[:-1]]
+        dep = np.full(n, -np.inf); dep[2:] = [dep_at(b, t - 1) for t in range(2, n)]   # token t = byte t-1
+        fin = np.isfinite(score) & np.isfinite(dep)
+        zs = lambda x: (x - x[fin].mean()) / x[fin].std()
+        entdep = np.where(fin, zs(score) + zs(dep), -np.inf)
         lay = {"default": default}
         for r in BUDGETS:
             k = max(int(round(r * n)) - 2, 1)
@@ -77,6 +88,8 @@ def main(n_problems):
             forced = [s for s in res_starts if s >= 2]
             keep = [t for t in np.argsort(-score) if t not in set(forced)][:max(k - len(forced), 0)]
             lay[f"results@{int(r * 100)}"] = np.r_[0, 1, forced, keep]
+            lay[f"dep@{int(r * 100)}"] = np.r_[0, 1, np.argsort(-dep)[:k]]
+            lay[f"entdep@{int(r * 100)}"] = np.r_[0, 1, np.argsort(-entdep)[:k]]
         for name, st in lay.items():
             st = np.array(sorted(set(int(x) for x in st if 0 <= x < n)))
             covered[name] += [s in set(st.tolist()) for s in res_starts]

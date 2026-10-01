@@ -460,3 +460,14 @@ Reference, same model at its usual budget: entropy (25% of bytes) 10.9% / 44.8% 
 - Copied values gain more from a boundary (+7 points at 15%) than computed ones here: when the skill is present, the boundary helps; when it is absent, it cannot.
 - The trace dependence table picks up the 'is now ' context ('w ', 'ow'); dep alone hurts copies badly. The math table does not transfer (0% coverage of trace values: '= ' is not the context here).
 - Logic first run: 'True/False' answers were unusable (BLT-1B continues 'Answer: ' with 'Yes/No' or a sentence; exact 0% everywhere). Rerunning with Yes/No answers and a forced-choice score.
+
+### Beyond arithmetic on BLT-1B: logic (Yes/No answers, forced-choice score)
+300 generated theories (one person, 2 facts, a 3-5 rule chain plus distractors), balanced Yes/No (142/158; always "No" = 52.7%).
+- **Answers are at chance for every layout**: forced choice 52-58% with proof (logic) and without (direct), default included (52.0% / 56.0%); SE ~2.9 points. BLT-1B cannot answer these questions, so patching has nothing to act on. Inconclusive (floor), not negative.
+- Proof steps (a rule lookup: "X is a, so X is b"): default 69.2%; at 15% entropy already covers 98% of them (66.6% vs oracle 67.3%); at 10% entropy 45.6% vs oracle 50.2% (+4.6). Small, like code.
+- Label-free: entdep on its own table hurts steps (59.2% / 40.9%); the math table (entdepM) matches entropy (66.8% / 45.7%).
+
+### Where "beyond arithmetic" stands
+- The effect is large where BLT-1B has the skill and the value is computed (GSM8K results: +21-27 points), small where the value is a lookup or copy (code identifiers +3, proof steps +1-5, trace copies +3-7), and unmeasurable where BLT-1B lacks the skill (trace arithmetic 20% at default, logic answers at chance).
+- Standard 2 applies: test where the skill is learned. Next: train MLX models on the generated logic and trace tasks (which they can learn) and compare patching rules in training, instead of probing BLT-1B.
+- Dependence tables do not transfer across formats (math -> traces 0% coverage); a refit per domain is needed, and on its own a table can hurt (dep alone). entropy + dependence is the safe combination where the table fits the format.

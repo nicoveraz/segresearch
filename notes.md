@@ -398,3 +398,19 @@ default (28%) 83% / 73.0% / 0.67 / 67.3%; entropy@15 48% / 39.8% / 1.71 / 56.8%;
 - "Difficulty ahead" (main-model loss on next 4 bytes under default patches, per 2-byte context): 0% for results. Negative: under default patches BLT already predicts results well (its patches start there), so measured difficulty is low. It measures difficulty GIVEN a boundary, not the value of one.
 - **"Boundary dependence"** (main-model loss on next 4 bytes under a 10% entropy layout minus under default, per 2-byte context, fitted on 400 GSM8K TRAIN problems; causal lookup, no labels): **100 / 100 / 100%**. Top contexts are arithmetic ('=$', '0*', '5=', '0+', '3=', '2=' ...); after '= ' 0.91 vs 0.17 average. Entropy + dependence: results 100%, words 41% at 15%.
 Running: BLT-1B accuracy test with dep@R and entdep@R layouts (300 problems), then the same on Python code (realblt_code.py), then tight-budget TRAINING at 10% (D=128): entropy10, jump10, syntax+entropy10 x 2 seeds.
+
+### BLT-1B label-free trigger, accuracy (realblt_budget.py, 294 GSM8K test problems, 796 in-line results)
+| layout | results covered | in-line exact | final exact |
+|---|---|---|---|
+| default (28%) | 83% | 73.0% | 67.3% |
+| entropy@15 | 48% | 39.8% | 56.8% |
+| results@15 (label) | 100% | 61.3% | 57.1% |
+| dep@15 | 100% | 70.5% | 35.0% |
+| **entdep@15** | 100% | **71.2%** | **57.5%** |
+| entropy@10 | 24% | 18.1% | 40.1% |
+| results@10 (label) | 100% | 45.2% | 51.0% |
+| dep@10 | 100% | 64.2% | 9.2% |
+| **entdep@10** | 100% | **60.3%** | **53.7%** |
+- Entropy + boundary dependence, with no labels, keeps in-line results near the default (71% vs 73%) at about half the patches, and beats the label-based results@R reference (it also cuts at operands and operators, not only after '=').
+- Dependence alone wrecks the final answer: "The final answer is " is not an arithmetic context, so it puts no boundary there. The combination keeps both.
+- Caveat: the table is fitted with BLT-1B on GSM8K train (same domain as the test); inference-time layout change only, trained at ~30%.

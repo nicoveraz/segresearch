@@ -355,3 +355,6 @@ Prediction if the blind spot carries over: sp:entropy final-answer accuracy near
 (Note: a first launch was stopped within minutes because a git step left the scratchpad harness code in a stash; relaunched after committing it.)
 **Results (2 seeds; final acc n=1320 / computed acc / bpb):** sp:none 7.7% / 5.4% / 1.871; sp:random 7.35% / 5.6% / 1.861; **sp:entropy 7.45%** / 4.9% / 1.856; sp:jump 8.9% / 5.1% / 1.857; **sp:syntax 38.4%** / 6.5% / 1.851; sp:dense5 (20% patches) 44.4% / 5.3% / 1.828. Seeds agree within ~1 point except dense5 (40.5 / 48.2).
 **The blind spot carries over to Scratchpad Patching:** the paper's entropy-level trigger is no better than random scratchpads (or none) for final answers; the same 6% of compute at answer starts gives 5x the accuracy. The jump trigger barely helps at a 6% budget (covers 23% of answer starts). Caveat: in this simplified implementation (sum pooling, partial-patch sum), denser regular patches beat every scratchpad trigger on final answers at slightly more compute, so scratchpads here may be weaker than the paper's.
+
+## Round "do all" (2026-10-01): faithful SP, learned trigger, larger model
+Larger model runs started: D=128, 4 global layers, BLT-like (xattn + cross-patch), math, 32k, seeds 0/1: entropy, jump, words+syntax.

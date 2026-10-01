@@ -17,6 +17,8 @@ Patch rules, in two compute groups:
           words          a patch at every word start
           words+jump     word starts plus the largest non-word entropy rises (label-free)
           words+syntax   word starts plus math-syntax starts
+          entropy10 / jump10 / syntax+entropy10   tight budget (10% of bytes): entropy, entropy rises, or math
+                                syntax with the rest of the budget filled by entropy
           syntax / stride6+syntax   math syntax alone / plus a patch every 6 bytes (syntax without word alignment)
           words+syntax+digits   plus a fresh patch after each digit of a number that began right after '='
           words+syntax+ops      plus a patch after each operator (+ - * /) and after '<<' (operand-aligned)
@@ -253,6 +255,15 @@ class Rule:
                 raise SystemExit(f"unknown rule {name}")
             self.name = name
             return
+        if name in ("entropy10", "jump10", "syntax+entropy10"):
+            # tight budget: 10% of bytes start a patch
+            if name == "entropy10":
+                self.thr = np.quantile(Htr, 0.90)
+            elif name == "jump10":
+                self.thr = np.quantile(Jtr, 0.90)
+            else:
+                rest = ~str_; self.thr = np.quantile(Htr[rest], 1 - (0.10 - str_.mean()) / rest.mean())
+            return
         if name == "entropy":
             self.thr = np.quantile(Htr, 1 - BUDGET)
         elif name == "jump":
@@ -273,6 +284,12 @@ class Rule:
 
     def mask(self, b, H):
         J = np.diff(H, prepend=H[0]) if len(H) else H
+        if self.name == "entropy10":
+            return H > self.thr
+        if self.name == "jump10":
+            return J > self.thr
+        if self.name == "syntax+entropy10":
+            return _syntax_starts(b) | (H > self.thr)
         if self.name.startswith("sp:"):
             stride = np.arange(len(b)) % self.K == 0
             trig = {"sp:entropy": lambda: H > self.thr, "sp:jump": lambda: J > self.thr,
@@ -401,7 +418,7 @@ if __name__ == "__main__":
         prepare_cache()
     elif sys.argv[1] == "rates":
         z = np.load(NPZ)
-        for n in ("entropy", "jump", "syntax+jump", "words", "words+jump", "words+syntax", "words+syntax+digits", "words+syntax+ops", "words+syntax+rand07", "words+syntax+rand22",
+        for n in ("entropy", "jump", "syntax+jump", "words", "words+jump", "words+syntax", "words+syntax+digits", "words+syntax+ops", "words+syntax+rand07", "words+syntax+rand22", "entropy10", "jump10", "syntax+entropy10",
                   "sp:none", "sp:dense5", "sp:entropy", "sp:jump", "sp:syntax", "sp:random",
                   "sp16:none", "sp16:dense8", "sp16:entropy", "sp16:jump", "sp16:syntax", "sp16:random", "sp16:learned"):
             r = Rule(n, z); m = r.mask(z["val_bytes"], z["val_H"]); a = realtext._answer_starts(z["val_roles"]) | \

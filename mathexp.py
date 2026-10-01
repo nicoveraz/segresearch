@@ -17,10 +17,10 @@ Patch rules, in two compute groups:
           words          a patch at every word start
           words+jump     word starts plus the largest non-word entropy rises (label-free)
           words+syntax   word starts plus math-syntax starts
-          entropy10 / jump10 / syntax+entropy10   tight budget (10% of bytes): entropy, entropy rises, or math
+          entropyR / jumpR / syntax+entropyR   tight budget (R% of bytes, e.g. entropy10): entropy, entropy rises, or math
                                 syntax with the rest of the budget filled by entropy
-          entdep10 / dep10      tight budget, label-free: entropy + boundary dependence (standardized), or dependence
-                                alone, to 10% (table fitted by deptrigger.py from the model's own losses)
+          entdepR / depR        tight budget, label-free: entropy + boundary dependence (standardized), or dependence
+                                alone, to R% (table fitted by deptrigger.py from the model's own losses)
           syntax / stride6+syntax   math syntax alone / plus a patch every 6 bytes (syntax without word alignment)
           words+syntax+digits   plus a fresh patch after each digit of a number that began right after '='
           words+syntax+ops      plus a patch after each operator (+ - * /) and after '<<' (operand-aligned)
@@ -48,6 +48,7 @@ decided online by the same rule, from the bytes and small-model entropies seen s
 """
 import json
 import os
+import re
 import sys
 import time
 import urllib.error
@@ -231,6 +232,7 @@ class Rule:
         btr, Htr = z["train_bytes"], z["train_H"]
         Jtr = np.diff(Htr, prepend=Htr[0]); wtr = realtext._word_starts(btr); str_ = _syntax_starts(btr)
         target_words = (wtr | str_).mean()                           # the words+syntax budget, shared by the word group
+        self.kind = None
         if name.startswith(("sp:", "sp16:")):
             # Scratchpad Patching: fixed patches every K bytes, plus SP_RATE scratchpads chosen by a trigger
             prefix, trig = name.split(":")
@@ -257,23 +259,25 @@ class Rule:
                 raise SystemExit(f"unknown rule {name}")
             self.name = name
             return
-        if name in ("entdep10", "dep10"):
-            import deptrigger
-            t = np.load(os.path.join(CACHE, "deptrigger.npz"))
-            self.dep = lambda b: deptrigger.table_lookup(t["T2"], t["T1"], float(t["glob"]), b) if len(b) else np.zeros(0, np.float32)
-            Dtr = self.dep(btr)
-            self.mu = (float(Htr.mean()), float(Htr.std()), float(Dtr.mean()), float(Dtr.std()))
-            self.thr = np.quantile(self.score(btr, Htr) if name == "entdep10" else Dtr, 0.90)
-            return
-        if name in ("entropy10", "jump10", "syntax+entropy10"):
-            # tight budget: 10% of bytes start a patch
-            if name == "entropy10":
-                self.thr = np.quantile(Htr, 0.90)
-            elif name == "jump10":
-                self.thr = np.quantile(Jtr, 0.90)
+        m = re.fullmatch(r"(entropy|jump|syntax\+entropy|dep|entdep)(\d+)", name)
+        if m:
+            # tight budget: R% of bytes start a patch (entropy10, dep15, syntax+entropy20, ...)
+            self.kind, R = m.group(1), int(m.group(2)) / 100
+            if self.kind in ("dep", "entdep"):
+                import deptrigger
+                t = np.load(os.path.join(CACHE, "deptrigger.npz"))
+                self.dep = lambda b: deptrigger.table_lookup(t["T2"], t["T1"], float(t["glob"]), b) if len(b) else np.zeros(0, np.float32)
+                Dtr = self.dep(btr)
+                self.mu = (float(Htr.mean()), float(Htr.std()), float(Dtr.mean()), float(Dtr.std()))
+                self.thr = np.quantile(self.score(btr, Htr) if self.kind == "entdep" else Dtr, 1 - R)
+            elif self.kind == "entropy":
+                self.thr = np.quantile(Htr, 1 - R)
+            elif self.kind == "jump":
+                self.thr = np.quantile(Jtr, 1 - R)
             else:
-                rest = ~str_; self.thr = np.quantile(Htr[rest], 1 - (0.10 - str_.mean()) / rest.mean())
+                rest = ~str_; self.thr = np.quantile(Htr[rest], 1 - (R - str_.mean()) / rest.mean())
             return
+        self.kind = None
         if name == "entropy":
             self.thr = np.quantile(Htr, 1 - BUDGET)
         elif name == "jump":
@@ -298,16 +302,10 @@ class Rule:
 
     def mask(self, b, H):
         J = np.diff(H, prepend=H[0]) if len(H) else H
-        if self.name == "entdep10":
-            return self.score(b, H) > self.thr
-        if self.name == "dep10":
-            return self.dep(b) > self.thr
-        if self.name == "entropy10":
-            return H > self.thr
-        if self.name == "jump10":
-            return J > self.thr
-        if self.name == "syntax+entropy10":
-            return _syntax_starts(b) | (H > self.thr)
+        if self.kind is not None:
+            return {"entdep": lambda: self.score(b, H) > self.thr, "dep": lambda: self.dep(b) > self.thr,
+                    "entropy": lambda: H > self.thr, "jump": lambda: J > self.thr,
+                    "syntax+entropy": lambda: _syntax_starts(b) | (H > self.thr)}[self.kind]()
         if self.name.startswith("sp:"):
             stride = np.arange(len(b)) % self.K == 0
             trig = {"sp:entropy": lambda: H > self.thr, "sp:jump": lambda: J > self.thr,

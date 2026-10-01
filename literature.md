@@ -1,0 +1,45 @@
+# Literature check (verified, issue #13)
+
+Checked by hand on 2026-10-01 against the arXiv abstract pages, the Scratchpad Patching PDF (appendix B.3 and E.2), the BLT paper and code, and the BLT-1B config. Bibliography: `refs.bib`.
+
+## Citations in notes.md: all verified
+
+| Cited as | Verified | Matches notes.md? |
+|---|---|---|
+| Scratchpad Patching, Zheng et al., arXiv 2605.09630 | Zheng, Bashlovkina, Dozat, Garrette, Rimell, Maynez; May 2026 | Yes: "patch lag" is their term; the trigger is an absolute entropy threshold |
+| Tokenization counts, arXiv 2402.14903 | Singh & Strouse, Feb 2024 | Yes |
+| TokEval, arXiv 2608.18062, COLM 2026 | Meister, Aug 2026, COLM 2026 | Yes: includes digit place-value boundary alignment |
+| Disentangling LM and Boundaries, arXiv 2608.03599 | Haltiuk, Aug 2026 | Partly: it is a **position paper** with preliminary measurements; it proposes, but does not show, that boundaries can be changed nearly independently of capability. Cite it as a hypothesis, not as evidence |
+| BLT-1B checkpoint `itazap/blt-1b-hf` | Community HF-transformers conversion of `facebook/blt-1b`, Apache-2.0 | Cite the official `facebook/blt-1b` and say we used the conversion |
+
+## Corrections and precision needed in the write-up
+
+1. **"BLT entropy" must mean the global-threshold rule, and the paper must say so.** The BLT paper describes two rules: a global threshold, H(x_t) > θ_g, and an approximate monotonic constraint, H(x_t) − H(x_{t−1}) > θ_r. It uses the monotonic one (with entropy reset at newlines) for its main BLT-Entropy model. The **released** BLT-1B and the official code default to the global threshold: `monotonicity: false`, `patching_threshold 1.3354`, `threshold_add null`, in both the HF config and `bytelatent/data/patcher.py`. Our "default" layout is therefore correct for the released model, but a reviewer reading the BLT paper will expect the jump rule. State both facts.
+2. **The entropy jump is not ours.** BLT's monotonic constraint is the same idea, and Nawrot et al. (2023) already used "spikes in conditional entropy" as boundaries. Our contribution is showing *where* the level rule fails and why the jump partly fixes it, not the jump rule itself. notes.md already says BLT includes the jump rule; the write-up must not present it as new.
+3. **Scratchpad Patching reimplementation: close to the paper, with differences to list.**
+   - Matches: trigger = absolute next-byte entropy threshold; scratchpads pooled by local cross-attention with the mean-pooled segment as query; fixed 16-byte patches is one of their settings (p ∈ {2, 4, 8, 16}).
+   - Differs: their trigger is a fixed threshold (τ_SP = 1.5 for fixed-size patching), so the scratchpad rate varies; ours picks the top 6% to match compute across triggers. Their entropy comes from an LM head on the encoder (two extra layers); ours from a separate small model. Their models are ~2B parameters trained on ~400B bytes.
+   - **No code release** is linked in the paper, so #23 cannot use the authors' code. List these differences in the paper instead.
+4. **Their own ablation (appendix E.2) found entropy triggering best**, ahead of fixed stride and whitespace, on validation BPB. They evaluate BPB, code pass@1 (MBPP, HumanEval) and multiple-choice NLU, with **no math answer accuracy**. Our result (entropy = random for final-answer accuracy on GSM8K) does not contradict theirs; it shows that averaged BPB can hide a failure at specific positions. That is the framing to use.
+
+## Novelty: is the blind spot already reported?
+
+Searched for prior reports of entropy-based patching, scratchpads or learned chunking failing at computed outputs (numbers after "=", final answers), of patch boundary placement measured by math accuracy, and of the same type/value confusion in confidence-based adaptive compute (early exit, Mixture-of-Depths).
+
+**Found none.** Closest work:
+- **BLT:** no analysis of boundaries on numbers or math.
+- **Scratchpad Patching:** entropy-triggered compute; no math accuracy; ablations on BPB only.
+- **Fast BLT** (Kallini et al., 2026): speeds up decoding (self-speculation past patch boundaries); does not change where boundaries go.
+- **Tokenization counts, TokEval:** the tokenizer-side version (number segmentation affects arithmetic), for static tokenizers, not entropy-driven patches.
+- **Rho-1:** a token-selection signal from a reference model; we use it as a negative baseline (excess-vs-reference), not a boundary rule.
+- **H-Net, AU-Net, MrT5, ByteSpan, SpaceByte:** other boundary mechanisms; none evaluate boundaries at computed outputs.
+
+**Claim that looks new:** entropy-level boundary or compute triggers systematically skip positions whose type is predictable but whose value must be computed. Under tight budgets this costs most final-answer and computed-result accuracy, both in a trained 1B model and in tight-budget training, and a label-free boundary-dependence signal recovers most of it.
+
+**Caveat:** this is a web search, not an exhaustive review; arXiv moves fast. Search again right before submission (keywords: byte patching math, patch boundary arithmetic, entropy trigger accuracy, dynamic chunking numbers).
+
+## Useful for other issues
+
+- **H-Net checkpoints are public** (`goombalab/hnet`, on HF under cartesia-ai): `hnet_1stage/2stage_L/XL` on FineWeb-Edu (English), plus Chinese and code variants. That makes #21 doable; boundary extraction needs code (no documented API).
+- **AU-Net** (Videau et al., 2025) is another candidate for #21; weights not checked.
+- **Fast BLT** self-speculation drafts past patch boundaries, so it is a natural target for the speculative-decoding part of #22.

@@ -338,6 +338,7 @@ rand07 (twin of +digits) 6.2% / 2.49 / 74% / 1.712; rand22 (twin of +ops) 7.5% /
 - The two math-specific rules are byte-patching analogs of known tokenizer practice: per-digit patches ~ single-digit tokenization (LLaMA-style; "Tokenization counts", arXiv 2402.14903); number/operand alignment ~ digit place-value alignment studied for tokenizers (TokEval, arXiv 2608.18062, COLM 2026). If confirmed: "tokenizer wisdom transfers to patching", useful but not a new idea.
 - "Disentangling Language Modeling and Boundaries" (arXiv 2608.03599): boundary placement can be changed post hoc, nearly independently of capability. Suggests a cheap test on a real trained byte model: re-place boundaries at answer starts without retraining.
 - Also relevant: SpaceByte (word-aligned patches), BLT (includes the entropy-jump "approximate monotonic" rule), H-Net (learned chunking), ByteSpan.
+- **Verified by hand 2026-10-01 (#13): see literature.md and refs.bib.** All IDs check out. Precisions: released BLT-1B uses the global threshold (monotonicity off), while the BLT paper's main model uses the jump rule; Nawrot et al. 2023 also used entropy spikes, so the jump is prior art; Scratchpad Patching has no code release and reports no math accuracy (its E.2 ablation finds entropy best on BPB); 2608.03599 is a position paper. No prior report of the blind spot found.
 
 ### Confirmation, 5 seeds (seeds 2-4 scored on 1000 computed / 660 final / 700 boxed)
 Pooled (computed acc n=3600 / final acc n=2580 / computed bits / bpb):

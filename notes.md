@@ -504,3 +504,16 @@ New `blt_layouts.py`, used by realblt_budget / realblt_code / realblt_reason. De
 - Checks: test_causal.py (problem mode = old inline code on 800 synthetic cases; train mode causal 0/480; problem mode changes earlier starts in 301/480; train rate = R). Old vs new scripts against a deterministic stub of BLT-1B: problem mode gives identical RESULT lines for budget, code, trace and logic; train mode runs, train rates = R.
 - Not changed: realblt.py (its "jump at equal patch count" layout is also per problem) and the blt_screens/ coverage screens.
 - The python env used for the BLT-1B runs is not recorded (transformers >= 5 with BltForCausalLM; `pytorch` env lacks it). Record it (#16).
+
+### Budget sweep (D=128, 32k steps; 3 seeds at 10%, 2 at 15/20%): computed acc / final acc / bpb, means
+| budget | BLT entropy | dependence (no labels) | hand-written syntax+entropy |
+|---|---|---|---|
+| 10% | 7.1 / 10.4 / 1.654 | 17.1 / 67.4 / 1.678 | 24.7 / 72.5 / 1.640 |
+| 15% | 7.6 / 28.5 / 1.555 | 14.2 / 68.3 / 1.635 | 20.1 / 74.0 / 1.529 |
+| 20% | 8.2 / 44.2 / 1.475 | 17.8 / 68.9 / 1.571 | 26.5 / 76.1 / 1.451 |
+Seeds: dep10 computed 17.3/21.0/12.9, final 68.0/69.5/64.7; entropy10 final 15.5/10.2/5.5; syntax+entropy10 computed 25.3/25.3/23.4.
+- Placement beats budget: at every budget, ordering is hand-written > dependence > entropy on both accuracies. Dependence at 10% beats entropy at 20% on final answers (67% vs 44%) with half the patches.
+- Entropy needs budget to reach answers (final 10 -> 28 -> 44%); result-aware rules are flat (67-76%) from 10% up.
+- Computed results do not improve with budget for any rule (arithmetic capacity-limited at this size; MATH ~3% everywhere).
+- Dependence costs overall bpb (+1.5% at 10%, +5% at 15%, +6.5% at 20% vs entropy): it spends patches at arithmetic contexts that entropy would put at hard prose/LaTeX bytes. The hand-written rule has a lower bpb than entropy at every budget.
+- Compute (flops.py): at this model size 10% costs 76% of entropy at 25%; on BLT-1B 62% (46% with a lookup rule).

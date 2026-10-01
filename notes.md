@@ -414,3 +414,19 @@ Running: BLT-1B accuracy test with dep@R and entdep@R layouts (300 problems), th
 - Entropy + boundary dependence, with no labels, keeps in-line results near the default (71% vs 73%) at about half the patches, and beats the label-based results@R reference (it also cuts at operands and operators, not only after '=').
 - Dependence alone wrecks the final answer: "The final answer is " is not an arithmetic context, so it puts no boundary there. The combination keeps both.
 - Caveat: the table is fitted with BLT-1B on GSM8K train (same domain as the test); inference-time layout change only, trained at ~30%.
+
+### Beyond math: BLT-1B on Python code (realblt_code.py, 300 stdlib test chunks, 5229 repeated identifiers)
+| layout | covered | exact | bits |
+|---|---|---|---|
+| default (~28%) | 69% | 73.0% | 0.526 |
+| entropy@15 | 43% | 67.9% | 0.643 |
+| dep@15 | 59% | 67.2% | 0.705 |
+| entdep@15 | 60% | 69.2% | 0.627 |
+| oracle@15 (label) | 100% | 70.7% | 0.599 |
+| entropy@10 | 32% | 64.0% | 0.738 |
+| dep@10 | 44% | 64.0% | 0.800 |
+| entdep@10 | 46% | 66.3% | 0.705 |
+| oracle@10 (label) | 100% | 67.0% | 0.676 |
+- The blind spot is much weaker on code: even forcing a boundary at every repeated identifier gains only 3 points (vs 21-27 for math results). A repeated name is a copy, so its value is not hard the way a computed number is; the patch start matters less.
+- entdep again helps most among label-free rules (+1.3 / +2.3 points over entropy, close to the oracle at 10%); dependence alone does not.
+- Conclusion: the effect is specific to positions whose value needs computation, not to "predictable type" alone. One evaluation pass, no seeds (inference only).

@@ -17,6 +17,7 @@ Patch rules, in two compute groups:
           words          a patch at every word start
           words+jump     word starts plus the largest non-word entropy rises (label-free)
           words+syntax   word starts plus math-syntax starts
+          syntax / stride6+syntax   math syntax alone / plus a patch every 6 bytes (syntax without word alignment)
           words+syntax+digits   plus a fresh patch after each digit of a number that began right after '='
           words+syntax+ops      plus a patch after each operator (+ - * /) and after '<<' (operand-aligned)
           words+syntax+rand07/22  matched-compute controls: as many extra boundaries as +digits / +ops add,
@@ -267,7 +268,7 @@ class Rule:
             base = wtr | str_; extra = {"words+syntax+rand07": 0.0074, "words+syntax+rand22": 0.0228}[name]
             hv = _hash_prev(btr); qs = np.linspace(0, 0.2, 401)
             self.q = qs[np.argmin([abs((base | (hv < q)).mean() - base.mean() - extra) for q in qs])]
-        elif name not in ("words", "words+syntax", "words+syntax+digits", "words+syntax+ops"):
+        elif name not in ("words", "syntax", "stride6+syntax", "words+syntax", "words+syntax+digits", "words+syntax+ops"):
             raise SystemExit(f"unknown rule {name}")
 
     def mask(self, b, H):
@@ -291,6 +292,10 @@ class Rule:
             return words
         if self.name == "words+syntax":
             return words | _syntax_starts(b)
+        if self.name == "syntax":
+            return _syntax_starts(b)
+        if self.name == "stride6+syntax":                              # math syntax without word alignment
+            return (np.arange(len(b)) % 6 == 0) | _syntax_starts(b)
         if self.name == "words+syntax+digits":
             return words | _syntax_starts(b) | _after_result_digits(b)
         if self.name == "words+syntax+ops":

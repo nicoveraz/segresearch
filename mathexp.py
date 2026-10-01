@@ -19,6 +19,8 @@ Patch rules, in two compute groups:
           words+syntax   word starts plus math-syntax starts
           entropy10 / jump10 / syntax+entropy10   tight budget (10% of bytes): entropy, entropy rises, or math
                                 syntax with the rest of the budget filled by entropy
+          entdep10 / dep10      tight budget, label-free: entropy + boundary dependence (standardized), or dependence
+                                alone, to 10% (table fitted by deptrigger.py from the model's own losses)
           syntax / stride6+syntax   math syntax alone / plus a patch every 6 bytes (syntax without word alignment)
           words+syntax+digits   plus a fresh patch after each digit of a number that began right after '='
           words+syntax+ops      plus a patch after each operator (+ - * /) and after '<<' (operand-aligned)
@@ -255,6 +257,14 @@ class Rule:
                 raise SystemExit(f"unknown rule {name}")
             self.name = name
             return
+        if name in ("entdep10", "dep10"):
+            import deptrigger
+            t = np.load(os.path.join(CACHE, "deptrigger.npz"))
+            self.dep = lambda b: deptrigger.table_lookup(t["T2"], t["T1"], float(t["glob"]), b) if len(b) else np.zeros(0, np.float32)
+            Dtr = self.dep(btr)
+            self.mu = (float(Htr.mean()), float(Htr.std()), float(Dtr.mean()), float(Dtr.std()))
+            self.thr = np.quantile(self.score(btr, Htr) if name == "entdep10" else Dtr, 0.90)
+            return
         if name in ("entropy10", "jump10", "syntax+entropy10"):
             # tight budget: 10% of bytes start a patch
             if name == "entropy10":
@@ -282,8 +292,16 @@ class Rule:
         elif name not in ("words", "syntax", "stride6+syntax", "words+syntax", "words+syntax+digits", "words+syntax+ops"):
             raise SystemExit(f"unknown rule {name}")
 
+    def score(self, b, H):
+        mh, sh, md, sd = self.mu
+        return (H - mh) / sh + (self.dep(b) - md) / sd
+
     def mask(self, b, H):
         J = np.diff(H, prepend=H[0]) if len(H) else H
+        if self.name == "entdep10":
+            return self.score(b, H) > self.thr
+        if self.name == "dep10":
+            return self.dep(b) > self.thr
         if self.name == "entropy10":
             return H > self.thr
         if self.name == "jump10":
@@ -418,7 +436,7 @@ if __name__ == "__main__":
         prepare_cache()
     elif sys.argv[1] == "rates":
         z = np.load(NPZ)
-        for n in ("entropy", "jump", "syntax+jump", "words", "words+jump", "words+syntax", "words+syntax+digits", "words+syntax+ops", "words+syntax+rand07", "words+syntax+rand22", "entropy10", "jump10", "syntax+entropy10",
+        for n in ("entropy", "jump", "syntax+jump", "words", "words+jump", "words+syntax", "words+syntax+digits", "words+syntax+ops", "words+syntax+rand07", "words+syntax+rand22", "entropy10", "jump10", "syntax+entropy10", "entdep10", "dep10",
                   "sp:none", "sp:dense5", "sp:entropy", "sp:jump", "sp:syntax", "sp:random",
                   "sp16:none", "sp16:dense8", "sp16:entropy", "sp16:jump", "sp16:syntax", "sp16:random", "sp16:learned"):
             r = Rule(n, z); m = r.mask(z["val_bytes"], z["val_H"]); a = realtext._answer_starts(z["val_roles"]) | \

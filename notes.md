@@ -390,3 +390,11 @@ Format: GSM8K question + solution (calculator annotations removed) + "The final 
 results covered / in-line results exact / bits / final exact:
 default (28%) 83% / 73.0% / 0.67 / 67.3%; entropy@15 48% / 39.8% / 1.71 / 56.8%; **results@15 100% / 61.3% / 1.04 / 57.1%**; entropy@10 24% / 18.1% / 2.58 / 40.1%; **results@10 100% / 45.2% / 1.59 / 51.0%**.
 **The blind spot is real in a trained 1B model at tight budgets:** at equal patch counts, forcing a boundary after each '=' raises exact computed-result accuracy by +21 points at 15% and +27 at 10%, and cuts loss on those bytes ~40%; final answers do not get worse. Inference-time layout change only (BLT-1B was trained at ~30%), so absolute numbers at tight budgets are out of distribution for every layout; the comparison is at equal budget.
+
+## Go-for-all round 2 (2026-10-01): label-free trigger, code, tight-budget training
+**Label-free trigger screens on BLT-1B (blt_screens/), coverage of in-line results after '= ' at 15/10/6% budgets:**
+- Entropy (BLT): 42 / 22 / 14%.
+- Kind vs value split (entropy over byte kinds vs within-kind): no help (results' kind entropy 0.31 vs words 0.23 nats; within-kind 1.82 vs 1.91). Negative.
+- "Difficulty ahead" (main-model loss on next 4 bytes under default patches, per 2-byte context): 0% for results. Negative: under default patches BLT already predicts results well (its patches start there), so measured difficulty is low. It measures difficulty GIVEN a boundary, not the value of one.
+- **"Boundary dependence"** (main-model loss on next 4 bytes under a 10% entropy layout minus under default, per 2-byte context, fitted on 400 GSM8K TRAIN problems; causal lookup, no labels): **100 / 100 / 100%**. Top contexts are arithmetic ('=$', '0*', '5=', '0+', '3=', '2=' ...); after '= ' 0.91 vs 0.17 average. Entropy + dependence: results 100%, words 41% at 15%.
+Running: BLT-1B accuracy test with dep@R and entdep@R layouts (300 problems), then the same on Python code (realblt_code.py), then tight-budget TRAINING at 10% (D=128): entropy10, jump10, syntax+entropy10 x 2 seeds.

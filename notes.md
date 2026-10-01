@@ -484,3 +484,8 @@ computed acc / final acc / bpb (means; seeds in brackets):
 - **With no labels and no hand-written syntax, dependence alone recovers most of the hand-written gain at a 10% budget**: computed results 7% -> 19% (hand-written 25%), final answers 13% -> 69% (hand-written 72%). It also beats BLT entropy at 25% of bytes (10.9% / 44.8%) with 2.5x fewer patches.
 - Cost: overall bpb 1.676 vs 1.655 for entropy10 (+1.3%); the hand-written rule has no such cost (1.633).
 - entdep10 (z-sum) is dominated by entropy, which is low at answers; it barely helps. The combination that worked on BLT-1B does not transfer; on BLT-1B dependence alone hurt final answers, here it is the best label-free rule. Rules were fixed before training (no tuning on answer coverage).
+
+### Compute per byte (flops.py; matmul FLOPs, forward)
+- Harness (D=128, 4 global layers): the local parts dominate (0.57 MFLOPs/byte vs 1.64 per patch), so a 10% budget costs 76% of entropy at 25%; a lookup rule (dependence table, no entropy model) 72%. The small model saves little.
+- BLT-1B: 299 MFLOPs per byte (local), 2,653 per patch (global), and its entropy model 199 per byte. At 15% with the entropy model 72% of default; at 10% 62%. A dependence-table rule also drops the entropy model: 56% at 15%, 46% at 10%.
+- So on BLT-1B, the label-free layout that kept computed results at 71% (vs 73% default) at 15% would cost 72% of default compute with entropy in the rule (entdep), or 56% if a lookup-only rule worked as well (dep alone did on the trained small model, not on BLT-1B's final answers).

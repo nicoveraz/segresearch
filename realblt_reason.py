@@ -13,7 +13,8 @@ computation) showed only a small effect. This tests other places where a value m
               the same text.
 
 All problems are generated with a fixed seed and checked (values by executing the program, answers by forward
-chaining). Layouts at equal patch counts, R = 15% and 10% of bytes:
+chaining). Layouts at budget R = 15% and 10% of bytes (applied as in realblt_budget.py: thresholds fitted on the TRAIN
+problems by default, SEGR_BLT_THRESH=problem for the original top-R-per-problem selection; see blt_layouts.py):
 
     default      BLT's own entropy patches
     entropy@R    top R by BLT-1B's entropy
@@ -33,6 +34,8 @@ import time
 from collections import defaultdict
 
 import numpy as np
+
+import blt_layouts
 
 BUDGETS = (0.15, 0.10)
 MATH_DEP = os.path.expanduser("~/.cache/segresearch-blt/dependence_table.npy")
@@ -144,9 +147,11 @@ def main(task, n_train, n_test):
     t0 = time.time()
     print(f"[{task}] fitting boundary dependence on {n_train} train problems", flush=True)
     s2, s1 = defaultdict(list), defaultdict(list)
-    for text, _ in problems(task, n_train, seed=1):
+    train_seen = []
+    for text, spans in problems(task, n_train, seed=1):
         b = text.encode()
         ids, n, score, default = prep(b)
+        train_seen.append((b, n, score, [s + 1 for _, s, _ in spans]))
         tight = np.r_[0, 1, np.argsort(-score)[:max(int(0.10 * n) - 2, 1)]]
         loss = lambda st: -logp(ids, st, n)[:-1].gather(1, ids[0, 1:, None])[:, 0].cpu().numpy()
         gain = loss(tight) - loss(default)
@@ -161,32 +166,40 @@ def main(task, n_train, n_test):
     math_tab = np.load(MATH_DEP, allow_pickle=True).item()
     lookup = lambda tab, b, i: tab["T2"].get((b[i - 2], b[i - 1]), tab["T1"].get(b[i - 1], tab["glob"]))
 
+    def sig_of(b, n, score):
+        dep, depM = np.full(n, -np.inf), np.full(n, -np.inf)
+        dep[2:] = [lookup(own, b, t - 1) for t in range(2, n)]
+        depM[2:] = [lookup(math_tab, b, t - 1) for t in range(2, n)]
+        return {"entropy": score, "dep": dep, "depM": depM}
+
     kinds = sorted({k for _, sp in problems(task, 50, seed=2) for k, _, _ in sp})
     layouts = ["default"] + [f"{k}@{int(r * 100)}" for r in BUDGETS
                              for k in ("entropy", "dep", "entdep", "entdepM", "oracle")]
+    kind_of = {"entropy": "entropy", "dep": "dep", "entdep": "entropy+dep", "entdepM": "entropy+depM", "oracle": "forced"}
+    fit = None
+    if blt_layouts.MODE == "train":
+        # budget thresholds fitted on the same TRAIN problems, applied position by position at test time (#26)
+        fit = blt_layouts.Fit(BUDGETS)
+        for b, n, score, tstarts in train_seen:
+            fit.add(sig_of(b, n, score), tstarts)
+        fit.done()
+        print("  train patch rates: " + ", ".join(
+            f"{l} {fit.rate(kind_of[l.split('@')[0]], int(l.split('@')[1]) / 100):.3f}" for l in layouts[1:]), flush=True)
     st_ = {l: {k: {"bits": [], "exact": [], "cov": [], "choice": []} for k in kinds} for l in layouts}
+    rate = {l: [] for l in layouts}
     Y, N = ord("Y") + 4, ord("N") + 4
     for j, (text, spans) in enumerate(problems(task, n_test, seed=2)):
         b = text.encode()
         ids, n, score, default = prep(b)
         tstarts = [s + 1 for _, s, _ in spans]                              # token = byte + 1
-        fin = np.isfinite(score); fin[:2] = False
-        zs = lambda x: (x - x[fin].mean()) / x[fin].std()
-        dep, depM = np.full(n, -np.inf), np.full(n, -np.inf)
-        dep[2:] = [lookup(own, b, t - 1) for t in range(2, n)]
-        depM[2:] = [lookup(math_tab, b, t - 1) for t in range(2, n)]
+        sig = sig_of(b, n, score)
         lay = {"default": default}
-        for r in BUDGETS:
-            k = max(int(round(r * n)) - 2, 1); R = int(r * 100)
-            lay[f"entropy@{R}"] = np.r_[0, 1, np.argsort(-score)[:k]]
-            lay[f"dep@{R}"] = np.r_[0, 1, np.argsort(-dep)[:k]]
-            lay[f"entdep@{R}"] = np.r_[0, 1, np.argsort(-np.where(fin, zs(score) + zs(dep), -np.inf))[:k]]
-            lay[f"entdepM@{R}"] = np.r_[0, 1, np.argsort(-np.where(fin, zs(score) + zs(depM), -np.inf))[:k]]
-            forced = [t for t in tstarts if t >= 2]; fs = set(forced)
-            lay[f"oracle@{R}"] = np.r_[0, 1, forced, [t for t in np.argsort(-score) if t not in fs][:max(k - len(forced), 0)]]
+        for name in layouts[1:]:
+            k, R = name.split("@")
+            lay[name] = blt_layouts.layout(kind_of[k], int(R) / 100, sig, fit, tstarts if k == "oracle" else ())
         for name, st in lay.items():
             st = np.array(sorted(set(int(x) for x in st if 0 <= x < n)))
-            lp = logp(ids, st, n); S = set(st.tolist())
+            lp = logp(ids, st, n); S = set(st.tolist()); rate[name].append(len(st) / n)
             for (kind, s, e_), t in zip(spans, tstarts):
                 tgt = ids[0, s + 1:e_ + 1]; pred = lp[s:e_]
                 d = st_[name][kind]
@@ -196,10 +209,10 @@ def main(task, n_train, n_test):
                     d["choice"].append(bool((pred[0, Y] > pred[0, N]) == (int(tgt[0]) == Y)))
         if (j + 1) % 25 == 0:
             print(f"  {j + 1} test problems, {time.time() - t0:.0f}s", flush=True)
-    print(f"\nBLT-1B, task {task}: {n_test} test problems; targets " +
+    print(f"\nBLT-1B, task {task}: {n_test} test problems, budget thresholds: {blt_layouts.MODE}; targets " +
           ", ".join(f"{k} {len(st_['default'][k]['exact'])}" for k in kinds))
     for name in layouts:
-        print(f"RESULT {name:11s} " + " | ".join(
+        print(f"RESULT {name:11s} patch rate {np.mean(rate[name]):.3f} | " + " | ".join(
             f"{k}: covered {np.mean(s['cov']):5.1%}, {np.mean(s['bits']):.3f} bits, exact {np.mean(s['exact']):5.1%}"
             + (f", choice {np.mean(s['choice']):5.1%}" if s["choice"] else "")
             for k, s in st_[name].items()), flush=True)

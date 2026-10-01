@@ -22,8 +22,9 @@ Three groups:
               (a quantile or top-k over it), so whether t starts a patch depends weakly on later positions.
   control     must be caught.
 
-Not covered: realblt*.py and blt_screens/ (torch, BLT-1B). Their entropy@R / dep@R / entdep@R layouts take the
-top R of positions per problem (and entdep z-scores per problem), which is split-level in the sense above.
+BLT-1B scripts (realblt_budget/code/reason.py): their layouts come from blt_layouts.py, tested here on synthetic
+token signals. Train-fitted thresholds (the default) must be causal; the original per-problem top-R mode is shown
+as split-level. Not covered: the exploratory coverage screens in blt_screens/.
 """
 import os
 import sys
@@ -226,6 +227,68 @@ def model_results():
     return out
 
 
+# ----------------------------------------------------------------------------- BLT-1B layouts (blt_layouts.py)
+def _old_layouts(sig, forced, R):
+    """The per-problem selection as written inline in realblt_budget/code/reason.py before #26 (reference)."""
+    score, dep = sig["entropy"], sig["dep"]
+    n = len(score); k = max(int(round(R * n)) - 2, 1)
+    fin = np.isfinite(score) & np.isfinite(dep); zs = lambda x: (x - x[fin].mean()) / x[fin].std()
+    entdep = np.where(fin, zs(score) + zs(dep), -np.inf)
+    fs = [t for t in forced if t >= 2]; fset = set(fs)
+    return {"entropy": np.r_[0, 1, np.argsort(-score)[:k]], "dep": np.r_[0, 1, np.argsort(-dep)[:k]],
+            "entropy+dep": np.r_[0, 1, np.argsort(-entdep)[:k]],
+            "forced": np.r_[0, 1, fs, [t for t in np.argsort(-score) if t not in fset][:max(k - len(fs), 0)]]}
+
+
+def _fake_problem():
+    """Token signals like BLT-1B's: entropy continuous, dependence a 2-byte lookup (many ties), -inf at t < 2."""
+    n = int(RNG.integers(200, 700))
+    ent = np.full(n, -np.inf); ent[2:] = RNG.gamma(1.5, 1.0, n - 2)
+    dep = np.full(n, -np.inf); dep[2:] = RNG.choice(RNG.normal(0, 1, 40), n - 2)
+    forced = sorted(RNG.choice(np.arange(2, n), int(RNG.integers(1, 12)), replace=False).tolist())
+    return {"entropy": ent, "dep": dep}, forced
+
+
+def blt_layout_results():
+    import blt_layouts as bl
+    kinds, budgets = ("entropy", "dep", "entropy+dep", "forced"), (0.15, 0.10)
+    fit = bl.Fit(budgets)
+    for _ in range(200):
+        fit.add(*_fake_problem())
+    fit.done()
+    out = []
+    same = 0; total = 0
+    for _ in range(100):
+        sig, forced = _fake_problem()
+        for R in budgets:
+            old = _old_layouts(sig, forced, R)
+            for kd in kinds:
+                total += 1
+                same += np.array_equal(np.array(sorted(set(int(x) for x in old[kd]))), bl.layout(kd, R, sig, fit, forced, "problem"))
+    out.append(("rule", f"problem mode reproduces the old inline layouts ({same}/{total} identical)", same == total))
+    for mode, group in (("train", "rule"), ("problem", "split-level")):
+        leaks = checks = 0
+        for _ in range(60):
+            sig, forced = _fake_problem(); n = len(sig["entropy"])
+            t = int(RNG.integers(3, n - 3))
+            other, _ = _fake_problem()
+            sig2 = {k: v.copy() for k, v in sig.items()}
+            for k in sig2:
+                m = min(n, len(other[k]))
+                sig2[k][t + 1:m] = other[k][t + 1:m]                         # token t+1 onward (token t+1 = byte t)
+            f2 = [x for x in forced if x <= t]                            # labels after t are part of the future too
+            for R in budgets:
+                for kd in kinds:
+                    checks += 1
+                    a = bl.layout(kd, R, sig, fit, f2, mode); b = bl.layout(kd, R, sig2, fit, f2, mode)
+                    leaks += not np.array_equal(a[a <= t], b[b <= t])
+        out.append((group, f"{mode} mode: starts <= t unchanged when signals after t change ({leaks}/{checks} changed)",
+                    leaks == 0 if group == "rule" else leaks > 0))
+    worst = max(abs(fit.rate(kd, R) - R) for kd in kinds for R in budgets)
+    out.append(("rule", f"train mode: mean patch rate on train within 0.01 of R (worst gap {worst:.4f})", worst <= 0.01))
+    return out
+
+
 # ----------------------------------------------------------------------------- main
 def main():
     failed = []
@@ -251,6 +314,15 @@ def main():
         ok = leaks == 0 and blind == 0
         failed += [] if ok else [name]
         print(f"  {'PASS' if ok else 'FAIL':6s} {name:67s} leaks {leaks}  blind {blind}")
+
+    print("BLT-1B layouts (blt_layouts.py, synthetic token signals)")
+    for group, name, ok in blt_layout_results():
+        if group == "rule":
+            failed += [] if ok else [name]
+            status = "PASS" if ok else "FAIL"
+        else:
+            status = "SPLIT" if ok else "ok"
+        print(f"  {status:6s} {group:11s} {name}")
 
     if failed:
         print("FAILED:\n  " + "\n  ".join(failed))

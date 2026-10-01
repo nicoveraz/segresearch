@@ -2,7 +2,8 @@
 
 Python standard-library source (train and test chunks from different files). Targets: identifiers (other than self and cls) that repeat a
 name seen within the previous 120 bytes of the chunk (predictable type, hard value). Patch boundaries are changed at
-inference time. Layouts at equal patch counts, R = 15% and 10% of bytes:
+inference time. Layouts at budget R = 15% and 10% of bytes (applied as in realblt_budget.py: thresholds fitted on the
+TRAIN chunks by default, SEGR_BLT_THRESH=problem for the original top-R-per-chunk selection; see blt_layouts.py):
 
     default      BLT's own entropy patches
     entropy@R    top R by BLT-1B's entropy
@@ -28,6 +29,8 @@ from collections import defaultdict
 import numpy as np
 import torch
 from transformers import AutoTokenizer, BltForCausalLM
+
+import blt_layouts
 
 MODEL = "itazap/blt-1b-hf"
 BUDGETS = (0.15, 0.10)
@@ -94,8 +97,10 @@ def main(n_train, n_test):
     t0 = time.time()
     print(f"fitting boundary dependence on {n_train} train chunks", flush=True)
     s2, s1 = defaultdict(list), defaultdict(list)
+    train_seen = []
     for b in chunks(False)[:n_train]:
         ids, n, score, default = prep(b)
+        train_seen.append((b, n, score))
         tight = np.r_[0, 1, np.argsort(-score)[:max(int(0.10 * n) - 2, 1)]]
         loss = lambda st: -logp(ids, st, n)[:-1].gather(1, ids[0, 1:, None])[:, 0].cpu().numpy()
         gain = loss(tight) - loss(default)
@@ -109,8 +114,22 @@ def main(n_train, n_test):
     print(f"  {len(T2)} contexts; top: " + ", ".join(f"{bytes(k)!r} {v:.2f}" for k, v in top), flush=True)
     dep_at = lambda b, i: T2.get((b[i - 2], b[i - 1]), T1.get(b[i - 1], glob_))
 
+    def dep_of(b, n):
+        dep = np.full(n, -np.inf); dep[2:] = [dep_at(b, t - 1) for t in range(2, n)]
+        return dep
+
     layouts = ["default"] + [f"{k}@{int(r * 100)}" for r in BUDGETS for k in ("entropy", "dep", "entdep", "oracle")]
-    st_ = {l: {"bits": [], "exact": [], "cov": []} for l in layouts}
+    kind_of = {"entropy": "entropy", "dep": "dep", "entdep": "entropy+dep", "oracle": "forced"}
+    fit = None
+    if blt_layouts.MODE == "train":
+        # budget thresholds fitted on the same TRAIN chunks, applied position by position at test time (#26)
+        fit = blt_layouts.Fit(BUDGETS)
+        for b, n, score in train_seen:
+            fit.add({"entropy": score, "dep": dep_of(b, n)}, [s + 1 for s, _ in targets(b)])
+        fit.done()
+        print("  train patch rates: " + ", ".join(
+            f"{l} {fit.rate(kind_of[l.split('@')[0]], int(l.split('@')[1]) / 100):.3f}" for l in layouts[1:]), flush=True)
+    st_ = {l: {"bits": [], "exact": [], "cov": [], "rate": []} for l in layouts}
     used = 0
     for b in chunks(True)[:n_test]:
         spans = targets(b)
@@ -119,30 +138,25 @@ def main(n_train, n_test):
         used += 1
         ids, n, score, default = prep(b)
         tstarts = [s + 1 for s, _ in spans]                                  # token = byte + 1
-        dep = np.full(n, -np.inf); dep[2:] = [dep_at(b, t - 1) for t in range(2, n)]
-        fin = np.isfinite(score) & np.isfinite(dep); zs = lambda x: (x - x[fin].mean()) / x[fin].std()
-        entdep = np.where(fin, zs(score) + zs(dep), -np.inf)
+        sig = {"entropy": score, "dep": dep_of(b, n)}
         lay = {"default": default}
-        for r in BUDGETS:
-            k = max(int(round(r * n)) - 2, 1); R = int(r * 100)
-            lay[f"entropy@{R}"] = np.r_[0, 1, np.argsort(-score)[:k]]
-            lay[f"dep@{R}"] = np.r_[0, 1, np.argsort(-dep)[:k]]
-            lay[f"entdep@{R}"] = np.r_[0, 1, np.argsort(-entdep)[:k]]
-            forced = [t for t in tstarts if t >= 2]; fs = set(forced)
-            lay[f"oracle@{R}"] = np.r_[0, 1, forced, [t for t in np.argsort(-score) if t not in fs][:max(k - len(forced), 0)]]
+        for name in layouts[1:]:
+            k, R = name.split("@")
+            lay[name] = blt_layouts.layout(kind_of[k], int(R) / 100, sig, fit, tstarts if k == "oracle" else ())
         for name, st in lay.items():
             st = np.array(sorted(set(int(x) for x in st if 0 <= x < n)))
-            lp = logp(ids, st, n); S = set(st.tolist())
+            lp = logp(ids, st, n); S = set(st.tolist()); st_[name]["rate"].append(len(st) / n)
             for (s, e_), t in zip(spans, tstarts):
                 tgt = ids[0, s + 1:e_ + 1]; pred = lp[s:e_]
                 st_[name]["bits"].append(float(-pred.gather(1, tgt[:, None]).mean() / np.log(2)))
                 st_[name]["exact"].append(bool((pred.argmax(-1) == tgt).all())); st_[name]["cov"].append(t in S)
         if used % 25 == 0:
             print(f"  {used} test chunks, {time.time() - t0:.0f}s", flush=True)
-    print(f"\nBLT-1B on {used} Python test chunks, {len(st_['default']['exact'])} repeated identifiers")
+    print(f"\nBLT-1B on {used} Python test chunks, {len(st_['default']['exact'])} repeated identifiers, "
+          f"budget thresholds: {blt_layouts.MODE}")
     for name in layouts:
         s = st_[name]
-        print(f"RESULT {name:11s} covered {np.mean(s['cov']):5.1%} | repeated identifiers: {np.mean(s['bits']):.3f} bits, "
+        print(f"RESULT {name:11s} patch rate {np.mean(s['rate']):.3f} | covered {np.mean(s['cov']):5.1%} | repeated identifiers: {np.mean(s['bits']):.3f} bits, "
               f"exact {np.mean(s['exact']):5.1%}", flush=True)
 
 

@@ -1,13 +1,16 @@
 """A label-free patch trigger from boundary dependence, fitted with the harness's own model.
 
-1. Train a model with BLT entropy patches at the usual budget (rule "entropy", 25% of bytes).
-2. On training windows, measure each byte's loss under those patches and under a tight layout (rule
-   "entropy10", 10% of bytes). The rise is how much that byte depends on patch starts that the tight layout drops.
-3. For each preceding two-byte context (b[t-2], b[t-1]), average the rise over bytes t..t+3: the "dependence"
-   of a patch start at t. A causal lookup, no answer labels (as in blt_screens/dependence_screen.py for BLT-1B).
-4. Save the table; mathexp.py's rule entdep10 ranks positions by entropy + dependence (standardized) to 10%.
+Mode "marginal" (default):
+1. Train a reference model with RANDOM patch starts (25% of bytes), so it learns to use a boundary anywhere.
+2. On training windows with a random 10% layout, add ONE boundary at a candidate position t and measure the drop
+   in loss on bytes t..t+3: the value of a patch start at t.
+3. Average per preceding two-byte context (b[t-2], b[t-1]). A causal lookup, no answer labels.
+Mode "remove" (v1, as for BLT-1B in blt_screens/dependence_screen.py): reference trained on entropy patches
+(25%); the rise in loss on bytes t..t+3 when the layout is cut to entropy10. It failed here: the reference model
+rarely had a boundary at results (13% of answer starts), so it never learned to use one and dropping it costs little.
+Either way, the table is saved; mathexp.py's rule entdep10 ranks positions by entropy + dependence (standardized) to 10%.
 
-    SEGR_D=128 SEGR_GLAYERS=4 SEGR_POOL=xattn SEGR_LOCAL=window uv run deptrigger.py [STEPS] [N_WINDOWS]
+    SEGR_D=128 SEGR_GLAYERS=4 SEGR_POOL=xattn SEGR_LOCAL=window uv run deptrigger.py [STEPS] [N_WINDOWS] [marginal|remove]
 """
 import os
 import sys
@@ -30,47 +33,73 @@ def table_lookup(T2, T1, glob, b):
     return np.where(np.isnan(d), glob, d).astype(np.float32)
 
 
-def main(steps, n_windows):
+def main(steps, n_windows, mode):
     import harness
     z = np.load(mathexp.NPZ)
     btr, Htr = z["train_bytes"], z["train_H"]
-    base, tight = mathexp.Rule("entropy", z), mathexp.Rule("entropy10", z)
-    print(f"1. training the reference model with entropy patches ({steps} steps)", flush=True)
-    p = mathexp._train(btr, base.mask(btr, Htr), steps, seed=0)
-
-    print(f"2. per-byte losses under 25% and 10% layouts on {n_windows} training windows", flush=True)
     rng = np.random.default_rng(1)
+    if mode == "remove":
+        # v1: reference trained on entropy patches (25%); rise when cut to entropy10
+        ref, base, tight = mathexp.Rule("entropy", z).mask(btr, Htr), None, mathexp.Rule("entropy10", z)
+    else:
+        # v2 (marginal): reference trained on RANDOM patches (25%) so it learns to use a boundary anywhere;
+        # gain of adding ONE boundary at t to a random 10% layout
+        ref = rng.random(len(btr)) < 0.25
+    print(f"1. training the reference model ({mode}; {steps} steps; patch rate {ref.mean():.3f})", flush=True)
+    p = mathexp._train(btr, ref, steps, seed=0)
+
+    def losses(X, Y, BD):
+        lp = log_softmax_np(harness._model(p, mx.array(X), mx.array(BD.astype(np.int32))))
+        return -np.take_along_axis(lp, Y[..., None], -1)[..., 0]           # [:, u] = loss on window byte u+1
+
+    print(f"2. measuring dependence on {n_windows} training windows", flush=True)
     starts = rng.integers(0, len(btr) - CTX - 1, n_windows)
     s2, c2, s1, c1 = (np.zeros(65536), np.zeros(65536), np.zeros(256), np.zeros(256))
     allg = []
-    for k in range(0, n_windows, 64):
-        W = starts[k:k + 64]
-        X = np.stack([btr[w:w + CTX] for w in W]).astype(np.int32)
-        Y = np.stack([btr[w + 1:w + CTX + 1] for w in W]).astype(np.int32)
-        losses = []
-        for rule in (base, tight):
-            BD = np.stack([rule.mask(btr[w:w + CTX + 1], Htr[w:w + CTX + 1]) for w in W]).astype(np.int32); BD[:, 0] = 1
-            lp = log_softmax_np(harness._model(p, mx.array(X), mx.array(BD)))
-            losses.append(-np.take_along_axis(lp, Y[..., None], -1)[..., 0])   # [:, u] = loss on byte u+1 of the window
-        g = losses[1] - losses[0]
-        # boundary at window byte t (2 <= t <= CTX-4): mean rise on bytes t..t+3 = loss columns t-1..t+2
-        cs = np.cumsum(np.c_[np.zeros(len(W)), g], 1)
-        for j, w in enumerate(W):
-            t = np.arange(CTX // 4, CTX - 3)                                     # skip the window start (little context)
-            d = (cs[j, t + 3] - cs[j, t - 1]) / 4
+
+    def add(b, t, d):
+        key = b[t - 2] * 256 + b[t - 1]
+        np.add.at(s2, key, d); np.add.at(c2, key, 1); np.add.at(s1, b[t - 1], d); np.add.at(c1, b[t - 1], 1)
+        allg.append(d)
+
+    if mode == "remove":
+        base = mathexp.Rule("entropy", z)
+        for k in range(0, n_windows, 64):
+            W = starts[k:k + 64]
+            X = np.stack([btr[w:w + CTX] for w in W]).astype(np.int32)
+            Y = np.stack([btr[w + 1:w + CTX + 1] for w in W]).astype(np.int32)
+            L = []
+            for rule in (base, tight):
+                BD = np.stack([rule.mask(btr[w:w + CTX + 1], Htr[w:w + CTX + 1]) for w in W]); BD[:, 0] = 1
+                L.append(losses(X, Y, BD))
+            cs = np.cumsum(np.c_[np.zeros(len(W)), L[1] - L[0]], 1)
+            t = np.arange(CTX // 4, CTX - 3)                                 # skip the window start (little context)
+            for j, w in enumerate(W):                                        # boundary at t: rise on bytes t..t+3
+                add(btr[w:w + CTX].astype(np.int64), t, (cs[j, t + 3] - cs[j, t - 1]) / 4)
+    else:
+        K = 32                                                               # candidate positions per window
+        for w in starts:
             b = btr[w:w + CTX].astype(np.int64)
-            key = b[t - 2] * 256 + b[t - 1]
-            np.add.at(s2, key, d); np.add.at(c2, key, 1)
-            np.add.at(s1, b[t - 1], d); np.add.at(c1, b[t - 1], 1)
-            allg.append(d)
-    glob = float(np.concatenate(allg).mean())
+            X = np.repeat(btr[w:w + CTX][None].astype(np.int32), K + 1, 0)
+            Y = np.repeat(btr[w + 1:w + CTX + 1][None].astype(np.int32), K + 1, 0)
+            bd = rng.random(CTX + 1) < 0.10; bd[0] = True
+            cand = rng.choice(np.flatnonzero(~bd[CTX // 4:CTX - 3]) + CTX // 4, K, replace=False)
+            BD = np.repeat(bd[None], K + 1, 0)
+            BD[np.arange(1, K + 1), cand] = True
+            L = losses(X, Y, BD)
+            cs = np.cumsum(np.c_[np.zeros(K + 1), L], 1)
+            win = lambda r, t: (cs[r, t + 3] - cs[r, t - 1]) / 4             # mean loss on bytes t..t+3
+            add(b, cand, win(0, cand) - win(np.arange(1, K + 1), cand))      # drop from adding a boundary at t
+    allg = np.concatenate([np.atleast_1d(g) for g in allg])
+    glob = float(allg.mean())
     T2 = np.where(c2 >= 20, s2 / np.maximum(c2, 1), np.nan); T1 = np.where(c1 >= 20, s1 / np.maximum(c1, 1), np.nan)
-    print(f"   {int((c2 >= 20).sum())} contexts; mean rise {glob:.3f} nats", flush=True)
+    print(f"   {int((c2 >= 20).sum())} contexts; mean {glob:.3f} nats", flush=True)
     top = np.argsort(-np.nan_to_num(T2, nan=-1e9))[:12]
     print("   top contexts: " + ", ".join(f"{bytes([int(k) // 256, int(k) % 256])!r} {T2[k]:.2f}" for k in top), flush=True)
-    np.savez(OUT, T2=T2, T1=T1, glob=glob)
+    np.savez(OUT, T2=T2, T1=T1, glob=glob, mode=mode)
     print("saved", OUT)
 
 
 if __name__ == "__main__":
-    main(int(sys.argv[1]) if len(sys.argv) > 1 else 16000, int(sys.argv[2]) if len(sys.argv) > 2 else 2048)
+    a = sys.argv[1:]
+    main(int(a[0]) if a else 16000, int(a[1]) if len(a) > 1 else 2048, a[2] if len(a) > 2 else "marginal")

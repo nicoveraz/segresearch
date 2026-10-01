@@ -25,6 +25,8 @@ Patch rules, in two compute groups:
           sp:none / sp:dense5   no scratchpads (patches every 8 / every 5 bytes)
           sp:entropy            scratchpads where next-byte entropy is high (the paper's trigger)
           sp:jump / sp:syntax / sp:random   scratchpads at entropy rises / math syntax + rises / random positions
+          sp16:learned          scratchpads where a learned predictor expects the largest loss drop (gaintrigger.py;
+                                trained on the model's own loss, no answer labels)
           sp16:*                same with patches every 16 bytes (the paper's headline setting); sp16:dense8 =
                                 patches every 8 bytes, no scratchpads (matched compute)
     Math syntax = the byte right after '=', '\\boxed{', '#### ' or '>>': a hand-written rule that a
@@ -237,6 +239,12 @@ class Rule:
             elif name == "sp:syntax":
                 syn = str_ & free; rest = free & ~syn
                 self.thr = np.quantile(Jtr[rest], 1 - max(SP_RATE - syn.mean(), 0) / rest.mean())
+            elif name == "sp:learned":
+                import gaintrigger
+                self.w = np.load(os.path.join(CACHE, "gaintrigger.npz"))["w"]
+                self.predict = lambda b, H: gaintrigger.features(b, H) @ self.w if len(b) else np.zeros(0)
+                g = self.predict(btr[:2_000_000], Htr[:2_000_000]); fr = free[:2_000_000]
+                self.thr = np.quantile(g[fr], 1 - SP_RATE / fr.mean())
             elif name == "sp:random":
                 hv = _hash_prev(btr); qs = np.linspace(0, 0.2, 401)
                 self.q = qs[np.argmin([abs((free & (hv < q)).mean() - SP_RATE) for q in qs])]
@@ -268,7 +276,8 @@ class Rule:
             stride = np.arange(len(b)) % self.K == 0
             trig = {"sp:entropy": lambda: H > self.thr, "sp:jump": lambda: J > self.thr,
                     "sp:syntax": lambda: _syntax_starts(b) | (J > self.thr),
-                    "sp:random": lambda: _hash_prev(b) < self.q}.get(self.name, lambda: np.zeros(len(b), bool))()
+                    "sp:random": lambda: _hash_prev(b) < self.q,
+                    "sp:learned": lambda: self.predict(b, H) > self.thr}.get(self.name, lambda: np.zeros(len(b), bool))()
             flags = stride.astype(np.int8); flags[trig & ~stride] = 2      # 1 = patch start, 2 = scratchpad
             return flags
         if self.name == "entropy":
@@ -389,7 +398,7 @@ if __name__ == "__main__":
         z = np.load(NPZ)
         for n in ("entropy", "jump", "syntax+jump", "words", "words+jump", "words+syntax", "words+syntax+digits", "words+syntax+ops", "words+syntax+rand07", "words+syntax+rand22",
                   "sp:none", "sp:dense5", "sp:entropy", "sp:jump", "sp:syntax", "sp:random",
-                  "sp16:none", "sp16:dense8", "sp16:entropy", "sp16:jump", "sp16:syntax", "sp16:random"):
+                  "sp16:none", "sp16:dense8", "sp16:entropy", "sp16:jump", "sp16:syntax", "sp16:random", "sp16:learned"):
             r = Rule(n, z); m = r.mask(z["val_bytes"], z["val_H"]); a = realtext._answer_starts(z["val_roles"]) | \
                 ((z["val_roles"] == RI["VAR"]) & ~np.r_[False, z["val_roles"][:-1] == RI["VAR"]])
             print(f"{n:13s} train {(r.mask(z['train_bytes'], z['train_H']) > 0).mean():.3f} val {(m > 0).mean():.3f} "

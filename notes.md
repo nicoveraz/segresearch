@@ -385,3 +385,8 @@ Format: GSM8K question + solution (calculator annotations removed) + "The final 
 - **No blind spot at BLT's default budget (~30% of bytes):** its patcher starts patches at 100% of final answers and 97% of in-line results after '= ' (word starts 81%).
 - **Blind spot appears under tight budgets, for computed results:** ranking by BLT-1B's own entropy at 15 / 10 / 6% budgets covers in-line results after '= ' only 48 / 26 / 18% of the time, below word starts (54 / 39 / 25%); final answers stay covered (96 / 94 / 91%). Median entropy: final 3.16, result 2.15, word 2.25 nats. A computed result's TYPE is predictable after '=', so its entropy is lower than an ordinary word start even though its content must be computed.
 - Revised claim: entropy-level triggers under tight compute budgets (scratchpads, larger patches) systematically skip positions whose content is hard but whose type is predictable. At generous budgets they do not.
+
+### BLT-1B tight-budget test (realblt_budget.py; 294 problems, 796 in-line results after '= ')
+results covered / in-line results exact / bits / final exact:
+default (28%) 83% / 73.0% / 0.67 / 67.3%; entropy@15 48% / 39.8% / 1.71 / 56.8%; **results@15 100% / 61.3% / 1.04 / 57.1%**; entropy@10 24% / 18.1% / 2.58 / 40.1%; **results@10 100% / 45.2% / 1.59 / 51.0%**.
+**The blind spot is real in a trained 1B model at tight budgets:** at equal patch counts, forcing a boundary after each '=' raises exact computed-result accuracy by +21 points at 15% and +27 at 10%, and cuts loss on those bytes ~40%; final answers do not get worse. Inference-time layout change only (BLT-1B was trained at ~30%), so absolute numbers at tight budgets are out of distribution for every layout; the comparison is at equal budget.

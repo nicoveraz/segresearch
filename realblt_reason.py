@@ -6,7 +6,7 @@ computation) showed only a small effect. This tests other places where a value m
 
     logic     ProofWriter-style theories (facts and if-then rules about one person), a question, a worked proof
               ("Bob is red, so Bob is kind.") and an answer. Targets: each step's conclusion (found by matching a
-              rule) and the True/False answer.
+              rule) and the Yes/No answer (also scored as a forced choice: P('Y') > P('N') at the first byte).
     direct    the same theories with no proof: the answer right after the question (chaining done implicitly).
     trace     short straight-line programs with a trace comment after each assignment ("# a is now 11"). Targets:
               traced values after an arithmetic line (computed) and after a constant line (copied), a control in
@@ -76,7 +76,7 @@ def logic_problem(rng, direct):
             text += b + "."
         text += "\n"
     text += "Answer: "
-    ans = "True" if truth else "False"
+    ans = "Yes" if truth else "No"                                      # BLT-1B answers questions with Yes/No
     spans.append(("answer", len(text), len(text) + len(ans)))
     text += ans + "\n"
     return text, spans
@@ -164,7 +164,8 @@ def main(task, n_train, n_test):
     kinds = sorted({k for _, sp in problems(task, 50, seed=2) for k, _, _ in sp})
     layouts = ["default"] + [f"{k}@{int(r * 100)}" for r in BUDGETS
                              for k in ("entropy", "dep", "entdep", "entdepM", "oracle")]
-    st_ = {l: {k: {"bits": [], "exact": [], "cov": []} for k in kinds} for l in layouts}
+    st_ = {l: {k: {"bits": [], "exact": [], "cov": [], "choice": []} for k in kinds} for l in layouts}
+    Y, N = ord("Y") + 4, ord("N") + 4
     for j, (text, spans) in enumerate(problems(task, n_test, seed=2)):
         b = text.encode()
         ids, n, score, default = prep(b)
@@ -191,6 +192,8 @@ def main(task, n_train, n_test):
                 d = st_[name][kind]
                 d["bits"].append(float(-pred.gather(1, tgt[:, None]).mean() / np.log(2)))
                 d["exact"].append(bool((pred.argmax(-1) == tgt).all())); d["cov"].append(t in S)
+                if kind == "answer":
+                    d["choice"].append(bool((pred[0, Y] > pred[0, N]) == (int(tgt[0]) == Y)))
         if (j + 1) % 25 == 0:
             print(f"  {j + 1} test problems, {time.time() - t0:.0f}s", flush=True)
     print(f"\nBLT-1B, task {task}: {n_test} test problems; targets " +
@@ -198,6 +201,7 @@ def main(task, n_train, n_test):
     for name in layouts:
         print(f"RESULT {name:11s} " + " | ".join(
             f"{k}: covered {np.mean(s['cov']):5.1%}, {np.mean(s['bits']):.3f} bits, exact {np.mean(s['exact']):5.1%}"
+            + (f", choice {np.mean(s['choice']):5.1%}" if s["choice"] else "")
             for k, s in st_[name].items()), flush=True)
 
 

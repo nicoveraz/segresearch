@@ -442,3 +442,21 @@ Reference, same model at its usual budget: entropy (25% of bytes) 10.9% / 44.8% 
 - MATH (\boxed) stays at ~3% for all: capacity-limited at this size.
 - Seeds agree closely; a third seed is not needed for the ranking (standard 3 gate: spread << gaps).
 - Caveat: syntax is a hand-written rule; the label-free trigger (entropy + dependence) has not yet been trained into a model (next: M5 step 1, fitting dependence with the harness's own model).
+
+### Beyond arithmetic on BLT-1B (realblt_reason.py): program traces
+300 generated straight-line programs; targets after '# v is now ': 2469 computed (after an arithmetic line), 1716 copied (after a constant line). Exact match:
+| layout | computed | copied |
+|---|---|---|
+| default (~28%) | 20.5% | 82.5% |
+| entropy@15 | 11.2% | 66.8% |
+| dep@15 (own table) | 9.3% | 46.0% |
+| entdep@15 | 10.9% | 66.7% |
+| entdepM@15 (math table) | 9.6% | 61.2% |
+| oracle@15 | 12.8% | 73.8% |
+| entropy@10 | 9.6% | 58.4% |
+| entdep@10 | 8.9% | 62.1% |
+| oracle@10 | 9.4% | 61.8% |
+- **Inconclusive for computed values (floor):** BLT-1B computes only 20% of trace values even with default patches, and a boundary at each value barely helps (+1.6 points at 15%, none at 10%). The model mostly cannot do this arithmetic in its head, so placement has little to act on. Contrast GSM8K, where it gets 73% of in-line results.
+- Copied values gain more from a boundary (+7 points at 15%) than computed ones here: when the skill is present, the boundary helps; when it is absent, it cannot.
+- The trace dependence table picks up the 'is now ' context ('w ', 'ow'); dep alone hurts copies badly. The math table does not transfer (0% coverage of trace values: '= ' is not the context here).
+- Logic first run: 'True/False' answers were unusable (BLT-1B continues 'Answer: ' with 'Yes/No' or a sentence; exact 0% everywhere). Rerunning with Yes/No answers and a forced-choice score.

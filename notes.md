@@ -430,3 +430,15 @@ Running: BLT-1B accuracy test with dep@R and entdep@R layouts (300 problems), th
 - The blind spot is much weaker on code: even forcing a boundary at every repeated identifier gains only 3 points (vs 21-27 for math results). A repeated name is a copy, so its value is not hard the way a computed number is; the patch start matters less.
 - entdep again helps most among label-free rules (+1.3 / +2.3 points over entropy, close to the oracle at 10%); dependence alone does not.
 - Conclusion: the effect is specific to positions whose value needs computation, not to "predictable type" alone. One evaluation pass, no seeds (inference only).
+
+### Tight-budget TRAINING (D=128, 4 global layers, xattn + window, 32k steps, 10% patch budget, 2 seeds)
+computed acc / final acc / boxed acc / bpb (means; seeds in brackets):
+- entropy10: 7.0% [6.7, 7.3] / 12.9% [15.5, 10.2] / 2.8% / 1.655
+- jump10: 6.9% [6.6, 7.1] / 63.9% [61.4, 66.4] / 3.2% / 1.639
+- **syntax+entropy10: 25.3% [25.3, 25.3] / 72.4% [72.3, 72.4] / 3.0% / 1.633**
+Reference, same model at its usual budget: entropy (25% of bytes) 10.9% / 44.8% / bpb 1.442; words+syntax (18.5%) 32.3% / 79.4% / 1.412.
+- **The advantage survives training at a tight budget:** with the result boundary (after '=', '#### ', '\boxed{'), the 10%-budget model computes 3.6x more results correctly than entropy at 10%, and beats BLT entropy at 25% on both computed results (25% vs 11%) and final answers (72% vs 45%) with 2.5x fewer patches. Overall bpb is also the best of the three at 10%, so the gain is not bought elsewhere.
+- Jump rescues final answers (64%) but not computed results (7%), as before.
+- MATH (\boxed) stays at ~3% for all: capacity-limited at this size.
+- Seeds agree closely; a third seed is not needed for the ranking (standard 3 gate: spread << gaps).
+- Caveat: syntax is a hand-written rule; the label-free trigger (entropy + dependence) has not yet been trained into a model (next: M5 step 1, fitting dependence with the harness's own model).

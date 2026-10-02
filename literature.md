@@ -43,3 +43,10 @@ Searched for prior reports of entropy-based patching, scratchpads or learned chu
 - **H-Net checkpoints are public** (`goombalab/hnet`, on HF under cartesia-ai): `hnet_1stage/2stage_L/XL` on FineWeb-Edu (English), plus Chinese and code variants. That makes #21 doable; boundary extraction needs code (no documented API).
 - **AU-Net** (Videau et al., 2025) is another candidate for #21; weights not checked.
 - **Fast BLT** self-speculation drafts past patch boundaries, so it is a natural target for the speculative-decoding part of #22.
+
+## Re-check, 2026-10-02 (quick; the full search is still due right before submission)
+
+New candidates found, neither prior work on the blind spot:
+- **ATDC**, Adaptive Targeted Dynamic Chunking for Tokenization-Free Hierarchical Model (Dang, Nakagawa, Kobayashi, Shirahata; arXiv 2605.30080, May 2026): curriculum on the compression ratio for H-Net-style chunking; evaluated on FineWeb-Edu bits per byte and downstream tasks; no analysis of boundaries at numbers and no math accuracy. Cite as related dynamic chunking.
+- **ReinPatch**, Dynamic Tokenization via Reinforcement Patching (Wu et al.; arXiv 2603.26097, March 2026): patch boundaries learned with policy gradients, evaluated on time-series forecasting; no text or math, no entropy-patching comparison.
+Also seen, already covered: Fast BLT (2605.08044), Scratchpad Patching (2605.09630), H-Net (2507.07955), ByteSpan (2506.18639). Confidence-based early exit papers (e.g. 2605.05222, 2509.23666) discuss overconfidence in general but not the type/value split at computed outputs; relevant to #22.

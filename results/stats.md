@@ -88,4 +88,61 @@ Differences in percentage points. *Separated*: every seed of one rule beats ever
 
 Each layout is scored on the same targets, so differences are paired. McNemar: exact test on the targets where exactly one layout is right. The bootstrap resamples whole problems.
 
-No per-item files yet (results/items/); rerun the BLT-1B scripts.
+### blt_budget_train (02885e3)
+
+| target | A | B | acc A | acc B | A - B [95% problem bootstrap] | A only / B only | McNemar p |
+|---|---|---|---|---|---|---|---|
+| in-line results | results@15 | entropy@15 | 58.9% | 33.9% | +25.0 [+21.4, +28.7] | 217 / 18 | 1.5e-44 |
+| in-line results | entdep@15 | entropy@15 | 72.1% | 33.9% | +38.2 [+34.0, +42.4] | 322 / 18 | 3.4e-73 |
+| in-line results | entdep@15 | results@15 | 72.1% | 58.9% | +13.2 [+9.8, +16.5] | 138 / 33 | 1.8e-16 |
+| in-line results | results@10 | entropy@10 | 41.5% | 14.8% | +26.6 [+23.2, +30.2] | 222 / 10 | 3.1e-53 |
+| in-line results | entdep@10 | entropy@10 | 60.7% | 14.8% | +45.9 [+41.6, +50.3] | 387 / 22 | 2.3e-87 |
+| in-line results | entdep@10 | results@10 | 60.7% | 41.5% | +19.2 [+15.3, +23.2] | 200 / 47 | 1.2e-23 |
+| in-line results | default | entropy@15 | 73.0% | 33.9% | +39.1 [+35.1, +43.2] | 327 / 16 | 1.4e-76 |
+| final answers | results@15 | entropy@15 | 56.5% | 52.7% | +3.7 [+0.7, +6.8] | 16 / 5 | 0.027 |
+| final answers | entdep@15 | entropy@15 | 59.9% | 52.7% | +7.1 [+2.7, +11.9] | 35 / 14 | 0.0038 |
+| final answers | entdep@15 | results@15 | 59.9% | 56.5% | +3.4 [-0.7, +7.5] | 23 / 13 | 0.13 |
+| final answers | results@10 | entropy@10 | 49.0% | 37.8% | +11.2 [+7.1, +15.3] | 39 / 6 | 5.4e-07 |
+| final answers | entdep@10 | entropy@10 | 50.7% | 37.8% | +12.9 [+7.1, +18.7] | 58 / 20 | 2e-05 |
+| final answers | entdep@10 | results@10 | 50.7% | 49.0% | +1.7 [-3.4, +6.5] | 31 / 26 | 0.6 |
+| final answers | default | entropy@15 | 67.3% | 52.7% | +14.6 [+10.5, +19.0] | 45 / 2 | 1.6e-11 |
+
+### blt_code_train (02885e3)
+
+| target | A | B | acc A | acc B | A - B [95% problem bootstrap] | A only / B only | McNemar p |
+|---|---|---|---|---|---|---|---|
+| repeated identifiers | entdep@15 | entropy@15 | 69.4% | 67.0% | +2.4 [+1.5, +3.3] | 350 / 225 | 2.1e-07 |
+| repeated identifiers | entdep@10 | entropy@10 | 65.4% | 63.5% | +2.0 [+1.0, +2.9] | 353 / 251 | 3.8e-05 |
+| repeated identifiers | oracle@15 | entropy@15 | 70.0% | 67.0% | +3.0 [+2.1, +3.9] | 307 / 151 | 2.6e-13 |
+| repeated identifiers | oracle@10 | entropy@10 | 67.5% | 63.5% | +4.0 [+3.0, +5.0] | 406 / 196 | 7.5e-18 |
+| repeated identifiers | default | entropy@15 | 73.0% | 67.0% | +6.0 [+4.9, +7.1] | 505 / 192 | 2.5e-33 |
+
+### blt_logic_train (02885e3)
+
+| target | A | B | acc A | acc B | A - B [95% problem bootstrap] | A only / B only | McNemar p |
+|---|---|---|---|---|---|---|---|
+| answer (choice) | entdep@15 | entropy@15 | 50.3% | 55.3% | -5.0 [-8.0, -2.0] | 4 / 19 | 0.0026 |
+| answer (choice) | entdep@10 | entropy@10 | 51.0% | 55.0% | -4.0 [-8.7, +1.0] | 21 / 33 | 0.13 |
+| answer (choice) | oracle@15 | entropy@15 | 55.3% | 55.3% | +0.0 [+0.0, +0.0] | 0 / 0 | 1 |
+| answer (choice) | oracle@10 | entropy@10 | 55.0% | 55.0% | +0.0 [-4.3, +4.3] | 21 / 21 | 1 |
+| answer (choice) | default | entropy@15 | 52.0% | 55.3% | -3.3 [-6.3, -0.7] | 4 / 14 | 0.031 |
+| step (exact) | entdep@15 | entropy@15 | 60.6% | 66.8% | -6.2 [-8.6, -3.8] | 90 / 164 | 4e-06 |
+| step (exact) | entdep@10 | entropy@10 | 42.1% | 45.9% | -3.8 [-7.1, -0.9] | 157 / 203 | 0.018 |
+| step (exact) | oracle@15 | entropy@15 | 67.3% | 66.8% | +0.5 [+0.1, +1.0] | 7 / 1 | 0.07 |
+| step (exact) | oracle@10 | entropy@10 | 48.8% | 45.9% | +2.9 [+0.7, +5.2] | 103 / 68 | 0.0091 |
+| step (exact) | default | entropy@15 | 69.2% | 66.8% | +2.4 [+0.8, +4.0] | 70 / 41 | 0.0076 |
+
+### blt_trace_train (02885e3)
+
+| target | A | B | acc A | acc B | A - B [95% problem bootstrap] | A only / B only | McNemar p |
+|---|---|---|---|---|---|---|---|
+| computed (exact) | entdep@15 | entropy@15 | 10.9% | 11.1% | -0.3 [-1.3, +0.7] | 74 / 81 | 0.63 |
+| computed (exact) | entdep@10 | entropy@10 | 9.0% | 10.0% | -1.0 [-1.8, -0.3] | 40 / 65 | 0.019 |
+| computed (exact) | oracle@15 | entropy@15 | 12.8% | 11.1% | +1.7 [+0.6, +2.7] | 95 / 54 | 0.00098 |
+| computed (exact) | oracle@10 | entropy@10 | 9.7% | 10.0% | -0.3 [-1.1, +0.5] | 50 / 57 | 0.56 |
+| computed (exact) | default | entropy@15 | 20.5% | 11.1% | +9.3 [+7.8, +10.8] | 313 / 83 | 1.6e-32 |
+| copy (exact) | entdep@15 | entropy@15 | 67.2% | 66.7% | +0.5 [-1.6, +2.6] | 143 / 134 | 0.63 |
+| copy (exact) | entdep@10 | entropy@10 | 62.3% | 58.3% | +4.0 [+2.3, +5.7] | 151 / 83 | 1e-05 |
+| copy (exact) | oracle@15 | entropy@15 | 72.2% | 66.7% | +5.5 [+3.7, +7.4] | 157 / 62 | 1.1e-10 |
+| copy (exact) | oracle@10 | entropy@10 | 61.0% | 58.3% | +2.7 [+1.1, +4.3] | 119 / 73 | 0.0011 |
+| copy (exact) | default | entropy@15 | 82.5% | 66.7% | +15.8 [+13.9, +17.7] | 286 / 15 | 4.2e-66 |

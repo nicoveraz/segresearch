@@ -121,6 +121,17 @@ def emit(script, line, **meta):
     record(script, line, **meta)
 
 
+def save_items(name, data, **meta):
+    """Save per-target results (lists of correct/incorrect per layout, with the problem each target came from) to
+    results/items/<name>.json, for paired tests across layouts (stats.py). Never raises."""
+    try:
+        d = os.path.join(ROOT, "results", "items"); os.makedirs(d, exist_ok=True)
+        with open(os.path.join(d, f"{name}.json"), "w") as f:
+            json.dump({"commit": commit(), "time": time.strftime("%Y-%m-%dT%H:%M:%S"), **meta, "data": data}, f)
+    except Exception as e:                                                  # noqa: BLE001
+        print(f"registry: could not save items ({e})", flush=True)
+
+
 def load(pattern=None):
     """All records from results/registry/*.jsonl (optionally only files whose name contains `pattern`)."""
     rows = []

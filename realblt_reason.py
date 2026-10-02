@@ -187,6 +187,7 @@ def main(task, n_train, n_test):
         print("  train patch rates: " + ", ".join(
             f"{l} {fit.rate(kind_of[l.split('@')[0]], int(l.split('@')[1]) / 100):.3f}" for l in layouts[1:]), flush=True)
     st_ = {l: {k: {"bits": [], "exact": [], "cov": [], "choice": []} for k in kinds} for l in layouts}
+    pid = {k: [] for k in kinds}                                          # problem index of each target, per kind
     rate = {l: [] for l in layouts}
     Y, N = ord("Y") + 4, ord("N") + 4
     for j, (text, spans) in enumerate(problems(task, n_test, seed=2)):
@@ -194,6 +195,8 @@ def main(task, n_train, n_test):
         ids, n, score, default = prep(b)
         tstarts = [s + 1 for _, s, _ in spans]                              # token = byte + 1
         sig = sig_of(b, n, score)
+        for kind, _, _ in spans:
+            pid[kind].append(j)
         lay = {"default": default}
         for name in layouts[1:]:
             k, R = name.split("@")
@@ -217,6 +220,8 @@ def main(task, n_train, n_test):
             f"{k}: covered {np.mean(s['cov']):5.1%}, {np.mean(s['bits']):.3f} bits, exact {np.mean(s['exact']):5.1%}"
             + (f", choice {np.mean(s['choice']):5.1%}" if s["choice"] else "")
             for k, s in st_[name].items()), experiment="blt_" + task, thresh=blt_layouts.MODE)
+    registry.save_items(f"blt_{task}_{blt_layouts.MODE}", {"layouts": st_, "pid": pid}, experiment="blt_" + task,
+                        thresh=blt_layouts.MODE, n_problems=n_test)
 
 
 if __name__ == "__main__":

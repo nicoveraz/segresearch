@@ -427,7 +427,7 @@ def run(name, seed, steps):
     registry.emit("reasonexp" if "-reason" in CACHE else "mathexp", f"RESULT math rule={name} seed={seed} steps={steps} D={harness.D} glayers={harness.GLAYERS} "
           f"pool={harness.POOL} local={harness.LOCAL} rate={o['rate']:.3f} (patches {o['patch_rate']:.3f}, scratchpads {o['scratch_rate']:.3f}) bpb={o['bpb']:.4f} | "
           + " ".join(f"{k}: {o[k + '_bits']:.3f} bits, acc {o.get(k + '_acc', float('nan')):.3f} (n={o.get(k + '_n', 0)})"
-                     for k in ANSWER_ROLES) + f" | {time.time() - t0:.0f}s", corpus="reason" if "-reason" in CACHE else "math", window=harness.WINDOW, scratch=harness.SCRATCH, nacc=N_ACC, smoke=SMOKE)
+                     for k in ANSWER_ROLES) + f" | {time.time() - t0:.0f}s", experiment=os.environ.get("SEGR_EXPERIMENT"), corpus="reason" if "-reason" in CACHE else "math", window=harness.WINDOW, scratch=harness.SCRATCH, nacc=N_ACC, smoke=SMOKE)
 
 
 if __name__ == "__main__":

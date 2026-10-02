@@ -131,12 +131,13 @@ def main(n_train, n_test):
         print("  train patch rates: " + ", ".join(
             f"{l} {fit.rate(kind_of[l.split('@')[0]], int(l.split('@')[1]) / 100):.3f}" for l in layouts[1:]), flush=True)
     st_ = {l: {"bits": [], "exact": [], "cov": [], "rate": []} for l in layouts}
-    used = 0
+    used, pid = 0, []                                                     # pid: chunk index of each identifier
     for b in chunks(True)[:n_test]:
         spans = targets(b)
         if not spans:
             continue
         used += 1
+        pid += [used - 1] * len(spans)
         ids, n, score, default = prep(b)
         tstarts = [s + 1 for s, _ in spans]                                  # token = byte + 1
         sig = {"entropy": score, "dep": dep_of(b, n)}
@@ -159,6 +160,8 @@ def main(n_train, n_test):
         s = st_[name]
         registry.emit("realblt_code", f"RESULT {name:11s} patch rate {np.mean(s['rate']):.3f} | covered {np.mean(s['cov']):5.1%} | repeated identifiers: {np.mean(s['bits']):.3f} bits, "
               f"exact {np.mean(s['exact']):5.1%}", experiment="blt_code", thresh=blt_layouts.MODE)
+    registry.save_items(f"blt_code_{blt_layouts.MODE}", {"layouts": st_, "pid": pid}, experiment="blt_code",
+                        thresh=blt_layouts.MODE, n_chunks=used)
 
 
 if __name__ == "__main__":

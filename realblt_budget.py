@@ -103,6 +103,7 @@ def main(n_problems, n_train):
             f"{l} {fit.rate(kind_of[l.split('@')[0]], int(l.split('@')[1]) / 100):.3f}" for l in layouts[1:]), flush=True)
     stats = {l: {"res_bits": [], "res_exact": [], "fin_bits": [], "fin_exact": [], "rate": []} for l in layouts}
     covered = {l: [] for l in layouts}
+    res_pid = []                                                          # problem index of each in-line result
     t0 = time.time(); used = 0
     for i, p in enumerate([json.loads(l) for l in open(GSM)][:n_problems]):
         pr = problem(p, tok, dev)
@@ -111,6 +112,7 @@ def main(n_problems, n_train):
         b, ids, spans, res_starts = pr
         n = ids.shape[1]
         used += 1
+        res_pid += [used - 1] * len(res_starts)
         sig, default = signals(b, ids)
         lay = {"default": default}
         for name in layouts[1:]:
@@ -135,6 +137,8 @@ def main(n_problems, n_train):
         registry.emit("realblt_budget", f"RESULT {name:11s} patch rate {np.mean(s['rate']):.3f} | results covered {np.mean(covered[name]):5.1%} | "
               f"in-line results: {np.mean(s['res_bits']):.3f} bits, exact {np.mean(s['res_exact']):5.1%} | "
               f"final: {np.mean(s['fin_bits']):.3f} bits, exact {np.mean(s['fin_exact']):5.1%}", experiment="blt_budget", thresh=blt_layouts.MODE)
+    registry.save_items(f"blt_budget_{blt_layouts.MODE}", {"layouts": stats, "covered": covered, "res_pid": res_pid},
+                        experiment="blt_budget", thresh=blt_layouts.MODE, n_problems=used)
 
 
 if __name__ == "__main__":

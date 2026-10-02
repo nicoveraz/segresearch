@@ -36,6 +36,7 @@ from collections import defaultdict
 import numpy as np
 
 import blt_layouts
+import registry
 
 BUDGETS = (0.15, 0.10)
 MATH_DEP = os.path.expanduser("~/.cache/segresearch-blt/dependence_table.npy")
@@ -212,10 +213,10 @@ def main(task, n_train, n_test):
     print(f"\nBLT-1B, task {task}: {n_test} test problems, budget thresholds: {blt_layouts.MODE}; targets " +
           ", ".join(f"{k} {len(st_['default'][k]['exact'])}" for k in kinds))
     for name in layouts:
-        print(f"RESULT {name:11s} patch rate {np.mean(rate[name]):.3f} | " + " | ".join(
+        registry.emit("realblt_reason", f"RESULT {name:11s} patch rate {np.mean(rate[name]):.3f} | " + " | ".join(
             f"{k}: covered {np.mean(s['cov']):5.1%}, {np.mean(s['bits']):.3f} bits, exact {np.mean(s['exact']):5.1%}"
             + (f", choice {np.mean(s['choice']):5.1%}" if s["choice"] else "")
-            for k, s in st_[name].items()), flush=True)
+            for k, s in st_[name].items()), experiment="blt_" + task, thresh=blt_layouts.MODE)
 
 
 if __name__ == "__main__":

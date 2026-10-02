@@ -36,6 +36,7 @@ import torch
 from transformers import AutoTokenizer, BltForCausalLM
 
 import blt_layouts
+import registry
 
 MODEL = "itazap/blt-1b-hf"
 GSM = os.path.expanduser("~/.cache/segresearch-gsm8k/test.jsonl")
@@ -131,9 +132,9 @@ def main(n_problems, n_train):
     print(f"\nBLT-1B, {used} GSM8K test problems, budget thresholds: {blt_layouts.MODE}; {len(stats['default']['res_exact'])} in-line results, {len(stats['default']['fin_exact'])} final answers")
     for name in layouts:
         s = stats[name]
-        print(f"RESULT {name:11s} patch rate {np.mean(s['rate']):.3f} | results covered {np.mean(covered[name]):5.1%} | "
+        registry.emit("realblt_budget", f"RESULT {name:11s} patch rate {np.mean(s['rate']):.3f} | results covered {np.mean(covered[name]):5.1%} | "
               f"in-line results: {np.mean(s['res_bits']):.3f} bits, exact {np.mean(s['res_exact']):5.1%} | "
-              f"final: {np.mean(s['fin_bits']):.3f} bits, exact {np.mean(s['fin_exact']):5.1%}", flush=True)
+              f"final: {np.mean(s['fin_bits']):.3f} bits, exact {np.mean(s['fin_exact']):5.1%}", experiment="blt_budget", thresh=blt_layouts.MODE)
 
 
 if __name__ == "__main__":

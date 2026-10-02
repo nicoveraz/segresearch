@@ -61,6 +61,7 @@ import numpy as np
 
 import prepare
 import realtext
+import registry
 from prepare import BUDGET, CTX, MAIN_BS, PATCHER, RI, adamw, log_softmax_np, make_step
 
 SMOKE = os.environ.get("SEGR_MATH_SMOKE") == "1"
@@ -423,10 +424,10 @@ def run(name, seed, steps):
     p = _train(z["train_bytes"], m_tr, steps, seed)
     o = _bits(p, z["val_bytes"], m_va, z["val_roles"])
     o.update(_accuracy(p, pat, rule, z["val_bytes"], z["val_roles"], seed))
-    print(f"RESULT math rule={name} seed={seed} steps={steps} D={harness.D} glayers={harness.GLAYERS} "
+    registry.emit("reasonexp" if "-reason" in CACHE else "mathexp", f"RESULT math rule={name} seed={seed} steps={steps} D={harness.D} glayers={harness.GLAYERS} "
           f"pool={harness.POOL} local={harness.LOCAL} rate={o['rate']:.3f} (patches {o['patch_rate']:.3f}, scratchpads {o['scratch_rate']:.3f}) bpb={o['bpb']:.4f} | "
           + " ".join(f"{k}: {o[k + '_bits']:.3f} bits, acc {o.get(k + '_acc', float('nan')):.3f} (n={o.get(k + '_n', 0)})"
-                     for k in ANSWER_ROLES) + f" | {time.time() - t0:.0f}s", flush=True)
+                     for k in ANSWER_ROLES) + f" | {time.time() - t0:.0f}s", corpus="reason" if "-reason" in CACHE else "math", window=harness.WINDOW, scratch=harness.SCRATCH, nacc=N_ACC, smoke=SMOKE)
 
 
 if __name__ == "__main__":

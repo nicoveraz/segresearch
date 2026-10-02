@@ -27,6 +27,8 @@ What is known (BLT, SpaceByte, H-Net, Scratchpad Patching) and what looks new is
 | `notes.md` | Lab notebook: every experiment, result and correction, in order |
 | `literature.md`, `refs.bib` | Verified related work |
 | `results/logs/` | Raw logs of every run cited in `notes.md` (index in `results/logs/README.md`) |
+| `results/registry/` | One JSON record per result: `backfill.jsonl` (rebuilt from the logs by `build_registry.py`) and `<script>.jsonl` (appended live by every script through `registry.py`) |
+| `results/tables.md`, `results/figures/` | Headline tables and figures, rebuilt by `make_tables.py` and `make_figures.py` |
 | `prepare.py`, `harness.py`, `baselines.py`, `boundary.py`, `run.py`, `test_final.py` | The original synthetic-corpus loop: the agent edits `boundary.py` only |
 | `test_causal.py` | Checks that every rule is causal and never reads labels |
 | `realtext.py` | Real-text checks on GSM8K and code with the MLX model |
@@ -50,6 +52,7 @@ uv run deptrigger.py 16000 4096 marginal          # label-free dependence table
 uv run mathexp.py run dep10 0 32000               # one training run: rule, seed, steps
 uv run mathexp.py rates                           # patch rate and answer coverage of every rule
 uv run flops.py
+uv run build_registry.py && uv run make_tables.py && uv run make_figures.py   # tables and figures from the registry
 ```
 
 Rules for `mathexp.py run` include `entropy`, `jump`, `words+syntax`, `entropyR`, `depR`, `syntax+entropyR` (R = percent of bytes), and the Scratchpad Patching variants `sp16:*` (with `SEGR_SCRATCH=1`). A run takes about an hour at D=128.

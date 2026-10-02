@@ -550,3 +550,6 @@ Final answers (train mode): entropy 52.7 / 37.8%, results 56.5 / 49.0%, dep 32.0
 - dep alone still wrecks final answers (4.1% at 10%); entdep keeps them (50.7%).
 - Code and traces: train and problem modes agree within ~1 point on every layout; conclusions unchanged (small effect on copies, floor on computed trace values).
 - The per-problem selection did not inflate the published gaps; if anything it favored the entropy baseline.
+
+### Results registry (#15)
+Every script now records each RESULT line as a JSON record (`registry.py`; live records in `results/registry/<script>.jsonl` with commit, config and metrics). The 347 results in the old logs are backfilled (`build_registry.py` -> `results/registry/backfill.jsonl`). `make_tables.py` rebuilds the headline tables (`results/tables.md`; checked against the tables above: larger model, budget sweep, BLT-1B train thresholds match) and `make_figures.py` the accuracy-vs-compute figure (`results/figures/acc_vs_compute.svg`). One log (mlx_math_small/words+jump_s1) is empty: that run was cut off and later replaced by the word-start-fix reruns.

@@ -31,6 +31,7 @@ import torch
 from transformers import AutoTokenizer, BltForCausalLM
 
 import blt_layouts
+import registry
 
 MODEL = "itazap/blt-1b-hf"
 BUDGETS = (0.15, 0.10)
@@ -156,8 +157,8 @@ def main(n_train, n_test):
           f"budget thresholds: {blt_layouts.MODE}")
     for name in layouts:
         s = st_[name]
-        print(f"RESULT {name:11s} patch rate {np.mean(s['rate']):.3f} | covered {np.mean(s['cov']):5.1%} | repeated identifiers: {np.mean(s['bits']):.3f} bits, "
-              f"exact {np.mean(s['exact']):5.1%}", flush=True)
+        registry.emit("realblt_code", f"RESULT {name:11s} patch rate {np.mean(s['rate']):.3f} | covered {np.mean(s['cov']):5.1%} | repeated identifiers: {np.mean(s['bits']):.3f} bits, "
+              f"exact {np.mean(s['exact']):5.1%}", experiment="blt_code", thresh=blt_layouts.MODE)
 
 
 if __name__ == "__main__":

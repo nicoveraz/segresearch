@@ -37,6 +37,7 @@ import urllib.request
 import numpy as np
 
 import prepare
+import registry
 from prepare import BUDGET, PATCHER, RI
 
 DATA = os.environ.get("SEGR_REALDATA", "gsm8k")      # gsm8k | code
@@ -196,9 +197,9 @@ def run(name, seed, steps):
         if m.mean() > BUDGET + 0.01:
             raise SystemExit(f"{name}: rate {m.mean():.3f} on {sp} is above the budget")
     o = harness.train_eval(z["train_bytes"], m_tr, z["val_bytes"], m_va, z["val_roles"], seed=seed)
-    print(f"RESULT {DATA} mask={name} seed={seed} steps={steps} pool={harness.POOL} local={harness.LOCAL} | "
+    registry.emit("realtext", f"RESULT {DATA} mask={name} seed={seed} steps={steps} pool={harness.POOL} local={harness.LOCAL} | "
           f"ans {o['ans_bits']:.4f} (computed {o['ANS_LOCAL_bits']:.3f}, final {o['ANS_LONG_bits']:.3f}) | "
-          f"copy {o['VALUE_bits']:.3f} | text {o['TEXT_bits']:.3f} | bpb {o['bpb']:.4f} | rate {o['boundary_rate']:.3f}", flush=True)
+          f"copy {o['VALUE_bits']:.3f} | text {o['TEXT_bits']:.3f} | bpb {o['bpb']:.4f} | rate {o['boundary_rate']:.3f}", corpus=DATA, window=harness.WINDOW)
 
 
 if __name__ == "__main__":

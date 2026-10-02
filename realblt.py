@@ -21,6 +21,7 @@ import sys
 import time
 
 import numpy as np
+import registry
 import torch
 from transformers import AutoTokenizer, BltForCausalLM
 
@@ -83,7 +84,7 @@ def main(n_problems):
     print(f"\nBLT-1B on {len(problems)} GSM8K test problems (final answer, given the worked solution)")
     print(f"default patches already start at the answer in {np.mean(had_boundary):.0%} of problems")
     for name, r in res.items():
-        print(f"RESULT layout={name:8s} bits/answer byte {np.mean(r['bits']):.3f} | exact match {np.mean(r['exact']):.1%}")
+        registry.emit("realblt", f"RESULT layout={name:8s} bits/answer byte {np.mean(r['bits']):.3f} | exact match {np.mean(r['exact']):.1%}", experiment="blt_answer_boundary", n_problems=len(problems))
     m = np.array(had_boundary)
     for name in ("default", "+answer", "-answer"):
         r = res[name]

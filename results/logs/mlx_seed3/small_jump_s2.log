@@ -1,0 +1,1 @@
+RESULT math rule=jump seed=2 steps=32000 D=64 glayers=2 pool=xattn local=window rate=0.250 (patches 0.250, scratchpads 0.000) bpb=1.7798 | computed: 2.619 bits, acc 0.060 (n=300) copy: 0.502 bits, acc nan (n=0) final: 1.142 bits, acc 0.667 (n=300) boxed: 2.167 bits, acc 0.030 (n=300) | 1640s

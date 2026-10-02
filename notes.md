@@ -536,3 +536,17 @@ computed exact (bits) / copy / answer / step:
 - **syntax+entropy10: 26.9% [28.6, 25.1] (2.40)** / 99.7 / 50.3 / 6.7
 - With the operands outside the local window, a boundary at each traced value now helps: +6.5 points exact and -0.54 bits, seeds separated (at W=32 the gap was 1.2 points). Supports the refined claim: the blind spot needs a value computed from context beyond the local model's reach. Effect moderate; third seed queued.
 - **Third seed weakens it (correction):** syntax+entropy10 s2 18.8% (2.82 bits) vs entropy10 s2 19.5% (2.83). 3-seed means: entropy10 20.1% [19.9, 20.9, 19.5], 2.91 bits; syntax+entropy10 24.2% [28.6, 25.1, 18.8], 2.54 bits. Gap 4 points, seeds now overlap; the bits gap (0.37) is more consistent. entropy at 25%: 24.5 / 34.6 (high variance). **Verdict: suggestive, not confirmed** -- the window explanation is plausible but this test is underpowered; the two-seed version overstated it (standard 3 again).
+
+### #26 reruns: train-fitted thresholds (BLT-1B, env bltenv: torch 2.14.1, transformers 5.18)
+Problem mode reproduces the old tables exactly (budget, code, trace), so the refactor and env are faithful. Train mode, exact match (patch rate):
+| GSM8K in-line results | @15 train | @15 problem (old) | @10 train | @10 problem (old) |
+|---|---|---|---|---|
+| entropy | 33.9% (0.146) | 39.8% | 14.8% (0.096) | 18.1% |
+| results (label) | 58.9% (0.146) | 61.3% | 41.5% (0.097) | 45.2% |
+| dep | 71.7% (0.152) | 70.5% | 65.2% (0.101) | 64.2% |
+| entdep | 72.1% (0.150) | 71.2% | 60.7% (0.098) | 60.3% |
+Final answers (train mode): entropy 52.7 / 37.8%, results 56.5 / 49.0%, dep 32.0 / 4.1%, entdep 59.9 / 50.7% (@15 / @10).
+- **Headline holds with causal thresholds:** results − entropy +25.0 points at 15% (old +21.5) and +26.7 at 10% (old +27.1); entdep − entropy +38.2 / +45.9 (old +31.4 / +42.2). Entropy loses most under train thresholds (covers 40.8% of results vs 48.4%), partly because test problems run slightly below the train rate for entropy (0.146 / 0.096 vs 0.150 / 0.100); the label-free rules are at or above R. Gaps are far larger than that compute difference.
+- dep alone still wrecks final answers (4.1% at 10%); entdep keeps them (50.7%).
+- Code and traces: train and problem modes agree within ~1 point on every layout; conclusions unchanged (small effect on copies, floor on computed trace values).
+- The per-problem selection did not inflate the published gaps; if anything it favored the entropy baseline.

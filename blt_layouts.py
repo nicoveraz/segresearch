@@ -59,7 +59,11 @@ class Fit:
         self.budgets, self.sigs, self.forced = budgets, [], []
 
     def add(self, sig, forced=()):
-        self.sigs.append({k: np.asarray(v, np.float64) for k, v in sig.items()})
+        sig = {k: np.asarray(v, np.float64) for k, v in sig.items()}
+        for k, v in sig.items():                 # -inf marks "no score"; NaN means the model or table is broken
+            if np.isnan(v).any():
+                raise ValueError(f"signal {k!r} has NaN values (a broken model run or dependence table?)")
+        self.sigs.append(sig)
         self.forced.append(np.array(sorted({int(t) for t in forced if t >= 2}), int))
 
     def done(self):

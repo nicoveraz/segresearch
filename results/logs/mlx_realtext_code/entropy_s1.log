@@ -1,0 +1,1 @@
+RESULT code mask=entropy seed=1 steps=32000 pool=xattn local=window | ans 2.2667 (computed 2.204, final 2.290) | copy nan | text 1.966 | bpb 1.9937 | rate 0.250

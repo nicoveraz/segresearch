@@ -1,0 +1,25 @@
+commit	val_ans_bits	val_ans_long_bits	boundary_rate	status	description
+bce1efe	2.436325	2.677779	0.2453	stale	baseline at MAIN_STEPS=2000 (not comparable)
+5e381d9	1.269068	2.470946	0.2453	keep	baseline at MAIN_STEPS=8000: BLT raw entropy
+e92a643	1.180178	2.198858	0.2500	keep	H1 entropy jump H[i]-H[i-1], seed 0
+e92a643	1.138173	2.081876	0.2500	keep	H1 entropy jump, seed 1 (mean 1.159 vs baseline ~1.250)
+8675ed7	1.153517	2.229314	0.1503	keep	H2 entropy jump at 15%, seed 0
+8675ed7	1.174787	2.257592	0.1503	keep	H2 seed 1 (mean 1.164 vs H1 1.159 at 60% compute)
+658d486	1.347978	2.486002	0.1499	discard	H3 negative test: reference entropy jump 15% (no answer starts; long back to baseline)
+6669957	2.400852	2.618274	0.0264	discard	H5 answer starts only (2.6%): patches too long, local collapses
+610de4d	1.529044	2.578722	0.1178	discard	H6 top 10% jumps + learnable starts: B loses record starts, long back to baseline
+8675ed7	1.195936	2.320194	0.1503	keep	H2 seed 2 (3-seed mean 1.175; long 2.23/2.26/2.32)
+488ddba	1.187929	2.288127	0.1811	discard	H7 H2 + every learnable byte: more compute, long unchanged
+658d486	1.312059	2.426617	0.1499	discard	H3 replication seed 1 (long 2.43 vs H2 2.26)
+610de4d	1.503828	2.464813	0.1178	discard	H6 replication seed 1 (long drop confirmed)
+5e381d9	1.256316	2.485654	0.2453	keep	baseline seed 2 (3-seed mean 1.252)
+cdb8fa9	1.169800	2.391100	0.2453	keep	[16k] baseline seed 0 (all rows above are 8000-step, not comparable)
+cdb8fa9	1.100200	2.165600	0.1503	keep	[16k] H2 seed 0 (current rule)
+cdb8fa9	1.049500	2.038800	0.1503	keep	[16k] H2 seed 1 (mean 1.075)
+22ada08	1.238401	2.250390	0.1361	discard	[16k] H10 top 13% jumps + learnable, seed 0
+22ada08	1.128370	2.090716	0.1361	discard	[16k] H10 seed 1 (mean 1.183 vs H2 1.075)
+9baa2a4	0.940822	2.263826	0.1115	keep	[16k] H11 learned separator + learnable starts, seed 0
+9baa2a4	0.899780	2.164660	0.1115	keep	[16k] H11 seed 1 (mean 0.920 vs H2 1.075)
+6847b72	0.648107	1.523358	0.1045	keep	[16k] H12 learned separator + Otsu-filtered learnable starts, seed 0
+6847b72	0.768389	1.843767	0.1045	keep	[16k] H12 seed 1 (mean 0.708 = oracle 0.717; H2 1.075)
+6847b72	0.701150	1.678402	0.1045	keep	[16k] H12 seed 2 (3-seed mean 0.706; FROZEN)

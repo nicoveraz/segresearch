@@ -35,6 +35,10 @@ Each rule below exists because breaking it produced a wrong conclusion in the `a
 9. **Freeze before the final test.** Run `test_final.py` only on a frozen rule, and never read held-out results while still iterating.
 10. **Check real text.** Synthetic results need a real-text check (`realtext.py`, GSM8K). Its answer starts come from annotation syntax; a label-free detector is still missing.
 
+## Experiments outside the `boundary.py` loop
+
+From the `autoresearch/sep26` round on, most experiments ran outside the edit-`boundary.py` loop, as standalone scripts driven by the same standards: `realtext.py` (GSM8K, code), `mathexp.py` (math training runs, budgets, Scratchpad Patching), `deptrigger.py` and `gaintrigger.py` (label-free triggers), `reasonexp.py` (logic and program traces), `learned_chunking.py`, `flops.py`, and the BLT-1B scripts (`realblt*.py`, `blt_layouts.py`, `blt_screens/`). They do not use `run.py`, `results.tsv` or the keep/discard rule; their results are in `notes.md` and their raw logs in `results/logs/`. `test_causal.py` checks their rules too.
+
 ## Setup (once, with the human)
 
 1. Agree on a run tag with the human (e.g. `sep26`). Create the branch: `git checkout -b autoresearch/<tag>`.

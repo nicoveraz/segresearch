@@ -1,0 +1,25 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:12<54:27,  6.43s/it]Loading weights: 100%|██████████| 510/510 [00:12<00:00, 39.61it/s]
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (1029 > 1024). Running this sequence through the model will result in indexing errors
+thresholds fitted on 297 GSM8K train problems; train patch rates: entropy@15 0.150, results@15 0.150, dep@15 0.150, entdep@15 0.150, entropy@10 0.100, results@10 0.100, dep@10 0.100, entdep@10 0.100
+  25 problems, 65s
+  50 problems, 120s
+  75 problems, 174s
+  100 problems, 227s
+  125 problems, 279s
+  150 problems, 332s
+  175 problems, 397s
+  200 problems, 449s
+  225 problems, 509s
+  250 problems, 559s
+  275 problems, 614s
+
+BLT-1B, 294 GSM8K test problems, budget thresholds: train; 796 in-line results, 294 final answers
+RESULT default     patch rate 0.284 | results covered 83.2% | in-line results: 0.669 bits, exact 73.0% | final: 0.965 bits, exact 67.3%
+RESULT entropy@15  patch rate 0.146 | results covered 40.8% | in-line results: 1.899 bits, exact 33.9% | final: 1.472 bits, exact 52.7%
+RESULT results@15  patch rate 0.146 | results covered 100.0% | in-line results: 1.101 bits, exact 58.9% | final: 1.339 bits, exact 56.5%
+RESULT dep@15      patch rate 0.152 | results covered 100.0% | in-line results: 0.769 bits, exact 71.7% | final: 2.541 bits, exact 32.0%
+RESULT entdep@15   patch rate 0.150 | results covered 100.0% | in-line results: 0.718 bits, exact 72.1% | final: 1.384 bits, exact 59.9%
+RESULT entropy@10  patch rate 0.096 | results covered 21.0% | in-line results: 2.679 bits, exact 14.8% | final: 1.950 bits, exact 37.8%
+RESULT results@10  patch rate 0.097 | results covered 100.0% | in-line results: 1.652 bits, exact 41.5% | final: 1.671 bits, exact 49.0%
+RESULT dep@10      patch rate 0.101 | results covered 100.0% | in-line results: 1.058 bits, exact 65.2% | final: 3.402 bits, exact  4.1%
+RESULT entdep@10   patch rate 0.098 | results covered 100.0% | in-line results: 1.102 bits, exact 60.7% | final: 1.710 bits, exact 50.7%

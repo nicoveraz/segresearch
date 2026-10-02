@@ -1,0 +1,1 @@
+RESULT math rule=sp:entropy seed=0 steps=32000 D=64 glayers=2 pool=sum local=window rate=0.184 (patches 0.125, scratchpads 0.059) bpb=1.8525 | computed: 2.632 bits, acc 0.047 (n=1000) copy: 0.983 bits, acc nan (n=0) final: 2.771 bits, acc 0.073 (n=660) boxed: 2.127 bits, acc 0.031 (n=700) | 3565s

@@ -1,0 +1,5 @@
+1. training the reference model with entropy patches (16000 steps)
+2. per-byte losses under 25% and 10% layouts on 2048 training windows
+   931 contexts; mean rise 0.783 nats
+   top contexts: b'&$' 3.49, b'-$' 2.41, b'\\p' 2.26, b'}\\' 2.23, b'\\r' 2.22, b',\\' 2.15, b'$-' 2.14, b'e-' 2.11, b'7}' 2.11, b'y}' 2.05, b'{ ' 2.02, b'We' 2.02
+saved /Users/nicoveraz/.cache/segresearch-math/deptrigger.npz

@@ -1,0 +1,1 @@
+RESULT math rule=sp:none seed=0 steps=32000 D=64 glayers=2 pool=sum local=window rate=0.125 (patches 0.125, scratchpads 0.000) bpb=1.8670 | computed: 2.552 bits, acc 0.051 (n=1000) copy: 1.853 bits, acc nan (n=0) final: 2.610 bits, acc 0.070 (n=660) boxed: 2.108 bits, acc 0.029 (n=700) | 3531s

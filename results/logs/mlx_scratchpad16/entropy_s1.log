@@ -1,0 +1,1 @@
+RESULT math rule=sp16:entropy seed=1 steps=32000 D=64 glayers=2 pool=xattn local=window rate=0.122 (patches 0.063, scratchpads 0.059) bpb=1.9300 | computed: 2.740 bits, acc 0.041 (n=1000) copy: 1.750 bits, acc nan (n=0) final: 2.914 bits, acc 0.048 (n=660) boxed: 2.264 bits, acc 0.033 (n=700) | 4224s

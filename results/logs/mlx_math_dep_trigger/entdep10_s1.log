@@ -1,0 +1,1 @@
+RESULT math rule=entdep10 seed=1 steps=32000 D=128 glayers=4 pool=xattn local=window rate=0.100 (patches 0.100, scratchpads 0.000) bpb=1.6621 | computed: 2.405 bits, acc 0.122 (n=1000) copy: 0.504 bits, acc nan (n=0) final: 2.090 bits, acc 0.318 (n=660) boxed: 2.067 bits, acc 0.029 (n=700) | 3463s

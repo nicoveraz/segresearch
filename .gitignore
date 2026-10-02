@@ -1,5 +1,9 @@
 __pycache__/
 .venv/
-run.log
 results.tsv
 *.pkl
+
+# run logs in the working directory (kept ones live in results/logs/)
+/*.log
+/*.done
+/*.commit

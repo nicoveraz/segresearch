@@ -1,0 +1,16 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:13<58:36,  6.92s/it]Loading weights: 100%|██████████| 510/510 [00:13<00:00, 36.79it/s]
+[trace] fitting boundary dependence on 5 train problems
+  24 contexts; top: b'w ' 0.38, b'ow' 0.34, b'no' 0.33, b' n' 0.20, b' c' 0.05, b'= ' 0.05, b'a ' 0.04, b' d' 0.04, b' a' 0.04, b'\n#' 0.04
+
+BLT-1B, task trace: 5 test problems; targets computed 42, copy 31
+RESULT default     computed: covered 85.7%, 2.968 bits, exact 19.0% | copy: covered 96.8%, 0.353 bits, exact 83.9%
+RESULT entropy@15  computed: covered 19.0%, 3.812 bits, exact  4.8% | copy: covered 38.7%, 0.731 bits, exact 67.7%
+RESULT dep@15      computed: covered 100.0%, 3.727 bits, exact  7.1% | copy: covered 100.0%, 1.109 bits, exact 61.3%
+RESULT entdep@15   computed: covered 100.0%, 3.580 bits, exact  9.5% | copy: covered 100.0%, 0.508 bits, exact 77.4%
+RESULT entdepM@15  computed: covered  0.0%, 3.654 bits, exact  4.8% | copy: covered 16.1%, 0.651 bits, exact 77.4%
+RESULT oracle@15   computed: covered 100.0%, 3.531 bits, exact  9.5% | copy: covered 100.0%, 0.506 bits, exact 77.4%
+RESULT entropy@10  computed: covered 11.9%, 4.040 bits, exact  4.8% | copy: covered 29.0%, 0.751 bits, exact 64.5%
+RESULT dep@10      computed: covered 100.0%, 3.761 bits, exact  7.1% | copy: covered 100.0%, 1.066 bits, exact 61.3%
+RESULT entdep@10   computed: covered 100.0%, 3.930 bits, exact  2.4% | copy: covered 100.0%, 0.745 bits, exact 71.0%
+RESULT entdepM@10  computed: covered  0.0%, 4.021 bits, exact  0.0% | copy: covered  3.2%, 1.002 bits, exact 58.1%
+RESULT oracle@10   computed: covered 100.0%, 3.734 bits, exact  2.4% | copy: covered 100.0%, 0.757 bits, exact 71.0%

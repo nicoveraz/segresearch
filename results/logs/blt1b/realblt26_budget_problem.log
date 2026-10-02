@@ -1,0 +1,24 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:11<50:14,  5.93s/it]Loading weights: 100%|██████████| 510/510 [00:11<00:00, 42.93it/s]
+  25 problems, 67s
+  50 problems, 121s
+  75 problems, 175s
+  100 problems, 228s
+  125 problems, 282s
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (1262 > 1024). Running this sequence through the model will result in indexing errors
+  150 problems, 334s
+  175 problems, 397s
+  200 problems, 448s
+  225 problems, 508s
+  250 problems, 557s
+  275 problems, 612s
+
+BLT-1B, 294 GSM8K test problems, budget thresholds: problem; 796 in-line results, 294 final answers
+RESULT default     patch rate 0.284 | results covered 83.2% | in-line results: 0.669 bits, exact 73.0% | final: 0.965 bits, exact 67.3%
+RESULT entropy@15  patch rate 0.150 | results covered 48.4% | in-line results: 1.710 bits, exact 39.8% | final: 1.374 bits, exact 56.8%
+RESULT results@15  patch rate 0.150 | results covered 100.0% | in-line results: 1.042 bits, exact 61.3% | final: 1.303 bits, exact 57.1%
+RESULT dep@15      patch rate 0.150 | results covered 100.0% | in-line results: 0.774 bits, exact 70.5% | final: 2.424 bits, exact 35.0%
+RESULT entdep@15   patch rate 0.150 | results covered 100.0% | in-line results: 0.759 bits, exact 71.2% | final: 1.431 bits, exact 57.5%
+RESULT entropy@10  patch rate 0.100 | results covered 24.4% | in-line results: 2.579 bits, exact 18.1% | final: 1.905 bits, exact 40.1%
+RESULT results@10  patch rate 0.100 | results covered 100.0% | in-line results: 1.592 bits, exact 45.2% | final: 1.643 bits, exact 51.0%
+RESULT dep@10      patch rate 0.100 | results covered 100.0% | in-line results: 1.061 bits, exact 64.2% | final: 3.307 bits, exact  9.2%
+RESULT entdep@10   patch rate 0.100 | results covered 99.7% | in-line results: 1.097 bits, exact 60.3% | final: 1.880 bits, exact 53.7%

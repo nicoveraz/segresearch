@@ -1,0 +1,1 @@
+RESULT math rule=dep15 seed=0 steps=32000 D=128 glayers=4 pool=xattn local=window rate=0.148 (patches 0.148, scratchpads 0.000) bpb=1.6355 | computed: 2.299 bits, acc 0.152 (n=1000) copy: 0.223 bits, acc nan (n=0) final: 1.076 bits, acc 0.688 (n=660) boxed: 2.009 bits, acc 0.026 (n=700) | 5649s

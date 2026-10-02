@@ -1,0 +1,70 @@
+format D: train 1,264,739 bytes. Example:
+id:146d7159;denies nausea;id:03a4842b
+set z=48
+set y=88;26+39=56
+set y=90;id:cee379bb
+abdomen soft
+y+z=831
+set z=50
+set z=63
+53+90+49=291;set x=54
+id:bc803418
+s
+  training patcher (small model)
+    step    200 loss 1.973
+    step   1000 loss 1.156
+    step   4000 loss 1.233
+  training reference (strong model)
+    step  64000 loss 0.969
+  val entropy by role (bits)   patcher-final / reference
+    TEXT         0.36 /   0.32
+    STRUCT       0.75 /   0.68
+    HEX          4.00 /   3.87
+    VAR          2.39 /   2.08
+    VALUE        3.43 /   3.20
+    OPERAND      3.29 /   3.12
+    ANS_LOCAL    2.72 /   0.03
+    ANS_LONG     2.79 /   0.31
+  done in 1245s
+format E: train 1,835,907 bytes. Example:
+ref#146d7159
+denies nausea
+ref#03a4842b. let z be 48. let y be 88
+26 plus 39 is 56. let y be 90
+ref#cee379bb. abdomen soft. y plus z is 831. let z be 50. let z 
+  training patcher (small model)
+    step    200 loss 1.910
+    step   1000 loss 0.889
+    step   4000 loss 0.828
+  training reference (strong model)
+    step  64000 loss 0.759
+  val entropy by role (bits)   patcher-final / reference
+    TEXT         0.40 /   0.31
+    STRUCT       0.36 /   0.32
+    HEX          4.01 /   3.97
+    VAR          2.43 /   2.09
+    VALUE        3.45 /   3.27
+    OPERAND      3.29 /   3.20
+    ANS_LOCAL    2.75 /   0.03
+    ANS_LONG     2.76 /   1.09
+  WARNING: reference has not learned ANS_LONG (> 0.5 bits). Increase REFERENCE['steps'].
+  done in 1436s
+format F: train 1,572,254 bytes. Example:
+uid 146d7159 / denies nausea / uid 03a4842b|z <- 48|y <- 88 / sum 26 39 = 56|y <- 90 / uid cee379bb|abdomen soft|sum y z = 831|z <- 50|z <- 63|sum 53 90 49 = 29
+  training patcher (small model)
+    step    200 loss 1.958
+    step   1000 loss 0.976
+    step   4000 loss 0.890
+  training reference (strong model)
+    step  64000 loss 0.829
+  val entropy by role (bits)   patcher-final / reference
+    TEXT         0.37 /   0.32
+    STRUCT       0.41 /   0.38
+    HEX          4.01 /   3.95
+    VAR          3.09 /   2.67
+    VALUE        3.44 /   3.25
+    OPERAND      3.29 /   3.17
+    ANS_LOCAL    2.71 /   0.02
+    ANS_LONG     2.77 /   0.53
+  WARNING: reference has not learned ANS_LONG (> 0.5 bits). Increase REFERENCE['steps'].
+  done in 1577s

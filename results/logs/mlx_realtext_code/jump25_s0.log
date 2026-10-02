@@ -1,0 +1,1 @@
+RESULT code mask=jump25 seed=0 steps=32000 pool=xattn local=window | ans 2.2287 (computed 2.219, final 2.232) | copy nan | text 1.955 | bpb 1.9804 | rate 0.250

@@ -1,0 +1,28 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:12<53:44,  6.35s/it]Loading weights: 100%|██████████| 510/510 [00:12<00:00, 40.13it/s]
+[direct] fitting boundary dependence on 300 train problems
+  142 contexts; top: b'ur' 0.08, b' f' 0.06, b'fu' 0.05, b'na' 0.05, b': ' 0.05, b'ki' 0.05, b'bl' 0.04, b'a ' 0.04, b'nn' 0.04, b' b' 0.03
+  25 test problems, 188s
+  50 test problems, 239s
+  75 test problems, 291s
+  100 test problems, 342s
+  125 test problems, 393s
+  150 test problems, 445s
+  175 test problems, 496s
+  200 test problems, 547s
+  225 test problems, 597s
+  250 test problems, 711s
+  275 test problems, 761s
+  300 test problems, 812s
+
+BLT-1B, task direct: 300 test problems; targets answer 300
+RESULT default     answer: covered 100.0%, 0.774 bits, exact 48.7%, choice 56.0%
+RESULT entropy@15  answer: covered 100.0%, 0.769 bits, exact 52.0%, choice 57.7%
+RESULT dep@15      answer: covered 100.0%, 0.749 bits, exact 49.7%, choice 54.0%
+RESULT entdep@15   answer: covered 100.0%, 0.808 bits, exact 48.3%, choice 55.3%
+RESULT entdepM@15  answer: covered 100.0%, 0.723 bits, exact 53.3%, choice 55.3%
+RESULT oracle@15   answer: covered 100.0%, 0.769 bits, exact 52.0%, choice 57.7%
+RESULT entropy@10  answer: covered 97.3%, 0.802 bits, exact 52.0%, choice 57.3%
+RESULT dep@10      answer: covered 100.0%, 0.825 bits, exact 46.7%, choice 53.7%
+RESULT entdep@10   answer: covered 100.0%, 0.846 bits, exact 48.7%, choice 57.7%
+RESULT entdepM@10  answer: covered 100.0%, 0.722 bits, exact 53.7%, choice 54.0%
+RESULT oracle@10   answer: covered 100.0%, 0.764 bits, exact 53.7%, choice 57.7%

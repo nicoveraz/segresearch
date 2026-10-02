@@ -1,0 +1,5 @@
+train: 9,667,026 bytes; computed 0.006, copy 0.005, final 0.002, boxed 0.005
+val: 853,196 bytes; computed 0.006, copy 0.005, final 0.002, boxed 0.005
+training the small entropy model
+    step   4000 loss 1.762
+cached /Users/nicoveraz/.cache/segresearch-math/math.npz

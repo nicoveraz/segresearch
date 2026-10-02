@@ -1,0 +1,6 @@
+rule                       ans_bits A    long A  rate   ans_bits B    long B  rate   ans_bits C    long C  rate
+boundary.py (agent)            0.4712     1.309  0.12       0.7033     1.611  0.09       0.4767     1.223  0.10
+stride                         1.7796     2.285  0.25       1.7596     2.441  0.25       1.3575     2.235  0.25
+blt_entropy                    0.9733     2.348  0.25       1.2839     2.285  0.25       1.2071     2.586  0.25
+excess_vs_reference            1.3878     2.400  0.25       1.4452     2.462  0.25       1.4469     2.547  0.25
+trajectory_gated               1.5967     2.502  0.25       1.5871     2.532  0.25       0.9931     2.074  0.25

@@ -1,0 +1,28 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:11<49:56,  5.90s/it]Loading weights: 100%|██████████| 510/510 [00:11<00:00, 43.18it/s]
+[trace] fitting boundary dependence on 300 train problems
+  149 contexts; top: b'w ' 0.37, b'ow' 0.35, b'no' 0.28, b' 1' 0.26, b'12' 0.21, b'14' 0.21, b'17' 0.20, b'16' 0.18, b'37' 0.17, b' 2' 0.17
+  25 test problems, 201s
+  50 test problems, 252s
+  75 test problems, 302s
+  100 test problems, 353s
+  125 test problems, 404s
+  150 test problems, 457s
+  175 test problems, 508s
+  200 test problems, 559s
+  225 test problems, 609s
+  250 test problems, 661s
+  275 test problems, 712s
+  300 test problems, 765s
+
+BLT-1B, task trace: 300 test problems, budget thresholds: problem; targets computed 2469, copy 1716
+RESULT default     patch rate 0.318 | computed: covered 92.3%, 2.715 bits, exact 20.5% | copy: covered 97.1%, 0.375 bits, exact 82.5%
+RESULT entropy@15  patch rate 0.150 | computed: covered 35.8%, 3.596 bits, exact 11.2% | copy: covered 54.8%, 0.776 bits, exact 66.8%
+RESULT dep@15      patch rate 0.150 | computed: covered 100.0%, 3.639 bits, exact  9.3% | copy: covered 100.0%, 1.550 bits, exact 46.0%
+RESULT entdep@15   patch rate 0.150 | computed: covered 100.0%, 3.467 bits, exact 10.9% | copy: covered 100.0%, 0.888 bits, exact 66.7%
+RESULT entdepM@15  patch rate 0.150 | computed: covered  0.0%, 3.804 bits, exact  9.6% | copy: covered 14.8%, 0.974 bits, exact 61.2%
+RESULT oracle@15   patch rate 0.150 | computed: covered 100.0%, 3.338 bits, exact 12.8% | copy: covered 100.0%, 0.653 bits, exact 73.8%
+RESULT entropy@10  patch rate 0.100 | computed: covered 14.7%, 3.871 bits, exact  9.6% | copy: covered 32.0%, 0.976 bits, exact 58.4%
+RESULT dep@10      patch rate 0.100 | computed: covered 100.0%, 3.681 bits, exact  9.3% | copy: covered 100.0%, 1.550 bits, exact 44.8%
+RESULT entdep@10   patch rate 0.100 | computed: covered 100.0%, 3.744 bits, exact  8.9% | copy: covered 100.0%, 1.019 bits, exact 62.1%
+RESULT entdepM@10  patch rate 0.100 | computed: covered  0.0%, 4.003 bits, exact  8.8% | copy: covered  2.5%, 1.328 bits, exact 48.0%
+RESULT oracle@10   patch rate 0.100 | computed: covered 100.0%, 3.624 bits, exact  9.4% | copy: covered 100.0%, 0.963 bits, exact 61.8%

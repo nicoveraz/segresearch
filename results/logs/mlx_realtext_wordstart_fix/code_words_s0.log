@@ -1,0 +1,1 @@
+RESULT code mask=words seed=0 steps=32000 pool=xattn local=window | ans 2.2042 (computed 2.184, final 2.212) | copy nan | text 1.852 | bpb 1.8846 | rate 0.105

@@ -1,0 +1,28 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:12<52:37,  6.22s/it]Loading weights: 100%|██████████| 510/510 [00:12<00:00, 40.97it/s]
+[logic] fitting boundary dependence on 300 train problems
+  157 contexts; top: b'?\n' 0.21, b'\nP' 0.17, b'Pr' 0.16, b'd?' 0.13, b'e?' 0.11, b't?' 0.09, b'a ' 0.08, b'b ' 0.08, b'n?' 0.07, b'ur' 0.07
+  25 test problems, 239s
+  50 test problems, 305s
+  75 test problems, 374s
+  100 test problems, 439s
+  125 test problems, 505s
+  150 test problems, 571s
+  175 test problems, 637s
+  200 test problems, 703s
+  225 test problems, 770s
+  250 test problems, 834s
+  275 test problems, 901s
+  300 test problems, 968s
+
+BLT-1B, task logic: 300 test problems; targets answer 300, step 1196
+RESULT default     answer: covered 100.0%, 1.779 bits, exact  0.0% | step: covered 99.4%, 0.362 bits, exact 69.2%
+RESULT entropy@15  answer: covered 100.0%, 1.734 bits, exact  0.0% | step: covered 97.8%, 0.389 bits, exact 66.3%
+RESULT dep@15      answer: covered  0.0%, 2.563 bits, exact  0.0% | step: covered 100.0%, 0.787 bits, exact 24.0%
+RESULT entdep@15   answer: covered 24.0%, 1.892 bits, exact  0.0% | step: covered 100.0%, 0.447 bits, exact 60.8%
+RESULT entdepM@15  answer: covered 100.0%, 1.641 bits, exact  0.0% | step: covered 100.0%, 0.395 bits, exact 66.6%
+RESULT oracle@15   answer: covered 100.0%, 1.735 bits, exact  0.0% | step: covered 100.0%, 0.386 bits, exact 67.0%
+RESULT entropy@10  answer: covered 80.7%, 1.689 bits, exact  0.0% | step: covered 70.8%, 0.559 bits, exact 45.0%
+RESULT dep@10      answer: covered  0.0%, 2.610 bits, exact  0.0% | step: covered 100.0%, 0.850 bits, exact 19.6%
+RESULT entdep@10   answer: covered  8.7%, 2.392 bits, exact  0.0% | step: covered 100.0%, 0.584 bits, exact 44.8%
+RESULT entdepM@10  answer: covered 100.0%, 1.335 bits, exact  0.0% | step: covered 99.4%, 0.558 bits, exact 46.1%
+RESULT oracle@10   answer: covered 100.0%, 1.526 bits, exact  0.0% | step: covered 100.0%, 0.528 bits, exact 49.1%

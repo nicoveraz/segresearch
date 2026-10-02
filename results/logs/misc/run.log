@@ -1,0 +1,13 @@
+[A] ans_bits 0.5198 acc 0.855 | local 0.028 long 1.224 | bpb 1.3398 | rate 0.118
+[A] patch-start rate by role: TEXT 0.09, STRUCT 0.14, HEX 0.00, VAR 0.18, VALUE 0.00, OPERAND 0.25, ANS_LOCAL 0.38, ANS_LONG 0.39
+[B] ans_bits 0.7764 acc 0.791 | local 0.058 long 1.823 | bpb 1.0533 | rate 0.091
+[B] patch-start rate by role: TEXT 0.09, STRUCT 0.08, HEX 0.00, VAR 0.18, VALUE 0.00, OPERAND 0.25, ANS_LOCAL 0.38, ANS_LONG 0.35
+---
+val_ans_bits:      0.648107
+val_ans_acc:       0.8229
+val_ans_local_bits:0.042838
+val_ans_long_bits: 1.523358
+val_bpb:           1.196539
+boundary_rate:     0.1045
+seed:              0
+elapsed_seconds:   965

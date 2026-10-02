@@ -1,0 +1,5 @@
+1. training the reference model (marginal; 16000 steps; patch rate 0.250)
+2. measuring dependence on 4096 training windows
+   298 contexts; mean 0.020 nats
+   top contexts: b'fu' 0.17, b' f' 0.13, b'y,' 0.12, b'n,' 0.12, b'No' 0.10, b'62' 0.10, b'rr' 0.10, b'81' 0.10, b'40' 0.10, b'h,' 0.09, b'77' 0.09, b'79' 0.09
+saved /Users/nicoveraz/.cache/segresearch-reason/deptrigger.npz

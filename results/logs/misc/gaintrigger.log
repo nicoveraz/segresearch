@@ -1,0 +1,7 @@
+1. training the scratchpad model with random scratchpads (16000 steps)
+2. measuring scratchpad gains on 400 training windows
+   48000 positions; gain mean 0.026, p90 0.920 nats
+3. fitting the ridge regression
+   correlation of predicted and measured gain: 0.181
+   previous bytes with the largest learned gain: b'X' +1.096, b'Y' +0.532, b'!' +0.485, b'|' +0.361, b'B' +0.332, b']' +0.239, b'P' +0.236, b'R' +0.226
+saved /Users/nicoveraz/.cache/segresearch-math/gaintrigger.npz

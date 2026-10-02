@@ -1,0 +1,1 @@
+RESULT math rule=words+syntax+rand07 seed=2 steps=32000 D=64 glayers=2 pool=xattn local=window rate=0.192 bpb=1.7017 | computed: 2.450 bits, acc 0.074 (n=1000) copy: 0.078 bits, acc nan (n=0) final: 0.912 bits, acc 0.761 (n=660) boxed: 2.175 bits, acc 0.029 (n=700) | 2157s

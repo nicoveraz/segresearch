@@ -1,0 +1,69 @@
+format A: train 1,256,866 bytes. Example:
+id:146d7159
+set v=26
+alert and oriented
+set k=37
+alert and oriented
+id:aaf63aef
+set m=45
+bp normal
+41+72=311
+set u=97
+u+m=241
+set n=73
+pt stable
+afebrile
+set u=
+  training patcher (small model)
+    step    200 loss 2.200
+    step   1000 loss 1.145
+    step   4000 loss 1.107
+  training reference (strong model)
+    step  64000 loss 0.999
+  val entropy by role (bits)   patcher-final / reference
+    TEXT         0.40 /   0.32
+    STRUCT       0.55 /   0.45
+    HEX          4.00 /   3.84
+    VAR          3.92 /   3.04
+    VALUE        3.25 /   3.17
+    OPERAND      3.35 /   3.05
+    ANS_LOCAL    2.70 /   0.02
+    ANS_LONG     2.75 /   0.16
+  done in 9690s
+format B: train 1,622,714 bytes. Example:
+ref#146d7159;let v be 26;alert and oriented;let k be 37;alert and oriented;ref#aaf63aef;let m be 45;bp normal;41 plus 72 is 311;let u be 97;u plus m is 241;let 
+  training patcher (small model)
+    step    200 loss 2.177
+    step   1000 loss 0.952
+    step   4000 loss 0.879
+  training reference (strong model)
+    step  64000 loss 0.764
+  val entropy by role (bits)   patcher-final / reference
+    TEXT         0.39 /   0.32
+    STRUCT       0.31 /   0.26
+    HEX          4.00 /   3.92
+    VAR          3.89 /   3.12
+    VALUE        3.25 /   3.22
+    OPERAND      3.33 /   3.17
+    ANS_LOCAL    2.70 /   0.02
+    ANS_LONG     2.74 /   1.00
+  WARNING: reference has not learned ANS_LONG (> 0.5 bits). Increase REFERENCE['steps'].
+  done in 833s
+format C: train 1,417,008 bytes. Example:
+uid 146d7159|v <- 26|alert and oriented|k <- 37|alert and oriented|uid aaf63aef|m <- 45|bp normal|sum 41 72 = 311|u <- 97|sum u m = 241|n <- 73|pt stable|afebri
+  training patcher (small model)
+    step    200 loss 2.080
+    step   1000 loss 1.068
+    step   4000 loss 0.988
+  training reference (strong model)
+    step  64000 loss 0.905
+  val entropy by role (bits)   patcher-final / reference
+    TEXT         0.43 /   0.37
+    STRUCT       0.40 /   0.34
+    HEX          4.00 /   3.85
+    VAR          3.81 /   2.74
+    VALUE        3.25 /   3.13
+    OPERAND      3.59 /   3.18
+    ANS_LOCAL    2.71 /   0.02
+    ANS_LONG     2.75 /   0.28
+  done in 752s

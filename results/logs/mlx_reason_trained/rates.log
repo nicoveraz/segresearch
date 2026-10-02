@@ -1,0 +1,6 @@
+entropy           val 0.250 | covered: computed 1.00, copy 1.00, answer 1.00, step 1.00
+entropy10         val 0.100 | covered: computed 0.17, copy 0.57, answer 0.00, step 1.00
+jump10            val 0.100 | covered: computed 1.00, copy 1.00, answer 0.00, step 1.00
+syntax+entropy10  val 0.100 | covered: computed 1.00, copy 1.00, answer 1.00, step 1.00
+dep10             val 0.093 | covered: computed 0.00, copy 0.00, answer 0.00, step 0.00
+entdep10          val 0.100 | covered: computed 1.00, copy 1.00, answer 0.00, step 1.00

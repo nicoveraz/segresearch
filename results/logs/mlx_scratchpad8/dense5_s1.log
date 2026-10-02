@@ -1,0 +1,1 @@
+RESULT math rule=sp:dense5 seed=1 steps=32000 D=64 glayers=2 pool=sum local=window rate=0.200 (patches 0.200, scratchpads 0.000) bpb=1.8278 | computed: 2.671 bits, acc 0.060 (n=1000) copy: 0.910 bits, acc nan (n=0) final: 1.719 bits, acc 0.482 (n=660) boxed: 2.130 bits, acc 0.034 (n=700) | 3567s

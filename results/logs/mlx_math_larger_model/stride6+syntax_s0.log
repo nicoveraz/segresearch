@@ -1,0 +1,1 @@
+RESULT math rule=stride6+syntax seed=0 steps=32000 D=128 glayers=4 pool=xattn local=window rate=0.179 (patches 0.179, scratchpads 0.000) bpb=1.5588 | computed: 2.142 bits, acc 0.149 (n=1000) copy: 0.093 bits, acc nan (n=0) final: 0.723 bits, acc 0.726 (n=660) boxed: 1.911 bits, acc 0.030 (n=700) | 4857s

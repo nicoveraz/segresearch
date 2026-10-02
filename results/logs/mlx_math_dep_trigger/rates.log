@@ -1,0 +1,5 @@
+entropy       train 0.250 val 0.248 (scratchpads 0.000) | answer starts covered 0.13, by a scratchpad 0.00
+entropy10     train 0.100 val 0.099 (scratchpads 0.000) | answer starts covered 0.08, by a scratchpad 0.00
+syntax+entropy10 train 0.100 val 0.100 (scratchpads 0.000) | answer starts covered 1.00, by a scratchpad 0.00
+entdep10      train 0.100 val 0.100 (scratchpads 0.000) | answer starts covered 0.13, by a scratchpad 0.00
+dep10         train 0.097 val 0.097 (scratchpads 0.000) | answer starts covered 0.51, by a scratchpad 0.00

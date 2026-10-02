@@ -1,0 +1,1 @@
+RESULT gsm8k mask=words+jump25 seed=0 steps=32000 pool=xattn local=window | ans 1.8454 (computed 2.190, final 0.667) | copy 0.188 | text 1.748 | bpb 1.6230 | rate 0.249

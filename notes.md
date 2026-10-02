@@ -517,3 +517,14 @@ Seeds: dep10 computed 17.3/21.0/12.9, final 68.0/69.5/64.7; entropy10 final 15.5
 - Computed results do not improve with budget for any rule (arithmetic capacity-limited at this size; MATH ~3% everywhere).
 - Dependence costs overall bpb (+1.5% at 10%, +5% at 15%, +6.5% at 20% vs entropy): it spends patches at arithmetic contexts that entropy would put at hard prose/LaTeX bytes. The hand-written rule has a lower bpb than entropy at every budget.
 - Compute (flops.py): at this model size 10% costs 76% of entropy at 25%; on BLT-1B 62% (46% with a lookup rule).
+
+### Logic and program traces with models trained here (reasonexp.py; D=128, 32k steps, 10% unless noted, 2 seeds)
+computed / copy / logic answer / proof step exact (means):
+- entropy (25%): 20.7 / 100 / 49.5 / 6.5
+- entropy10: 20.6 / 100 / 49.9 / 6.5
+- jump10: 26.4 (21.4, 31.4) / 100 / 49.2 / 7.0
+- syntax+entropy10 (hand-written: after 'is now ', ', so X is ', 'Answer: '): 21.8 / 100 / 50.7 / 7.0
+- entdep10: 20.5 / 100 / 49.9 / 7.2  (dep10 covered 0% of targets in the screen; swapped for entdep10 before training)
+- **Null result: placement does not matter on these tasks at this size.** Entropy at 10% skips 83% of computed values and all answers, yet matches the hand-written rule that covers all of them.
+- The logic skill is not learned (answers at chance, proof-step lookups 7%), so logic tests nothing here.
+- Trace values are partly learned (~21%) but the operands sit within the local decoder's 32-byte window ('a = a + b\n# a is now '), so the local model sees them without a global step. Contrast GSM8K, where results depend on quantities stated far back. Hypothesis: the blind spot needs the value to depend on context beyond the local window. Test queued: same runs with SEGR_WINDOW=8.

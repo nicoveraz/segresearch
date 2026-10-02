@@ -528,3 +528,10 @@ computed / copy / logic answer / proof step exact (means):
 - **Null result: placement does not matter on these tasks at this size.** Entropy at 10% skips 83% of computed values and all answers, yet matches the hand-written rule that covers all of them.
 - The logic skill is not learned (answers at chance, proof-step lookups 7%), so logic tests nothing here.
 - Trace values are partly learned (~21%) but the operands sit within the local decoder's 32-byte window ('a = a + b\n# a is now '), so the local model sees them without a global step. Contrast GSM8K, where results depend on quantities stated far back. Hypothesis: the blind spot needs the value to depend on context beyond the local window. Test queued: same runs with SEGR_WINDOW=8.
+
+### Window test: program traces with the local decoder window cut from 32 to 8 bytes (SEGR_WINDOW=8)
+computed exact (bits) / copy / answer / step:
+- entropy (25%, 1 seed): 24.5% (2.51) / 100 / 48.0 / 8.2
+- entropy10: 20.4% [19.9, 20.9] (2.94) / 100 / 50.3 / 6.5
+- **syntax+entropy10: 26.9% [28.6, 25.1] (2.40)** / 99.7 / 50.3 / 6.7
+- With the operands outside the local window, a boundary at each traced value now helps: +6.5 points exact and -0.54 bits, seeds separated (at W=32 the gap was 1.2 points). Supports the refined claim: the blind spot needs a value computed from context beyond the local model's reach. Effect moderate; third seed queued.

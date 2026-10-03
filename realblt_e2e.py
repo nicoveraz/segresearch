@@ -12,7 +12,8 @@ causal (blt_layouts.py train mode: thresholds fitted on GSM8K train problems and
 
 No KV cache (patch lengths change as bytes arrive), so each byte costs a full forward pass.
 
-    <env>/bin/python realblt_e2e.py [N_PROBLEMS] [N_TRAIN] [BUDGET]
+    <env>/bin/python realblt_e2e.py [N_PROBLEMS] [N_TRAIN] [BUDGET] [ADAPTER|-] [LAYOUT,...]
+    e.g. realblt_e2e.py 50 300 0.10 entdep10_s0 entdep@10    (the fine-tuned model under its own layout)
 """
 import json
 import os
@@ -41,12 +42,16 @@ def number(s):
     return None if m is None else m.group().replace("$", "").replace(",", "").rstrip(".")
 
 
-def main(n_problems, n_train, R):
+def main(n_problems, n_train, R, adapter=None, only=None):
     assert blt_layouts.MODE == "train", "online decoding needs causal (train-fitted) thresholds"
     dev = "mps" if torch.backends.mps.is_available() else "cpu"
     tok = AutoTokenizer.from_pretrained(MODEL)
     model = BltForCausalLM.from_pretrained(MODEL, dtype=torch.bfloat16).to(dev).eval()
     cfg = model.config
+    patcher = model.model.patcher
+    if adapter:                                   # a LoRA adapter from realblt_finetune.py, e.g. entdep10_s0
+        from peft import PeftModel
+        model = PeftModel.from_pretrained(model, os.path.join(os.path.expanduser("~/.cache/segresearch-blt/adapters"), adapter)).eval()
     tab = np.load(DEP, allow_pickle=True).item()
     dep_at = lambda b, i: tab["T2"].get((b[i - 2], b[i - 1]), tab["T1"].get(b[i - 1], tab["glob"])) if i >= 2 else -np.inf
     train = [json.loads(l) for l in open(GSM_TRAIN)]
@@ -58,7 +63,7 @@ def main(n_problems, n_train, R):
         ids = torch.tensor([[1] + [x + 4 for x in b]], device=dev)
         n = ids.shape[1]
         with torch.no_grad():
-            ent, default_len, _ = model.model.patcher(ids, patch_size=cfg.patch_size, threshold=cfg.patching_threshold,
+            ent, default_len, _ = patcher(ids, patch_size=cfg.patch_size, threshold=cfg.patching_threshold,
                                                       max_patch_length=cfg.max_patch_length)
         e = ent[0].float().cpu().numpy()
         score = np.full(n, -np.inf); score[2:] = e[1:n - 1]
@@ -70,13 +75,15 @@ def main(n_problems, n_train, R):
         return np.array([i + 2 + 1 for i in range(len(b) - 1) if b[i:i + 2] == b"= "], int)
 
     fit = blt_layouts.Fit((R,))
-    for p in train[1:n_train + 1]:                                       # train problems other than the shot
+    for p in train[:n_train]:                                            # the same problems realblt_finetune.py fits on
         pr = problem(p, tok, dev)
         if pr is not None:
             fit.add(signals(pr[0])[1], pr[3])
     fit.done()
     tag = int(round(R * 100))
     layouts = {"default": None, f"entropy@{tag}": "entropy", f"results@{tag}": "forced", f"entdep@{tag}": "entropy+dep"}
+    if only:
+        layouts = {k: v for k, v in layouts.items() if k in only}
     print(f"thresholds fitted on {len(fit.sigs)} train problems; one-shot prompt {len(prompt)} bytes", flush=True)
 
     def next_byte(b, kind):
@@ -97,7 +104,8 @@ def main(n_problems, n_train, R):
     t0 = time.time()
     for j, p in enumerate(tests):
         gold = number(p["answer"].rsplit("#### ", 1)[1])
-        ctx = (prompt + f"Question: {p['question']}\nAnswer:").encode()
+        # a fine-tuned model saw "question\nsolution\nThe final answer is N" in training: prompt it zero-shot in that format
+        ctx = (f"{p['question']}\n" if adapter else prompt + f"Question: {p['question']}\nAnswer:").encode()
         for name, kind in layouts.items():
             gen, rates = b"", []
             for _ in range(MAX_NEW):
@@ -115,11 +123,12 @@ def main(n_problems, n_train, R):
     print(f"\nBLT-1B end-to-end on {len(tests)} GSM8K test problems (one-shot, greedy, online patching)")
     for name, r in res.items():
         registry.emit("realblt_e2e", f"RESULT {name:11s} patch rate {np.mean(r['rate']):.3f} | final: exact {np.mean(r['correct']):5.1%}",
-                      experiment="blt_e2e", thresh=blt_layouts.MODE, n_problems=len(tests))
-    registry.save_items(f"blt_e2e_{tag}", {"layouts": res, "gold": [number(p["answer"].rsplit("#### ", 1)[1]) for p in tests]},
-                        experiment="blt_e2e", budget=R, n_problems=len(tests))
+                      experiment="blt_e2e", thresh=blt_layouts.MODE, n_problems=len(tests), adapter=adapter)
+    registry.save_items(f"blt_e2e_{tag}" + (f"_{adapter}" if adapter else ""), {"layouts": res, "gold": [number(p["answer"].rsplit("#### ", 1)[1]) for p in tests]},
+                        experiment="blt_e2e", budget=R, n_problems=len(tests), adapter=adapter)
 
 
 if __name__ == "__main__":
     a = sys.argv[1:]
-    main(int(a[0]) if a else 100, int(a[1]) if len(a) > 1 else 300, float(a[2]) if len(a) > 2 else 0.15)
+    main(int(a[0]) if a else 100, int(a[1]) if len(a) > 1 else 300, float(a[2]) if len(a) > 2 else 0.15,
+         a[3] if len(a) > 3 and a[3] != "-" else None, a[4].split(",") if len(a) > 4 else None)

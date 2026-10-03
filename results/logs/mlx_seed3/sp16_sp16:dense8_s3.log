@@ -1,0 +1,1 @@
+RESULT math rule=sp16:dense8 seed=3 steps=32000 D=64 glayers=2 pool=xattn local=window rate=0.125 (patches 0.125, scratchpads 0.000) bpb=1.8720 | computed: 2.570 bits, acc 0.057 (n=1000) copy: 1.036 bits, acc nan (n=0) final: 2.773 bits, acc 0.052 (n=660) boxed: 2.160 bits, acc 0.014 (n=700) | 2744s

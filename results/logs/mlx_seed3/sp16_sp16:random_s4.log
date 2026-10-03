@@ -1,0 +1,1 @@
+RESULT math rule=sp16:random seed=4 steps=32000 D=64 glayers=2 pool=xattn local=window rate=0.122 (patches 0.063, scratchpads 0.060) bpb=1.9276 | computed: 2.673 bits, acc 0.075 (n=1000) copy: 1.398 bits, acc nan (n=0) final: 2.810 bits, acc 0.080 (n=660) boxed: 2.229 bits, acc 0.026 (n=700) | 2759s

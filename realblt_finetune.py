@@ -41,13 +41,14 @@ def main(rule, R, steps, n_test):
     tok = AutoTokenizer.from_pretrained(MODEL)
     model = BltForCausalLM.from_pretrained(MODEL, dtype=torch.bfloat16).to(dev)
     cfg = model.config
+    patcher = model.model.patcher                 # kept before the LoRA wrapper changes model.model
     tab = np.load(DEP, allow_pickle=True).item()
     dep_at = lambda b, i: tab["T2"].get((b[i - 2], b[i - 1]), tab["T1"].get(b[i - 1], tab["glob"])) if i >= 2 else -np.inf
 
     def signals(b, ids):
         n = ids.shape[1]
         with torch.no_grad():
-            ent, default_len, _ = model.model.patcher(ids, patch_size=cfg.patch_size, threshold=cfg.patching_threshold,
+            ent, default_len, _ = patcher(ids, patch_size=cfg.patch_size, threshold=cfg.patching_threshold,
                                                       max_patch_length=cfg.max_patch_length)
         e = ent[0].float().cpu().numpy()
         score = np.full(n, -np.inf); score[2:] = e[1:n - 1]
@@ -87,8 +88,11 @@ def main(rule, R, steps, n_test):
         loss = torch.nn.functional.cross_entropy(out.logits[0, :-1].float(), ids[0, 1:])
         loss.backward(); opt.step(); sched.step(); opt.zero_grad(set_to_none=True)
         losses.append(loss.item())
-        if (step + 1) % 100 == 0:
-            print(f"  step {step + 1}/{steps} loss {np.mean(losses[-100:]):.4f} ({time.time() - t0:.0f}s)", flush=True)
+        del out, loss
+        if dev == "mps":
+            torch.mps.empty_cache()                                       # varying lengths fragment the MPS cache
+        if (step + 1) % max(1, steps // 15) == 0:
+            print(f"  step {step + 1}/{steps} loss {np.mean(losses[-max(1, steps // 15):]):.4f} ({time.time() - t0:.0f}s)", flush=True)
     os.makedirs(OUT, exist_ok=True)
     tag = f"{rule}{int(round(R * 100))}"
     model.save_pretrained(os.path.join(OUT, tag))

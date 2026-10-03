@@ -149,10 +149,16 @@ Each layout is scored on the same targets, so differences are paired. McNemar: e
 
 ### BLT-1B fine-tuned at 10% (LoRA, 1500 steps), each model under its own training layout
 
-Same 796 in-line results for every model, so the comparison is paired by target.
+Per run: in-line computed results exact. Pooled test: all runs of A against all runs of B on the same targets (seed s of A paired with seed s of B), bootstrap over problems.
 
-| A (trained = tested) | B | acc A | acc B | A - B [95% problem bootstrap] | A only / B only | McNemar p |
-|---|---|---|---|---|---|---|
-| entdep | entropy | 70.4% | 26.9% | +43.5 [+39.2, +47.7] | 367 / 21 | 8.8e-83 |
-| results | entropy | 56.9% | 26.9% | +30.0 [+26.2, +33.9] | 260 / 21 | 1.3e-53 |
-| entdep | results | 70.4% | 56.9% | +13.4 [+10.3, +16.5] | 140 / 33 | 6.9e-17 |
+| trained = tested | runs | exact by run | mean |
+|---|---|---|---|
+| entropy | 1 | 26.9 | 26.9% |
+| results | 1 | 56.9 | 56.9% |
+| entdep | 1 | 70.4 | 70.4% |
+
+| A | B | paired runs | A - B [95% problem bootstrap] | A only / B only | McNemar p |
+|---|---|---|---|---|---|
+| entdep | entropy | 1 | +43.5 [+39.2, +47.7] | 367 / 21 | 8.8e-83 |
+| results | entropy | 1 | +30.0 [+26.2, +33.9] | 260 / 21 | 1.3e-53 |
+| entdep | results | 1 | +13.4 [+10.3, +16.5] | 140 / 33 | 6.9e-17 |

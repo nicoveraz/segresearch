@@ -162,19 +162,29 @@ def blt_items():
                 p, nb, nc = mcnemar(x, y); lo, hi = boot(x, y, pid)
                 lines.append(f"| {label} | {a} | {b} | {100 * x.mean():.1f}% | {100 * y.mean():.1f}% | {100 * (x.mean() - y.mean()):+.1f} "
                              f"[{100 * lo:+.1f}, {100 * hi:+.1f}] | {nb} / {nc} | {p:.2g} |")
-    ft = {}
+    ft = defaultdict(dict)                             # rule -> seed -> items
     for f in sorted(glob.glob(os.path.join(registry.ROOT, "results", "items", "blt_finetune_*.json"))):
-        it = json.load(open(f)); ft[it["trained_rule"]] = it
+        it = json.load(open(f)); ft[it["trained_rule"]][it.get("seed", 0)] = it
     if ft:
-        lines += ["\n### BLT-1B fine-tuned at 10% (LoRA, 1500 steps), each model under its own training layout\n",
-                  "Same 796 in-line results for every model, so the comparison is paired by target.\n",
-                  "| A (trained = tested) | B | acc A | acc B | A - B [95% problem bootstrap] | A only / B only | McNemar p |", "|---|---|---|---|---|---|---|"]
         lay = {"entropy": "entropy@10", "entdep": "entdep@10", "results": "results@10"}
+        acc = lambda r, sd: np.array(ft[r][sd]["data"]["layouts"][lay[r]]["res_exact"], bool)
+        lines += ["\n### BLT-1B fine-tuned at 10% (LoRA, 1500 steps), each model under its own training layout\n",
+                  "Per run: in-line computed results exact. Pooled test: all runs of A against all runs of B on the same targets "
+                  "(seed s of A paired with seed s of B), bootstrap over problems.\n",
+                  "| trained = tested | runs | exact by run | mean |", "|---|---|---|---|"]
+        for r in ("entropy", "results", "entdep"):
+            if r in ft:
+                v = [100 * acc(r, sd).mean() for sd in sorted(ft[r])]
+                lines.append(f"| {r} | {len(v)} | {', '.join(f'{x:.1f}' for x in v)} | {np.mean(v):.1f}% |")
+        lines += ["", "| A | B | paired runs | A - B [95% problem bootstrap] | A only / B only | McNemar p |", "|---|---|---|---|---|---|"]
         for a, b in (("entdep", "entropy"), ("results", "entropy"), ("entdep", "results")):
-            if a in ft and b in ft:
-                x = np.array(ft[a]["data"]["layouts"][lay[a]]["res_exact"], bool); y = np.array(ft[b]["data"]["layouts"][lay[b]]["res_exact"], bool)
-                p, nb, nc = mcnemar(x, y); lo, hi = boot(x, y, ft[a]["data"]["res_pid"])
-                lines.append(f"| {a} | {b} | {100 * x.mean():.1f}% | {100 * y.mean():.1f}% | {100 * (x.mean() - y.mean()):+.1f} [{100 * lo:+.1f}, {100 * hi:+.1f}] | {nb} / {nc} | {p:.2g} |")
+            seeds = sorted(set(ft.get(a, {})) & set(ft.get(b, {})))
+            if not seeds:
+                continue
+            x = np.concatenate([acc(a, sd) for sd in seeds]); y = np.concatenate([acc(b, sd) for sd in seeds])
+            pid = np.concatenate([ft[a][sd]["data"]["res_pid"] for sd in seeds])
+            p, nb, nc = mcnemar(x, y); lo, hi = boot(x, y, pid)
+            lines.append(f"| {a} | {b} | {len(seeds)} | {100 * (x.mean() - y.mean()):+.1f} [{100 * lo:+.1f}, {100 * hi:+.1f}] | {nb} / {nc} | {p:.2g} |")
     return lines or ["\nNo per-item files yet (results/items/); rerun the BLT-1B scripts."]
 
 

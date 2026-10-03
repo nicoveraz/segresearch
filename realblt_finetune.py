@@ -13,7 +13,7 @@ Training never sees the test split. After training, the script scores the adapte
 realblt_budget.py does (in-line results after '= ' and final answers, exact match given the true prefix), under
 its own training layout and under the other two at the same R.
 
-    <env>/bin/python realblt_finetune.py RULE [R] [STEPS] [N_TEST]        e.g. entropy 0.10 1500 300
+    <env>/bin/python realblt_finetune.py RULE [R] [STEPS] [N_TEST] [SEED]   e.g. entropy 0.10 1500 300 0
 """
 import json
 import os
@@ -35,7 +35,7 @@ OUT = os.path.expanduser("~/.cache/segresearch-blt/adapters")
 RULES = {"entropy": "entropy", "entdep": "entropy+dep", "results": "forced"}
 
 
-def main(rule, R, steps, n_test):
+def main(rule, R, steps, n_test, seed=0):
     assert blt_layouts.MODE == "train"
     dev = "mps" if torch.backends.mps.is_available() else "cpu"
     tok = AutoTokenizer.from_pretrained(MODEL)
@@ -68,13 +68,14 @@ def main(rule, R, steps, n_test):
     targets = ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
     lcfg = LoraConfig(r=16, lora_alpha=32, lora_dropout=0.0, bias="none",
                       target_modules=r".*(global_transformer\.layers\.\d+\.(self_attn|mlp)|local_decoder\.cross_attn_layers\.\d+)\.(" + "|".join(targets) + ")")
+    torch.manual_seed(seed)                       # LoRA initialization
     model = get_peft_model(model, lcfg)
     n_tr = sum(p.numel() for p in model.parameters() if p.requires_grad)
     print(f"LoRA: {n_tr / 1e6:.1f}M trainable parameters", flush=True)
     opt = torch.optim.AdamW([p for p in model.parameters() if p.requires_grad], lr=2e-4, weight_decay=0.0)
     sched = torch.optim.lr_scheduler.LambdaLR(opt, lambda s: min(1.0, (s + 1) / 50) * max(0.1, 1 - s / steps))
     pool = [p for p in train[N_FIT:]]
-    rng = random.Random(0)
+    rng = random.Random(seed)                     # training data order
     model.train(); t0 = time.time(); losses = []
     for step in range(steps):
         pr = None
@@ -94,7 +95,7 @@ def main(rule, R, steps, n_test):
         if (step + 1) % max(1, steps // 15) == 0:
             print(f"  step {step + 1}/{steps} loss {np.mean(losses[-max(1, steps // 15):]):.4f} ({time.time() - t0:.0f}s)", flush=True)
     os.makedirs(OUT, exist_ok=True)
-    tag = f"{rule}{int(round(R * 100))}"
+    tag = f"{rule}{int(round(R * 100))}_s{seed}"
     model.save_pretrained(os.path.join(OUT, tag))
 
     # score on GSM8K test under each rule at the same budget (as realblt_budget.py)
@@ -125,11 +126,12 @@ def main(rule, R, steps, n_test):
         registry.emit("realblt_finetune", f"RESULT {name:11s} patch rate {np.mean(s['rate']):.3f} | "
                       f"in-line results: {np.mean(s['res_bits']):.3f} bits, exact {np.mean(s['res_exact']):5.1%} | "
                       f"final: {np.mean(s['fin_bits']):.3f} bits, exact {np.mean(s['fin_exact']):5.1%}",
-                      experiment="blt_finetune", trained_rule=rule, budget=R, steps=steps, thresh=blt_layouts.MODE)
+                      experiment="blt_finetune", trained_rule=rule, budget=R, steps=steps, seed=seed, thresh=blt_layouts.MODE)
     registry.save_items(f"blt_finetune_{tag}", {"layouts": stats, "res_pid": res_pid}, experiment="blt_finetune",
-                        trained_rule=rule, budget=R, steps=steps)
+                        trained_rule=rule, budget=R, steps=steps, seed=seed)
 
 
 if __name__ == "__main__":
     a = sys.argv[1:]
-    main(a[0], float(a[1]) if len(a) > 1 else 0.10, int(a[2]) if len(a) > 2 else 1500, int(a[3]) if len(a) > 3 else 300)
+    main(a[0], float(a[1]) if len(a) > 1 else 0.10, int(a[2]) if len(a) > 2 else 1500, int(a[3]) if len(a) > 3 else 300,
+         int(a[4]) if len(a) > 4 else 0)

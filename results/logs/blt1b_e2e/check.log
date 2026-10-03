@@ -1,0 +1,25 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:12<54:45,  6.47s/it]Loading weights: 100%|██████████| 510/510 [00:12<00:00, 39.38it/s]
+Traceback (most recent call last):
+  File "/private/tmp/claude-501/-Users-nicoveraz-Documents-GitHub-segresearch/da7d44c4-013f-40c2-883b-2f46e3a04f6c/scratchpad/bltenv/.venv/lib/python3.11/site-packages/peft/config.py", line 321, in _get_peft_type
+    config_file = hf_hub_download(
+                  ^^^^^^^^^^^^^^^^
+  File "/private/tmp/claude-501/-Users-nicoveraz-Documents-GitHub-segresearch/da7d44c4-013f-40c2-883b-2f46e3a04f6c/scratchpad/bltenv/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 85, in _inner_fn
+    validate_repo_id(arg_value)
+  File "/private/tmp/claude-501/-Users-nicoveraz-Documents-GitHub-segresearch/da7d44c4-013f-40c2-883b-2f46e3a04f6c/scratchpad/bltenv/.venv/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 133, in validate_repo_id
+    raise HFValidationError(
+huggingface_hub.errors.HFValidationError: Repo id must be in the form 'repo_name' or 'namespace/repo_name': '/Users/nicoveraz/.cache/segresearch-blt/adapters/entdep10_s0'. Use `repo_type` argument if needed.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/nicoveraz/Documents/GitHub/segresearch/realblt_e2e.py", line 133, in <module>
+    main(int(a[0]) if a else 100, int(a[1]) if len(a) > 1 else 300, float(a[2]) if len(a) > 2 else 0.15,
+  File "/Users/nicoveraz/Documents/GitHub/segresearch/realblt_e2e.py", line 54, in main
+    model = PeftModel.from_pretrained(model, os.path.join(os.path.expanduser("~/.cache/segresearch-blt/adapters"), adapter)).eval()
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/private/tmp/claude-501/-Users-nicoveraz-Documents-GitHub-segresearch/da7d44c4-013f-40c2-883b-2f46e3a04f6c/scratchpad/bltenv/.venv/lib/python3.11/site-packages/peft/peft_model.py", line 492, in from_pretrained
+    config = PEFT_TYPE_TO_CONFIG_MAPPING[PeftConfig._get_peft_type(model_id, **hf_kwargs)].from_pretrained(
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/private/tmp/claude-501/-Users-nicoveraz-Documents-GitHub-segresearch/da7d44c4-013f-40c2-883b-2f46e3a04f6c/scratchpad/bltenv/.venv/lib/python3.11/site-packages/peft/config.py", line 327, in _get_peft_type
+    raise ValueError(f"Can't find '{CONFIG_NAME}' at '{model_id}'")
+ValueError: Can't find 'adapter_config.json' at '/Users/nicoveraz/.cache/segresearch-blt/adapters/entdep10_s0'

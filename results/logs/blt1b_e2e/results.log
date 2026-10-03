@@ -1,0 +1,16 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:12<53:36,  6.33s/it]Loading weights: 100%|██████████| 510/510 [00:12<00:00, 40.23it/s]
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (1029 > 1024). Running this sequence through the model will result in indexing errors
+thresholds fitted on 297 train problems; one-shot prompt 294 bytes
+  5/50 problems, 312s; results@10 0%
+  10/50 problems, 741s; results@10 0%
+  15/50 problems, 1116s; results@10 0%
+  20/50 problems, 1477s; results@10 0%
+  25/50 problems, 1743s; results@10 0%
+  30/50 problems, 2086s; results@10 0%
+  35/50 problems, 2207s; results@10 3%
+  40/50 problems, 2488s; results@10 2%
+  45/50 problems, 2980s; results@10 2%
+  50/50 problems, 3395s; results@10 2%
+
+BLT-1B end-to-end on 50 GSM8K test problems (one-shot, greedy, online patching)
+RESULT results@10  patch rate 0.081 | final: exact  2.0%

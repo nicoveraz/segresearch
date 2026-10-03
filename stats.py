@@ -134,6 +134,8 @@ def blt_items():
     for f in sorted(glob.glob(os.path.join(registry.ROOT, "results", "items", "*.json"))):
         it = json.load(open(f)); name = os.path.basename(f)[:-5]; L = it["data"]["layouts"]
         targets = []                                   # (label, key path getter, pid)
+        if name.startswith("blt_finetune"):
+            continue                                   # compared across models below (matched layouts)
         if name.startswith("blt_budget"):
             fin_pid = list(range(len(next(iter(L.values()))["fin_exact"])))
             targets = [("in-line results", lambda l: L[l]["res_exact"], it["data"]["res_pid"]), ("final answers", lambda l: L[l]["fin_exact"], fin_pid)]
@@ -160,6 +162,19 @@ def blt_items():
                 p, nb, nc = mcnemar(x, y); lo, hi = boot(x, y, pid)
                 lines.append(f"| {label} | {a} | {b} | {100 * x.mean():.1f}% | {100 * y.mean():.1f}% | {100 * (x.mean() - y.mean()):+.1f} "
                              f"[{100 * lo:+.1f}, {100 * hi:+.1f}] | {nb} / {nc} | {p:.2g} |")
+    ft = {}
+    for f in sorted(glob.glob(os.path.join(registry.ROOT, "results", "items", "blt_finetune_*.json"))):
+        it = json.load(open(f)); ft[it["trained_rule"]] = it
+    if ft:
+        lines += ["\n### BLT-1B fine-tuned at 10% (LoRA, 1500 steps), each model under its own training layout\n",
+                  "Same 796 in-line results for every model, so the comparison is paired by target.\n",
+                  "| A (trained = tested) | B | acc A | acc B | A - B [95% problem bootstrap] | A only / B only | McNemar p |", "|---|---|---|---|---|---|---|"]
+        lay = {"entropy": "entropy@10", "entdep": "entdep@10", "results": "results@10"}
+        for a, b in (("entdep", "entropy"), ("results", "entropy"), ("entdep", "results")):
+            if a in ft and b in ft:
+                x = np.array(ft[a]["data"]["layouts"][lay[a]]["res_exact"], bool); y = np.array(ft[b]["data"]["layouts"][lay[b]]["res_exact"], bool)
+                p, nb, nc = mcnemar(x, y); lo, hi = boot(x, y, ft[a]["data"]["res_pid"])
+                lines.append(f"| {a} | {b} | {100 * x.mean():.1f}% | {100 * y.mean():.1f}% | {100 * (x.mean() - y.mean()):+.1f} [{100 * lo:+.1f}, {100 * hi:+.1f}] | {nb} / {nc} | {p:.2g} |")
     return lines or ["\nNo per-item files yet (results/items/); rerun the BLT-1B scripts."]
 
 

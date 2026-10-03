@@ -563,3 +563,16 @@ Every script now records each RESULT line as a JSON record (`registry.py`; live 
 - Confirmed with 3 seeds (all seeds separated): budget sweep at 15% and 20% (dependence vs entropy +35.6 / +24.1 final, +6.5 / +9.0 computed; hand-written above both), dependence 10% vs entropy 20% on final answers (+23.4), larger-model attribution (words+syntax vs entropy +19.4 computed, vs words +14.9; stride6+syntax 16.9% in between), small-model math (words+syntax vs entropy +67.3 final).
 - **Scratchpad Patching, correction:** the answer-start (syntax) trigger is unstable. Final accuracy by seed 49.2 / 31.4 / **8.3%** (none 5.2%); mean 29.6%. The entropy trigger equals random across 3 seeds (5.4% vs 5.4%), so "entropy trigger = random" holds, but "answer-start scratchpads give ~7x" does not hold reliably. Seeds 3-4 for syntax, entropy, random and dense8 queued.
 - **Scratchpad Patching, 5 seeds (resolves the correction):** answer-start (syntax) trigger final accuracy 49.2 / 31.4 / 8.3 / 49.2 / 52.4% (mean 38.1%); entropy trigger 5.6%, random 5.9%, dense8 7.8%, none 6.1%. Syntax vs entropy +32.5 points, every syntax seed above every entropy seed (Welch 95% [+9.4, +55.6]); entropy vs random -0.3 [-2.2, +1.6]. The effect is real; seed 2 (8.3%) looks like an occasional training failure. Claim for the paper: the entropy trigger is indistinguishable from random for answers, and answer-start scratchpads give ~6x on average with one failed seed in five.
+
+### BLT-1B adapted to a 10% budget (#11; realblt_finetune.py: LoRA r=16 on the global transformer and decoder cross-attention, 16.9M parameters, 1500 steps on GSM8K train, one run per rule)
+In-line computed results, exact match given the true prefix (796 results, 294 test problems; rows = training layout, columns = test layout, all at 10% with train-fitted thresholds):
+| trained under | entropy@10 | entdep@10 | results@10 |
+|---|---|---|---|
+| (untrained) | 14.8% | 60.7% | 41.5% |
+| entropy | **26.9%** | 63.1% | 48.7% |
+| entdep (label-free) | 19.3% | **70.4%** | 47.7% |
+| results (hand-written) | 22.0% | 66.3% | **56.9%** |
+- **The blind spot survives adaptation.** Each model under its own training layout: entdep 70.4% vs entropy 26.9%, +43.5 points [problem bootstrap +39.2, +47.7], McNemar p = 9e-83; hand-written 56.9% vs entropy, +30.0 [+26.2, +33.9]; entdep vs hand-written +13.4 [+10.3, +16.5].
+- Training under entropy helps its own layout (14.8 -> 26.9%) but the same model does better under entdep (63.1%), a layout it never trained on.
+- Final answers are not informative after fine-tuning: ~90-98% under most layouts, because the final answer repeats the last computed result and fine-tuning teaches the copy.
+- Caveats: one run per rule (LoRA, not full training); teacher-forced scoring; the dependence table is fit on GSM8K train with untrained BLT-1B.

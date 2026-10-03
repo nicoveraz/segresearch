@@ -146,3 +146,13 @@ Each layout is scored on the same targets, so differences are paired. McNemar: e
 | copy (exact) | oracle@15 | entropy@15 | 72.2% | 66.7% | +5.5 [+3.7, +7.4] | 157 / 62 | 1.1e-10 |
 | copy (exact) | oracle@10 | entropy@10 | 61.0% | 58.3% | +2.7 [+1.1, +4.3] | 119 / 73 | 0.0011 |
 | copy (exact) | default | entropy@15 | 82.5% | 66.7% | +15.8 [+13.9, +17.7] | 286 / 15 | 4.2e-66 |
+
+### BLT-1B fine-tuned at 10% (LoRA, 1500 steps), each model under its own training layout
+
+Same 796 in-line results for every model, so the comparison is paired by target.
+
+| A (trained = tested) | B | acc A | acc B | A - B [95% problem bootstrap] | A only / B only | McNemar p |
+|---|---|---|---|---|---|---|
+| entdep | entropy | 70.4% | 26.9% | +43.5 [+39.2, +47.7] | 367 / 21 | 8.8e-83 |
+| results | entropy | 56.9% | 26.9% | +30.0 [+26.2, +33.9] | 260 / 21 | 1.3e-53 |
+| entdep | results | 70.4% | 56.9% | +13.4 [+10.3, +16.5] | 140 / 33 | 6.9e-17 |

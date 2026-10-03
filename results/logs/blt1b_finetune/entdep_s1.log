@@ -1,0 +1,24 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:13<58:38,  6.93s/it]Loading weights: 100%|██████████| 510/510 [00:13<00:00, 36.79it/s]
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (1029 > 1024). Running this sequence through the model will result in indexing errors
+thresholds fitted on 297 train problems; entdep@0.10 train rate 0.100
+LoRA: 16.9M trainable parameters
+  step 100/1500 loss 0.6619 (291s)
+  step 200/1500 loss 0.6083 (610s)
+  step 300/1500 loss 0.5674 (944s)
+  step 400/1500 loss 0.5726 (1208s)
+  step 500/1500 loss 0.5511 (1571s)
+  step 600/1500 loss 0.5491 (1947s)
+  step 700/1500 loss 0.5384 (2333s)
+  step 800/1500 loss 0.5424 (2641s)
+  step 900/1500 loss 0.5278 (3008s)
+  step 1000/1500 loss 0.5247 (3345s)
+  step 1100/1500 loss 0.5332 (3659s)
+  step 1200/1500 loss 0.5038 (4009s)
+  step 1300/1500 loss 0.5197 (4309s)
+  step 1400/1500 loss 0.5151 (4628s)
+  step 1500/1500 loss 0.5169 (4866s)
+
+BLT-1B + LoRA trained under entdep@0.10 (1500 steps), 294 GSM8K test problems
+RESULT entropy@10  patch rate 0.096 | in-line results: 2.890 bits, exact 19.0% | final: 0.380 bits, exact 80.3%
+RESULT entdep@10   patch rate 0.098 | in-line results: 0.695 bits, exact 68.8% | final: 0.059 bits, exact 96.9%
+RESULT results@10  patch rate 0.097 | in-line results: 1.511 bits, exact 44.6% | final: 0.239 bits, exact 87.8%

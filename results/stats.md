@@ -153,12 +153,12 @@ Per run: in-line computed results exact. Pooled test: all runs of A against all 
 
 | trained = tested | runs | exact by run | mean |
 |---|---|---|---|
-| entropy | 1 | 26.9 | 26.9% |
-| results | 1 | 56.9 | 56.9% |
-| entdep | 1 | 70.4 | 70.4% |
+| entropy | 3 | 26.9, 27.5, 28.4 | 27.6% |
+| results | 3 | 56.9, 56.0, 57.9 | 57.0% |
+| entdep | 3 | 70.4, 68.8, 70.9 | 70.0% |
 
 | A | B | paired runs | A - B [95% problem bootstrap] | A only / B only | McNemar p |
 |---|---|---|---|---|---|
-| entdep | entropy | 1 | +43.5 [+39.2, +47.7] | 367 / 21 | 8.8e-83 |
-| results | entropy | 1 | +30.0 [+26.2, +33.9] | 260 / 21 | 1.3e-53 |
-| entdep | results | 1 | +13.4 [+10.3, +16.5] | 140 / 33 | 6.9e-17 |
+| entdep | entropy | 3 | +42.4 [+38.6, +46.3] | 1078 / 65 | 2e-237 |
+| results | entropy | 3 | +29.4 [+26.0, +32.9] | 760 / 59 | 4e-156 |
+| entdep | results | 3 | +13.1 [+10.2, +15.8] | 437 / 125 | 1.7e-41 |

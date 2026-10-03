@@ -25,7 +25,8 @@ model's own losses without labels, recovers most of it.
 | 7 | **Scratchpad Patching.** Entropy trigger = random scratchpads across 3 seeds (5.4% vs 5.4%); answer-start scratchpads help on average but unstable (49/31/8%) | `tables.md` scratchpad16 | seeds 3-4 running |
 | 8 | **Compute.** BLT-1B at 10%: 62% of default forward FLOPs (46% with a lookup rule); small harness 76% | `flops.py`; figure | needs a BLT-1B accuracy-vs-compute panel |
 | 9 | Negative results and lessons: toy effect mostly architectural (sum pooling + patch-local decoder); Rho-1 and learned chunking do not help; two-seed effects that vanished | `notes.md`, `program.md` standards | to write (or move to #24) |
-| 10 | Limits: small trained models; teacher-forced scoring (BLT-1B cannot solve GSM8K end to end, #17); BLT-1B not retrained (#11); dependence tables do not transfer across formats (#5) | issues | to write |
+| 10 | **Adapting BLT-1B to the budget (#11).** LoRA, 1500 steps, 3 runs per rule, each under its own layout: entropy 27.6%, hand-written 57.0%, entdep 70.0% on computed results (entdep - entropy +42.4, p = 2e-237) | `stats.md` §3 | done |
+| 11 | Limits: small trained models; teacher-forced scoring (end to end, even the fine-tuned BLT-1B gets 2% under every layout, #17); LoRA, not full training; dependence tables do not transfer across formats (#5) | issues | to write |
 
 ## Figures and tables
 
@@ -37,8 +38,7 @@ model's own losses without labels, recovers most of it.
 
 ## Gaps before submission
 
-- **#11** fine-tune BLT-1B at a tight budget (strongest missing evidence: does the effect survive training at scale?).
-- **#17** end-to-end accuracy: not measurable with BLT-1B; needs #11's model or retrained small models with a generation eval.
+- **#17** end-to-end accuracy: at the floor with BLT-1B even after fine-tuning (2% for every layout); needs a stronger model (#12). State it as a limit.
 - **#13** full novelty search right before submission (quick re-check 2026-10-02: nothing found).
 - Figures 1, 2 and the BLT-1B compute panel.
 

@@ -78,7 +78,23 @@ def main(steps, n_windows, mode):
                 add(btr[w:w + CTX].astype(np.int64), t, (cs[j, t + 3] - cs[j, t - 1]) / 4)
     else:
         K = 32                                                               # candidate positions per window
-        for w in starts:
+        M = int(os.environ.get("SEGR_DEP_LAYOUTS", "1"))                     # >1: average each gain over M random layouts
+        for w in starts if M > 1 else ():
+            b = btr[w:w + CTX].astype(np.int64)
+            cand = rng.choice(np.arange(CTX // 4, CTX - 3), K, replace=False)
+            X = np.repeat(btr[w:w + CTX][None].astype(np.int32), M * (K + 1), 0)
+            Y = np.repeat(btr[w + 1:w + CTX + 1][None].astype(np.int32), M * (K + 1), 0)
+            BD = np.zeros((M * (K + 1), CTX + 1), bool)
+            for m in range(M):
+                bd = rng.random(CTX + 1) < 0.10; bd[0] = True; bd[cand] = False
+                BD[m * (K + 1):(m + 1) * (K + 1)] = bd
+                BD[m * (K + 1) + 1 + np.arange(K), cand] = True
+            cs = np.cumsum(np.c_[np.zeros(len(BD)), losses(X, Y, BD)], 1)
+            win = lambda r, t: (cs[r, t + 3] - cs[r, t - 1]) / 4
+            g = np.mean([win(m * (K + 1), cand) - win(m * (K + 1) + 1 + np.arange(K), cand) for m in range(M)], 0)
+            add(b, cand, g)
+            samples.append(np.stack([np.full(K, w), cand, g], 1))
+        for w in starts if M == 1 else ():
             b = btr[w:w + CTX].astype(np.int64)
             X = np.repeat(btr[w:w + CTX][None].astype(np.int32), K + 1, 0)
             Y = np.repeat(btr[w + 1:w + CTX + 1][None].astype(np.int32), K + 1, 0)

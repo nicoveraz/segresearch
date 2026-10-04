@@ -1,0 +1,7 @@
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights: 100%|██████████| 290/290 [00:00<00:00, 6814.89it/s]
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 6162.95it/s]
+
+Qwen/Qwen2.5-0.5B (draft) vs Qwen/Qwen2.5-1.5B (target), 300 trace texts, teacher forced
+RESULT computed  tokens 5348 | agree 52.9% | draft right 45.3% | target right 68.6% | conf>0.9  6.5% | wrong|conf  6.7%
+RESULT copy      tokens 3254 | agree 99.9% | draft right 99.9% | target right 100.0% | conf>0.9 83.4% | wrong|conf  0.0%
+RESULT text      tokens 50453 | agree 85.7% | draft right 70.7% | target right 70.3% | conf>0.9 50.7% | wrong|conf  0.4%

@@ -1,0 +1,8 @@
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights: 100%|██████████| 290/290 [00:00<00:00, 18124.96it/s]
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights: 100%|██████████| 338/338 [00:00<00:00, 5670.18it/s]
+
+Qwen/Qwen2.5-0.5B (draft) vs Qwen/Qwen2.5-1.5B (target), 300 GSM8K test solutions, teacher forced
+RESULT computed  tokens 1966 | agree 98.2% | draft right 97.4% | target right 98.3% | conf>0.9 94.3% | wrong|conf  0.5%
+RESULT copied    tokens 5521 | agree 95.3% | draft right 93.5% | target right 95.1% | conf>0.9 82.9% | wrong|conf  1.7%
+RESULT number    tokens 1058 | agree 92.0% | draft right 86.2% | target right 89.5% | conf>0.9 75.9% | wrong|conf  3.7%
+RESULT text      tokens 19907 | agree 87.3% | draft right 74.8% | target right 76.3% | conf>0.9 51.7% | wrong|conf  7.1%

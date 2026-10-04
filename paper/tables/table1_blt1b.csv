@@ -1,0 +1,10 @@
+Layout,Patch rate,Results covered,Computed results,Final answers
+default (BLT-1B's own),0.284,83%,73.0%,67.3%
+entropy@15,0.146,41%,33.9%,52.7%
+results@15 (hand-written),0.146,100%,58.9%,56.5%
+dep@15,0.152,100%,71.7%,32.0%
+entdep@15,0.150,100%,72.1%,59.9%
+entropy@10,0.096,21%,14.8%,37.8%
+results@10 (hand-written),0.097,100%,41.5%,49.0%
+dep@10,0.101,100%,65.2%,4.1%
+entdep@10,0.098,100%,60.7%,50.7%

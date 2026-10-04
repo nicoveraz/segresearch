@@ -4,6 +4,7 @@ Means over seeds; the seed values are listed where a claim rests on them. Supers
 
     uv run build_registry.py && uv run make_tables.py
 """
+import glob
 import math
 import os
 from collections import defaultdict
@@ -130,5 +131,65 @@ def main():
     print("wrote", os.path.relpath(OUT, registry.ROOT), f"({sum(s.count(chr(10) + '| ') for s in out)} rows)")
 
 
+# ----------------------------------------------------------------------------- paper tables (paper/tables/)
+PAPER = os.path.join(registry.ROOT, "paper", "tables")
+
+
+def write_table(name, header, body):
+    """paper/tables/NAME.md (pipe table, included by paper/build.sh as {{table:NAME}}) and NAME.csv."""
+    import csv
+    os.makedirs(PAPER, exist_ok=True)
+    with open(os.path.join(PAPER, f"{name}.md"), "w") as f:
+        f.write("| " + " | ".join(header) + " |\n|" + "---|" * len(header) + "\n")
+        f.writelines("| " + " | ".join(str(c) for c in row) + " |\n" for row in body)
+    with open(os.path.join(PAPER, f"{name}.csv"), "w", newline="") as f:
+        csv.writer(f).writerows([header] + body)
+
+
+def paper_tables():
+    import json
+    blt = {r["layout"]: r for r in rows(experiment="blt_budget", thresh="train") if r.get("rerun") == 26}
+    label = {"default": "default (BLT-1B's own)", "results@15": "results@15 (hand-written)", "results@10": "results@10 (hand-written)"}
+    order = ["default", "entropy@15", "results@15", "dep@15", "entdep@15", "entropy@10", "results@10", "dep@10", "entdep@10"]
+    write_table("table1_blt1b", ["Layout", "Patch rate", "Results covered", "Computed results", "Final answers"],
+                [[label.get(l, l), f"{blt[l]['rate']:.3f}", f"{100 * blt[l]['results_covered']:.0f}%",
+                  pct(blt[l]["results_exact"]), pct(blt[l]["final_exact"])] for l in order if l in blt])
+
+    g = group(rows(experiment="math_tight_budget"), lambda r: r["rule"])
+    cell = lambda k: f"{pct(mean(g[k], 'computed_acc'))} / {pct(mean(g[k], 'final_acc'))} / {mean(g[k], 'bpb'):.3f}"
+    write_table("table2_budget", ["Budget", "Entropy", "Dependence (label-free)", "Hand-written results rule"],
+                [[f"{R}%", cell(f"entropy{R}"), cell(f"dep{R}"), cell(f"syntax+entropy{R}")] for R in (10, 15, 20)])
+
+    ft = defaultdict(dict)
+    for f in sorted(glob.glob(os.path.join(registry.ROOT, "results", "items", "blt_finetune_*.json"))):
+        it = json.load(open(f)); ft[it["trained_rule"]][it.get("seed", 0)] = it
+    lay = {"entropy": "entropy@10", "results": "results@10", "entdep": "entdep@10"}
+    names = {"entropy": "entropy", "results": "results (hand-written)", "entdep": "entdep (label-free)"}
+    acc = lambda r, sd: 100 * sum(ft[r][sd]["data"]["layouts"][lay[r]]["res_exact"]) / len(ft[r][sd]["data"]["layouts"][lay[r]]["res_exact"])
+    write_table("table3_finetune", ["Trained and tested under", "Untrained", "Runs", "Mean"],
+                [[names[r], pct(blt[lay[r]]["results_exact"]), ", ".join(f"{acc(r, sd):.1f}" for sd in sorted(ft[r])),
+                  f"{sum(acc(r, sd) for sd in ft[r]) / len(ft[r]):.1f}%"] for r in ("entropy", "results", "entdep") if r in ft])
+
+    def at(exp, layout, key):
+        rs = [r for r in rows(experiment=exp, thresh="train", layout=layout) if r.get("rerun") == 26 or exp == "blt_logic"]
+        return pct(rs[-1][key]) if rs else ""
+    scope = [("GSM8K computed results", "blt_budget", "results_exact", "results", "computed, skill present"),
+             ("Python identifiers repeating a nearby name", "blt_code", "ident_exact", "oracle", "copy"),
+             ("Proof-step conclusions, generated logic", "blt_logic", "step_exact", "oracle", "rule lookup"),
+             ("Copied values, generated program traces", "blt_trace", "copy_exact", "oracle", "copy"),
+             ("Computed values, program traces", "blt_trace", "computed_exact", "oracle", "computed, skill absent")]
+    write_table("table4_scope", ["Target", "Default", "Entropy", "Entdep", "Forced", "Kind"],
+                [[name, at(e, "default", k), at(e, "entropy@10", k), at(e, "entdep@10", k), at(e, f"{f}@10", k), kind]
+                 for name, e, k, f, kind in scope])
+
+    g = group(rows(experiment="scratchpad16"), lambda r: r["rule"])
+    sp = [("answer starts (math syntax)", "sp16:syntax"), ("entropy (the paper's trigger)", "sp16:entropy"),
+          ("random positions", "sp16:random"), ("none", "sp16:none"), ("denser fixed patches, same compute (8-byte)", "sp16:dense8")]
+    write_table("table5_scratchpad", ["Trigger", "Seeds", "Final answers", "By seed"],
+                [[n, len(g[k]), pct(mean(g[k], "final_acc")), seeds(g[k], "final_acc")] for n, k in sp if k in g])
+    print("wrote paper/tables/table1-5 (.md, .csv)")
+
+
 if __name__ == "__main__":
     main()
+    paper_tables()

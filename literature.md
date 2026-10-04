@@ -1,6 +1,6 @@
 # Literature check (verified, issue #13)
 
-Checked by hand on 2026-10-01 against the arXiv abstract pages, the Scratchpad Patching PDF (appendix B.3 and E.2), the BLT paper and code, and the BLT-1B config. Bibliography: `refs.bib`.
+Checked by hand on 2026-10-01 against the arXiv abstract pages, the Scratchpad Patching PDF (appendix B.3 and E.2), the BLT paper and code, and the BLT-1B config. Bibliography: `paper/refs.bib`.
 
 ## Citations in notes.md: all verified
 

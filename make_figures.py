@@ -17,6 +17,15 @@ import flops
 import registry
 
 OUT = os.path.join(registry.ROOT, "results", "figures")
+PAPER = os.path.join(registry.ROOT, "paper", "figures")
+
+
+def save(fig, name):
+    """results/figures/NAME.{svg,png} and paper/figures/NAME.pdf (what paper/build.sh includes)."""
+    os.makedirs(OUT, exist_ok=True); os.makedirs(PAPER, exist_ok=True)
+    for ext in ("svg", "png"):
+        fig.savefig(os.path.join(OUT, f"{name}.{ext}"), dpi=150)
+    fig.savefig(os.path.join(PAPER, f"{name}.pdf"))
 
 
 def blt_compute():
@@ -41,10 +50,8 @@ def blt_compute():
             ax.plot(xs, [100 * v for _, v in pts], color=c, marker=m, lw=1.5, label=label)
         ax.set_title(title); ax.set_xlabel("forward compute per byte (% of BLT-1B default)"); ax.set_ylabel("exact match (%)"); ax.grid(alpha=0.3)
     axes[0].legend(fontsize=7, loc="lower right")
-    fig.suptitle("BLT-1B, patch layouts changed at inference at 10% and 15% of bytes (294 GSM8K test problems, 796 in-line results)", fontsize=10)
     fig.tight_layout(); os.makedirs(OUT, exist_ok=True)
-    for ext in ("svg", "png"):
-        fig.savefig(os.path.join(OUT, f"blt1b_acc_vs_compute.{ext}"), dpi=150)
+    save(fig, "blt1b_acc_vs_compute")
     print("wrote results/figures/blt1b_acc_vs_compute.{svg,png}")
 
 
@@ -77,10 +84,8 @@ def fig1():
                     ax.plot([c - 0.5, c - 0.5], [y - 0.42, y + 0.42], color=col, lw=2)
         ax.set_xlim(-1, W); ax.set_ylim(0.3, len(lines) + 0.7); ax.axis("off")
         ax.set_title(title, fontsize=10, loc="left")
-    fig.suptitle("BLT-1B patch starts at a 10% budget (bars); in-line computed results shaded", fontsize=10)
     fig.tight_layout(); os.makedirs(OUT, exist_ok=True)
-    for ext in ("svg", "png"):
-        fig.savefig(os.path.join(OUT, f"fig1_patch_starts.{ext}"), dpi=150)
+    save(fig, "fig1_patch_starts")
     print("wrote results/figures/fig1_patch_starts.{svg,png}")
 
 
@@ -118,11 +123,9 @@ def main():
         ax.set_title(title); ax.set_xlabel("forward compute per byte (% of BLT entropy at 25%)")
         ax.set_ylabel("exact match (%)"); ax.grid(alpha=0.3)
     axes[0].legend(fontsize=8, loc="lower right")
-    fig.suptitle("D=128 math models trained at 10-25% patch budgets (points: seed means; bars: seed range)", fontsize=10)
     fig.tight_layout()
     os.makedirs(OUT, exist_ok=True)
-    for ext in ("svg", "png"):
-        fig.savefig(os.path.join(OUT, f"acc_vs_compute.{ext}"), dpi=150)
+    save(fig, "acc_vs_compute")
     print("wrote results/figures/acc_vs_compute.{svg,png}")
 
 

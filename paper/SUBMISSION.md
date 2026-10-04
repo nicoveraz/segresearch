@@ -1,0 +1,53 @@
+# arXiv submission metadata
+
+Everything the arXiv form asks for, in the order it asks, in the same format as the author's
+earlier arXiv papers (LLM_Calc/paper/SUBMISSION.md). Nothing here is uploaded automatically:
+`./build.sh` builds and verifies `arxiv-submission.tar.gz`; the fields below are pasted by hand.
+
+## Status
+
+**DRAFT, not ready to submit.** Before submission:
+- [ ] Final novelty search (#13) and every citation verified at full text in `CITATIONS.md`.
+- [ ] `uv run pytest tests/test_paper_numbers.py` passes (every load-bearing number in the prose).
+- [ ] A full read for flow, length and claims (drafted 2026-10-04).
+- [ ] Make https://github.com/nicoveraz/segresearch public (the paper links to it), cut a release,
+      and archive it on Zenodo; add the DOI to the Comments line, README and `CITATION.cff`.
+      Check that the Zenodo DOI resolves to the new version before submitting (textca paper 4's
+      release reached Zenodo about 70 minutes after submission).
+- [ ] Run `./build.sh`. It must end with `OK -- verified from the tarball's own contents.`
+- [ ] Upload `arxiv-submission.tar.gz` (main.tex, main.bbl, refs.bib, figures/). Check arXiv's
+      compiled PDF against `arxiv.pdf` before confirming.
+
+## Title
+```
+Entropy-triggered byte patching misses computed outputs
+```
+No dashes in the title field (arXiv renders them as two literal hyphens); the hyphen in
+"Entropy-triggered" is fine.
+
+## Authors
+```
+Nicolás Vera Zúñiga
+```
+Independent Researcher, Chile. `nicovera@quetru.cl`.
+
+## Categories
+- Primary: `cs.CL` (same as the author's earlier papers).
+- Cross-list: `cs.LG`.
+
+## License
+```
+CC BY 4.0
+```
+
+## Comments
+```
+11 pages, 3 figures, 5 tables. Code, logs and results: https://github.com/nicoveraz/segresearch (archive DOI to add)
+```
+arXiv does not allow editing Comments after announcement without a new version, so check it now.
+
+## Abstract (plain text, ready to paste)
+arXiv caps this field at 1,920 characters. This version is 1672 characters.
+```
+Byte-level language models such as the Byte Latent Transformer (BLT) group bytes into patches and run their large global model once per patch. BLT starts a patch where a small model's next-byte entropy is high, so global compute goes where the next byte is hard to predict. We show that this rule has a systematic blind spot: positions whose type is predictable but whose value must be computed, such as the number after `=` in a worked math solution. Under tight patch budgets, entropy-triggered layouts skip these positions, and accuracy on them collapses. In Meta's BLT-1B with patch starts on 10% of bytes, the entropy rule puts a patch start at 21% of the computed results in GSM8K solutions and gets 14.8% of them exactly right; a boundary after each `=` at the same patch count gets 41.5%, and entropy combined with a label-free boundary-dependence signal gets 60.7% (default layout at 28% of bytes: 73.0%). The gap survives adapting BLT-1B to the budget with low-rank fine-tuning (27.6% vs 70.0%, three runs per rule, paired p < 1e-230) and appears in small byte models trained from scratch at 10–20% budgets (3 seeds each). The entropy trigger of Scratchpad Patching is likewise indistinguishable from random scratchpads on final answers (5.6% vs 5.9%, 5 seeds), while answer-start scratchpads give 38.1%. The effect is specific to computed values: copies and lookups gain little from a patch start, and values the model cannot compute gain nothing. Boundary dependence, the rise in the model's own loss when a patch start is removed, measured per two-byte context, recovers most of the loss without labels and, as a lookup, also removes the entropy model's cost.
+```

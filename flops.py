@@ -46,4 +46,5 @@ def table(name, parts, rates, ref):
 
 if __name__ == "__main__":
     table("harness, D=128, 4 global layers (relative to entropy at 25%)", harness(), (0.25, 0.20, 0.185, 0.15, 0.10), 0.25)
-    table("BLT-1B (relative to its default, ~28%)", blt1b(), (0.28, 0.20, 0.15, 0.10), 0.28)
+    # BLT-1B's default patch rate as measured on the GSM8K test problems (realblt_budget.py, default layout): 0.284
+    table("BLT-1B (relative to its default, 28.4% measured on GSM8K)", blt1b(), (0.284, 0.20, 0.15, 0.10), 0.284)

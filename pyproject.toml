@@ -8,3 +8,8 @@ dependencies = [
     "mlx>=0.29",
     "numpy>=1.26",
 ]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]

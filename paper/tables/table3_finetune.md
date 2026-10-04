@@ -1,0 +1,5 @@
+| Trained and tested under | Untrained | Runs | Mean |
+|---|---|---|---|
+| entropy | 14.8% | 26.9, 27.5, 28.4 | 27.6% |
+| results (hand-written) | 41.5% | 56.9, 56.0, 57.9 | 57.0% |
+| entdep (label-free) | 60.7% | 70.4, 68.8, 70.9 | 70.0% |

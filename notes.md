@@ -582,3 +582,13 @@ In-line computed results, exact match given the true prefix (796 results, 294 te
 - Final answers right, each model under its own layout: entropy 2.0%, hand-written 2.0%, entdep 2.0% (1/50 each). About half the generations never reach "The final answer is" within 320 bytes (26-27 of 50), and some degenerate into runaway digit strings.
 - Patch rates during generation fall below the fitted 10% (6.2-8.3%): generated text is more predictable than the human solutions the thresholds were fitted on.
 - **Inconclusive (floor):** even fine-tuned, BLT-1B cannot carry a GSM8K solution end to end, so layouts cannot be compared this way at 1B. The teacher-forced gaps (+42 points on computed results) do not translate into measurable end-to-end differences because whole-solution accuracy is ~2% for every layout. Needs a stronger base model or a longer fine-tune; deferred to #12.
+
+### Learned patcher (#19; neural_patcher.py)
+- v1, single-layout targets (262k math samples): per-sample gains are very noisy (sd 0.40 vs mean 0.057); held-out correlation ~0.07 for the 2-byte table and the network alike (16 bytes: 0.076). Answer-start coverage at 10%: table 51%, network 2 bytes 39%, 16 bytes 28%. Failed the screen; not trained.
+- v2, targets averaged over 4 random layouts (SEGR_DEP_LAYOUTS=4; 262k samples each from math and from logic/traces), one network for both corpora: correlations double (math table 0.140 vs network 8 bytes 0.140; logic/traces table 0.158 vs network 0.147). Coverage at 10%, mixed 8-byte network: math computed-result starts **83%** (math table 37%), all math answer starts 44% (table 51%); logic answers **100%** (table 0%), proof steps 38%, trace computed values 0%.
+- Training ndep10 (mixed 8-byte network) on math, 3 seeds, to compare with dep10 (17.1% / 67.4%) and entropy10 (7.1% / 10.4%).
+
+### Beyond patching (#22; confidence_exit.py, Qwen2.5-0.5B draft vs 1.5B target, teacher forced)
+- GSM8K: computed results are the easiest tokens (draft right 97.4%, confident 94%, wrong-when-confident 0.5% vs text 7.1%): likely contamination plus easy arithmetic given the worked line.
+- Generated program traces (values not memorizable): computed values: draft-target agreement 52.9% (text 85.7%, copies 99.9%), draft confident on only 6.5%, wrong-when-confident 6.7% (text 0.4%).
+- Reading: in token models a computed value's uncertainty shows in the model's own confidence, so speculative decoding pays a speed cost there (acceptance drops) but confidence-based exit is mostly protected (0.4% of computed tokens slip through). Unlike byte patching, where the patch decision for a result is made before its first byte. Partial support; not a correctness blind spot at this scale.

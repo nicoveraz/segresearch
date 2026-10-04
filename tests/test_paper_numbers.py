@@ -99,6 +99,26 @@ def test_trained_budget_claims(text, reg):
     has(text, f"gets {p1(S('entropy'))}% of final answers, its jump variant {p1(S('jump'))}%", f"math syntax {p1(S('words+syntax'))}%")
 
 
+def test_jump_rule(text, reg):
+    T = lambda rule, k: p1(trained(reg, "math_tight_budget", rule, k))
+    has(text, f"recovers final answers ({T('jump10', 'final_acc')}% vs {T('entropy10', 'final_acc')}% at 10%) but not computed results ({T('jump10', 'computed_acc')}% vs {T('entropy10', 'computed_acc')}%)",
+        f"recovers final answers ({T('jump10', 'final_acc')}% against {T('entropy10', 'final_acc')}% for entropy) but not computed results ({T('jump10', 'computed_acc')}% against {T('entropy10', 'computed_acc')}%)")
+
+
+def test_parameter_counts(text):
+    """The parameter counts stated in the paper, recomputed from the model definition."""
+    import subprocess
+    out = {}
+    for d, gl in ((128, 4), (64, 2)):
+        code = ("import mlx.core as mx, mlx.utils, harness; p = harness._init(mx.random.key(0)); "
+                "print(sum(v.size for _, v in mlx.utils.tree_flatten(p)), sum(v.size for _, v in mlx.utils.tree_flatten(p['g'])))")
+        env = {**__import__("os").environ, "SEGR_D": str(d), "SEGR_GLAYERS": str(gl), "SEGR_POOL": "xattn", "SEGR_LOCAL": "window"}
+        n, g = map(int, subprocess.run([sys.executable, "-c", code], capture_output=True, text=True, env=env, cwd=ROOT).stdout.split())
+        out[d] = (n, g)
+    has(text, f"{out[128][0] / 1e6:.1f}M parameters in all, {out[128][1] / 1e6:.1f}M of them global", f"D = 64 is {out[64][0] / 1e6:.1f}M",
+        f"D = 64 ({out[64][0] / 1e6:.1f}M parameters)")
+
+
 def test_hand_written_rule_has_lowest_bpb(text, reg):
     for R in (10, 15, 20):
         hw = trained(reg, "math_tight_budget", f"syntax+entropy{R}", "bpb")

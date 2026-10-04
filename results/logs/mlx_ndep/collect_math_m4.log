@@ -1,0 +1,5 @@
+1. training the reference model (marginal; 16000 steps; patch rate 0.250)
+2. measuring dependence on 8192 training windows
+   1044 contexts; mean 0.136 nats
+   top contexts: b'y]' 0.42, b'\nD' 0.40, b'\nP' 0.39, b',\\' 0.37, b'{\n' 0.37, b'a$' 0.36, b'4\\' 0.35, b'cc' 0.34, b'2\\' 0.34, b'\\e' 0.33, b'\n[' 0.33, b' J' 0.33
+saved /Users/nicoveraz/.cache/segresearch-math/deptrigger_m4.npz

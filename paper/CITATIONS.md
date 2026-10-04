@@ -7,13 +7,13 @@ where it is cited, what the manuscript claims about it, and the supporting quote
 **Basis.** `LOCAL FULL TEXT`: the PDF was fetched to this machine (2026-10-04), extracted with
 `pdftotext -layout`, and the quote was read in that extraction; the line number refers to that extraction, and
 the version and SHA-256 prefix identify the file. Works cited by a venue are checked against the **published
-version** where it could be fetched (ACL Anthology, NeurIPS proceedings); OpenReview blocks automated download, so
-the ICLR 2026 and NeurIPS 2025 versions of entries 6 and 7 are checked against their latest arXiv version only.
+version** (ACL Anthology, NeurIPS proceedings, OpenReview; the two OpenReview PDFs were downloaded by hand on
+2026-10-04 because OpenReview blocks automated download).
 `CODE`: the released artifact was read directly.
 
 **Status: 16 works; 14 carry a claim, all 14 verified at LOCAL FULL TEXT (one also at CODE); 2 cited as datasets.**
-Published versions checked for BLT, Nawrot et al., SpaceByte and Rho-1; MrT5 and TokEval's arXiv versions are the
-camera-ready copies; ByteSpan was non-archival; H-Net and AU-Net are pending their venue PDFs (OpenReview). The
+Published versions checked for BLT, Nawrot et al., SpaceByte, H-Net, AU-Net and Rho-1; MrT5 and TokEval's arXiv
+versions are the camera-ready copies; ByteSpan was non-archival. The
 check corrected the manuscript in three places (entries 1, 2 and 7).
 
 ---
@@ -55,15 +55,15 @@ check corrected the manuscript in three places (entries 1, 2 and 7).
 - **Cited in:** §1, §2. **Claim:** SpaceByte starts patches at word boundaries.
 - **Source (NeurIPS version l. 21, 69):** "larger blocks only after certain bytes, such as space characters, which typically …"; "The intuition is that the first character of a word is typically the hardest [to predict]".
 
-## 6. `hwang2025hnet`: ICLR 2026; checked against arXiv:2507.07955v2, sha256 04a2b32e6e82 (venue PDF pending: OpenReview blocks automated download)
+## 6. `hwang2025hnet`: ICLR 2026 (OpenReview camera-ready), sha256 b19c6a8d470e; also arXiv:2507.07955v2, sha256 04a2b32e6e82
 
 - **Cited in:** §1, §2. **Claim:** H-Net learns boundaries.
-- **Source (abstract):** "a dynamic chunking mechanism which automatically learns content- and context- dependent segmentation strategies learned jointly with the rest of the model".
+- **Source (ICLR version l. 20-21, abstract; same in arXiv):** "a dynamic chunking mechanism which automatically learns content- and context- dependent segmentation strategies learned jointly with the rest of the model". 0 GSM8K mentions.
 
-## 7. `videau2025aunet`: NeurIPS 2025; checked against arXiv:2506.14761v1, sha256 f6b6ec25b416 (venue PDF pending: OpenReview blocks automated download)
+## 7. `videau2025aunet`: NeurIPS 2025 (OpenReview camera-ready), sha256 efa184dbebe8; also arXiv:2506.14761v1, sha256 f6b6ec25b416
 
 - **Cited in:** §2. **Claim:** AU-Net derives boundaries in another way (word-level pooling); it reports GSM8K accuracy as a benchmark, rising with the number of stages, but not as a function of boundary placement.
-- **Source (l. 20):** "network reads raw bytes, pools them into words, then pairs of words, then up to 4 words". **(l. 385):** "GSM8k performances continue to improve with increased stage, even at fixed scale."
+- **Source (NeurIPS version l. 19):** "[the] network reads raw bytes, pools them into words, then pairs of words, then up to 4 words". **(NeurIPS l. 416):** "MMLU and GSM8k scores continue to improve with more stage, even at fixed scale." (arXiv v1 l. 385: "GSM8k performances continue to improve with increased stage, even at fixed scale.")
 - **Correction made:** the draft said none of the boundary papers "measures answer accuracy as a function of boundary placement" without qualification. AU-Net does report GSM8K (by number of stages), so §2 now names it and narrows the claim to where boundaries fall on computed outputs.
 
 ## 8. `kallini2024mrt5`: arXiv:2410.20771v3 (ICLR 2025), sha256 4ba6187fc440

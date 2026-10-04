@@ -157,8 +157,9 @@ def paper_tables():
 
     g = group(rows(experiment="math_tight_budget"), lambda r: r["rule"])
     cell = lambda k: f"{pct(mean(g[k], 'computed_acc'))} / {pct(mean(g[k], 'final_acc'))} / {mean(g[k], 'bpb'):.3f}"
-    write_table("table2_budget", ["Budget", "Entropy", "Dependence (label-free)", "Hand-written results rule"],
-                [[f"{R}%", cell(f"entropy{R}"), cell(f"dep{R}"), cell(f"syntax+entropy{R}")] for R in (10, 15, 20)])
+    jump = lambda R: cell(f"jump{R}") if f"jump{R}" in g else "not run"
+    write_table("table2_budget", ["Budget", "Entropy", "Entropy jump (BLT's monotonic rule)", "Dependence (label-free)", "Hand-written results rule"],
+                [[f"{R}%", cell(f"entropy{R}"), jump(R), cell(f"dep{R}"), cell(f"syntax+entropy{R}")] for R in (10, 15, 20)])
 
     ft = defaultdict(dict)
     for f in sorted(glob.glob(os.path.join(registry.ROOT, "results", "items", "blt_finetune_*.json"))):

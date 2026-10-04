@@ -4,24 +4,30 @@ Why this file exists (from textca's ledger): a prior-art gate there refuted 13 o
 overreaching their own sources, so summaries are not citable. Every work cited in `manuscript.md` has an entry:
 where it is cited, what the manuscript claims about it, and the supporting quote with its basis.
 
-**Basis.** `LOCAL FULL TEXT`: the arXiv PDF was fetched to this machine (2026-10-04), extracted with
+**Basis.** `LOCAL FULL TEXT`: the PDF was fetched to this machine (2026-10-04), extracted with
 `pdftotext -layout`, and the quote was read in that extraction; the line number refers to that extraction, and
-the version and SHA-256 prefix identify the file. `CODE`: the released artifact was read directly.
+the version and SHA-256 prefix identify the file. Works cited by a venue are checked against the **published
+version** where it could be fetched (ACL Anthology, NeurIPS proceedings); OpenReview blocks automated download, so
+the ICLR 2026 and NeurIPS 2025 versions of entries 6 and 7 are checked against their latest arXiv version only.
+`CODE`: the released artifact was read directly.
 
 **Status: 16 works; 14 carry a claim, all 14 verified at LOCAL FULL TEXT (one also at CODE); 2 cited as datasets.**
-The full-text check corrected the manuscript in two places (entries 2 and 7).
+Published versions checked for BLT, Nawrot et al., SpaceByte and Rho-1; MrT5 and TokEval's arXiv versions are the
+camera-ready copies; ByteSpan was non-archival; H-Net and AU-Net are pending their venue PDFs (OpenReview). The
+check corrected the manuscript in three places (entries 1, 2 and 7).
 
 ---
 
-## 1. `pagnoni2025blt`: arXiv:2412.09871v1 (ACL 2025), sha256 23e0cc90e9e2
+## 1. `pagnoni2025blt`: ACL 2025 (aclanthology 2025.acl-long.453), sha256 69fdaab9d6b4; also arXiv:2412.09871v1, sha256 23e0cc90e9e2
 
 - **Cited in:** §1, §2.
-- **Claim:** BLT starts patches where a small model's next-byte entropy crosses a threshold; the paper describes a global-threshold rule and an approximate monotonic rule, and uses the monotonic one for its main BLT-Entropy model. The released checkpoint and code default to the global threshold (`monotonicity: false`, threshold 1.335).
-- **Source (l. 247-248):** "We experiment with two methods to identify patch boundaries given entropies H(xi). The first, finds points above a global entropy threshold, as illustrated in Figure 4. The second, identifies points that are high[ly] …"
-- **Source (l. 258-259):** "Global Constraint H(xt) > θg / Approx. Monotonic Constraint H(xt) − H(xt−1) > θr"
-- **Source (l. 657):** "… an entropy-based patching scheme (BLT-Entropy). with approx. monotonicity constraint and reset the context of the entropy model with new lines …"
+- **Claim:** BLT starts patches where a small model's next-byte entropy crosses a threshold; it describes a global-threshold rule and an approximate monotonic rule; the final version compares both and defaults to the global threshold, as do the released checkpoint and code (`monotonicity: false`, threshold 1.335).
+- **Source, ACL version (l. 196-206):** "We experiment with two methods to identify patch boundaries given entropies H(xi). Global finds points above a global entropy threshold … Approximate Monotonicity, identifies points that are high relative to the previous entropy … Global H(xi) > θg / Approx. Monotonic H(xi)−H(xi−1) > θr".
+- **Source, ACL version (l. 338-340):** "For models using entropy patching, we estimate a patching threshold that achieves a desired average patch size on the pretraining data mix. We default to the global entropy threshold when not specified."
+- **Source, ACL version (Table 1, l. 377-411):** columns "Llama 3, BLT-Space, BLT-Global, BLT-Mono"; "we compare BPE Llama 3 tokenizer-based model, and three variants of BLT: space-patching, global, and approx. monotonic entropy".
 - **Source (CODE, `itazap/blt-1b-hf` config.json):** `"patching_mode": "entropy"`, `"patching_threshold": 1.335442066192627`, `"monotonicity": false`, `"patching_threshold_add": null`.
-- **Novelty check:** Table 1 evaluates Arc-E, Arc-C, HellaSwag, PIQA, MMLU, MBPP and HumanEval; no GSM8K or MATH (0 GSM8K mentions in the text).
+- **Correction made:** the draft said the monotonic rule was "used for the paper's main BLT-Entropy model". That is true of arXiv v1 (l. 657: "BLT-Entropy … with approx. monotonicity constraint"), but the published ACL version, which `refs.bib` cites, reports both rules and defaults to the global threshold. §2 now says so.
+- **Novelty check:** Table 1 evaluates Arc-E, Arc-C, HellaSwag, PIQA, MMLU, MBPP and HumanEval; 0 GSM8K mentions in either version.
 
 ## 2. `zheng2026scratchpad`: arXiv:2605.09630v1, sha256 c96d7e1193eb
 
@@ -39,22 +45,22 @@ The full-text check corrected the manuscript in two places (entries 2 and 7).
 - **Cited in:** §2. **Claim:** Fast BLT speeds up decoding without changing where boundaries go.
 - **Source (l. 9-21):** BLT Diffusion "generates multiple bytes in parallel per decoding step"; BLT Self-speculation, "in which BLT's local decoder continues generating past its normal patch boundaries to draft bytes, which are then verified". **(l. 101):** "… while preserving the main benefits of BLT: operating directly on bytes, using dynamic patching, …"
 
-## 4. `nawrot2023dynamic`: arXiv:2211.09761v2 (ACL 2023), sha256 9db799b97dcc
+## 4. `nawrot2023dynamic`: ACL 2023 (aclanthology 2023.acl-long.353), sha256 026430901b8c; also arXiv:2211.09761v2, sha256 9db799b97dcc
 
 - **Cited in:** §2. **Claim:** entropy spikes as boundaries go back to dynamic pooling.
-- **Source (l. 57-58):** boundary predictors "supervised by spikes in the conditional entropy of the predictive distribution".
+- **Source (ACL version l. 52; arXiv l. 57-58):** boundary predictors "supervised by spikes in the conditional entropy of the predictive distribution".
 
-## 5. `slagle2024spacebyte`: arXiv:2404.14408v3 (NeurIPS 2024), sha256 19914f0da857
+## 5. `slagle2024spacebyte`: NeurIPS 2024 (proceedings PDF), sha256 3eb7971bc74d; also arXiv:2404.14408v3, sha256 19914f0da857
 
 - **Cited in:** §1, §2. **Claim:** SpaceByte starts patches at word boundaries.
-- **Source (l. 20-23):** "SpaceByte consists of a byte-level … [applying] larger blocks only after certain bytes, such as space characters, which typically [denote word boundaries]".
+- **Source (NeurIPS version l. 21, 69):** "larger blocks only after certain bytes, such as space characters, which typically …"; "The intuition is that the first character of a word is typically the hardest [to predict]".
 
-## 6. `hwang2025hnet`: arXiv:2507.07955v2, sha256 04a2b32e6e82
+## 6. `hwang2025hnet`: ICLR 2026; checked against arXiv:2507.07955v2, sha256 04a2b32e6e82 (venue PDF pending: OpenReview blocks automated download)
 
 - **Cited in:** §1, §2. **Claim:** H-Net learns boundaries.
 - **Source (abstract):** "a dynamic chunking mechanism which automatically learns content- and context- dependent segmentation strategies learned jointly with the rest of the model".
 
-## 7. `videau2025aunet`: arXiv:2506.14761v1, sha256 f6b6ec25b416
+## 7. `videau2025aunet`: NeurIPS 2025; checked against arXiv:2506.14761v1, sha256 f6b6ec25b416 (venue PDF pending: OpenReview blocks automated download)
 
 - **Cited in:** §2. **Claim:** AU-Net derives boundaries in another way (word-level pooling); it reports GSM8K accuracy as a benchmark, rising with the number of stages, but not as a function of boundary placement.
 - **Source (l. 20):** "network reads raw bytes, pools them into words, then pairs of words, then up to 4 words". **(l. 385):** "GSM8k performances continue to improve with increased stage, even at fixed scale."
@@ -80,10 +86,10 @@ The full-text check corrected the manuscript in two places (entries 2 and 7).
 - **Cited in:** §2. **Claim:** same, including digit place-value alignment.
 - **Source (l. 27):** "… boundary integrity and digit place-value boundary alignment for mathe[matical text]". **(l. 126):** "demonstrated that digit tokenization directly impacts models' arithmetic capabilities".
 
-## 12. `lin2024rho1`: arXiv:2404.07965v4, sha256 ae9dcc41c4ff
+## 12. `lin2024rho1`: NeurIPS 2024, published as *Not All Tokens Are What You Need for Pretraining* (proceedings PDF), sha256 7b29297863a7; also arXiv:2404.07965v4, sha256 ae9dcc41c4ff
 
 - **Cited in:** §2, §11. **Claim:** Rho-1 selects training tokens by excess loss against a reference model.
-- **Source (l. 114-116):** "SLM uses the reference model to score each token … high excess loss between the reference and the training model, selectively learning the tokens".
+- **Source (NeurIPS version l. 110-112; arXiv l. 114-116):** "SLM uses the reference model to score each token … high excess loss between the reference and the training model, selectively learning the tokens".
 
 ## 13. `raposo2024mod`: arXiv:2404.02258v1, sha256 a64ff37ceb25
 

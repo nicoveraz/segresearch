@@ -7,7 +7,8 @@ earlier arXiv papers (LLM_Calc/paper/SUBMISSION.md). Nothing here is uploaded au
 ## Status
 
 **DRAFT, not ready to submit.** Before submission:
-- [ ] Final novelty search (#13) and every citation verified at full text in `CITATIONS.md`.
+- [x] Every citation verified at LOCAL FULL TEXT in `CITATIONS.md` (2026-10-04; two corrections made).
+- [ ] Final novelty search right before submission (#13).
 - [ ] `uv run pytest tests/test_paper_numbers.py` passes (every load-bearing number in the prose).
 - [ ] A full read for flow, length and claims (drafted 2026-10-04).
 - [ ] Make https://github.com/nicoveraz/segresearch public (the paper links to it), cut a release,

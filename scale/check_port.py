@@ -76,7 +76,9 @@ def check_training(steps=300):
     Training at lr 3e-3 is chaotic: two PyTorch runs whose initial weights differ by 1e-6 drift apart by a few %
     after ~150 updates. So the checks are: (1) the learning-rate schedule equals MLX's at every update; (2) per-update
     losses agree over the first 50 updates (before chaos sets in); (3) the mean loss over the last 100 updates
-    differs from MLX's by no more than 3x the PyTorch-vs-perturbed-PyTorch difference (with a 0.5% floor)."""
+    is within the chaos of PyTorch itself: its distance from the mean of five PyTorch runs (one unperturbed, four
+    perturbed by 1e-6) is at most twice their spread, with a 1% floor. (MLX on the GPU is not bit-deterministic, so
+    its trajectory is a different random draw each time.)"""
     import mathexp
     import mlx.nn as mnn
     from scale.train import lr_at, make_model, train
@@ -91,10 +93,10 @@ def check_training(steps=300):
     sdiff = max(abs(float(sched(mx.array(k))) - lr_at(k, 3e-3, steps)) for k in range(steps))
     torch.set_grad_enabled(True)
     runs = []
-    for eps in (0.0, 1e-6):
+    for eps in (0.0, 1e-6, 1e-6, 1e-6, 1e-6):
         tm = make_model(cfg)
         _to_torch(tm, p0, scale=1.0)
-        g = torch.Generator().manual_seed(1)
+        g = torch.Generator().manual_seed(len(runs) + 1)
         with torch.no_grad():
             for p in tm.parameters():
                 p.add_(eps * torch.randn(p.shape, generator=g))
@@ -109,15 +111,16 @@ def check_training(steps=300):
         i = rng.integers(0, len(tr) - T - 1, 32)
         bd = np.stack([mask[j:j + T + 1] for j in i]); bd[:, 0] = 1
         lm.append(step(np.stack([tr[j:j + T] for j in i]), np.stack([tr[j + 1:j + T + 1] for j in i]), bd).item())
-    lm, lt, lp = np.array(lm), runs[0], runs[1]
+    lm, lt = np.array(lm), runs[0]
     early = float((np.abs(lt - lm) / lm)[:50].max())
-    tail = lambda a: a[-100:].mean()
-    d_mlx = abs(tail(lt) - tail(lm)) / tail(lm)
-    d_chaos = abs(tail(lt) - tail(lp)) / tail(lt)
-    print(f"  schedule max |MLX - torch| {sdiff:.1e}; first 50 updates max rel diff {early:.1e}; "
-          f"mean loss over last 100: MLX {tail(lm):.4f}, torch {tail(lt):.4f} (diff {d_mlx:.2%}), "
-          f"torch perturbed by 1e-6 {tail(lp):.4f} (diff {d_chaos:.2%})")
-    return sdiff < 1e-8 and early < 1e-3 and d_mlx <= max(3 * d_chaos, 0.005)
+    tails = np.array([r[-100:].mean() for r in runs])              # the unperturbed run and four perturbed ones
+    t_mlx = lm[-100:].mean()
+    spread = (tails.max() - tails.min()) / tails.mean()
+    d_mlx = abs(t_mlx - tails.mean()) / tails.mean()
+    print(f"  schedule max |MLX - torch| {sdiff:.1e}; first 50 updates max rel diff {early:.1e}; mean loss over "
+          f"last 100: MLX {t_mlx:.4f}, torch runs {tails.min():.4f}-{tails.max():.4f} (spread {spread:.2%}); "
+          f"MLX vs torch mean {d_mlx:.2%}")
+    return sdiff < 1e-8 and early < 1e-3 and d_mlx <= max(2 * spread, 0.01)
 
 
 T = prepare.CTX

@@ -19,6 +19,12 @@ RI = {r: i for i, r in enumerate(ROLES)}
 ANSWER_ROLES = {"computed": "ANS_LOCAL", "copy": "VALUE", "final": "ANS_LONG", "boxed": "VAR"}  # mathexp.ANSWER_ROLES
 
 
+def _hi(dev):
+    """float64 for log-probabilities where the device supports it (CPU, CUDA: matches the MLX code's float64
+    log-softmax); float32 on Apple MPS, which has no float64."""
+    return torch.float32 if torch.device(dev).type == "mps" else torch.float64
+
+
 def _dev(model):
     return next(model.parameters()).device
 
@@ -33,7 +39,7 @@ def bits(model, ev_bytes, ev_mask, ev_roles, batch=128):
     R = np.stack([ev_roles[k * CTX + 1:(k + 1) * CTX + 1] for k in range(n)])
     BD = np.stack([bev[k * CTX:k * CTX + CTX + 1] for k in range(n)]); BD[:, 0] = 1
     lp = np.concatenate([torch.log_softmax(model(torch.from_numpy(X[b:b + batch]).to(dev),
-                                                 torch.from_numpy(BD[b:b + batch]).to(dev)).double(), -1).cpu().numpy()
+                                                 torch.from_numpy(BD[b:b + batch]).to(dev)).to(_hi(dev)), -1).cpu().numpy()
                          for b in range(0, n, batch)])
     bt = -np.take_along_axis(lp, Y[..., None], -1)[..., 0] / np.log(2)
     keep = np.zeros_like(bt, bool); keep[:, CTX // 2:] = True
@@ -60,7 +66,7 @@ def targets(b, roles):
 def _layouts(rule, ent, W):
     """Patch flags (n, CTX) for windows W (n, CTX - 1): the rule on each window plus the flag for the next byte."""
     dev = next(ent.parameters()).device
-    lp = torch.log_softmax(ent(torch.from_numpy(W.astype(np.int64)).to(dev)).double(), -1)
+    lp = torch.log_softmax(ent(torch.from_numpy(W.astype(np.int64)).to(dev)).to(_hi(dev)), -1)
     h = (-(lp.exp() * lp).sum(-1) / np.log(2)).cpu().numpy()             # h[:, t]: entropy of the byte after t
     H = np.c_[np.zeros(len(W)), h[:, :-1]].astype(np.float32)
     bd = np.zeros((len(W), W.shape[1] + 1), np.int64)

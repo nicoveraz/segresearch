@@ -19,6 +19,12 @@ ENTROPY = dict(d=32, layers=1, heads=2, lr=3e-3, steps=4000, bs=32)     # prepar
 REFERENCE = dict(d=128, glayers=4, steps=16000, bs=32, lr=3e-3, seed=0)  # the reference used for deptrigger.npz
 
 
+def _hi(dev):
+    """float64 for log-probabilities where the device supports it (CPU, CUDA: matches the MLX code's float64
+    log-softmax); float32 on Apple MPS, which has no float64."""
+    return torch.float32 if torch.device(dev).type == "mps" else torch.float64
+
+
 def train_entropy_lm(stream, cfg=ENTROPY, seed=0, dev=None, log_every=1000):
     dev = dev or device()
     torch.manual_seed(seed)
@@ -41,23 +47,23 @@ def train_entropy_lm(stream, cfg=ENTROPY, seed=0, dev=None, log_every=1000):
 
 
 @torch.no_grad()
-def score_stream(model, stream, dev=None, batch=512):
-    """Entropy and surprisal (bits) of byte i given bytes < i, as prepare.score_stream."""
+def score_stream(model, stream, dev=None, batch=512, surprisal=True):
+    """Entropy and surprisal (bits) of byte i given bytes < i, as prepare.score_stream. Windows start every CTX/2
+    bytes and each fills the next CTX/2 positions, so a batch of consecutive windows fills one contiguous block."""
     dev = dev or next(model.parameters()).device
     H = np.zeros(len(stream), np.float32)
-    S = np.zeros(len(stream), np.float32)
+    S = np.zeros(len(stream), np.float32) if surprisal else None
     half = CTX // 2
     starts = np.arange(0, len(stream) - CTX, half)
     for b in range(0, len(starts), batch):
         st = starts[b:b + batch]
         X = torch.from_numpy(np.stack([stream[s:s + CTX] for s in st]).astype(np.int64)).to(dev)
-        lp = torch.log_softmax(model(X).double(), -1)
-        h = (-(lp.exp() * lp).sum(-1) / np.log(2)).cpu().numpy()
-        lp = lp.cpu().numpy()
-        for r, s in enumerate(st):
-            tgt = stream[s + half + 1: s + CTX + 1].astype(np.int64)
-            H[s + half + 1: s + CTX + 1] = h[r, half:]
-            S[s + half + 1: s + CTX + 1] = -lp[r, half:][np.arange(len(tgt)), tgt] / np.log(2)
+        lp = torch.log_softmax(model(X).to(_hi(dev)), -1)[:, half:]                    # positions s+half+1 .. s+CTX
+        lo, hi = st[0] + half + 1, st[-1] + CTX + 1
+        H[lo:hi] = (-(lp.exp() * lp).sum(-1) / np.log(2)).reshape(-1).cpu().numpy()
+        if surprisal:
+            tgt = torch.from_numpy(np.asarray(stream[lo:hi]).astype(np.int64)).to(dev).view(len(st), half)
+            S[lo:hi] = (-lp.gather(-1, tgt[..., None])[..., 0] / np.log(2)).reshape(-1).cpu().numpy()
     return H, S
 
 
@@ -65,7 +71,7 @@ def score_stream(model, stream, dev=None, batch=512):
 def entropy_window(model, w):
     """Entropy of each byte of window w given the bytes before it (0 for the first byte), and of the next byte."""
     dev = next(model.parameters()).device
-    lp = torch.log_softmax(model(torch.from_numpy(w[None].astype(np.int64)).to(dev)).double(), -1)[0]
+    lp = torch.log_softmax(model(torch.from_numpy(w[None].astype(np.int64)).to(dev)).to(_hi(dev)), -1)[0]
     h = (-(lp.exp() * lp).sum(-1) / np.log(2)).cpu().numpy()
     return np.r_[0.0, h[:-1]].astype(np.float32), float(h[-1])
 
@@ -96,7 +102,7 @@ def fit_dependence(train_b, ref_cfg=REFERENCE, n_windows=4096, K=32, seed=1, dev
         BD = np.repeat(bd[None], K + 1, 0)
         BD[np.arange(1, K + 1), cand] = True
         with torch.no_grad():
-            lp = torch.log_softmax(ref_model(X, torch.from_numpy(BD.astype(np.int64)).to(dev)).double(), -1).cpu().numpy()
+            lp = torch.log_softmax(ref_model(X, torch.from_numpy(BD.astype(np.int64)).to(dev)).to(_hi(dev)), -1).cpu().numpy()
         L = -np.take_along_axis(lp, Y[..., None], -1)[..., 0]
         cs = np.cumsum(np.c_[np.zeros(K + 1), L], 1)
         win = lambda r, t: (cs[r, t + 3] - cs[r, t - 1]) / 4                 # mean loss on bytes t..t+3

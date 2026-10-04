@@ -60,7 +60,7 @@ def make_model(cfg):
 
 
 def train(cfg, data, mask, ckpt=None, ckpt_minutes=10.0, log_every=500, model=None, dev=None, losses=None):
-    """cfg: d, glayers, steps, bs, lr, seed (+ pool, local, window, warmup). Returns the trained model.
+    """cfg: d, glayers, steps, bs, lr, seed (+ pool, local, window, warmup, micro). Returns the trained model.
     If ckpt is a path, saves model/optimizer/sampler state there every ckpt_minutes and resumes from it."""
     dev = dev or device()
     torch.manual_seed(cfg["seed"])
@@ -79,11 +79,15 @@ def train(cfg, data, mask, ckpt=None, ckpt_minutes=10.0, log_every=500, model=No
         x, y, bd = (torch.from_numpy(a).to(dev) for a in batches())
         for g in opt.param_groups:
             g["lr"] = lr_at(k, cfg["lr"], cfg["steps"], cfg.get("warmup"))
-        with torch.autocast("cuda", dtype=torch.bfloat16, enabled=amp):
-            logits = model(x, bd)
-        loss = F.cross_entropy(logits.float().reshape(-1, 256), y.reshape(-1))
         opt.zero_grad(set_to_none=True)
-        loss.backward()
+        micro = cfg.get("micro", cfg["bs"])            # gradient accumulation: same update, less memory
+        loss = 0.0
+        for c in range(0, cfg["bs"], micro):
+            with torch.autocast("cuda", dtype=torch.bfloat16, enabled=amp):
+                logits = model(x[c:c + micro], bd[c:c + micro])
+            part = F.cross_entropy(logits.float().reshape(-1, 256), y[c:c + micro].reshape(-1)) * (len(x[c:c + micro]) / cfg["bs"])
+            part.backward()
+            loss = loss + part.detach()
         opt.step()
         if losses is not None:
             losses.append(loss.item())

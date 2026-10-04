@@ -70,9 +70,61 @@ def layouts(B, T):
     return out
 
 
+def check_training(steps=300):
+    """Same initial weights, same batches, same schedule: MLX (as in mathexp._train) vs scale/train.py on CPU.
+
+    Training at lr 3e-3 is chaotic: two PyTorch runs whose initial weights differ by 1e-6 drift apart by a few %
+    after ~150 updates. So the checks are: (1) the learning-rate schedule equals MLX's at every update; (2) per-update
+    losses agree over the first 50 updates (before chaos sets in); (3) the mean loss over the last 100 updates
+    differs from MLX's by no more than 3x the PyTorch-vs-perturbed-PyTorch difference (with a 0.5% floor)."""
+    import mathexp
+    import mlx.nn as mnn
+    from scale.train import lr_at, make_model, train
+    harness.D, harness.GLAYERS, harness.POOL, harness.LOCAL = 128, 4, "xattn", "window"
+    z = np.load(mathexp.NPZ)
+    btr, Htr = z["train_bytes"][:3_000_000], z["train_H"][:3_000_000]
+    mask = mathexp.Rule("entropy10", {"train_bytes": btr, "train_H": Htr}).mask(btr, Htr).astype(np.int32)
+    p0 = harness._init(mx.random.key(3))
+    cfg = dict(d=128, glayers=4, steps=steps, bs=32, lr=3e-3, seed=0)
+    opt = prepare.adamw(3e-3, steps, 3e-4)
+    sched = opt._schedulers["learning_rate"]
+    sdiff = max(abs(float(sched(mx.array(k))) - lr_at(k, 3e-3, steps)) for k in range(steps))
+    torch.set_grad_enabled(True)
+    runs = []
+    for eps in (0.0, 1e-6):
+        tm = make_model(cfg)
+        _to_torch(tm, p0, scale=1.0)
+        g = torch.Generator().manual_seed(1)
+        with torch.no_grad():
+            for p in tm.parameters():
+                p.add_(eps * torch.randn(p.shape, generator=g))
+        lt = []
+        train(cfg, btr, mask, model=tm, dev=torch.device("cpu"), losses=lt, log_every=0)
+        runs.append(np.array(lt))
+    torch.set_grad_enabled(False)
+    lossf = lambda p, x, y, bd: mnn.losses.cross_entropy(harness._model(p, x, bd), y, reduction="mean")
+    pm, step = prepare.make_step(p0, lossf, opt)
+    rng = np.random.default_rng(0); tr = btr.astype(np.int32); lm = []
+    for _ in range(steps):
+        i = rng.integers(0, len(tr) - T - 1, 32)
+        bd = np.stack([mask[j:j + T + 1] for j in i]); bd[:, 0] = 1
+        lm.append(step(np.stack([tr[j:j + T] for j in i]), np.stack([tr[j + 1:j + T + 1] for j in i]), bd).item())
+    lm, lt, lp = np.array(lm), runs[0], runs[1]
+    early = float((np.abs(lt - lm) / lm)[:50].max())
+    tail = lambda a: a[-100:].mean()
+    d_mlx = abs(tail(lt) - tail(lm)) / tail(lm)
+    d_chaos = abs(tail(lt) - tail(lp)) / tail(lt)
+    print(f"  schedule max |MLX - torch| {sdiff:.1e}; first 50 updates max rel diff {early:.1e}; "
+          f"mean loss over last 100: MLX {tail(lm):.4f}, torch {tail(lt):.4f} (diff {d_mlx:.2%}), "
+          f"torch perturbed by 1e-6 {tail(lp):.4f} (diff {d_chaos:.2%})")
+    return sdiff < 1e-8 and early < 1e-3 and d_mlx <= max(3 * d_chaos, 0.005)
+
+
+T = prepare.CTX
+
+
 def main():
     worst, failed = 0.0, []
-    T = prepare.CTX
     for d, gl, pool, local in [(64, 2, "sum", "patch"), (64, 2, "xattn", "patch"), (64, 2, "sum", "window"),
                                (128, 4, "xattn", "window"), (96, 3, "xattn", "window")]:
         harness.D, harness.GLAYERS, harness.POOL, harness.LOCAL = d, gl, pool, local
@@ -117,6 +169,10 @@ def main():
             leaks += not torch.allclose(tm(x, bd)[:, :t + 1], tm(x2, bd2)[:, :t + 1], atol=1e-5)
     print(f"  {'ok  ' if leaks == 0 else 'FAIL'} causality: {leaks}/40 perturbations changed earlier logits")
     failed += [] if leaks == 0 else ["causality"]
+
+    ok = check_training()
+    print(f"  {'ok  ' if ok else 'FAIL'} training equivalence (300 updates, D=128)")
+    failed += [] if ok else ["training"]
     if failed:
         print("FAILED: " + ", ".join(failed))
         sys.exit(1)

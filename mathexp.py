@@ -19,6 +19,8 @@ Patch rules, in two compute groups:
           words+syntax   word starts plus math-syntax starts
           entropyR / jumpR / syntax+entropyR   tight budget (R% of bytes, e.g. entropy10): entropy, entropy rises, or math
                                 syntax with the rest of the budget filled by entropy
+          ndepR                 tight budget, label-free: a small network predicting the value of a patch start from
+                                the last K bytes (neural_patcher.py), top R of bytes
           entdepR / depR        tight budget, label-free: entropy + boundary dependence (standardized), or dependence
                                 alone, to R% (table fitted by deptrigger.py from the model's own losses)
           syntax / stride6+syntax   math syntax alone / plus a patch every 6 bytes (syntax without word alignment)
@@ -260,7 +262,7 @@ class Rule:
                 raise SystemExit(f"unknown rule {name}")
             self.name = name
             return
-        m = re.fullmatch(r"(entropy|jump|syntax\+entropy|dep|entdep)(\d+)", name)
+        m = re.fullmatch(r"(entropy|jump|syntax\+entropy|dep|entdep|ndep)(\d+)", name)
         if m:
             # tight budget: R% of bytes start a patch (entropy10, dep15, syntax+entropy20, ...)
             self.kind, R = m.group(1), int(m.group(2)) / 100
@@ -271,6 +273,11 @@ class Rule:
                 Dtr = self.dep(btr)
                 self.mu = (float(Htr.mean()), float(Htr.std()), float(Dtr.mean()), float(Dtr.std()))
                 self.thr = np.quantile(self.score(btr, Htr) if self.kind == "entdep" else Dtr, 1 - R)
+            elif self.kind == "ndep":                                    # learned patcher (neural_patcher.py)
+                import neural_patcher
+                net = neural_patcher.load(os.environ.get("SEGR_NPATCH"))
+                self.ndep = lambda b: neural_patcher.predict(net, b)
+                self.thr = np.quantile(self.ndep(btr), 1 - R)
             elif self.kind == "entropy":
                 self.thr = np.quantile(Htr, 1 - R)
             elif self.kind == "jump":
@@ -305,6 +312,7 @@ class Rule:
         J = np.diff(H, prepend=H[0]) if len(H) else H
         if self.kind is not None:
             return {"entdep": lambda: self.score(b, H) > self.thr, "dep": lambda: self.dep(b) > self.thr,
+                    "ndep": lambda: self.ndep(b) > self.thr,
                     "entropy": lambda: H > self.thr, "jump": lambda: J > self.thr,
                     "syntax+entropy": lambda: _syntax_starts(b) | (H > self.thr)}[self.kind]()
         if self.name.startswith("sp:"):

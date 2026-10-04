@@ -55,7 +55,7 @@ def main(steps, n_windows, mode):
     print(f"2. measuring dependence on {n_windows} training windows", flush=True)
     starts = rng.integers(0, len(btr) - CTX - 1, n_windows)
     s2, c2, s1, c1 = (np.zeros(65536), np.zeros(65536), np.zeros(256), np.zeros(256))
-    allg = []
+    allg, samples = [], []                                                # samples: (window start, position, gain)
 
     def add(b, t, d):
         key = b[t - 2] * 256 + b[t - 1]
@@ -89,7 +89,9 @@ def main(steps, n_windows, mode):
             L = losses(X, Y, BD)
             cs = np.cumsum(np.c_[np.zeros(K + 1), L], 1)
             win = lambda r, t: (cs[r, t + 3] - cs[r, t - 1]) / 4             # mean loss on bytes t..t+3
-            add(b, cand, win(0, cand) - win(np.arange(1, K + 1), cand))      # drop from adding a boundary at t
+            g = win(0, cand) - win(np.arange(1, K + 1), cand)                 # drop from adding a boundary at t
+            add(b, cand, g)
+            samples.append(np.stack([np.full(K, w), cand, g], 1))
     allg = np.concatenate([np.atleast_1d(g) for g in allg])
     glob = float(allg.mean())
     T2 = np.where(c2 >= 20, s2 / np.maximum(c2, 1), np.nan); T1 = np.where(c1 >= 20, s1 / np.maximum(c1, 1), np.nan)
@@ -97,6 +99,8 @@ def main(steps, n_windows, mode):
     top = np.argsort(-np.nan_to_num(T2, nan=-1e9))[:12]
     print("   top contexts: " + ", ".join(f"{bytes([int(k) // 256, int(k) % 256])!r} {T2[k]:.2f}" for k in top), flush=True)
     np.savez(OUT, T2=T2, T1=T1, glob=glob, mode=mode)
+    if samples:                                                          # raw measurements, for a learned patcher (neural_patcher.py)
+        np.save(OUT.replace(".npz", "_samples.npy"), np.concatenate(samples))
     print("saved", OUT)
 
 

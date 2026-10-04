@@ -1,5 +1,5 @@
 ---
-title: "Entropy-triggered byte patching misses computed outputs"
+title: "Easy to anticipate, hard to compute: boundary dependence finds the computed outputs that entropy patching misses"
 author: "Nicolás Vera Zúñiga — Independent researcher, Chile — nicovera@quetru.cl"
 bibliography: refs.bib
 link-citations: true

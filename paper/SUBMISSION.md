@@ -20,10 +20,9 @@ earlier arXiv papers (LLM_Calc/paper/SUBMISSION.md). Nothing here is uploaded au
 
 ## Title
 ```
-Entropy-triggered byte patching misses computed outputs
+Easy to anticipate, hard to compute: boundary dependence finds the computed outputs that entropy patching misses
 ```
-No dashes in the title field (arXiv renders them as two literal hyphens); the hyphen in
-"Entropy-triggered" is fine.
+No dashes in the title field (arXiv renders them as two literal hyphens).
 
 ## Authors
 ```

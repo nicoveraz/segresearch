@@ -1,6 +1,6 @@
 # Paper outline (issue #25)
 
-**Working title:** Entropy-triggered byte patching misses computed outputs
+**Title:** Easy to anticipate, hard to compute: boundary dependence finds the computed outputs that entropy patching misses
 
 **Scope:** math (GSM8K, MATH). Code as a small-effect contrast; logic and program traces as limits. Every number below
 comes from `results/tables.md`, `results/stats.md` or `results/figures/` (rebuilt from the registry).

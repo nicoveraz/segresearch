@@ -11,7 +11,7 @@ version** (ACL Anthology, NeurIPS proceedings, OpenReview; the two OpenReview PD
 2026-10-04 because OpenReview blocks automated download).
 `CODE`: the released artifact was read directly.
 
-**Status: 16 works; 14 carry a claim, all 14 verified at LOCAL FULL TEXT (one also at CODE); 2 cited as datasets.**
+**Status: 17 works; 15 carry a claim, all 15 verified at LOCAL FULL TEXT (two also at CODE); 2 cited as datasets.**
 Published versions checked for BLT, Nawrot et al., SpaceByte, H-Net, AU-Net and Rho-1; MrT5 and TokEval's arXiv
 versions are the camera-ready copies; ByteSpan was non-archival. The
 check corrected the manuscript in three places (entries 1, 2 and 7).
@@ -103,6 +103,12 @@ check corrected the manuscript in three places (entries 1, 2 and 7).
 ## 15-16. `cobbe2021gsm8k` (arXiv:2110.14168v2, sha256 a52417d8fcd0), `hendrycks2021math` (arXiv:2103.03874v2, sha256 a6f448173e57)
 
 - **Cited in:** §3, as the datasets. No claim about the papers beyond the data.
+
+## 17. `paster2024openwebmath`: ICLR 2024 (proceedings PDF), sha256 ed9decbf3412; also arXiv:2310.06786
+
+- **Cited in:** §5 (scaling corpus). **Claim:** OpenWebMath is an open dataset of mathematical web pages from Common Crawl (14.7B tokens); we use its first four parquet shards.
+- **Source (l. 28-30):** "We introduce OpenWebMath, an open dataset inspired by these works containing 14.7B tokens of mathematical webpages from Common Crawl."
+- **Source (CODE, Hugging Face `open-web-math/open-web-math`):** 114 parquet shards; the four used are pinned by SHA-256 in `scale/data.py`.
 
 ---
 

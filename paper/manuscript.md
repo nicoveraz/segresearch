@@ -9,7 +9,7 @@ header-includes:
 
 ## Abstract
 
-Byte-level language models such as the Byte Latent Transformer (BLT) group bytes into patches and run their large global model once per patch. BLT starts a patch where a small model's next-byte entropy is high, so global compute goes where the next byte is hard to predict. We show that this rule has a systematic blind spot: positions whose *type* is predictable but whose *value* must be computed, such as the number after `=` in a worked math solution. Under tight patch budgets, entropy-triggered layouts skip these positions, and accuracy on them collapses. In Meta's BLT-1B with patch starts on 10% of bytes, the entropy rule puts a patch start at 21% of the computed results in GSM8K solutions and gets 14.8% of them exactly right; a boundary after each `=` at the same patch count gets 41.5%, and entropy combined with a label-free *boundary-dependence* signal gets 60.7% (default layout at 28% of bytes: 73.0%). The gap survives adapting BLT-1B to the budget with low-rank fine-tuning (27.6% vs 70.0%, three runs per rule, paired $p < 10^{-230}$) and appears in small byte models trained from scratch at 10–20% budgets (3 seeds each), where BLT's own entropy-jump rule recovers final answers (64.1% vs 10.4% at 10%) but not computed results (7.0% vs 7.1%). The entropy trigger of Scratchpad Patching is likewise indistinguishable from random scratchpads on final answers (5.6% vs 5.9%, 5 seeds), while answer-start scratchpads give 38.1%. The effect is specific to computed values: copies and lookups gain little from a patch start, and values the model cannot compute gain nothing. Boundary dependence, the rise in the model's own loss when a patch start is removed, measured per two-byte context, finds these positions without labels: combined with entropy it beats the hand-written rule on computed results.
+Byte-level language models such as the Byte Latent Transformer (BLT) group bytes into patches and run their large global model once per patch. BLT starts a patch where a small model's next-byte entropy is high, so global compute goes where the next byte is hard to predict. We show that this rule has a systematic blind spot: positions whose *type* is predictable but whose *value* must be computed, such as the number after `=` in a worked math solution. Under tight patch budgets, entropy-triggered layouts skip these positions, and accuracy on them collapses. In Meta's BLT-1B with patch starts on 10% of bytes, the entropy rule puts a patch start at 21% of the computed results in GSM8K solutions and gets 14.8% of them exactly right; a boundary after each `=` at the same patch count gets 41.5%, and entropy combined with a label-free *boundary-dependence* signal gets 60.7% (default layout at 28% of bytes: 73.0%). The gap survives adapting BLT-1B to the budget with low-rank fine-tuning (27.6% vs 70.0%, three runs per rule, paired $p < 10^{-230}$) and grows with model size in byte models trained from scratch at a 10% budget: at 1M, 12M and 50M parameters, boundary dependence beats entropy on final answers by −1.6, +10.1 and +19.8 points, and at 50M it gets 35.9% of computed results against 13.9% (3 seeds each). BLT's entropy-jump rule helps neither target at 50M. The entropy trigger of Scratchpad Patching is likewise indistinguishable from random scratchpads on final answers (5.6% vs 5.9%, 5 seeds), while answer-start scratchpads give 38.1%. The effect is specific to computed values: copies and lookups gain little, and values the model cannot compute gain nothing. Boundary dependence, the rise in the model's own loss when a patch start is removed, measured per two-byte context, finds these positions without labels: combined with entropy it beats the hand-written rule on computed results.
 
 ## 1. Introduction
 
@@ -20,7 +20,7 @@ Entropy measures uncertainty about the next byte. What a patch start actually pr
 We make four contributions:
 
 1. **A blind spot in a trained 1B model.** At 10–15% patch budgets, BLT-1B's own entropy rule skips most computed results in GSM8K solutions; forcing a boundary after each `=` at the same patch count raises exact accuracy on them by 25–27 points (§4).
-2. **The gap survives training and adaptation.** Small BLT-style models trained from scratch at 10–20% budgets show the same ordering across 3 seeds (§5), and BLT-1B adapted to a 10% budget with low-rank adapters keeps a 42-point gap (§7).
+2. **The gap survives training and adaptation, and grows with scale.** BLT-style models trained from scratch at 10–20% budgets show the same ordering across 3 seeds; trained at 1M, 12M and 50M parameters on a 1.9 GB math corpus, the advantage of the label-free trigger over entropy grows from none to 20 points on final answers and to 22 points on computed results (§5). BLT-1B adapted to a 10% budget with low-rank adapters keeps a 42-point gap (§7).
 3. **A label-free trigger.** *Boundary dependence*, the increase in the model's own loss when a patch start is removed, averaged per preceding two-byte context, finds computed results without hand-written rules (§6).
 4. **Scope.** The effect needs a computed value and a model able to compute it: copies and lookups gain 2–4 points from a patch start, and values the model cannot compute gain nothing (§8). Scratchpad Patching's entropy trigger shows the same blind spot (§9).
 
@@ -46,7 +46,7 @@ We make four contributions:
 
 ## 4. The blind spot in BLT-1B
 
-At BLT-1B's default budget its patcher covers computed results well (83% of them start a patch), and removing the patch start at the final answer costs 27 points of exact match (87.7% → 60.3%), confirming that the boundary matters. (That test scores the final answer as the solution last wrote it, with any `$` and thousands separators, on 300 problems; Table 1 scores the plain number after "The final answer is" on the 294 problems that fit the context, which gives 67.3% for the default layout.) Under a tight budget, entropy drops computed results faster than other positions: at 15% it covers 41% of them, at 10% only 21%.
+At BLT-1B's default budget its patcher covers computed results well (83% of them start a patch), and removing the patch start at the final answer costs 27 points of exact match (87.7% $\rightarrow$ 60.3%), confirming that the boundary matters. (That test scores the final answer as the solution last wrote it, with any `$` and thousands separators, on 300 problems; Table 1 scores the plain number after "The final answer is" on the 294 problems that fit the context, which gives 67.3% for the default layout.) Under a tight budget, entropy drops computed results faster than other positions: at 15% it covers 41% of them, at 10% only 21%.
 
 **Table 1.** BLT-1B, patch layouts changed at inference (train-fitted thresholds). Exact match on 796 in-line computed results and 294 final answers.
 
@@ -64,9 +64,19 @@ Changing layouts at inference puts BLT-1B out of distribution. To test whether t
 
 {{table:table2_budget}}
 
-The ordering hand-written > dependence > entropy holds at every budget. BLT's own monotonic rule (*jump*) separates the two targets: at 10% it recovers final answers (64.1% against 10.4% for entropy) but not computed results (7.0% against 7.1%). An entropy rise marks the answer that follows the long, predictable phrase "The final answer is", but not a computed result, whose position is as predictable as its type. Placement matters more than budget: dependence at 10% beats entropy at 20% on final answers by 23.4 points (pooled 95% interval +20.4 to +26.6) with half the patches. Entropy needs budget to reach the answers (final-answer accuracy 10% → 33% → 44%); the result-aware rules are flat from 10% up. Computed-result accuracy does not improve with budget for any rule, and MATH answers stay near 3% for every rule: at this size, arithmetic capacity, not placement, caps them. The hand-written rule also has the lowest bits per byte at every budget, so its gain is not bought elsewhere; dependence costs 1.5–7% in bits per byte against entropy.
+The ordering hand-written > dependence > entropy holds at every budget. BLT's own monotonic rule (*jump*) separates the two targets: at 10% it recovers final answers (64.1% against 10.4% for entropy) but not computed results (7.0% against 7.1%). An entropy rise marks the answer that follows the long, predictable phrase "The final answer is", but not a computed result, whose position is as predictable as its type. (In larger models on a larger corpus this recovery disappears; see below.) Placement matters more than budget: dependence at 10% beats entropy at 20% on final answers by 23.4 points (pooled 95% interval +20.4 to +26.6) with half the patches. Entropy needs budget to reach the answers (final-answer accuracy 10% $\rightarrow$ 33% $\rightarrow$ 44%); the result-aware rules are flat from 10% up. Computed-result accuracy does not improve with budget for any rule, and MATH answers stay near 3% for every rule: at this size, arithmetic capacity, not placement, caps them. The hand-written rule also has the lowest bits per byte at every budget, so its gain is not bought elsewhere; dependence costs 1.5–7% in bits per byte against entropy.
 
 The same pattern holds at entropy's usual 25% budget. At D = 128, word starts plus math syntax (18.5% of bytes) gets 30.4% of computed results against 11.0% for entropy (+19.4 points, 3 seeds); word starts alone get 15.5% and a 6-byte stride plus math syntax 16.6%, so word alignment and the result boundary each reach only about half the combined accuracy. At D = 64 (0.2M parameters), BLT's entropy rule gets 9.8% of final answers, its jump variant 67.5%, and word starts plus math syntax 77.1% (3 seeds each).
+
+**Scaling to 50M parameters.** The models above are small (1.1M parameters) and trained only on GSM8K and MATH solutions. To test whether the gap shrinks as models grow, we trained the same architecture from scratch at 1.1M, 11.7M and 53.7M parameters on a larger corpus: the first four shards of OpenWebMath [@paster2024openwebmath] (221,264 documents, 1.71 GB, after dropping 324 that share a 13-word sequence with a test problem), plus the GSM8K and MATH training solutions repeated to 10% of the bytes (1.90 GB in total). Each rule is applied at 10% of bytes with thresholds fitted on this corpus; the dependence rule uses the table of §6, because a table refitted on this corpus is dominated by web-text contexts and covers none of the computed-result starts. The models see 0.13, 0.5 and 1.5 billion bytes. The code is a PyTorch port of our MLX harness, checked against it (logits agree to 3e-6; masks are identical), and the whole study ran on one rented A40 GPU for about $19.
+
+**Table 3.** Models trained from scratch at a 10% patch budget on the scaling corpus. Exact match on 660 final answers and 1,000 computed results; patch rates are measured on the evaluation text (thresholds are fitted on the training corpus, so entropy spends slightly more than 10% there).
+
+{{table:table6_scaling}}
+
+![Exact match against parameter count for models trained from scratch at a 10% budget (small markers: seeds; large markers: means). The advantage of the label-free dependence rule over BLT's entropy rule grows with size, and computed results separate only once the models can compute. BLT's jump rule and entropy at twice the budget were run at 50M only.](figures/scaling.pdf)
+
+The advantage of dependence over entropy grows with size (Figure 2). On final answers it is −1.6 points at 1.1M (seeds overlap), +10.1 at 11.7M and +19.8 at 53.7M (78.9% against 59.0%), with every dependence seed above every entropy seed at the two larger sizes. Computed results show the blind spot once the models can compute: at 53.7M dependence gets 35.9% of them against 13.9% for entropy, again with every seed above every entropy seed, and the hand-written rule 43.4% (85.5% of final answers; two seeds). Bits per byte are about equal at 53.7M (1.420 against 1.439), so the gain is not bought elsewhere. BLT's jump rule does not help at this scale: one seed gets 53.8% of final answers and 6.3% of computed results, below every entropy seed, although it has the lowest bits per byte of the rules at a 10% budget (1.410). Given twice the budget (20%, which is 22.8% of the evaluation text), entropy matches dependence at 10% on final answers (80.2%, one seed) but still trails it on computed results (23.1% against 35.9%): at this size extra patches reach the answer that follows a predictable phrase, but placement, not budget, limits the computed results. (In the 1.1M models of Table 2, dependence at 10% also beat entropy at 20% on final answers.) At 1.1M on this corpus only the hand-written rule rises above the floor on final answers: these models see the GSM8K and MATH solutions about once, against about 13 times for the models of Table 2, which is why the two 1.1M results differ. One of the 28 training runs (1.1M, dependence, seed 0) never learned (bits per byte 4.72 against 2.08–2.26 for the other 1.1M runs) and is excluded.
 
 ## 6. A label-free trigger: boundary dependence
 
@@ -82,7 +92,7 @@ For the small trained models the same recipe fails: a reference model trained wi
 
 To test whether BLT-1B can learn its way around the blind spot, we train low-rank adapters (rank 16, 16.9M parameters, on the global transformer and the decoder's cross-attention) for 1,500 steps on GSM8K training solutions under each 10% layout, three runs per rule. Each model is tested on the same 796 results under its own training layout.
 
-**Table 3.** BLT-1B adapted to a 10% budget, computed results exact.
+**Table 4.** BLT-1B adapted to a 10% budget, computed results exact.
 
 {{table:table3_finetune}}
 
@@ -92,7 +102,7 @@ Adaptation helps every layout but closes none of the gap: entdep − entropy is 
 
 If the blind spot is about computed values, copies and lookups should gain little from a patch start. We repeat the BLT-1B test on four other target types at 10% (train-fitted thresholds).
 
-**Table 4.** BLT-1B at 10%, exact match. *Forced*: a patch start at every target, the rest by entropy.
+**Table 5.** BLT-1B at 10%, exact match. *Forced*: a patch start at every target, the rest by entropy.
 
 {{table:table4_scope}}
 
@@ -102,7 +112,7 @@ Copies and lookups gain 2–4 points from a patch start (code: +4.0, $p < 10^{-1
 
 We reimplemented Scratchpad Patching in the small-model harness (16-byte fixed patches, scratchpads on 6% of bytes, pooled by cross-attention over the partial patch with the mean as query) and compared triggers at equal scratchpad counts (D = 64, 2 global layers, 0.2M parameters).
 
-**Table 5.** Final-answer exact match on GSM8K by scratchpad trigger, with the accuracy of each seed.
+**Table 6.** Final-answer exact match on GSM8K by scratchpad trigger, with the accuracy of each seed.
 
 {{table:table5_scratchpad}}
 
@@ -110,7 +120,7 @@ The entropy trigger is indistinguishable from random scratchpads (−0.3 points,
 
 ## 10. Compute
 
-Fewer patches save global compute, but local layers run on every byte. For BLT-1B, counting matrix-multiply FLOPs, the local layers cost 299 MFLOPs per byte, the global model 2,653 MFLOPs per patch, and the entropy model 199 MFLOPs per byte. A 10% budget then costs 61% of the default's forward compute and 15% costs 72%. A dependence-table rule is a lookup and needs no entropy model: 45% at 10% and 56% at 15%. On computed results, dependence alone reaches 71.7% at 56% of default compute, against 73.0% for the default (Figure 2), though it fails on final answers (§6). In our small models the local layers dominate, so a 10% budget saves only 24% of compute.
+Fewer patches save global compute, but local layers run on every byte. For BLT-1B, counting matrix-multiply FLOPs, the local layers cost 299 MFLOPs per byte, the global model 2,653 MFLOPs per patch, and the entropy model 199 MFLOPs per byte. A 10% budget then costs 61% of the default's forward compute and 15% costs 72%. A dependence-table rule is a lookup and needs no entropy model: 45% at 10% and 56% at 15%. On computed results, dependence alone reaches 71.7% at 56% of default compute, against 73.0% for the default (Figure 3), though it fails on final answers (§6). In our small models the local layers dominate, so a 10% budget saves only 24% of compute.
 
 ![BLT-1B exact match on in-line computed results (left) and final answers (right) against forward compute per byte, relative to the default layout, for layouts at 10% and 15% of bytes. Dependence alone is a lookup and pays no entropy-model cost.](figures/blt1b_acc_vs_compute.pdf)
 
@@ -130,9 +140,9 @@ Fewer patches save global compute, but local layers run on every byte. For BLT-1
 
 ## 12. Limitations
 
-**Scale.** Models trained from scratch are small (D ≤ 128, at most 1.1M parameters; D = 64 is 0.2M). BLT-1B results come from inference-time layout changes and low-rank adaptation, not from full training at a tight budget; a scaling study at 10–40M parameters is feasible on our hardware but not done.
+**Scale.** Models trained from scratch reach 53.7M parameters, on 1.5 billion bytes (the models of Table 2 have 1.1M; D = 64 is 0.2M); the gap grows over that range, but three sizes on one corpus show a trend, not a law. BLT-1B results come from inference-time layout changes and low-rank adaptation, not from full training at a tight budget. At 50M the hand-written rule has two seeds and the jump and double-budget results one each.
 
-**Teacher forcing.** All accuracies score each target given the true preceding text. End to end, BLT-1B cannot solve GSM8K by itself: even after adaptation it gets about 2% of final answers under every layout, so the gaps above could not be measured end to end.
+**Teacher forcing.** All accuracies score each target given the true preceding text. End to end, BLT-1B cannot solve GSM8K by itself: even after adaptation it gets about 2% of final answers under every layout, so the gaps above could not be measured end to end. The models trained from scratch also solve essentially no GSM8K problems end to end at any size (at most 1 of 100 for any run).
 
 **Domain.** The effect is established for arithmetic in worked math solutions. Code shows a small, significant effect; logic and program traces were inconclusive because the models lacked the skill or the local model already saw the operands.
 
@@ -142,11 +152,11 @@ Fewer patches save global compute, but local layers run on every byte. For BLT-1
 
 ## 13. Conclusion
 
-Entropy tells a byte-level model where the next byte is surprising, not where its decoder needs the global model. The two diverge at computed outputs: positions whose type is predictable and whose value must be computed. Under tight budgets, entropy-triggered patching and scratchpad triggering skip these positions, and accuracy on them collapses, in a trained 1B model, in models trained at the budget, and after adaptation. Measuring the dependence directly, as the loss the model loses when a patch start is removed, finds these positions without labels. Compute allocation in byte models should follow what the decoder needs from the global model, not how surprising the next byte is.
+Entropy tells a byte-level model where the next byte is surprising, not where its decoder needs the global model. The two diverge at computed outputs: positions whose type is predictable and whose value must be computed. Under tight budgets, entropy-triggered patching and scratchpad triggering skip these positions, and accuracy on them collapses, in a trained 1B model, in models trained at the budget, where the gap grows from 1M to 50M parameters, and after adaptation. Measuring the dependence directly, as the loss the model loses when a patch start is removed, finds these positions without labels. Compute allocation in byte models should follow what the decoder needs from the global model, not how surprising the next byte is.
 
 ## Declarations
 
-**Data and code.** Code, raw logs and the results registry: https://github.com/nicoveraz/segresearch. `realblt_budget.py`, `realblt_code.py`, `realblt_reason.py` and `realblt_finetune.py` run the BLT-1B experiments (PyTorch); `mathexp.py`, `deptrigger.py` and `reasonexp.py` the trained models (MLX); `flops.py` the compute estimates; `stats.py`, `make_tables.py` and `make_figures.py` rebuild every table and figure from `results/registry/`. GSM8K, MATH and the BLT-1B weights are available from their authors. **Funding:** none. **Competing interests:** none. **Use of AI:** the experiments were designed, run and analysed with an AI coding agent (Claude Code) working in a research loop under the author's direction; the standards in Appendix A came out of that process. **Ethics:** public datasets and generated text only; no human subjects.
+**Data and code.** Code, raw logs and the results registry: https://github.com/nicoveraz/segresearch. `realblt_budget.py`, `realblt_code.py`, `realblt_reason.py` and `realblt_finetune.py` run the BLT-1B experiments (PyTorch); `mathexp.py`, `deptrigger.py` and `reasonexp.py` the trained models (MLX); `scale/` the scaling study (PyTorch, with checks against the MLX code and the scripts that ran it on a rented GPU); `flops.py` the compute estimates; `stats.py`, `make_tables.py` and `make_figures.py` rebuild every table and figure from `results/registry/`. GSM8K, MATH and the BLT-1B weights are available from their authors. **Funding:** none. **Competing interests:** none. **Use of AI:** the experiments were designed, run and analysed with an AI coding agent (Claude Code) working in a research loop under the author's direction; the standards in Appendix A came out of that process. **Ethics:** public datasets and generated text only; no human subjects.
 
 ## References
 

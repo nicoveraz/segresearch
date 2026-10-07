@@ -1,0 +1,22 @@
+{
+ "entropy10": {
+  "name": "entropy10",
+  "thr": 4.897160053253174
+ },
+ "dep10": {
+  "name": "dep10",
+  "thr": 0.1235247403383255
+ },
+ "syntax+entropy10": {
+  "name": "syntax+entropy10",
+  "thr": 4.915890693664551
+ },
+ "jump10": {
+  "name": "jump10",
+  "thr": 2.207674741744995
+ },
+ "entropy20": {
+  "name": "entropy20",
+  "thr": 4.464930534362793
+ }
+}

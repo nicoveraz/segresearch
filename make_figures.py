@@ -89,8 +89,38 @@ def fig1():
     print("wrote results/figures/fig1_patch_starts.{svg,png}")
 
 
+def scaling():
+    """Models trained from scratch on the scaling corpus: exact match against parameter count, per rule (results/scale/)."""
+    from scale import analyze
+    if not os.path.isdir(os.path.join(analyze.RESULTS, "runs")):
+        return
+    ok, _ = analyze.runs_ok()
+    style = {"entropy10": ("#888888", "o", "BLT entropy (10%)"), "dep10": ("#1f77b4", "s", "dependence, no labels (10%)"),
+             "syntax+entropy10": ("#d62728", "^", "hand-written result boundaries (10%)"),
+             "jump10": ("#9467bd", "v", "BLT jump rule (10%)"), "entropy20": ("#555555", "x", "BLT entropy at 20%")}
+    fig, axes = plt.subplots(1, 2, figsize=(10, 4), sharex=True)
+    for ax, metric, title in zip(axes, ("final_acc", "computed_acc"), ("Final answers (GSM8K)", "Computed results (in-line)")):
+        for a, (c, m, label) in style.items():
+            xs, ys = [], []
+            for size in analyze.SIZES:
+                rs = list(ok.get((size, a), {}).values())
+                if not rs:
+                    continue
+                p = rs[0]["params"]
+                ax.scatter([p] * len(rs), [100 * r[metric] for r in rs], color=c, marker=m, s=14, alpha=0.45)
+                xs.append(p); ys.append(100 * sum(r[metric] for r in rs) / len(rs))
+            if xs:
+                ax.plot(xs, ys, color=c, marker=m, lw=1.6 if len(xs) > 1 else 0, ms=7, label=label)
+        ax.set_xscale("log"); ax.set_title(title); ax.set_xlabel("parameters"); ax.set_ylabel("exact match (%)"); ax.grid(alpha=0.3)
+    axes[0].legend(fontsize=7, loc="lower right")
+    fig.tight_layout()
+    save(fig, "scaling")
+    print("wrote results/figures/scaling.{svg,png}")
+
+
 def main():
     fig1()
+    scaling()
     blt_compute()
     per_byte, per_patch, patcher = flops.harness()
     ref = 0.25 * per_patch + per_byte + patcher                      # BLT entropy at 25%: 100%

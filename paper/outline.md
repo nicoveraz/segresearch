@@ -36,6 +36,8 @@ model's own losses without labels, recovers most of it.
 4. Table: dose-response across target types (computed results, final answers, code identifiers, proof steps, trace values).
 5. Table: Scratchpad Patching triggers (after seeds 3-4).
 
+**Scaling (#27, done 2026-10-07):** §5 "Scaling to 50M parameters", Table 3 and Figure 2 (results/scale/); gap grows -1.6 / +10.1 / +19.8 on final answers; jump and entropy-at-20% at 50M.
+
 ## Gaps before submission
 
 - **#17** end-to-end accuracy: at the floor with BLT-1B even after fine-tuning (2% for every layout); needs a stronger model (#12). State it as a limit.

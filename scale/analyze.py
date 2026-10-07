@@ -18,7 +18,10 @@ import numpy as np
 
 SIZES = ("1m", "12m", "50m")
 ARMS = ("entropy10", "dep10", "syntax+entropy10")
-NAMES = {"entropy10": "entropy", "dep10": "dependence", "syntax+entropy10": "hand-written"}
+EXTRA = ("jump10", "entropy20")                  # 50M only: BLT's monotonic rule, and entropy at twice the budget
+NAMES = {"entropy10": "entropy", "dep10": "dependence", "syntax+entropy10": "hand-written",
+         "jump10": "jump (BLT monotonic)", "entropy20": "entropy at 20%"}
+RESULTS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results", "scale")
 METRICS = (("final_acc", "final answers"), ("computed_acc", "computed results"), ("boxed_acc", "MATH boxed"),
            ("bpb", "bits per byte"), ("e2e_acc", "end-to-end GSM8K"), ("rate", "eval patch rate"))
 T95 = {1: 12.71, 2: 4.30, 3: 3.18, 4: 2.78, 5: 2.57, 6: 2.45, 7: 2.36, 8: 2.31}
@@ -41,6 +44,13 @@ def failed(runs):
         med = float(np.median(b))
         out |= {(s, a, sd) for (s, a), seeds in runs.items() if s == size for sd, o in seeds.items() if o["bpb"] > med + 1}
     return out
+
+
+def runs_ok(d=RESULTS):
+    """{(size, arm): {seed: result}} without failed trainings, and the set of failures (size, arm, seed)."""
+    runs = load(d)
+    bad = failed(runs)
+    return {k: {sd: o for sd, o in v.items() if (k[0], k[1], sd) not in bad} for k, v in runs.items()}, bad
 
 
 def welch(x, y):

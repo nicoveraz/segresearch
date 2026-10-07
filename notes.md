@@ -593,3 +593,16 @@ In-line computed results, exact match given the true prefix (796 results, 294 te
 - Generated program traces (values not memorizable): computed values: draft-target agreement 52.9% (text 85.7%, copies 99.9%), draft confident on only 6.5%, wrong-when-confident 6.7% (text 0.4%).
 - Reading: in token models a computed value's uncertainty shows in the model's own confidence, so speculative decoding pays a speed cost there (acceptance drops) but confidence-based exit is mostly protected (0.4% of computed tokens slip through). Unlike byte patching, where the patch decision for a result is made before its first byte. Partial support; not a correctness blind spot at this scale.
 - **ndep10 trained (mixed 8-byte network, 3 seeds): computed 14.3% [8.4, 14.4, 20.2] / final 57.4% [60.6, 53.3, 58.2] / bpb 1.714.** Worse than the 2-byte table rule dep10 (17.1% / 67.4% / 1.678) on every measure, though far above entropy10 (7.1% / 10.4%). Its higher computed-result coverage (83% vs 37%) did not translate into accuracy, and it costs more bits per byte. **Negative for #19 as built:** the learned patcher transfers to logic answers in the screen but does not beat the table where it matters; the table stays the best label-free rule on math. Possible reasons: it covers fewer final answers (44% vs 51% of answer starts) and spends patches inside arithmetic expressions.
+
+## Scaling pilot (#27): 1M -> 12M -> 50M trained from scratch (results/scale/, scale/)
+PyTorch port of the harness (checked against MLX: logits 2.6e-6, identical masks and eval), one rented A40 (RunPod), 36 h, ~$19.
+Corpus 1.90 GB: OpenWebMath shards 0-3 (221,264 docs; 324 dropped for 13-gram overlap with the eval problems) + GSM8K/MATH train x20 (10%). All rules at 10%, thresholds fitted on the corpus; dep uses the paper's table (a corpus-fitted table covered 0% of computed starts). 28 runs; one failure (1M dep s0 never learned, bpb 4.72), excluded.
+| params | entropy final / computed | dependence | hand-written |
+|---|---|---|---|
+| 1.1M | 7.0 / 4.4 | 5.4 / 4.2 (2 seeds) | 45.5 / 4.6 |
+| 11.7M | 46.6 / 5.8 | 56.7 / 7.7 | 76.3 / 12.9 |
+| 53.7M | 59.0 / 13.9 | 78.9 / 35.9 | 85.5 / 43.4 (2 seeds) |
+- dep - entropy on final answers: -1.6, +10.1, +19.8 (seeds separate at 12M and 50M); computed at 50M +22.0 (seeds separate). bpb at 50M: dep 1.420, entropy 1.439.
+- 50M, one seed each: jump10 53.8 / 6.3 (lowest bpb of the 10% rules, 1.410): BLT's monotonic rule no longer recovers final answers at this scale. entropy20 (22.8% eval rate) 80.2 / 23.1: twice the budget matches dep10 on final answers but not computed results.
+- End to end: at most 1 of 100 GSM8K problems for any run.
+- Practical: entropy runs trained ~1.7x slower than dep runs at the same nominal rate on the shared GPU (patch bursts raise the per-batch maximum); not measured cleanly.

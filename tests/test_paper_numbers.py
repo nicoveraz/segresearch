@@ -91,7 +91,7 @@ def test_blt1b_paired_differences(text):
 def test_trained_budget_claims(text, reg):
     T = lambda rule, k: trained(reg, "math_tight_budget", rule, k)
     has(text, f"by {p1(T('dep10', 'final_acc') - T('entropy20', 'final_acc'))} points (pooled 95% interval")
-    has(text, f"final-answer accuracy {T('entropy10', 'final_acc'):.0f}% → {T('entropy15', 'final_acc'):.0f}% → {T('entropy20', 'final_acc'):.0f}%")
+    has(text, f"final-answer accuracy {T('entropy10', 'final_acc'):.0f}% $\\rightarrow$ {T('entropy15', 'final_acc'):.0f}% $\\rightarrow$ {T('entropy20', 'final_acc'):.0f}%")
     L = lambda rule, k: trained(reg, "math_larger", rule, k)
     has(text, f"gets {p1(L('words+syntax', 'computed_acc'))}% of computed results against {p1(L('entropy', 'computed_acc'))}% for entropy",
         f"word starts alone get {p1(L('words', 'computed_acc'))}%", f"math syntax {p1(L('stride6+syntax', 'computed_acc'))}%")
@@ -101,8 +101,8 @@ def test_trained_budget_claims(text, reg):
 
 def test_jump_rule(text, reg):
     T = lambda rule, k: p1(trained(reg, "math_tight_budget", rule, k))
-    has(text, f"recovers final answers ({T('jump10', 'final_acc')}% vs {T('entropy10', 'final_acc')}% at 10%) but not computed results ({T('jump10', 'computed_acc')}% vs {T('entropy10', 'computed_acc')}%)",
-        f"recovers final answers ({T('jump10', 'final_acc')}% against {T('entropy10', 'final_acc')}% for entropy) but not computed results ({T('jump10', 'computed_acc')}% against {T('entropy10', 'computed_acc')}%)")
+    # (the abstract stated this too until the scaling study; it now says jump helps neither target at 50M, test_scaling)
+    has(text, f"recovers final answers ({T('jump10', 'final_acc')}% against {T('entropy10', 'final_acc')}% for entropy) but not computed results ({T('jump10', 'computed_acc')}% against {T('entropy10', 'computed_acc')}%)")
 
 
 def test_parameter_counts(text):
@@ -160,3 +160,45 @@ def test_compute(text, reg):
         f"{lookup(0.10):.0f}% at 10% and {lookup(0.15):.0f}% at 15%")
     hb, hp, ht = flops.harness()
     has(text, f"a 10% budget saves only {100 - 100 * (0.10 * hp + hb + ht) / (0.25 * hp + hb + ht):.0f}% of compute")
+
+
+# ------------------------------------------------------------------ §5: scaling to 50M parameters (results/scale/)
+def test_scaling(text):
+    from scale import analyze
+    ok, bad = analyze.runs_ok()
+    assert {(s, a, sd) for s, a, sd in bad} == {("1m", "dep10", 0)}, f"the paper names one failed run: {bad}"
+    v = lambda size, arm, k: [100 * r[k] for r in ok[(size, arm)].values()]
+    m = lambda size, arm, k: float(np.mean(v(size, arm, k)))
+    f1 = lambda x: f"{x:+.1f}".replace("-", "−")
+    for size in ("12m", "50m"):
+        for arm in ("entropy10", "dep10"):
+            assert len(ok[(size, arm)]) == 3, f"{size} {arm}: the paper claims 3 seeds"
+    gaps = [m(s, "dep10", "final_acc") - m(s, "entropy10", "final_acc") for s in ("1m", "12m", "50m")]
+    has(text, f"by {f1(gaps[0])}, {f1(gaps[1])} and {f1(gaps[2])} points",
+        f"it is {f1(gaps[0])} points at 1.1M", f"{f1(gaps[1])} at 11.7M and {f1(gaps[2])} at 53.7M")
+    has(text, f"({p1(m('50m', 'dep10', 'final_acc'))}% against {p1(m('50m', 'entropy10', 'final_acc'))}%)",
+        f"gets {p1(m('50m', 'dep10', 'computed_acc'))}% of computed results against {p1(m('50m', 'entropy10', 'computed_acc'))}%",
+        f"dependence gets {p1(m('50m', 'dep10', 'computed_acc'))}% of them against {p1(m('50m', 'entropy10', 'computed_acc'))}% for entropy")
+    # "every dependence seed above every entropy seed": final answers at 12M and 50M, computed results at 50M
+    for size, k in (("12m", "final_acc"), ("50m", "final_acc"), ("50m", "computed_acc")):
+        assert min(v(size, "dep10", k)) > max(v(size, "entropy10", k)), f"{size} {k}: seeds overlap"
+    assert max(v("1m", "dep10", "final_acc")) > min(v("1m", "entropy10", "final_acc")), "the paper says the 1.1M seeds overlap"
+    bpb = lambda size, arm: float(np.mean([r["bpb"] for r in ok[(size, arm)].values()]))
+    has(text, f"({bpb('50m', 'dep10'):.3f} against {bpb('50m', 'entropy10'):.3f})")
+    j = next(iter(ok[("50m", "jump10")].values()))
+    has(text, f"{100 * j['final_acc']:.1f}% of final answers and {100 * j['computed_acc']:.1f}% of computed results", f"({j['bpb']:.3f})")
+    assert 100 * j["final_acc"] < min(v("50m", "entropy10", "final_acc")) and 100 * j["computed_acc"] < min(v("50m", "entropy10", "computed_acc"))
+    assert j["bpb"] == min(r["bpb"] for (s, a), rs in ok.items() if s == "50m" and a.endswith("10") for r in rs.values()), \
+        "jump: lowest bpb of the 10% rules"
+    hw = list(ok[("50m", "syntax+entropy10")].values())
+    assert len(hw) == 2, "the paper says two hand-written seeds at 50M"
+    has(text, f"hand-written rule {p1(100 * np.mean([r['computed_acc'] for r in hw]))}% ({p1(100 * np.mean([r['final_acc'] for r in hw]))}% of final answers; two seeds)")
+    e20 = next(iter(ok[("50m", "entropy20")].values()))
+    has(text, f"(20%, which is {100 * e20['rate']:.1f}% of the evaluation text)", f"on final answers ({100 * e20['final_acc']:.1f}%, one seed)",
+        f"computed results ({100 * e20['computed_acc']:.1f}% against {p1(m('50m', 'dep10', 'computed_acc'))}%)")
+    assert abs(100 * e20["final_acc"] - m("50m", "dep10", "final_acc")) < 2, "the paper says entropy at 20% matches dependence on final answers"
+    assert max(r["e2e_acc"] for rs in ok.values() for r in rs.values()) <= 0.01, "the paper says at most 1 of 100 end to end"
+    fail = analyze.load(analyze.RESULTS)[("1m", "dep10")][0]["bpb"]
+    others = [r["bpb"] for (s, a), rs in ok.items() if s == "1m" for r in rs.values()]
+    has(text, f"(bits per byte {fail:.2f} against {min(others):.2f}–{max(others):.2f}")
+    assert "TBD_" not in text, "placeholders left in the manuscript"

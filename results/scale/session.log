@@ -1,0 +1,37 @@
+== setup Mon Oct  5 14:59:59 UTC 2026
+2.8.0+cu128 NVIDIA A40
+NVIDIA A40, 46068 MiB
+== corpus and masks Mon Oct  5 15:00:04 UTC 2026
+  downloading data/train-00000-of-00114-5a023365406cb9c4.parquet (236 MB)
+  downloading data/train-00001-of-00114-e32fc2813a15f61c.parquet (238 MB)
+  downloading data/train-00002-of-00114-1429d96b99aec578.parquet (238 MB)
+  downloading data/train-00003-of-00114-e7fc257ef044bc03.parquet (242 MB)
+building the corpus
+corpus verified: 1.90 GB
+entropy scored in 407s
+  entropy10         threshold 4.8972  train rate 0.1000  val rate 0.1120
+  dep10             threshold 0.1235  train rate 0.0993  val rate 0.1089
+  syntax+entropy10  threshold 4.9159  train rate 0.1000  val rate 0.1213
+== throughput Mon Oct  5 15:09:01 UTC 2026
+  1m: 39 ms/update -> 0.35 h per run, peak 0.1 GiB
+  12m: 49 ms/update -> 0.41 h per run, peak 1.6 GiB
+  50m: 233 ms/update -> 2.97 h per run, peak 3.3 GiB
+== stage 1m Mon Oct  5 15:09:31 UTC 2026
+  done 1m entropy10 s0
+  done 1m dep10 s0
+== stage 12m Mon Oct  5 15:32:55 UTC 2026
+  done 12m dep10 s0
+  done 12m entropy10 s0
+  done 12m syntax+entropy10 s0
+  done 12m dep10 s1
+  done 12m entropy10 s1
+  done 12m syntax+entropy10 s1
+== stage 50m Mon Oct  5 20:12:30 UTC 2026
+  done 50m dep10 s0
+  done 50m entropy10 s1
+  done 50m entropy10 s0
+  done 50m dep10 s1
+  done 50m syntax+entropy10 s0
+== packing results Wed Oct  7 03:58:14 UTC 2026
+  results: 27
+== DONE Wed Oct  7 03:58:14 UTC 2026   ->  /workspace/work/results.tgz

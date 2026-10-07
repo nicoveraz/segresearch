@@ -188,7 +188,30 @@ def paper_tables():
           ("random positions", "sp16:random"), ("none", "sp16:none"), ("denser fixed patches, same compute (8-byte)", "sp16:dense8")]
     write_table("table5_scratchpad", ["Trigger", "Seeds", "Final answers", "By seed"],
                 [[n, len(g[k]), pct(mean(g[k], "final_acc")), seeds(g[k], "final_acc")] for n, k in sp if k in g])
-    print("wrote paper/tables/table1-5 (.md, .csv)")
+    scale_table()
+    print("wrote paper/tables/table1-6 (.md, .csv)")
+
+
+def scale_table():
+    """table6_scaling: models trained from scratch at 1M, 12M and 50M parameters on the scaling corpus (results/scale/)."""
+    from scale import analyze
+    if not os.path.isdir(os.path.join(analyze.RESULTS, "runs")):
+        return
+    ok, bad = analyze.runs_ok()
+    label = {"1m": "1M", "12m": "12M", "50m": "50M"}
+    body = []
+    for size in analyze.SIZES:
+        for a in analyze.ARMS + analyze.EXTRA:
+            rs = list(ok.get((size, a), {}).values())
+            if not rs:
+                continue
+            m = lambda k: sum(r[k] for r in rs) / len(rs)
+            sd = lambda k: ", ".join(f"{100 * r[k]:.1f}" for r in sorted(rs, key=lambda r: r["seed"]))
+            body.append([f"{rs[0]['params'] / 1e6:.1f}M", analyze.NAMES[a], len(rs),
+                         f"{pct(m('final_acc'))} ({sd('final_acc')})", f"{pct(m('computed_acc'))} ({sd('computed_acc')})",
+                         f"{m('bpb'):.3f}", f"{100 * m('rate'):.1f}%"])
+    write_table("table6_scaling", ["Parameters", "Rule", "Seeds", "Final answers (by seed)",
+                                   "Computed results (by seed)", "Bits per byte", "Eval patch rate"], body)
 
 
 if __name__ == "__main__":

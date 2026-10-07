@@ -27,11 +27,12 @@ from peft import LoraConfig, get_peft_model
 from transformers import AutoTokenizer, BltForCausalLM
 
 import blt_layouts
+import blt_load
 import registry
 from realblt_budget import DEP, GSM, GSM_TRAIN, MODEL, lengths_from_starts, problem
 
 N_FIT = 300                                   # train problems used to fit budget thresholds (not trained on)
-OUT = os.path.expanduser("~/.cache/segresearch-blt/adapters")
+OUT = os.path.expanduser("~/.cache/segresearch-blt/adapters" + blt_load.SUFFIX)
 RULES = {"entropy": "entropy", "entdep": "entropy+dep", "results": "forced"}
 
 
@@ -39,7 +40,7 @@ def main(rule, R, steps, n_test, seed=0):
     assert blt_layouts.MODE == "train"
     dev = "mps" if torch.backends.mps.is_available() else "cpu"
     tok = AutoTokenizer.from_pretrained(MODEL)
-    model = BltForCausalLM.from_pretrained(MODEL, dtype=torch.bfloat16).to(dev)
+    model = blt_load.load(MODEL, dev)
     cfg = model.config
     patcher = model.model.patcher                 # kept before the LoRA wrapper changes model.model
     tab = np.load(DEP, allow_pickle=True).item()
@@ -126,8 +127,8 @@ def main(rule, R, steps, n_test, seed=0):
         registry.emit("realblt_finetune", f"RESULT {name:11s} patch rate {np.mean(s['rate']):.3f} | "
                       f"in-line results: {np.mean(s['res_bits']):.3f} bits, exact {np.mean(s['res_exact']):5.1%} | "
                       f"final: {np.mean(s['fin_bits']):.3f} bits, exact {np.mean(s['fin_exact']):5.1%}",
-                      experiment="blt_finetune", trained_rule=rule, budget=R, steps=steps, seed=seed, thresh=blt_layouts.MODE)
-    registry.save_items(f"blt_finetune_{tag}", {"layouts": stats, "res_pid": res_pid}, experiment="blt_finetune",
+                      experiment="blt_finetune", trained_rule=rule, budget=R, steps=steps, seed=seed, thresh=blt_layouts.MODE, window=blt_load.WINDOW)
+    registry.save_items(f"blt_finetune_{tag}{blt_load.SUFFIX}", {"layouts": stats, "res_pid": res_pid}, experiment="blt_finetune",
                         trained_rule=rule, budget=R, steps=steps, seed=seed)
 
 

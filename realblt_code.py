@@ -31,6 +31,7 @@ import torch
 from transformers import AutoTokenizer, BltForCausalLM
 
 import blt_layouts
+import blt_load
 import registry
 
 MODEL = "itazap/blt-1b-hf"
@@ -75,7 +76,7 @@ def targets(b):
 def main(n_train, n_test):
     dev = "mps" if torch.backends.mps.is_available() else "cpu"
     tok = AutoTokenizer.from_pretrained(MODEL)
-    model = BltForCausalLM.from_pretrained(MODEL, dtype=torch.bfloat16).to(dev).eval()
+    model = blt_load.load(MODEL, dev).eval()
     cfg = model.config
 
     def prep(b):
@@ -159,8 +160,8 @@ def main(n_train, n_test):
     for name in layouts:
         s = st_[name]
         registry.emit("realblt_code", f"RESULT {name:11s} patch rate {np.mean(s['rate']):.3f} | covered {np.mean(s['cov']):5.1%} | repeated identifiers: {np.mean(s['bits']):.3f} bits, "
-              f"exact {np.mean(s['exact']):5.1%}", experiment="blt_code", thresh=blt_layouts.MODE)
-    registry.save_items(f"blt_code_{blt_layouts.MODE}", {"layouts": st_, "pid": pid}, experiment="blt_code",
+              f"exact {np.mean(s['exact']):5.1%}", experiment="blt_code", thresh=blt_layouts.MODE, window=blt_load.WINDOW)
+    registry.save_items(f"blt_code_{blt_layouts.MODE}{blt_load.SUFFIX}", {"layouts": st_, "pid": pid}, experiment="blt_code",
                         thresh=blt_layouts.MODE, n_chunks=used)
 
 

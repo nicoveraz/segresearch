@@ -3,9 +3,12 @@ under a tight layout (top 10% by entropy) minus under its default layout (~30%),
 context (backoff to 1). How much those bytes need a boundary. Causal lookup at inference, no labels."""
 import json, re, os, numpy as np, torch
 from collections import defaultdict
-from transformers import AutoTokenizer, BltForCausalLM
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import blt_load
+from transformers import AutoTokenizer
 tok = AutoTokenizer.from_pretrained("itazap/blt-1b-hf")
-model = BltForCausalLM.from_pretrained("itazap/blt-1b-hf", dtype=torch.bfloat16).to("mps").eval(); cfg = model.config
+model = blt_load.load("itazap/blt-1b-hf", "mps").eval(); cfg = model.config
 def load(split, n):
     out = []
     for p in [json.loads(l) for l in open(os.path.expanduser(f"~/.cache/segresearch-gsm8k/{split}.jsonl"))][:n]:
@@ -36,7 +39,7 @@ glob = float(np.mean([x for v in s1.values() for x in v]))
 print("contexts:", len(T2), "| dependence after '= ':", round(T2.get((61, 32), float("nan")), 3), "after 'e ':", round(T2.get((101, 32), float("nan")), 3), "global", round(glob, 3))
 top = sorted(T2.items(), key=lambda kv: -kv[1])[:10]
 print("top contexts:", ", ".join(f"{bytes(k)!r} {v:.2f}" for k, v in top))
-os.makedirs(os.path.expanduser("~/.cache/segresearch-blt"), exist_ok=True); np.save(os.path.expanduser("~/.cache/segresearch-blt/dependence_table.npy"), {"T2": T2, "T1": T1, "glob": glob}, allow_pickle=True)
+os.makedirs(os.path.expanduser("~/.cache/segresearch-blt"), exist_ok=True); np.save(os.path.expanduser(f"~/.cache/segresearch-blt/dependence_table{blt_load.SUFFIX}.npy"), {"T2": T2, "T1": T1, "glob": glob}, allow_pickle=True)
 lookup = lambda b, i: T2.get((b[i - 2], b[i - 1]), T1.get(b[i - 1], glob))
 rows = []
 for text in load("test", 300):

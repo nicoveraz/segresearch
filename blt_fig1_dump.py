@@ -14,13 +14,14 @@ import torch
 from transformers import AutoTokenizer, BltForCausalLM
 
 import blt_layouts
+import blt_load
 from realblt_budget import DEP, GSM, GSM_TRAIN, MODEL, problem
 
 
 def main(idx):
     dev = "mps" if torch.backends.mps.is_available() else "cpu"
     tok = AutoTokenizer.from_pretrained(MODEL)
-    model = BltForCausalLM.from_pretrained(MODEL, dtype=torch.bfloat16).to(dev).eval()
+    model = blt_load.load(MODEL, dev).eval()
     cfg = model.config
     tab = np.load(DEP, allow_pickle=True).item()
     dep_at = lambda b, i: tab["T2"].get((b[i - 2], b[i - 1]), tab["T1"].get(b[i - 1], tab["glob"])) if i >= 2 else -np.inf
@@ -49,7 +50,7 @@ def main(idx):
            "entropy@10": to_bytes(blt_layouts.layout("entropy", 0.10, sig, fit)),
            "entdep@10": to_bytes(blt_layouts.layout("entropy+dep", 0.10, sig, fit)),
            "results": [[int(s) - 1, int(e) - 1] for k, s, e in spans if k == "res"]}
-    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "results", "fig1_layouts.json")
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "results", f"fig1_layouts{blt_load.SUFFIX}.json")
     json.dump(out, open(path, "w"), indent=1)
     print("wrote", path, {k: len(v) for k, v in out.items() if isinstance(v, list)})
 

@@ -202,3 +202,27 @@ def test_scaling(text):
     others = [r["bpb"] for (s, a), rs in ok.items() if s == "1m" for r in rs.values()]
     has(text, f"(bits per byte {fail:.2f} against {min(others):.2f}–{max(others):.2f}")
     assert "TBD_" not in text, "placeholders left in the manuscript"
+
+
+# ------------------------------------------------------------------ §3: BLT-1B conversion lacks the 512-byte window
+def test_window512(text):
+    w = json.loads((ROOT / "results" / "blt_window512.json").read_text())
+    has(text, f"{w['problems_longer']} of our {w['problems']} test problems are longer",
+        f"the {w['inside']['res']} computed results and {w['inside']['fin']} final answers that end within the first 512 bytes")
+    d = lambda k: w["diff"][k]
+    sci = lambda p: f"{float(f'{p:.0e}'.split('e')[0]):.0f} \\times 10^{{{int(f'{p:.0e}'.split('e')[1])}}}"
+    has(text, f"the gaps are +{d('results@15-entropy@15:res')['points']:.1f} and +{d('results@10-entropy@10:res')['points']:.1f} "
+              f"($p = {sci(d('results@15-entropy@15:res')['p'])}$ and ${sci(d('results@10-entropy@10:res')['p'])}$)")
+    has(text, f"+{d('entdep@15-entropy@15:res')['points']:.1f} and +{d('entdep@10-entropy@10:res')['points']:.1f} at 15% and 10% inside the first 512 bytes")
+    fin = [v for k, v in w["diff"].items() if k.endswith(":fin")]
+    has(text, f"final answers +{min(v['points'] for v in fin):.1f} to +{max(v['points'] for v in fin):.1f} points")
+    assert max(v["p"] for v in fin) < 0.03 and all(v["points"] > 0 for v in w["diff"].values()), "the paper says every comparison holds"
+    for k in ("results@15-entropy@15:res", "results@10-entropy@10:res", "entdep@15-entropy@15:res", "entdep@10-entropy@10:res"):
+        a, b = k.split(":")[0].split("-")
+        assert d(k)["points"] > 100 * (w["acc"][a]["res"]["all"] - w["acc"][b]["res"]["all"]), f"{k}: the paper says the gap is larger inside"
+    ft = {r: 100 * np.mean([x["inside"] for x in v]) for r, v in w["finetune"].items()}
+    has(text, f"entdep get {ft['entdep']:.1f}% against {ft['entropy']:.1f}% under entropy")
+    fig = json.loads((ROOT / "results" / "fig1_layouts.json").read_text())
+    n = len(fig["text"].encode())
+    assert n <= 512, "Figure 1's solution must lie inside the window"
+    has(text, f"({n} bytes, inside the window)")

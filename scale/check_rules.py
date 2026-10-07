@@ -13,7 +13,7 @@ z = np.load(mathexp.NPZ)
 data = {k: z[k] for k in ("train_bytes", "train_H", "val_bytes", "val_H")}
 table = np.load(mathexp.CACHE + "/deptrigger.npz")
 failed = []
-for name in ("entropy10", "dep10", "syntax+entropy10", "entropy15", "dep20", "syntax+entropy20"):
+for name in ("entropy10", "dep10", "syntax+entropy10", "entropy15", "dep20", "syntax+entropy20", "jump10", "entropy20"):
     old = mathexp.Rule(name, data)
     new = Rule(name, data["train_bytes"], data["train_H"], table)
     re_new = Rule.from_state(new.state(), table)

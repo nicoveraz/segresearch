@@ -4,6 +4,7 @@
                                                #      dependence table -> a small bundle for the GPU
     python -m scale.prep pod  BUNDLE WORK      # GPU: rebuild the corpus (SHA-256 must match), score entropy,
                                                #      fit thresholds, build the masks of every arm
+    python -m scale.prep arms BUNDLE WORK ARM...      # add arms (e.g. jump10 entropy20) to a built work dir
     python -m scale.prep bench BUNDLE WORK     # GPU: time an update at each size, project hours per run
     python -m scale.prep run  BUNDLE WORK SIZE ARM SEED    # train and evaluate one model
 
@@ -126,7 +127,13 @@ def pod(bundle, work):
         if m2["sha256"] != meta["sha256"]:
             raise SystemExit(f"corpus SHA-256 {m2['sha256']} does not match the Mac's {meta['sha256']}")
     print(f"corpus verified: {meta['bytes'] / 1e9:.2f} GB", flush=True)
-    b = data.load_bytes(corpus)
+    build_arms(bundle, work, ARMS)
+
+
+def build_arms(bundle, work, arms):
+    """Fit each arm's threshold, write its train and eval masks, and merge it into rules.json (resumable; can add
+    arms to a finished work directory: python -m scale.prep arms BUNDLE WORK ARM...)."""
+    b = data.load_bytes(f"{work}/train.u8")
     val = np.fromfile(f"{bundle}/val.u8", np.uint8)
     dev = device()
     ent = _entropy_model(bundle, dev)
@@ -139,8 +146,9 @@ def pod(bundle, work):
     idx = np.random.default_rng(0).choice(len(b), min(THRESH_SAMPLE, len(b)), replace=False)
     idx.sort()
     table = dict(np.load(f"{bundle}/dependence.npz"))
-    rules = {}
-    for arm in ARMS:
+    rpath = f"{work}/rules.json"
+    rules = json.load(open(rpath)) if os.path.exists(rpath) else {}
+    for arm in arms:
         r = _fit_rule(arm, b, H, idx, table)          # thresholds from a fixed sample of train positions
         rules[arm] = r.state()
         mpath = f"{work}/mask_{arm}.u8"
@@ -154,7 +162,7 @@ def pod(bundle, work):
         mv = r.mask(val, Hv).astype(np.uint8)
         mv.tofile(f"{work}/val_mask_{arm}.u8")
         print(f"  {arm:17s} threshold {float(r.thr):.4f}  train rate {M[idx].mean():.4f}  val rate {mv.mean():.4f}", flush=True)
-    data.save_json(rules, f"{work}/rules.json")
+        data.save_json(rules, rpath)
 
 
 def _fit_rule(arm, b, H, idx, table):
@@ -162,6 +170,13 @@ def _fit_rule(arm, b, H, idx, table):
     chunk by chunk over the corpus (vectorized) and read at the sampled positions."""
     if arm.startswith("entropy"):
         return Rule(arm, np.zeros(1, np.uint8), np.asarray(H[idx]))
+    if arm.startswith("jump"):                        # entropy rise H[t] - H[t-1] at the sampled positions
+        r = Rule.__new__(Rule)
+        r.name, r.kind = arm, "jump"
+        J = np.asarray(H[idx]).astype(np.float64) - np.asarray(H[np.maximum(idx - 1, 0)])
+        J[idx == 0] = 0.0
+        r.thr = np.quantile(J.astype(np.float32), 1 - int(arm[4:]) / 100)
+        return r
     kind, R = re.fullmatch(r"(entropy|dep|syntax\+entropy)(\d+)", arm).groups()
     R = int(R) / 100
     r = Rule.__new__(Rule)
@@ -263,6 +278,8 @@ if __name__ == "__main__":
         mac(a[1])
     elif a[0] == "pod":
         pod(a[1], a[2])
+    elif a[0] == "arms":
+        build_arms(a[1], a[2], a[3:])
     elif a[0] == "bench":
         bench(a[1], a[2])
     elif a[0] == "run":

@@ -119,5 +119,7 @@ def load_bytes(path):
 
 
 def save_json(obj, path):
-    with open(path, "w") as f:
+    """Atomic: readers (runs starting their evaluation) never see a half-written file."""
+    with open(path + ".tmp", "w") as f:
         json.dump(obj, f, indent=1)
+    os.replace(path + ".tmp", path)

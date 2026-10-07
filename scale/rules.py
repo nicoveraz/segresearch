@@ -5,6 +5,8 @@ identical masks):
 
     entropy{R}         patch where the small model's next-byte entropy is in the top R% of train positions
     dep{R}             patch where boundary dependence (a 2-byte-context lookup table) is in the top R%
+    jump{R}            patch where the entropy RISES most from the previous byte (BLT's approximate monotonic rule):
+                       top R% of H[t] - H[t-1] on train
     syntax+entropy{R}  patch right after every math-syntax marker ('=', '\\boxed{', '#### ', '>>'), the rest of
                        the budget filled by entropy (the hand-written results rule)
 
@@ -44,7 +46,7 @@ class Rule:
     """Fit thresholds on train bytes / entropies, then mask any byte array: Rule(name, train_b, train_H, table)."""
 
     def __init__(self, name, train_b, train_H, table=None):
-        m = re.fullmatch(r"(entropy|dep|syntax\+entropy)(\d+)", name)
+        m = re.fullmatch(r"(entropy|jump|dep|syntax\+entropy)(\d+)", name)
         if not m:
             raise ValueError(f"unknown rule {name}")
         self.name, self.kind, R = name, m.group(1), int(m.group(2)) / 100
@@ -53,6 +55,8 @@ class Rule:
             self.thr = np.quantile(self.dep(train_b), 1 - R)
         elif self.kind == "entropy":
             self.thr = np.quantile(train_H, 1 - R)
+        elif self.kind == "jump":
+            self.thr = np.quantile(np.diff(train_H, prepend=train_H[0]), 1 - R)
         else:
             syn = syntax_starts(train_b)
             rest = ~syn
@@ -66,6 +70,8 @@ class Rule:
             return self.dep(b) > self.thr
         if self.kind == "entropy":
             return H > self.thr
+        if self.kind == "jump":
+            return (np.diff(H, prepend=H[0]) if len(H) else H) > self.thr
         return syntax_starts(b) | (H > self.thr)
 
     def state(self):
@@ -76,7 +82,7 @@ class Rule:
     def from_state(cls, st, table=None):
         r = cls.__new__(cls)
         r.name = st["name"]
-        r.kind = re.fullmatch(r"(entropy|dep|syntax\+entropy)(\d+)", r.name).group(1)
+        r.kind = re.fullmatch(r"(entropy|jump|dep|syntax\+entropy)(\d+)", r.name).group(1)
         r.thr = np.float64(st["thr"])         # compare in float64, as the fitted threshold does: a plain Python float
                                               # against a float32 array compares in float32 under NumPy 2 and can flip ties
         if r.kind == "dep":

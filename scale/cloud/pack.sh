@@ -7,7 +7,7 @@ ROOT=$(cd "$(dirname "$0")/../.." && pwd)
 TMP=$(mktemp -d)
 mkdir -p "$TMP/pilot/scale/cloud" "$TMP/pilot/results/registry"
 cp "$ROOT"/scale/*.py "$ROOT"/scale/requirements.txt "$TMP/pilot/scale/"
-cp "$ROOT"/scale/cloud/run.sh "$TMP/pilot/scale/cloud/"
+cp "$ROOT"/scale/cloud/*.sh "$ROOT"/scale/cloud/*.py "$TMP/pilot/scale/cloud/"
 cp "$ROOT"/registry.py "$TMP/pilot/"
 cp -r "$BUNDLE" "$TMP/pilot/bundle"
 (cd "$ROOT" && git rev-parse HEAD) > "$TMP/pilot/COMMIT"

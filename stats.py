@@ -134,7 +134,7 @@ def blt_items():
     for f in sorted(glob.glob(os.path.join(registry.ROOT, "results", "items", "*.json"))):
         it = json.load(open(f)); name = os.path.basename(f)[:-5]; L = it["data"]["layouts"]
         targets = []                                   # (label, key path getter, pid)
-        if name.startswith("blt_finetune"):
+        if name.startswith("blt_finetune") or (name.startswith("blt_") and not name.endswith("_w512")):   # paper: window restored
             continue                                   # compared across models below (matched layouts)
         if name.startswith("blt_budget"):
             fin_pid = list(range(len(next(iter(L.values()))["fin_exact"])))
@@ -163,7 +163,7 @@ def blt_items():
                 lines.append(f"| {label} | {a} | {b} | {100 * x.mean():.1f}% | {100 * y.mean():.1f}% | {100 * (x.mean() - y.mean()):+.1f} "
                              f"[{100 * lo:+.1f}, {100 * hi:+.1f}] | {nb} / {nc} | {p:.2g} |")
     ft = defaultdict(dict)                             # rule -> seed -> items
-    for f in sorted(glob.glob(os.path.join(registry.ROOT, "results", "items", "blt_finetune_*.json"))):
+    for f in sorted(glob.glob(os.path.join(registry.ROOT, "results", "items", "blt_finetune_*_w512.json"))):   # 512-byte window restored
         it = json.load(open(f)); ft[it["trained_rule"]][it.get("seed", 0)] = it
     if ft:
         lay = {"entropy": "entropy@10", "entdep": "entdep@10", "results": "results@10"}

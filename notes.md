@@ -606,3 +606,12 @@ Corpus 1.90 GB: OpenWebMath shards 0-3 (221,264 docs; 324 dropped for 13-gram ov
 - 50M, one seed each: jump10 53.8 / 6.3 (lowest bpb of the 10% rules, 1.410): BLT's monotonic rule no longer recovers final answers at this scale. entropy20 (22.8% eval rate) 80.2 / 23.1: twice the budget matches dep10 on final answers but not computed results.
 - End to end: at most 1 of 100 GSM8K problems for any run.
 - Practical: entropy runs trained ~1.7x slower than dep runs at the same nominal rate on the shared GPU (patch bursts raise the per-batch maximum); not measured cleanly.
+
+## BLT-1B rerun with the 512-byte window restored (2026-10-07/08)
+transformers #49185: the HF conversion of BLT-1B lacks the 512-byte sliding window (entropy patcher, local encoder/decoder). Fix: upstream PR #49188 applied to transformers 5.18 in .venv-blt (patches/), loaded via blt_load.py (window set explicitly; SEGR_BLT_WINDOW=0 = released behaviour). Verified: first 512 bytes bit-identical; past 512 the released patcher collapses to 1.07 bytes/patch vs 3.69 fixed. All BLT-1B experiments rerun on the Mac (~18 h incl. a lid-close pause): dependence table, budget, Figure 1, code/trace/logic, 9 LoRA fine-tunes, answer-boundary test. Paper now uses these (window=512 rows, *_w512 items).
+- GSM8K computed results (exact): default 76.8% (25.5% patches; released 73.0% at 28.4%); entropy 47.0 / 19.0, results 66.1 / 51.8, entdep 76.5 / 67.1, dep 77.3 / 67.8 (@15 / @10). Gaps: results - entropy +19.1 / +32.8; entdep - entropy +29.5 / +48.1 (released: +25.0 / +26.6 and +38.2 / +45.9).
+- Final answers: at 15% the layouts no longer differ (+2.0 / +2.4, n.s.); at 10% +9.2 / +11.6 (p <= 1.4e-5).
+- Fine-tuned (3 runs): entropy 32.9, results 62.7, entdep 72.7; entdep - entropy +39.8 (p 6e-217); entropy-trained models under entdep 66.2%.
+- Code: default 83.3% (released 73.0%); forced-identifier gain shrinks to +0.7 / +1.4. Traces unchanged (inputs < 512 bytes). Logic similar.
+- Answer boundary: removing it 97.0% -> 78.3% (released 87.7 -> 60.3).
+- Figure 1 uses top-10%-per-solution layouts (equal counts, 42 each; train-fitted thresholds gave entdep 74 vs entropy 42 on this problem).

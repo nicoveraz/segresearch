@@ -46,7 +46,7 @@ def main(idx):
     b, ids, spans, res_starts = problem(p, tok, dev)
     sig, default = signals(b, ids)
     to_bytes = lambda st: sorted(int(t) - 1 for t in st if t >= 1)              # token t = byte t-1
-    out = {"index": idx, "text": b.decode(), "default": to_bytes(default),
+    out = {"index": idx, "mode": blt_layouts.MODE, "window": blt_load.WINDOW, "text": b.decode(), "default": to_bytes(default),
            "entropy@10": to_bytes(blt_layouts.layout("entropy", 0.10, sig, fit)),
            "entdep@10": to_bytes(blt_layouts.layout("entropy+dep", 0.10, sig, fit)),
            "results": [[int(s) - 1, int(e) - 1] for k, s, e in spans if k == "res"]}

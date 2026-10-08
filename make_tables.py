@@ -148,7 +148,8 @@ def write_table(name, header, body):
 
 def paper_tables():
     import json
-    blt = {r["layout"]: r for r in rows(experiment="blt_budget", thresh="train") if r.get("rerun") == 26}
+    # paper tables use BLT-1B with its 512-byte window restored (blt_load.py; window=512 in the registry)
+    blt = {r["layout"]: r for r in rows(experiment="blt_budget", thresh="train") if r.get("window") == 512}
     label = {"default": "default (BLT-1B's own)", "results@15": "results@15 (hand-written)", "results@10": "results@10 (hand-written)"}
     order = ["default", "entropy@15", "results@15", "dep@15", "entdep@15", "entropy@10", "results@10", "dep@10", "entdep@10"]
     write_table("table1_blt1b", ["Layout", "Patch rate", "Results covered", "Computed results", "Final answers"],
@@ -162,7 +163,7 @@ def paper_tables():
                 [[f"{R}%", cell(f"entropy{R}"), jump(R), cell(f"dep{R}"), cell(f"syntax+entropy{R}")] for R in (10, 15, 20)])
 
     ft = defaultdict(dict)
-    for f in sorted(glob.glob(os.path.join(registry.ROOT, "results", "items", "blt_finetune_*.json"))):
+    for f in sorted(glob.glob(os.path.join(registry.ROOT, "results", "items", "blt_finetune_*_w512.json"))):
         it = json.load(open(f)); ft[it["trained_rule"]][it.get("seed", 0)] = it
     lay = {"entropy": "entropy@10", "results": "results@10", "entdep": "entdep@10"}
     names = {"entropy": "entropy", "results": "results (hand-written)", "entdep": "entdep (label-free)"}
@@ -172,7 +173,7 @@ def paper_tables():
                   f"{sum(acc(r, sd) for sd in ft[r]) / len(ft[r]):.1f}%"] for r in ("entropy", "results", "entdep") if r in ft])
 
     def at(exp, layout, key):
-        rs = [r for r in rows(experiment=exp, thresh="train", layout=layout) if r.get("rerun") == 26 or exp == "blt_logic"]
+        rs = [r for r in rows(experiment=exp, thresh="train", layout=layout) if r.get("window") == 512]
         return pct(rs[-1][key]) if rs else ""
     scope = [("GSM8K computed results", "blt_budget", "results_exact", "results", "computed, skill present"),
              ("Python identifiers repeating a nearby name", "blt_code", "ident_exact", "oracle", "copy"),

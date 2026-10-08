@@ -21,6 +21,7 @@ import sys
 import time
 
 import numpy as np
+import blt_load
 import registry
 import torch
 from transformers import AutoTokenizer, BltForCausalLM
@@ -37,7 +38,7 @@ def lengths_from_starts(starts, n):
 def main(n_problems):
     dev = "mps" if torch.backends.mps.is_available() else "cpu"
     tok = AutoTokenizer.from_pretrained(MODEL)
-    model = BltForCausalLM.from_pretrained(MODEL, dtype=torch.bfloat16).to(dev).eval()
+    model = blt_load.load(MODEL, dev).eval()
     cfg = model.config
     problems = [json.loads(l) for l in open(GSM)][:n_problems]
     res = {k: {"bits": [], "exact": []} for k in ("default", "+answer", "-answer", "jump")}
@@ -84,7 +85,7 @@ def main(n_problems):
     print(f"\nBLT-1B on {len(problems)} GSM8K test problems (final answer, given the worked solution)")
     print(f"default patches already start at the answer in {np.mean(had_boundary):.0%} of problems")
     for name, r in res.items():
-        registry.emit("realblt", f"RESULT layout={name:8s} bits/answer byte {np.mean(r['bits']):.3f} | exact match {np.mean(r['exact']):.1%}", experiment="blt_answer_boundary", n_problems=len(problems))
+        registry.emit("realblt", f"RESULT layout={name:8s} bits/answer byte {np.mean(r['bits']):.3f} | exact match {np.mean(r['exact']):.1%}", window=blt_load.WINDOW, experiment="blt_answer_boundary", n_problems=len(problems))
     m = np.array(had_boundary)
     for name in ("default", "+answer", "-answer"):
         r = res[name]

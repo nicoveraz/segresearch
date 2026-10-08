@@ -39,7 +39,7 @@ def reg():
 
 
 def blt(reg):
-    return {r["layout"]: r for r in reg if r.get("experiment") == "blt_budget" and r.get("thresh") == "train" and r.get("rerun") == 26}
+    return {r["layout"]: r for r in reg if r.get("experiment") == "blt_budget" and r.get("thresh") == "train" and r.get("window") == 512}
 
 
 def trained(reg, exp, rule, key):
@@ -77,12 +77,12 @@ def test_blt1b_headline(text, reg):
 
 def test_blt1b_paired_differences(text):
     # from the per-target outcomes (exact); the registry holds accuracies rounded to 0.1 points
-    it = items("blt_budget_train.json")["blt_budget_train"]["data"]["layouts"]
+    it = items("blt_budget_train_w512.json")["blt_budget_train_w512"]["data"]["layouts"]
     acc = lambda lay, key: 100 * np.mean(it[lay][key])
     d = lambda a, b, key="res_exact": p1(acc(a, key) - acc(b, key))
     has(text, f"+{d('results@15', 'entropy@15')} points at 15%", f"+{d('results@10', 'entropy@10')} at 10%",
         f"+{d('entdep@15', 'entropy@15')} points at 15%", f"+{d('entdep@15', 'results@15')}",
-        f"+{d('entdep@15', 'entropy@15', 'fin_exact')} points at 15%", f"+{d('entdep@10', 'entropy@10', 'fin_exact')} at 10%")
+        f"+{d('entdep@10', 'entropy@10', 'fin_exact')} points at 10%", f"not at 15% (+{d('entdep@15', 'entropy@15', 'fin_exact')}, p = 0.26)")
     x, y = np.array(it["results@15"]["res_exact"]), np.array(it["entropy@15"]["res_exact"])
     has(text, f"{int((x & ~y).sum())} results right only under *results* vs {int((~x & y).sum())} only under *entropy*")
 
@@ -128,7 +128,7 @@ def test_hand_written_rule_has_lowest_bpb(text, reg):
 # ------------------------------------------------------------------ §7: BLT-1B adapted to the budget
 def test_finetune(text):
     ft = defaultdict(dict)
-    for it in items("blt_finetune_*.json").values():
+    for it in items("blt_finetune_*_w512.json").values():
         ft[it["trained_rule"]][it["seed"]] = it
     lay = {"entropy": "entropy@10", "results": "results@10", "entdep": "entdep@10"}
     acc = {r: {s: np.array(ft[r][s]["data"]["layouts"][lay[r]]["res_exact"]) for s in ft[r]} for r in ft}
@@ -204,25 +204,27 @@ def test_scaling(text):
     assert "TBD_" not in text, "placeholders left in the manuscript"
 
 
-# ------------------------------------------------------------------ §3: BLT-1B conversion lacks the 512-byte window
-def test_window512(text):
+# ------------------------------------------------------------------ §3: BLT-1B with its 512-byte window restored
+def test_window_fix(text, reg):
+    """The paper uses BLT-1B with the window restored (window=512 rows); it compares with the released conversion."""
     w = json.loads((ROOT / "results" / "blt_window512.json").read_text())
-    has(text, f"{w['problems_longer']} of our {w['problems']} test problems are longer",
-        f"the {w['inside']['res']} computed results and {w['inside']['fin']} final answers that end within the first 512 bytes")
-    d = lambda k: w["diff"][k]
-    sci = lambda p: f"{float(f'{p:.0e}'.split('e')[0]):.0f} \\times 10^{{{int(f'{p:.0e}'.split('e')[1])}}}"
-    has(text, f"the gaps are +{d('results@15-entropy@15:res')['points']:.1f} and +{d('results@10-entropy@10:res')['points']:.1f} "
-              f"($p = {sci(d('results@15-entropy@15:res')['p'])}$ and ${sci(d('results@10-entropy@10:res')['p'])}$)")
-    has(text, f"+{d('entdep@15-entropy@15:res')['points']:.1f} and +{d('entdep@10-entropy@10:res')['points']:.1f} at 15% and 10% inside the first 512 bytes")
-    fin = [v for k, v in w["diff"].items() if k.endswith(":fin")]
-    has(text, f"final answers +{min(v['points'] for v in fin):.1f} to +{max(v['points'] for v in fin):.1f} points")
-    assert max(v["p"] for v in fin) < 0.03 and all(v["points"] > 0 for v in w["diff"].values()), "the paper says every comparison holds"
-    for k in ("results@15-entropy@15:res", "results@10-entropy@10:res", "entdep@15-entropy@15:res", "entdep@10-entropy@10:res"):
-        a, b = k.split(":")[0].split("-")
-        assert d(k)["points"] > 100 * (w["acc"][a]["res"]["all"] - w["acc"][b]["res"]["all"]), f"{k}: the paper says the gap is larger inside"
-    ft = {r: 100 * np.mean([x["inside"] for x in v]) for r, v in w["finetune"].items()}
-    has(text, f"entdep get {ft['entdep']:.1f}% against {ft['entropy']:.1f}% under entropy")
-    fig = json.loads((ROOT / "results" / "fig1_layouts.json").read_text())
+    has(text, f"{w['problems_longer']} of our {w['problems']} test problems are longer than 512 bytes")
+    fixed = blt(reg)
+    released = {r["layout"]: r for r in reg if r.get("experiment") == "blt_budget" and r.get("thresh") == "train" and r.get("rerun") == 26}
+    has(text, f"the default layout starts a patch on {100 * fixed['default']['rate']:.1f}% of bytes on GSM8K, against {100 * released['default']['rate']:.1f}% without it")
+    old = items("blt_budget_train.json")["blt_budget_train"]["data"]["layouts"]           # released conversion, per target
+    d = lambda R: p1(100 * (np.mean(old[f"results@{R}"]["res_exact"]) - np.mean(old[f"entropy@{R}"]["res_exact"])))
+    has(text, f"(results − entropy at 15% and 10%: +{d(15)} and +{d(10)} points)")
+    fig = json.loads((ROOT / "results" / "fig1_layouts_w512.json").read_text())
     n = len(fig["text"].encode())
-    assert n <= 512, "Figure 1's solution must lie inside the window"
-    has(text, f"({n} bytes, inside the window)")
+    assert len(fig["entropy@10"]) == len(fig["entdep@10"]), "Figure 1: equal patch counts"
+    starts = [s for s, _ in fig["results"]]
+    assert not any(t in set(fig["entropy@10"]) for t in starts) and all(t in set(fig["entdep@10"]) for t in starts)
+    has(text, f"Figure 1 shows a single solution ({n} bytes)")
+
+
+def test_answer_boundary(text, reg):
+    """§4: removing the patch start at the final answer (BLT-1B, window restored)."""
+    r = {x["layout"]: x["answer_exact"] for x in reg if str(x.get("experiment", "")).startswith("blt_answer") and x.get("window") == 512}
+    drop = 100 * (r["default"] - r["-answer"])
+    has(text, f"costs {drop:.0f} points of exact match ({p1(100 * r['default'])}% $\\rightarrow$ {p1(100 * r['-answer'])}%)")

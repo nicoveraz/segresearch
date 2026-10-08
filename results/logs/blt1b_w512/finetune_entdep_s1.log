@@ -1,0 +1,25 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:12<52:20,  6.18s/it]Loading weights: 100%|██████████| 510/510 [00:12<00:00, 41.21it/s]
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (1029 > 1024). Running this sequence through the model will result in indexing errors
+thresholds fitted on 297 train problems; entdep@0.10 train rate 0.100
+LoRA: 16.9M trainable parameters
+  step 100/1500 loss 0.6057 (420s)
+  step 200/1500 loss 0.5722 (852s)
+  step 300/1500 loss 0.5336 (1291s)
+  step 400/1500 loss 0.5375 (1742s)
+  step 500/1500 loss 0.5200 (2183s)
+  step 600/1500 loss 0.5161 (2630s)
+  step 700/1500 loss 0.5117 (3047s)
+  step 800/1500 loss 0.5145 (3438s)
+  step 900/1500 loss 0.4951 (4201s)
+  step 1000/1500 loss 0.4947 (4688s)
+  step 1100/1500 loss 0.5064 (5028s)
+  step 1200/1500 loss 0.4755 (5379s)
+  step 1300/1500 loss 0.4916 (5672s)
+  step 1400/1500 loss 0.4890 (6025s)
+  step 1500/1500 loss 0.4860 (6409s)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+BLT-1B + LoRA trained under entdep@0.10 (1500 steps), 294 GSM8K test problems
+RESULT entropy@10  patch rate 0.106 | in-line results: 2.693 bits, exact 21.4% | final: 0.245 bits, exact 87.8%
+RESULT entdep@10   patch rate 0.105 | in-line results: 0.662 bits, exact 70.9% | final: 0.065 bits, exact 96.3%
+RESULT results@10  patch rate 0.106 | in-line results: 1.259 bits, exact 53.4% | final: 0.133 bits, exact 92.2%

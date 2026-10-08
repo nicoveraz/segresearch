@@ -30,10 +30,10 @@ def save(fig, name):
 
 def blt_compute():
     """BLT-1B: computed-result and final-answer exact match against forward compute per byte, per layout family
-    (train-fitted thresholds, issue #26 reruns; default layout at ~28%). Dependence alone is a lookup and needs no
+    (train-fitted thresholds, BLT-1B with its 512-byte window restored, blt_load.py). Dependence alone is a lookup and needs no
     entropy model; layouts that use entropy pay for it."""
     per_byte, per_patch, patcher = flops.blt1b()
-    rows = [r for r in registry.load() if r.get("experiment") == "blt_budget" and r.get("thresh") == "train" and r.get("rerun") == 26]
+    rows = [r for r in registry.load() if r.get("experiment") == "blt_budget" and r.get("thresh") == "train" and r.get("window") == 512]
     by = {r["layout"]: r for r in rows}
     if "default" not in by:
         return
@@ -58,7 +58,7 @@ def blt_compute():
 def fig1():
     """Where the patches start in one GSM8K solution: BLT-1B entropy vs entropy + dependence, both with 10% of bytes
     starting a patch (equal counts for this problem). Bars mark patch starts; shading marks in-line computed results."""
-    path = os.path.join(registry.ROOT, "results", "fig1_layouts.json")
+    path = os.path.join(registry.ROOT, "results", "fig1_layouts_w512.json")
     if not os.path.exists(path):
         return
     d = json.load(open(path)); text = d["text"]

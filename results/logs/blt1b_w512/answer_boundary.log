@@ -1,0 +1,28 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:16<1:10:16,  8.30s/it]Loading weights:  71%|███████▏  | 364/510 [00:16<00:04, 31.00it/s]Loading weights: 100%|██████████| 510/510 [00:16<00:00, 30.51it/s]
+  25/300 problems, 42s
+  50/300 problems, 75s
+  75/300 problems, 107s
+  100/300 problems, 138s
+  125/300 problems, 171s
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (1263 > 1024). Running this sequence through the model will result in indexing errors
+  150/300 problems, 202s
+  175/300 problems, 238s
+  200/300 problems, 271s
+  225/300 problems, 305s
+  250/300 problems, 339s
+  275/300 problems, 370s
+  300/300 problems, 405s
+
+BLT-1B on 300 GSM8K test problems (final answer, given the worked solution)
+default patches already start at the answer in 100% of problems
+RESULT layout=default  bits/answer byte 0.364 | exact match 97.0%
+RESULT layout=+answer  bits/answer byte 0.364 | exact match 97.0%
+RESULT layout=-answer  bits/answer byte 0.732 | exact match 78.3%
+RESULT layout=jump     bits/answer byte 0.418 | exact match 95.3%
+/Users/nicoveraz/Documents/GitHub/segresearch/.venv-blt/lib/python3.12/site-packages/numpy/_core/fromnumeric.py:3862: RuntimeWarning: Mean of empty slice
+  return _methods._mean(a, axis=axis, dtype=dtype,
+/Users/nicoveraz/Documents/GitHub/segresearch/.venv-blt/lib/python3.12/site-packages/numpy/_core/_methods.py:142: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+  default  where default had NO boundary at the answer: exact nan%, bits nan (n=0)
+  +answer  where default had NO boundary at the answer: exact nan%, bits nan (n=0)
+  -answer  where default had NO boundary at the answer: exact nan%, bits nan (n=0)

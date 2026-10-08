@@ -6,17 +6,17 @@ earlier arXiv papers (LLM_Calc/paper/SUBMISSION.md). Nothing here is uploaded au
 
 ## Status
 
-**DRAFT, not ready to submit.** Before submission:
+**SUBMITTED to arXiv on 2026-10-08** (ID pending). Checklist used:
 - [x] Every citation verified at LOCAL FULL TEXT in `CITATIONS.md`, published versions included (2026-10-04; three corrections made).
-- [ ] Final novelty search right before submission (#13).
+- [x] Final novelty search right before submission (#13).
 - [x] `uv run pytest tests/test_paper_numbers.py` passes (every load-bearing number in the prose; 9 tests).
 - [x] A full read for flow, length and claims (2026-10-04; review fixes applied). Re-read once more before upload.
 - [x] Make https://github.com/nicoveraz/segresearch public (the paper links to it), cut a release,
       and archive it on Zenodo; add the DOI to the Comments line, README and `CITATION.cff`.
       Check that the Zenodo DOI resolves to the new version before submitting (textca paper 4's
       release reached Zenodo about 70 minutes after submission).
-- [ ] Run `./build.sh`. It must end with `OK -- verified from the tarball's own contents.`
-- [ ] Upload `arxiv-submission.tar.gz` (main.tex, main.bbl, refs.bib, figures/). Check arXiv's
+- [x] Run `./build.sh`. It must end with `OK -- verified from the tarball's own contents.`
+- [x] Upload `arxiv-submission.tar.gz` (main.tex, main.bbl, refs.bib, figures/). Check arXiv's
       compiled PDF against `arxiv.pdf` before confirming.
 
 ## Title

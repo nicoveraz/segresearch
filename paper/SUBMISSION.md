@@ -11,7 +11,7 @@ earlier arXiv papers (LLM_Calc/paper/SUBMISSION.md). Nothing here is uploaded au
 - [ ] Final novelty search right before submission (#13).
 - [x] `uv run pytest tests/test_paper_numbers.py` passes (every load-bearing number in the prose; 9 tests).
 - [x] A full read for flow, length and claims (2026-10-04; review fixes applied). Re-read once more before upload.
-- [ ] Make https://github.com/nicoveraz/segresearch public (the paper links to it), cut a release,
+- [x] Make https://github.com/nicoveraz/segresearch public (the paper links to it), cut a release,
       and archive it on Zenodo; add the DOI to the Comments line, README and `CITATION.cff`.
       Check that the Zenodo DOI resolves to the new version before submitting (textca paper 4's
       release reached Zenodo about 70 minutes after submission).
@@ -42,7 +42,7 @@ CC BY 4.0
 
 ## Comments
 ```
-13 pages, 4 figures, 6 tables. Code, logs and results: https://github.com/nicoveraz/segresearch (archive DOI to add)
+13 pages, 4 figures, 6 tables. Code, logs and results: https://github.com/nicoveraz/segresearch (archived: doi:10.5281/zenodo.23238215)
 ```
 arXiv does not allow editing Comments after announcement without a new version, so check it now.
 

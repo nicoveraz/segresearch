@@ -10,6 +10,14 @@ version: "1.0.0"
 date-released: "2026-10-08"
 license: MIT
 repository-code: "https://github.com/nicoveraz/segresearch"
+doi: "10.5281/zenodo.23238215"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.23238215"
+    description: "Zenodo concept DOI (all versions)"
+  - type: doi
+    value: "10.5281/zenodo.23238216"
+    description: "Zenodo DOI of v1.0.0"
 preferred-citation:
   type: article
   title: "Easy to anticipate, hard to compute: boundary dependence finds the computed outputs that entropy patching misses"

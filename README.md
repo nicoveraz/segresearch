@@ -1,5 +1,7 @@
 # segresearch
 
+[![DOI](https://zenodo.org/badge/1400008714.svg)](https://doi.org/10.5281/zenodo.23238215)
+
 Where should a byte-level model start its patches? This repo began as an autonomous research loop in the style of [karpathy/autoresearch](https://github.com/karpathy/autoresearch) and grew into a set of experiments on that question, run on an Apple Silicon Mac (MLX) and on Meta's trained BLT-1B (PyTorch).
 
 ## Main finding

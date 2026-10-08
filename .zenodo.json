@@ -1,0 +1,29 @@
+{
+  "title": "segresearch: where byte-level language models should start their patches",
+  "upload_type": "software",
+  "creators": [
+    {
+      "name": "Vera Zúñiga, Nicolás",
+      "affiliation": "Independent Researcher, Chile"
+    }
+  ],
+  "license": "mit",
+  "access_right": "open",
+  "keywords": [
+    "byte-level language models",
+    "Byte Latent Transformer",
+    "patching",
+    "tokenizer-free",
+    "adaptive computation",
+    "mathematical reasoning",
+    "reproducibility"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/nicoveraz/segresearch",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ],
+  "description": "<p>Code, logs and results for the paper <em>Easy to anticipate, hard to compute: boundary dependence finds the computed outputs that entropy patching misses</em>. Byte-level language models such as BLT start a patch where next-byte entropy is high; under tight budgets this skips positions whose type is predictable but whose value must be computed, such as the number after '=' in a worked math solution. The repository contains the BLT-style training harness (MLX, and a PyTorch port verified against it), the experiments on Meta's BLT-1B (with the upstream fix for the 512-byte attention window of the Hugging Face conversion), the scaling study at 1M-50M parameters, the results registry with per-target outputs, and the scripts that regenerate every table, figure and tested number of the paper.</p><p>Datasets (GSM8K, MATH, OpenWebMath) and the BLT-1B weights are not redistributed; the scripts download them from their sources.</p>"
+}

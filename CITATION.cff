@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the accompanying paper."
+title: "segresearch: where byte-level language models should start their patches"
+authors:
+  - family-names: "Vera Zúñiga"
+    given-names: "Nicolás"
+    affiliation: "Independent researcher, Chile"
+    email: "nicovera@quetru.cl"
+version: "1.0.0"
+date-released: "2026-10-08"
+license: MIT
+repository-code: "https://github.com/nicoveraz/segresearch"
+preferred-citation:
+  type: article
+  title: "Easy to anticipate, hard to compute: boundary dependence finds the computed outputs that entropy patching misses"
+  authors:
+    - family-names: "Vera Zúñiga"
+      given-names: "Nicolás"
+      affiliation: "Independent researcher, Chile"
+  year: 2026
+  journal: "arXiv preprint"

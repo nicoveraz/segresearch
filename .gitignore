@@ -9,3 +9,7 @@ results.tsv
 /*.commit
 .venv-scale/
 .venv-blt/
+
+# OS and tool caches
+.DS_Store
+.pytest_cache/

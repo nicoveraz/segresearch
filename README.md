@@ -1,6 +1,6 @@
 # segresearch
 
-[![DOI](https://zenodo.org/badge/1400008714.svg)](https://doi.org/10.5281/zenodo.23238215)
+[![arXiv](https://img.shields.io/badge/arXiv-2610.11790-b31b1b.svg)](https://arxiv.org/abs/2610.11790) [![DOI](https://zenodo.org/badge/1400008714.svg)](https://doi.org/10.5281/zenodo.23238215)
 
 Where should a byte-level model start its patches? This repo began as an autonomous research loop in the style of [karpathy/autoresearch](https://github.com/karpathy/autoresearch) and grew into a set of experiments on that question, run on an Apple Silicon Mac (MLX) and on Meta's trained BLT-1B (PyTorch).
 
@@ -77,6 +77,16 @@ Models trained here are small (up to 128 dimensions, 4 global layers). Most accu
 
 ## Citation and license
 
-Code and results are released under the MIT license (`LICENSE`); the paper is CC BY 4.0. If you use this work, please cite the paper (`CITATION.cff`).
+Code and results are released under the MIT license (`LICENSE`); the paper is CC BY 4.0. If you use this work, please cite the paper ([arXiv:2610.11790](https://arxiv.org/abs/2610.11790); also in `CITATION.cff`):
+
+```bibtex
+@article{verazuniga2026anticipate,
+  title   = {Easy to anticipate, hard to compute: boundary dependence finds the computed outputs that entropy patching misses},
+  author  = {Vera Z{\'u}{\~n}iga, Nicol{\'a}s},
+  journal = {arXiv preprint arXiv:2610.11790},
+  year    = {2026},
+  doi     = {10.48550/arXiv.2610.11790}
+}
+```
 
 The BLT-1B experiments use the Hugging Face conversion `itazap/blt-1b-hf` with the upstream fix for its missing 512-byte attention window (huggingface/transformers#49185, PR #49188): apply `patches/transformers_pr49188_blt_window.diff` to transformers 5.18 and load through `blt_load.py`.

@@ -18,6 +18,9 @@ identifiers:
   - type: doi
     value: "10.5281/zenodo.23238216"
     description: "Zenodo DOI of v1.0.0"
+  - type: doi
+    value: "10.48550/arXiv.2610.11790"
+    description: "arXiv DOI of the paper"
 preferred-citation:
   type: article
   title: "Easy to anticipate, hard to compute: boundary dependence finds the computed outputs that entropy patching misses"
@@ -27,3 +30,8 @@ preferred-citation:
       affiliation: "Independent researcher, Chile"
   year: 2026
   journal: "arXiv preprint"
+  doi: "10.48550/arXiv.2610.11790"
+  url: "https://arxiv.org/abs/2610.11790"
+  identifiers:
+    - type: other
+      value: "arXiv:2610.11790"

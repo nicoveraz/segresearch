@@ -6,7 +6,7 @@ earlier arXiv papers (LLM_Calc/paper/SUBMISSION.md). Nothing here is uploaded au
 
 ## Status
 
-**SUBMITTED to arXiv on 2026-10-08** (ID pending). Checklist used:
+**SUBMITTED to arXiv on 2026-10-08: arXiv:2610.11790** (doi:10.48550/arXiv.2610.11790). Checklist used:
 - [x] Every citation verified at LOCAL FULL TEXT in `CITATIONS.md`, published versions included (2026-10-04; three corrections made).
 - [x] Final novelty search right before submission (#13).
 - [x] `uv run pytest tests/test_paper_numbers.py` passes (every load-bearing number in the prose; 9 tests).

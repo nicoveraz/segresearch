@@ -148,7 +148,8 @@ def write_table(name, header, body):
 
 def paper_tables():
     import json
-    blt = {r["layout"]: r for r in rows(experiment="blt_budget", thresh="train") if r.get("rerun") == 26}
+    # paper tables use BLT-1B with its 512-byte window restored (blt_load.py; window=512 in the registry)
+    blt = {r["layout"]: r for r in rows(experiment="blt_budget", thresh="train") if r.get("window") == 512}
     label = {"default": "default (BLT-1B's own)", "results@15": "results@15 (hand-written)", "results@10": "results@10 (hand-written)"}
     order = ["default", "entropy@15", "results@15", "dep@15", "entdep@15", "entropy@10", "results@10", "dep@10", "entdep@10"]
     write_table("table1_blt1b", ["Layout", "Patch rate", "Results covered", "Computed results", "Final answers"],
@@ -162,7 +163,7 @@ def paper_tables():
                 [[f"{R}%", cell(f"entropy{R}"), jump(R), cell(f"dep{R}"), cell(f"syntax+entropy{R}")] for R in (10, 15, 20)])
 
     ft = defaultdict(dict)
-    for f in sorted(glob.glob(os.path.join(registry.ROOT, "results", "items", "blt_finetune_*.json"))):
+    for f in sorted(glob.glob(os.path.join(registry.ROOT, "results", "items", "blt_finetune_*_w512.json"))):
         it = json.load(open(f)); ft[it["trained_rule"]][it.get("seed", 0)] = it
     lay = {"entropy": "entropy@10", "results": "results@10", "entdep": "entdep@10"}
     names = {"entropy": "entropy", "results": "results (hand-written)", "entdep": "entdep (label-free)"}
@@ -172,7 +173,7 @@ def paper_tables():
                   f"{sum(acc(r, sd) for sd in ft[r]) / len(ft[r]):.1f}%"] for r in ("entropy", "results", "entdep") if r in ft])
 
     def at(exp, layout, key):
-        rs = [r for r in rows(experiment=exp, thresh="train", layout=layout) if r.get("rerun") == 26 or exp == "blt_logic"]
+        rs = [r for r in rows(experiment=exp, thresh="train", layout=layout) if r.get("window") == 512]
         return pct(rs[-1][key]) if rs else ""
     scope = [("GSM8K computed results", "blt_budget", "results_exact", "results", "computed, skill present"),
              ("Python identifiers repeating a nearby name", "blt_code", "ident_exact", "oracle", "copy"),
@@ -188,7 +189,30 @@ def paper_tables():
           ("random positions", "sp16:random"), ("none", "sp16:none"), ("denser fixed patches, same compute (8-byte)", "sp16:dense8")]
     write_table("table5_scratchpad", ["Trigger", "Seeds", "Final answers", "By seed"],
                 [[n, len(g[k]), pct(mean(g[k], "final_acc")), seeds(g[k], "final_acc")] for n, k in sp if k in g])
-    print("wrote paper/tables/table1-5 (.md, .csv)")
+    scale_table()
+    print("wrote paper/tables/table1-6 (.md, .csv)")
+
+
+def scale_table():
+    """table6_scaling: models trained from scratch at 1M, 12M and 50M parameters on the scaling corpus (results/scale/)."""
+    from scale import analyze
+    if not os.path.isdir(os.path.join(analyze.RESULTS, "runs")):
+        return
+    ok, bad = analyze.runs_ok()
+    label = {"1m": "1M", "12m": "12M", "50m": "50M"}
+    body = []
+    for size in analyze.SIZES:
+        for a in analyze.ARMS + analyze.EXTRA:
+            rs = list(ok.get((size, a), {}).values())
+            if not rs:
+                continue
+            m = lambda k: sum(r[k] for r in rs) / len(rs)
+            sd = lambda k: ", ".join(f"{100 * r[k]:.1f}" for r in sorted(rs, key=lambda r: r["seed"]))
+            body.append([f"{rs[0]['params'] / 1e6:.1f}M", analyze.NAMES[a], len(rs),
+                         f"{pct(m('final_acc'))} ({sd('final_acc')})", f"{pct(m('computed_acc'))} ({sd('computed_acc')})",
+                         f"{m('bpb'):.3f}", f"{100 * m('rate'):.1f}%"])
+    write_table("table6_scaling", ["Parameters", "Rule", "Seeds", "Final answers (by seed)",
+                                   "Computed results (by seed)", "Bits per byte", "Eval patch rate"], body)
 
 
 if __name__ == "__main__":

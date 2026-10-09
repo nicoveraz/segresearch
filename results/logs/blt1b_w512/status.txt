@@ -1,0 +1,32 @@
+queue started 2026-10-07T11:13:22Z
+start dependence 2026-10-07T11:13:22Z
+  exit 0 2026-10-07T11:20:01Z
+start budget 2026-10-07T11:20:01Z
+  exit 0 2026-10-07T11:34:26Z
+start fig1 2026-10-07T11:34:26Z
+  exit 0 2026-10-07T11:36:37Z
+start code 2026-10-07T11:36:37Z
+  exit 0 2026-10-07T12:00:04Z
+start trace 2026-10-07T12:00:04Z
+  exit 0 2026-10-07T12:14:48Z
+start logic 2026-10-07T12:14:48Z
+  exit 0 2026-10-07T12:31:32Z
+start finetune_entropy_s0 2026-10-07T12:31:32Z
+  exit 0 2026-10-07T15:58:54Z
+start finetune_results_s0 2026-10-07T15:58:54Z
+  exit 0 2026-10-07T17:17:41Z
+start finetune_entdep_s0 2026-10-07T17:17:41Z
+  exit 0 2026-10-07T18:58:48Z
+start finetune_entropy_s1 2026-10-07T18:58:48Z
+  exit 0 2026-10-07T20:48:22Z
+start finetune_results_s1 2026-10-07T20:48:22Z
+  exit 0 2026-10-07T22:35:36Z
+start finetune_entdep_s1 2026-10-07T22:35:36Z
+  exit 0 2026-10-08T00:28:38Z
+start finetune_entropy_s2 2026-10-08T00:28:38Z
+  exit 0 2026-10-08T02:16:05Z
+start finetune_results_s2 2026-10-08T02:16:05Z
+  exit 0 2026-10-08T03:44:15Z
+start finetune_entdep_s2 2026-10-08T03:44:15Z
+  exit 0 2026-10-08T05:10:40Z
+ALL DONE 2026-10-08T05:10:40Z

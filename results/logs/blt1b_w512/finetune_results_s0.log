@@ -1,0 +1,28 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:12<53:03,  6.27s/it]Loading weights: 100%|██████████| 510/510 [00:12<00:00, 40.66it/s]
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (1029 > 1024). Running this sequence through the model will result in indexing errors
+thresholds fitted on 297 train problems; results@0.10 train rate 0.100
+LoRA: 16.9M trainable parameters
+  step 100/1500 loss 0.5310 (470s)
+  step 200/1500 loss 0.4734 (895s)
+  step 300/1500 loss 0.4689 (1202s)
+  step 400/1500 loss 0.4808 (1487s)
+  step 500/1500 loss 0.4470 (1705s)
+  step 600/1500 loss 0.4599 (1949s)
+  step 700/1500 loss 0.4387 (2296s)
+  step 800/1500 loss 0.4386 (2713s)
+  step 900/1500 loss 0.4403 (2972s)
+  step 1000/1500 loss 0.4509 (3227s)
+  step 1100/1500 loss 0.4366 (3427s)
+  step 1200/1500 loss 0.4163 (3698s)
+  step 1300/1500 loss 0.4229 (3924s)
+  step 1400/1500 loss 0.4393 (4170s)
+  step 1500/1500 loss 0.4117 (4386s)
+/Users/nicoveraz/Documents/GitHub/segresearch/.venv-blt/lib/python3.12/site-packages/peft/utils/other.py:1508: UserWarning: Unable to fetch remote file due to the following error [Errno 8] nodename nor servname provided, or not known - silently ignoring the lookup for the file config.json in itazap/blt-1b-hf.
+  warnings.warn(
+/Users/nicoveraz/Documents/GitHub/segresearch/.venv-blt/lib/python3.12/site-packages/peft/utils/save_and_load.py:313: UserWarning: Could not find a config file in itazap/blt-1b-hf - will assume that the vocabulary was not modified.
+  warnings.warn(
+
+BLT-1B + LoRA trained under results@0.10 (1500 steps), 294 GSM8K test problems
+RESULT entropy@10  patch rate 0.106 | in-line results: 2.075 bits, exact 25.1% | final: 0.060 bits, exact 95.6%
+RESULT entdep@10   patch rate 0.105 | in-line results: 0.744 bits, exact 70.9% | final: 0.193 bits, exact 90.8%
+RESULT results@10  patch rate 0.106 | in-line results: 0.922 bits, exact 62.4% | final: 0.028 bits, exact 95.9%

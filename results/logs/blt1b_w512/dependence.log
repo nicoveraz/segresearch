@@ -1,0 +1,7 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:14<1:01:23,  7.25s/it]Loading weights: 100%|██████████| 510/510 [00:14<00:00, 35.13it/s]
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (1029 > 1024). Running this sequence through the model will result in indexing errors
+contexts: 606 | dependence after '= ': 0.877 after 'e ': 0.107 global 0.13
+top contexts: b'=$' 1.22, b'0*' 1.14, b'5=' 1.09, b'0=' 0.94, b'= ' 0.88, b'3=' 0.88, b'2=' 0.84, b'-1' 0.83, b'*3' 0.80, b' =' 0.77
+entropy (BLT)          | 15%: result 49.9% word 58.0% | 10%: result 16.6% word 41.8% | 6%: result  3.5% word 26.3%
+dependence             | 15%: result 100.0% word 15.5% | 10%: result 100.0% word  9.5% | 6%: result 100.0% word  2.1%
+entropy + dependence   | 15%: result 100.0% word 41.8% | 10%: result 100.0% word 22.0% | 6%: result 100.0% word  8.4%

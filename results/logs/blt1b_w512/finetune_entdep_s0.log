@@ -1,0 +1,26 @@
+Could not reach the Hub ([Errno 8] nodename nor servname provided, or not known). Using cached commit hash for 'itazap/blt-1b-hf'.
+Could not reach the Hub ([Errno 8] nodename nor servname provided, or not known). Using cached commit hash for 'itazap/blt-1b-hf'.
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:12<51:01,  6.03s/it]Loading weights: 100%|██████████| 510/510 [00:12<00:00, 42.26it/s]
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (1029 > 1024). Running this sequence through the model will result in indexing errors
+thresholds fitted on 297 train problems; entdep@0.10 train rate 0.100
+LoRA: 16.9M trainable parameters
+  step 100/1500 loss 0.6113 (252s)
+  step 200/1500 loss 0.5505 (486s)
+  step 300/1500 loss 0.5364 (1159s)
+  step 400/1500 loss 0.5474 (1816s)
+  step 500/1500 loss 0.5027 (2095s)
+  step 600/1500 loss 0.5248 (2433s)
+  step 700/1500 loss 0.4974 (2734s)
+  step 800/1500 loss 0.5047 (3051s)
+  step 900/1500 loss 0.5015 (3383s)
+  step 1000/1500 loss 0.5149 (3740s)
+  step 1100/1500 loss 0.4976 (4041s)
+  step 1200/1500 loss 0.4716 (4489s)
+  step 1300/1500 loss 0.4917 (4914s)
+  step 1400/1500 loss 0.5012 (5352s)
+  step 1500/1500 loss 0.4749 (5721s)
+
+BLT-1B + LoRA trained under entdep@0.10 (1500 steps), 294 GSM8K test problems
+RESULT entropy@10  patch rate 0.106 | in-line results: 2.691 bits, exact 21.0% | final: 0.365 bits, exact 78.9%
+RESULT entdep@10   patch rate 0.105 | in-line results: 0.654 bits, exact 72.9% | final: 0.048 bits, exact 96.6%
+RESULT results@10  patch rate 0.106 | in-line results: 1.244 bits, exact 53.4% | final: 0.165 bits, exact 91.5%

@@ -36,13 +36,14 @@ import torch
 from transformers import AutoTokenizer, BltForCausalLM
 
 import blt_layouts
+import blt_load
 import registry
 
 MODEL = "itazap/blt-1b-hf"
 GSM = os.path.expanduser("~/.cache/segresearch-gsm8k/test.jsonl")
 GSM_TRAIN = os.path.expanduser("~/.cache/segresearch-gsm8k/train.jsonl")
 BUDGETS = (0.15, 0.10)
-DEP = os.path.expanduser("~/.cache/segresearch-blt/dependence_table.npy")
+DEP = os.path.expanduser(f"~/.cache/segresearch-blt/dependence_table{blt_load.SUFFIX}.npy")
 MAX_TOKENS = 1000
 
 
@@ -73,7 +74,7 @@ def problem(p, tok, dev):
 def main(n_problems, n_train):
     dev = "mps" if torch.backends.mps.is_available() else "cpu"
     tok = AutoTokenizer.from_pretrained(MODEL)
-    model = BltForCausalLM.from_pretrained(MODEL, dtype=torch.bfloat16).to(dev).eval()
+    model = blt_load.load(MODEL, dev).eval()
     cfg = model.config
     layouts = ["default"] + [f"{k}@{int(r * 100)}" for r in BUDGETS for k in ("entropy", "results", "dep", "entdep")]
     kind_of = {"entropy": "entropy", "results": "forced", "dep": "dep", "entdep": "entropy+dep"}
@@ -136,9 +137,9 @@ def main(n_problems, n_train):
         s = stats[name]
         registry.emit("realblt_budget", f"RESULT {name:11s} patch rate {np.mean(s['rate']):.3f} | results covered {np.mean(covered[name]):5.1%} | "
               f"in-line results: {np.mean(s['res_bits']):.3f} bits, exact {np.mean(s['res_exact']):5.1%} | "
-              f"final: {np.mean(s['fin_bits']):.3f} bits, exact {np.mean(s['fin_exact']):5.1%}", experiment="blt_budget", thresh=blt_layouts.MODE)
-    registry.save_items(f"blt_budget_{blt_layouts.MODE}", {"layouts": stats, "covered": covered, "res_pid": res_pid},
-                        experiment="blt_budget", thresh=blt_layouts.MODE, n_problems=used)
+              f"final: {np.mean(s['fin_bits']):.3f} bits, exact {np.mean(s['fin_exact']):5.1%}", experiment="blt_budget", thresh=blt_layouts.MODE, window=blt_load.WINDOW)
+    registry.save_items(f"blt_budget_{blt_layouts.MODE}{blt_load.SUFFIX}", {"layouts": stats, "covered": covered, "res_pid": res_pid},
+                        experiment="blt_budget", thresh=blt_layouts.MODE, n_problems=used, window=blt_load.WINDOW)
 
 
 if __name__ == "__main__":

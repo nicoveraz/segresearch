@@ -1,5 +1,7 @@
 # segresearch
 
+[![arXiv](https://img.shields.io/badge/arXiv-2610.11790-b31b1b.svg)](https://arxiv.org/abs/2610.11790) [![DOI](https://zenodo.org/badge/1400008714.svg)](https://doi.org/10.5281/zenodo.23238215)
+
 Where should a byte-level model start its patches? This repo began as an autonomous research loop in the style of [karpathy/autoresearch](https://github.com/karpathy/autoresearch) and grew into a set of experiments on that question, run on an Apple Silicon Mac (MLX) and on Meta's trained BLT-1B (PyTorch).
 
 ## Main finding
@@ -10,12 +12,12 @@ Byte-level models such as [BLT](https://arxiv.org/abs/2412.09871) group bytes in
 
 | Evidence | Result |
 |---|---|
-| BLT-1B, patches changed at inference, 15% of bytes | computed results exact: entropy 34% vs a boundary after each `= ` 59% vs label-free entropy + dependence 72% (default layout at ~28%: 73%) |
-| Small BLT-like models trained at a 10% budget (3 seeds) | computed / final-answer exact: entropy 7% / 10%, label-free dependence 17% / 67%, hand-written result boundaries 25% / 73% |
-| Same, 10-20% budgets | hand-written > dependence > entropy at every budget; dependence at 10% beats entropy at 20% on final answers |
-| Scratchpad Patching (reimplemented) | its entropy trigger is no better than random for answers (6.0% vs 5.8%); answer-start scratchpads 40% |
-| Copies and lookups (code identifiers, proof steps) | small effect (1-7 points): the value is not computed |
-| Program traces with operands inside the local window | no effect; with an 8-byte window, suggestive but not confirmed |
+| BLT-1B (512-byte window restored), patches changed at inference, 15% / 10% of bytes | computed results exact: entropy 47% / 19% vs a boundary after each `= ` 66% / 52% vs label-free entropy + dependence 77% / 67% (default layout at 26%: 77%) |
+| BLT-1B adapted to a 10% budget (LoRA, 3 runs per rule) | entropy 33% vs hand-written 63% vs entropy + dependence 73% |
+| Small BLT-like models trained at a 10% budget (1.1M parameters, 3 seeds) | computed / final-answer exact: entropy 7% / 10%, label-free dependence 17% / 67%, hand-written result boundaries 25% / 73% |
+| Scaling: trained from scratch at 1.1M, 11.7M, 53.7M parameters (OpenWebMath + GSM8K/MATH, 3 seeds) | dependence − entropy on final answers: −1.6, +10.1, +19.8 points; computed results at 53.7M: 36% vs 14% |
+| Scratchpad Patching (reimplemented, 5 seeds) | its entropy trigger is no better than random for answers (5.6% vs 5.9%); answer-start scratchpads 38% |
+| Copies and lookups (code identifiers, proof steps) | small effect (1-3 points): the value is not computed |
 
 What is known (BLT, SpaceByte, H-Net, Scratchpad Patching) and what looks new is in `literature.md`. The full lab log, including negative results and corrections, is `notes.md`. Open work is tracked in the GitHub issues and milestones.
 
@@ -72,3 +74,19 @@ The original agent loop: start Claude Code here and prompt "Read program.md and 
 ## Caveats
 
 Models trained here are small (up to 128 dimensions, 4 global layers). Most accuracy is teacher-forced exact match of each target given the true prefix. BLT-1B was tested with inference-time layout changes, not retrained at tight budgets. See `notes.md` and the issues for what is still unconfirmed.
+
+## Citation and license
+
+Code and results are released under the MIT license (`LICENSE`); the paper is CC BY 4.0. If you use this work, please cite the paper ([arXiv:2610.11790](https://arxiv.org/abs/2610.11790); also in `CITATION.cff`):
+
+```bibtex
+@article{verazuniga2026anticipate,
+  title   = {Easy to anticipate, hard to compute: boundary dependence finds the computed outputs that entropy patching misses},
+  author  = {Vera Z{\'u}{\~n}iga, Nicol{\'a}s},
+  journal = {arXiv preprint arXiv:2610.11790},
+  year    = {2026},
+  doi     = {10.48550/arXiv.2610.11790}
+}
+```
+
+The BLT-1B experiments use the Hugging Face conversion `itazap/blt-1b-hf` with the upstream fix for its missing 512-byte attention window (huggingface/transformers#49185, PR #49188): apply `patches/transformers_pr49188_blt_window.diff` to transformers 5.18 and load through `blt_load.py`.

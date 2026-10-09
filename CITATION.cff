@@ -1,0 +1,37 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the accompanying paper."
+title: "segresearch: where byte-level language models should start their patches"
+authors:
+  - family-names: "Vera Zúñiga"
+    given-names: "Nicolás"
+    affiliation: "Independent researcher, Chile"
+    email: "nicovera@quetru.cl"
+version: "1.0.0"
+date-released: "2026-10-08"
+license: MIT
+repository-code: "https://github.com/nicoveraz/segresearch"
+doi: "10.5281/zenodo.23238215"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.23238215"
+    description: "Zenodo concept DOI (all versions)"
+  - type: doi
+    value: "10.5281/zenodo.23238216"
+    description: "Zenodo DOI of v1.0.0"
+  - type: doi
+    value: "10.48550/arXiv.2610.11790"
+    description: "arXiv DOI of the paper"
+preferred-citation:
+  type: article
+  title: "Easy to anticipate, hard to compute: boundary dependence finds the computed outputs that entropy patching misses"
+  authors:
+    - family-names: "Vera Zúñiga"
+      given-names: "Nicolás"
+      affiliation: "Independent researcher, Chile"
+  year: 2026
+  journal: "arXiv preprint"
+  doi: "10.48550/arXiv.2610.11790"
+  url: "https://arxiv.org/abs/2610.11790"
+  identifiers:
+    - type: other
+      value: "arXiv:2610.11790"

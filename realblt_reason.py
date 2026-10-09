@@ -36,10 +36,11 @@ from collections import defaultdict
 import numpy as np
 
 import blt_layouts
+import blt_load
 import registry
 
 BUDGETS = (0.15, 0.10)
-MATH_DEP = os.path.expanduser("~/.cache/segresearch-blt/dependence_table.npy")
+MATH_DEP = os.path.expanduser(f"~/.cache/segresearch-blt/dependence_table{blt_load.SUFFIX}.npy")
 NAMES = ["Anne", "Bob", "Charlie", "Dave", "Erin", "Fiona", "Gary", "Harry"]
 ATTRS = ["big", "blue", "cold", "furry", "green", "kind", "nice", "quiet", "red", "rough", "round", "smart",
          "white", "young", "sad", "tall"]
@@ -125,7 +126,7 @@ def main(task, n_train, n_test):
     import torch
     from transformers import BltForCausalLM
     dev = "mps" if torch.backends.mps.is_available() else "cpu"
-    model = BltForCausalLM.from_pretrained("itazap/blt-1b-hf", dtype=torch.bfloat16).to(dev).eval()
+    model = blt_load.load("itazap/blt-1b-hf", dev).eval()
     cfg = model.config
 
     def prep(b):
@@ -219,8 +220,8 @@ def main(task, n_train, n_test):
         registry.emit("realblt_reason", f"RESULT {name:11s} patch rate {np.mean(rate[name]):.3f} | " + " | ".join(
             f"{k}: covered {np.mean(s['cov']):5.1%}, {np.mean(s['bits']):.3f} bits, exact {np.mean(s['exact']):5.1%}"
             + (f", choice {np.mean(s['choice']):5.1%}" if s["choice"] else "")
-            for k, s in st_[name].items()), experiment="blt_" + task, thresh=blt_layouts.MODE)
-    registry.save_items(f"blt_{task}_{blt_layouts.MODE}", {"layouts": st_, "pid": pid}, experiment="blt_" + task,
+            for k, s in st_[name].items()), experiment="blt_" + task, thresh=blt_layouts.MODE, window=blt_load.WINDOW)
+    registry.save_items(f"blt_{task}_{blt_layouts.MODE}{blt_load.SUFFIX}", {"layouts": st_, "pid": pid}, experiment="blt_" + task,
                         thresh=blt_layouts.MODE, n_problems=n_test)
 
 

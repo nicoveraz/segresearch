@@ -1,0 +1,33 @@
+{
+ "bpb": 1.1458136310391482,
+ "rate": 0.2278620621756314,
+ "computed_bits": 2.0456056143555195,
+ "copy_bits": 0.41430992439030856,
+ "final_bits": 0.49091264269646523,
+ "boxed_bits": 1.5488414758039848,
+ "computed_acc": 0.231,
+ "computed_n": 1000,
+ "final_acc": 0.8015151515151515,
+ "final_n": 660,
+ "boxed_acc": 0.06142857142857143,
+ "boxed_n": 700,
+ "e2e_acc": 0.0,
+ "e2e_n": 100,
+ "size": "50m",
+ "arm": "entropy20",
+ "seed": 0,
+ "params": 53726976,
+ "train_seconds": 38697,
+ "cfg": {
+  "d": 576,
+  "glayers": 12,
+  "bs": 256,
+  "steps": 45800,
+  "lr": 0.00067,
+  "warmup": 1000,
+  "micro": 64,
+  "seed": 0
+ },
+ "device": "NVIDIA A40",
+ "toy": false
+}

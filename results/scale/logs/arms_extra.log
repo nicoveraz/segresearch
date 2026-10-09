@@ -1,0 +1,2 @@
+  jump10            threshold 2.2077  train rate 0.1000  val rate 0.0973
+  entropy20         threshold 4.4649  train rate 0.2000  val rate 0.2279

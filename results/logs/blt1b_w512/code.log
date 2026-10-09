@@ -1,0 +1,27 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:13<57:21,  6.78s/it]Loading weights: 100%|██████████| 510/510 [00:13<00:00, 37.61it/s]
+fitting boundary dependence on 300 train chunks
+  946 contexts; top: b"'r" 0.21, b'Y_' 0.21, b"'k" 0.19, b'EY' 0.19, b"b'" 0.18, b' X' 0.18, b'\n_' 0.17, b"'n" 0.17, b'R_' 0.17, b' Y' 0.17
+  train patch rates: entropy@15 0.150, dep@15 0.150, entdep@15 0.150, oracle@15 0.150, entropy@10 0.100, dep@10 0.100, entdep@10 0.100, oracle@10 0.100
+  25 test chunks, 357s
+  50 test chunks, 456s
+  75 test chunks, 538s
+  100 test chunks, 630s
+  125 test chunks, 712s
+  150 test chunks, 795s
+  175 test chunks, 884s
+  200 test chunks, 961s
+  225 test chunks, 1042s
+  250 test chunks, 1124s
+  275 test chunks, 1207s
+  300 test chunks, 1299s
+
+BLT-1B on 300 Python test chunks, 5490 repeated identifiers, budget thresholds: train
+RESULT default     patch rate 0.187 | covered 51.1% | repeated identifiers: 0.282 bits, exact 83.3%
+RESULT entropy@15  patch rate 0.148 | covered 43.4% | repeated identifiers: 0.291 bits, exact 83.1%
+RESULT dep@15      patch rate 0.149 | covered 49.3% | repeated identifiers: 0.331 bits, exact 81.2%
+RESULT entdep@15   patch rate 0.146 | covered 52.2% | repeated identifiers: 0.302 bits, exact 82.8%
+RESULT oracle@15   patch rate 0.149 | covered 100.0% | repeated identifiers: 0.280 bits, exact 83.8%
+RESULT entropy@10  patch rate 0.098 | covered 30.1% | repeated identifiers: 0.322 bits, exact 81.7%
+RESULT dep@10      patch rate 0.100 | covered 34.2% | repeated identifiers: 0.369 bits, exact 78.7%
+RESULT entdep@10   patch rate 0.096 | covered 38.4% | repeated identifiers: 0.330 bits, exact 81.3%
+RESULT oracle@10   patch rate 0.098 | covered 100.0% | repeated identifiers: 0.300 bits, exact 83.1%

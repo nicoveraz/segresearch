@@ -20,6 +20,7 @@ MATH) and the logic + program-trace corpus. The tables and networks are fitted o
 so the transfer column shows whether the signal is domain-free (#5: the GSM8K dependence table covers 0% of traces).
 
     uv run reuse_screen.py [K] [EPOCHS]
+    uv run reuse_screen.py fit [CORPUS]       # save the novelty table for mathexp.py's novR / entnovR / final+novR
 """
 import os
 import sys
@@ -177,6 +178,17 @@ def main(K, epochs):
     print("\n-> results/reuse_screen.json")
 
 
+def fit(corpus):
+    """The novelty table fitted as in the screen (last N_FIT train bytes), saved next to the corpus as novtab.npz."""
+    z = np.load(CORPORA[corpus]); btr = z["train_bytes"][-N_FIT:]
+    T2, T1, glob = tab_fit(btr, -match_signals(btr)[0])
+    out = os.path.join(os.path.dirname(CORPORA[corpus]), "novtab.npz")
+    np.savez(out, T2=T2, T1=T1, glob=glob)
+    print(f"novelty table fitted on {len(btr):,} {corpus} train bytes -> {out}")
+
+
 if __name__ == "__main__":
     a = sys.argv[1:]
+    if a and a[0] == "fit":
+        fit(a[1] if len(a) > 1 else "math"); sys.exit()
     main(int(a[0]) if a else 16, int(a[1]) if len(a) > 1 else 3)

@@ -615,3 +615,12 @@ transformers #49185: the HF conversion of BLT-1B lacks the 512-byte sliding wind
 - Code: default 83.3% (released 73.0%); forced-identifier gain shrinks to +0.7 / +1.4. Traces unchanged (inputs < 512 bytes). Logic similar.
 - Answer boundary: removing it 97.0% -> 78.3% (released 87.7 -> 60.3).
 - Figure 1 uses top-10%-per-solution layouts (equal counts, 42 each; train-fitted thresholds gave entdep 74 vs entropy 42 on this problem).
+
+## Reuse vs novelty screen (#31; reuse_screen.py, 2026-10-10)
+Idea (from assembly theory's reuse vs construction; framed as LZ77/MDL): computed values are NEW content, copies repeat the context. Signals within the 128-byte context: novelty (forward LZ match, non-causal diagnostic), suffix / ambig (causal match signals), novtab / novnet (causal, self-supervised: predict novelty from the last 2 / 16 bytes; target from the text itself, no model losses). Coverage of starts at a 10% budget, val split of the math and logic/trace corpora; thresholds and predictors fitted on 2M train bytes.
+- **Diagnostic confirms the premise:** no 3-byte match in context at 94% of math computed starts (word starts 63%) and 85% of trace computed values vs **9%** of trace copies. Entropy does not track it: math entropy10 covers 0% of computed starts.
+- **math:** novtab10 alone covers computed **100%**, copies 0%, words 7% (dep10: computed 37%, copies 100%). Likely rediscovers "after '='", but label-free and needs no reference model. novnet10: 94% computed, 23% copies.
+- **traces:** novnet[reason]10 alone separates computed (86%) from copies (**0%**), which neither entropy (17% / 54%) nor entropy+dep (100% / 100%) does; entropy+novnet 75% / 10%. The causal match signal entropy+ambig10 (no fitting) covers 99% computed but also 85% copies.
+- **Final answers: novelty marks them as copies** (math: 0% coverage by novtab; the final answer usually repeats the last result), yet boundaries there matter a lot in training (dep10 final 67% vs entropy10 10%). Reuse does not explain the final-answer effect; a rule must keep them (e.g. '#### ').
+- Transfer not solved: 2-byte novtab transfers no better than the dependence table (math -> traces 0% alone); novnet[reason] on math 19%.
+- Next if pursued: train novtab10 / entropy+novtab10 on math (3 seeds) against dep10 (17.1 / 67.4) and syntax+entropy10, plus a variant forcing final-answer starts; novnet on traces.

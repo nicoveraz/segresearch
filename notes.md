@@ -624,3 +624,10 @@ Idea (from assembly theory's reuse vs construction; framed as LZ77/MDL): compute
 - **Final answers: novelty marks them as copies** (math: 0% coverage by novtab; the final answer usually repeats the last result), yet boundaries there matter a lot in training (dep10 final 67% vs entropy10 10%). Reuse does not explain the final-answer effect; a rule must keep them (e.g. '#### ').
 - Transfer not solved: 2-byte novtab transfers no better than the dependence table (math -> traces 0% alone); novnet[reason] on math 19%.
 - Next if pursued: train novtab10 / entropy+novtab10 on math (3 seeds) against dep10 (17.1 / 67.4) and syntax+entropy10, plus a variant forcing final-answer starts; novnet on traces.
+- **Trained (1M setup as dep10: D=128, 4 global layers, xattn, window 32, 32k steps, 3 seeds; computed / final / bpb):**
+  - **nov10: 22.7% [23.4, 21.9, 22.8] / 76.2% [77.6, 74.8, 76.1] / 1.658**
+  - final+nov10: 21.6% / 75.3% / 1.661 (forcing final-answer starts adds nothing)
+  - entnov10: 8.6% / 62.9% / 1.662 (adding entropy breaks computed results despite 100% coverage in the screen; unexplained)
+  - reference: dep10 17.1% [17.3, 21.0, 12.9] / 67.4% [68.0, 69.5, 64.7] / 1.678; syntax+entropy10 24.7% / 72.5% / 1.640; entropy10 7.1% / 10.4% / 1.654.
+  - **nov10 beats dep10 on all three, seeds separating on final answers (min 74.8 vs max 69.5) and computed (min 21.9 vs max 21.0), and beats the hand-written rule on final answers (min 74.8 vs max 72.9)**; computed slightly below it (21.9-23.4 vs 23.4-25.3), bpb +0.018. The best label-free rule so far, and the cheapest: fitted from the text in seconds, no reference model, no losses.
+  - Caveats: 1M model, math only; the table likely encodes "after '='" (computed starts are almost all there), so it is closer to a learned syntax rule than a general reuse detector; final answers score well although the rule never starts a patch there (0% coverage), so why final answers recover here but not under entropy10 is open. Next: scaling check (50M, scale/), traces (novnet), and why entnov fails.

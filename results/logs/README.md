@@ -17,6 +17,7 @@ Logs of the runs cited in `notes.md`, collected from the working directory and t
 | `blt1b/` | BLT-1B: default layout tests, tight-budget layouts, label-free triggers, code, logic and traces; `realblt26_*` are the #26 reruns (problem vs train-fitted thresholds) |
 | `blt1b_reason_truefalse_superseded/` | First logic run with True/False answers (unusable format; superseded) |
 | `prepare/` | Corpus preparation and scorer training output |
+| `mlx_math_novelty/` | Training at a 10% budget with the self-supervised novelty table (#31): nov10, entnov10, final+nov10, 3 seeds |
 | `reuse_screen/` | Reuse vs novelty screen (#31): LZ-style match signals and self-supervised novelty predictors, coverage at a 10% budget |
 | `misc/` | Original loop runs, held-out test runs, gain-trigger fit, learned chunking |
 

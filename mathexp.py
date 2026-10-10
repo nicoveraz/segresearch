@@ -21,6 +21,10 @@ Patch rules, in two compute groups:
                                 syntax with the rest of the budget filled by entropy
           ndepR                 tight budget, label-free: a small network predicting the value of a patch start from
                                 the last K bytes (neural_patcher.py), top R of bytes
+          novR / entnovR / final+novR   tight budget, label-free, self-supervised (#31): expected novelty per
+                                preceding 2-byte context (how often the next bytes do NOT repeat the last 128 bytes;
+                                reuse_screen.py fit), alone, plus entropy (standardized), or with a patch forced after
+                                the final-answer markers '#### ' and '\\boxed{' and the rest of the budget by novelty
           entdepR / depR        tight budget, label-free: entropy + boundary dependence (standardized), or dependence
                                 alone, to R% (table fitted by deptrigger.py from the model's own losses)
           syntax / stride6+syntax   math syntax alone / plus a patch every 6 bytes (syntax without word alignment)
@@ -75,6 +79,7 @@ N_VAL_GSM, N_VAL_MATH = (60, 60) if SMOKE else (660, 700)    # validation proble
 N_ACC = int(os.environ.get("SEGR_MATH_NACC", 20 if SMOKE else 300))   # accuracy targets per answer type
 ANSWER_ROLES = {"computed": "ANS_LOCAL", "copy": "VALUE", "final": "ANS_LONG", "boxed": "VAR"}
 SYNTAX = [b"=", b"\\boxed{", b"#### ", b">>"]
+FINAL = [b"#### ", b"\\boxed{"]
 
 
 # ----------------------------------------------------------------------------- data
@@ -184,10 +189,10 @@ def _patcher(z):
 
 
 # ----------------------------------------------------------------------------- rules
-def _syntax_starts(b):
+def _syntax_starts(b, markers=None):
     """True at the byte right after any math-syntax marker."""
     m = np.zeros(len(b), bool); s = b.tobytes()
-    for tok in SYNTAX:
+    for tok in markers or SYNTAX:
         i = s.find(tok)
         while i >= 0:
             if i + len(tok) < len(b):
@@ -262,7 +267,7 @@ class Rule:
                 raise SystemExit(f"unknown rule {name}")
             self.name = name
             return
-        m = re.fullmatch(r"(entropy|jump|syntax\+entropy|dep|entdep|ndep)(\d+)", name)
+        m = re.fullmatch(r"(entropy|jump|syntax\+entropy|dep|entdep|ndep|nov|entnov|final\+nov)(\d+)", name)
         if m:
             # tight budget: R% of bytes start a patch (entropy10, dep15, syntax+entropy20, ...)
             self.kind, R = m.group(1), int(m.group(2)) / 100
@@ -273,6 +278,17 @@ class Rule:
                 Dtr = self.dep(btr)
                 self.mu = (float(Htr.mean()), float(Htr.std()), float(Dtr.mean()), float(Dtr.std()))
                 self.thr = np.quantile(self.score(btr, Htr) if self.kind == "entdep" else Dtr, 1 - R)
+            elif self.kind in ("nov", "entnov", "final+nov"):            # self-supervised novelty table (#31)
+                import deptrigger
+                t = np.load(os.path.join(CACHE, "novtab.npz"))
+                self.dep = lambda b: deptrigger.table_lookup(t["T2"], t["T1"], float(t["glob"]), b) if len(b) else np.zeros(0, np.float32)
+                Ntr = self.dep(btr)
+                self.mu = (float(Htr.mean()), float(Htr.std()), float(Ntr.mean()), float(Ntr.std()))
+                if self.kind == "final+nov":
+                    fin = _syntax_starts(btr, FINAL); rest = ~fin
+                    self.thr = np.quantile(Ntr[rest], 1 - (R - fin.mean()) / rest.mean())
+                else:
+                    self.thr = np.quantile(self.score(btr, Htr) if self.kind == "entnov" else Ntr, 1 - R)
             elif self.kind == "ndep":                                    # learned patcher (neural_patcher.py)
                 import neural_patcher
                 net = neural_patcher.load(os.environ.get("SEGR_NPATCH"))
@@ -312,6 +328,8 @@ class Rule:
         J = np.diff(H, prepend=H[0]) if len(H) else H
         if self.kind is not None:
             return {"entdep": lambda: self.score(b, H) > self.thr, "dep": lambda: self.dep(b) > self.thr,
+                    "entnov": lambda: self.score(b, H) > self.thr, "nov": lambda: self.dep(b) > self.thr,
+                    "final+nov": lambda: _syntax_starts(b, FINAL) | (self.dep(b) > self.thr),
                     "ndep": lambda: self.ndep(b) > self.thr,
                     "entropy": lambda: H > self.thr, "jump": lambda: J > self.thr,
                     "syntax+entropy": lambda: _syntax_starts(b) | (H > self.thr)}[self.kind]()

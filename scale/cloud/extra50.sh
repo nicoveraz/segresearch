@@ -1,10 +1,11 @@
 #!/bin/bash
 # Extra 50M seeds for the scaling pilot (#27): the single-seed arms of the paper (BLT's jump rule, entropy at 20%,
-# and the hand-written rule's third seed). On a fresh pod, from the unpacked bundle directory:
+# and the hand-written rule's third seed), plus the self-supervised novelty rule nov10 (#31, 3 seeds, first in the
+# queue). On a fresh pod, from the unpacked bundle directory:
 #
 #     nohup bash scale/cloud/extra50.sh > extra.out 2>&1 &
 #
-# Rebuilds the corpus (SHA-256 checked) and masks, adds the jump10 and entropy20 arms, runs the five runs three at a
+# Rebuilds the corpus (SHA-256 checked) and masks, adds the jump10, entropy20 and nov10 arms, runs the eight runs three at a
 # time, and packs $WORK/results_extra.tgz, then writes $WORK/DONE_ALL (what the Mac's download-and-terminate loop
 # waits for). Resumable: rerunning skips finished work.
 set -euo pipefail
@@ -19,9 +20,10 @@ python -c "import torch; assert torch.cuda.is_available(), 'no CUDA GPU'; print(
 pip install -q numpy pyarrow
 echo "== corpus and masks $(date)"
 python -m scale.prep pod "$B" "$W"
-python -m scale.prep arms "$B" "$W" jump10 entropy20
+python -m scale.prep arms "$B" "$W" jump10 entropy20 nov10
 echo "== runs $(date)"
-printf '%s\n' "50m jump10 1" "50m entropy20 1" "50m syntax+entropy10 2" "50m jump10 2" "50m entropy20 2" |
+printf '%s\n' "50m nov10 0" "50m jump10 1" "50m entropy20 1" "50m nov10 1" "50m syntax+entropy10 2" "50m nov10 2" \
+    "50m jump10 2" "50m entropy20 2" |
   xargs -P "$PAR" -L 1 bash -c 'python -m scale.prep run "'"$B"'" "'"$W"'" $0 $1 $2 > "'"$W"'/logs/$0_$1_s$2.log" 2>&1 && echo "  done $0 $1 s$2" || echo "  FAILED $0 $1 s$2"'
 echo "== packing $(date)"
 cp results/registry/scale.jsonl "$W/registry_scale.jsonl" 2>/dev/null || true

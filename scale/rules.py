@@ -7,6 +7,8 @@ identical masks):
     dep{R}             patch where boundary dependence (a 2-byte-context lookup table) is in the top R%
     jump{R}            patch where the entropy RISES most from the previous byte (BLT's approximate monotonic rule):
                        top R% of H[t] - H[t-1] on train
+    nov{R}             patch where the self-supervised novelty table (expected share of upcoming bytes that do NOT repeat
+                       the last 128; reuse_screen.py, #31) is in the top R%: the dep rule's form with another table
     syntax+entropy{R}  patch right after every math-syntax marker ('=', '\\boxed{', '#### ', '>>'), the rest of
                        the budget filled by entropy (the hand-written results rule)
 
@@ -43,14 +45,15 @@ def table_lookup(T2, T1, glob, b):
 
 
 class Rule:
-    """Fit thresholds on train bytes / entropies, then mask any byte array: Rule(name, train_b, train_H, table)."""
+    """Fit thresholds on train bytes / entropies, then mask any byte array: Rule(name, train_b, train_H, table)
+    (table: the dependence table for dep, the novelty table for nov)."""
 
     def __init__(self, name, train_b, train_H, table=None):
-        m = re.fullmatch(r"(entropy|jump|dep|syntax\+entropy)(\d+)", name)
+        m = re.fullmatch(r"(entropy|jump|dep|nov|syntax\+entropy)(\d+)", name)
         if not m:
             raise ValueError(f"unknown rule {name}")
         self.name, self.kind, R = name, m.group(1), int(m.group(2)) / 100
-        if self.kind == "dep":
+        if self.kind in ("dep", "nov"):
             self.table = (np.asarray(table["T2"]), np.asarray(table["T1"]), float(table["glob"]))
             self.thr = np.quantile(self.dep(train_b), 1 - R)
         elif self.kind == "entropy":
@@ -66,7 +69,7 @@ class Rule:
         return table_lookup(*self.table, b) if len(b) else np.zeros(0, np.float32)
 
     def mask(self, b, H):
-        if self.kind == "dep":
+        if self.kind in ("dep", "nov"):
             return self.dep(b) > self.thr
         if self.kind == "entropy":
             return H > self.thr
@@ -82,9 +85,9 @@ class Rule:
     def from_state(cls, st, table=None):
         r = cls.__new__(cls)
         r.name = st["name"]
-        r.kind = re.fullmatch(r"(entropy|jump|dep|syntax\+entropy)(\d+)", r.name).group(1)
+        r.kind = re.fullmatch(r"(entropy|jump|dep|nov|syntax\+entropy)(\d+)", r.name).group(1)
         r.thr = np.float64(st["thr"])         # compare in float64, as the fitted threshold does: a plain Python float
                                               # against a float32 array compares in float32 under NumPy 2 and can flip ties
-        if r.kind == "dep":
+        if r.kind in ("dep", "nov"):
             r.table = (np.asarray(table["T2"]), np.asarray(table["T1"]), float(table["glob"]))
         return r

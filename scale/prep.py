@@ -89,7 +89,17 @@ def mac(bundle):
         else:
             import shutil
             shutil.copy(os.path.join(mathexp.CACHE, "deptrigger.npz"), f"{bundle}/dependence.npz")
+    if not os.path.exists(f"{bundle}/novelty.npz"):
+        # The self-supervised novelty table of the 1M runs (reuse_screen.py fit, on GSM8K/MATH training text), so
+        # the nov arm is mathexp's nov10, as the dep arm is the paper's dep10
+        import shutil
+        shutil.copy(os.path.join(mathexp.CACHE, "novtab.npz"), f"{bundle}/novelty.npz")
     print(f"bundle ready: {bundle}", flush=True)
+
+
+def table_for(bundle, arm):
+    """The lookup table an arm uses: the novelty table for nov arms, else the dependence table."""
+    return dict(np.load(f"{bundle}/{'novelty' if arm.startswith('nov') else 'dependence'}.npz"))
 
 
 # ----------------------------------------------------------------------------- GPU stage
@@ -145,11 +155,10 @@ def build_arms(bundle, work, arms):
     Hv, _ = score_stream(ent, val)
     idx = np.random.default_rng(0).choice(len(b), min(THRESH_SAMPLE, len(b)), replace=False)
     idx.sort()
-    table = dict(np.load(f"{bundle}/dependence.npz"))
     rpath = f"{work}/rules.json"
     rules = json.load(open(rpath)) if os.path.exists(rpath) else {}
     for arm in arms:
-        r = _fit_rule(arm, b, H, idx, table)          # thresholds from a fixed sample of train positions
+        r = _fit_rule(arm, b, H, idx, table_for(bundle, arm))          # thresholds from a fixed sample of train positions
         rules[arm] = r.state()
         mpath = f"{work}/mask_{arm}.u8"
         if not os.path.exists(mpath + ".done"):
@@ -177,22 +186,23 @@ def _fit_rule(arm, b, H, idx, table):
         J[idx == 0] = 0.0
         r.thr = np.quantile(J.astype(np.float32), 1 - int(arm[4:]) / 100)
         return r
-    kind, R = re.fullmatch(r"(entropy|dep|syntax\+entropy)(\d+)", arm).groups()
+    kind, R = re.fullmatch(r"(entropy|dep|nov|syntax\+entropy)(\d+)", arm).groups()
     R = int(R) / 100
     r = Rule.__new__(Rule)
     r.name, r.kind = arm, kind
-    if kind == "dep":
+    tab = kind in ("dep", "nov")
+    if tab:
         r.table = (np.asarray(table["T2"]), np.asarray(table["T1"]), float(table["glob"]))
-    vals = np.zeros(len(idx), np.float64 if kind == "dep" else bool)
+    vals = np.zeros(len(idx), np.float64 if tab else bool)
     for c0, c1 in _chunks(len(b)):
         sel = slice(np.searchsorted(idx, c0), np.searchsorted(idx, c1))
         if sel.start == sel.stop:
             continue
         lo = max(0, c0 - 8)
         cb = np.asarray(b[lo:c1])
-        v = table_lookup(*r.table, cb) if kind == "dep" else syntax_starts(cb)
+        v = table_lookup(*r.table, cb) if tab else syntax_starts(cb)
         vals[sel] = v[idx[sel] - lo]
-    if kind == "dep":
+    if tab:
         r.thr = np.quantile(vals.astype(np.float32), 1 - R)      # float32 values, as Rule fits them
     else:
         Hs = np.asarray(H[idx]); rest = ~vals
@@ -247,7 +257,7 @@ def run(bundle, work, size, arm, seed):
     val = np.fromfile(f"{bundle}/val.u8", np.uint8); roles = np.fromfile(f"{bundle}/val_roles.i8", np.int8)
     mv = np.fromfile(f"{work}/val_mask_{arm}.u8", np.uint8)
     rules = json.load(open(f"{work}/rules.json"))
-    rule = Rule.from_state(rules[arm], dict(np.load(f"{bundle}/dependence.npz")))
+    rule = Rule.from_state(rules[arm], table_for(bundle, arm))
     ent = _entropy_model(bundle, dev)
     with torch.no_grad():
         o = bits(model, val, mv, roles)

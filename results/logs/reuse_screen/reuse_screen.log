@@ -1,0 +1,73 @@
+math: match signals on 2,000,000 train + 853,196 val bytes
+reason: match signals on 2,000,000 train + 1,155,784 val bytes
+  novnet fitted on math (K=16)
+    epoch 1: mse 12.814 (target var 13.701)
+    epoch 2: mse 12.258 (target var 13.701)
+    epoch 3: mse 11.998 (target var 13.701)
+  novnet fitted on reason (K=16)
+    epoch 1: mse 9.197 (target var 18.544)
+    epoch 2: mse 7.662 (target var 18.544)
+    epoch 3: mse 7.530 (target var 18.544)
+
+== math: diagnostic (mean at each kind of start)
+  computed  n=  2105 | novelty  0.86 (share with no 3-byte match 94.2%) | entropy 2.97 | suffix  2.3 | ambig  0.4
+  copy      n=  2040 | novelty  2.47 (share with no 3-byte match 64.8%) | entropy 3.01 | suffix  2.0 | ambig  0.7
+  final     n=   660 | novelty  2.46 (share with no 3-byte match 62.6%) | entropy 3.18 | suffix  1.0 | ambig  0.0
+  step      n=   700 | novelty  2.14 (share with no 3-byte match 80.1%) | entropy 4.49 | suffix  0.7 | ambig  0.1
+  word      n=144704 | novelty  3.18 (share with no 3-byte match 63.1%) | entropy 4.14 | suffix  3.5 | ambig  1.4
+  all       n=853196 | novelty  3.21 (share with no 3-byte match 64.0%) | entropy 2.69 | suffix  3.2 | ambig  0.9
+
+== math: coverage at a 10% budget (share of each kind of start that starts a patch)
+  rule                               rate  computed     copy    final     step     word
+  entropy10                          0.099     0.0%     0.0%     0.0%    60.4%    46.7%
+  novelty(oracle)10                  0.090    47.6%     0.0%     0.0%    25.0%    14.8%
+  entropy+novelty(oracle)10          0.100     0.1%     0.0%     0.0%    71.6%    42.3%
+  suffix10                           0.090     0.3%     0.0%     0.0%    46.1%     1.5%
+  entropy+suffix10                   0.100     0.0%     0.0%     0.0%    95.7%    39.6%
+  ambig10                            0.066     0.8%     0.3%     0.0%     0.0%    20.6%
+  entropy+ambig10                    0.099     0.8%     0.3%     0.0%     1.7%    36.8%
+  dep[math]10                        0.097    36.7%   100.0%     0.0%     0.0%     3.8%
+  entropy+dep[math]10                0.100    19.2%    14.4%     0.0%     2.1%    33.5%
+  dep[reason]10                      0.099     0.0%     0.0%     0.0%     0.0%     2.9%
+  entropy+dep[reason]10              0.100     0.7%     0.0%     0.0%    15.4%    25.9%
+  novtab[math]10                     0.100   100.0%     0.0%     0.0%     0.0%     7.3%
+  entropy+novtab[math]10             0.099   100.0%     0.0%     0.0%     0.0%    34.7%
+  novnet[math]10                     0.100    93.9%    22.5%    36.8%    40.3%    10.8%
+  entropy+novnet[math]10             0.101    27.5%     5.3%     3.0%    69.0%    36.4%
+  novtab[reason]10                   0.096     0.0%     0.0%     0.0%     0.0%     7.3%
+  entropy+novtab[reason]10           0.100     0.8%     0.0%     0.0%     4.1%    35.4%
+  novnet[reason]10                   0.100    19.2%    14.1%     0.8%     0.6%     8.5%
+  entropy+novnet[reason]10           0.099    13.4%     8.4%     0.0%    28.4%    30.3%
+  syntax+entropy10                   0.099   100.0%   100.0%   100.0%   100.0%    39.1%
+
+== reason: diagnostic (mean at each kind of start)
+  computed  n= 14867 | novelty  1.55 (share with no 3-byte match 85.0%) | entropy 2.95 | suffix 10.9 | ambig  3.6
+  copy      n= 10365 | novelty  2.95 (share with no 3-byte match  9.4%) | entropy 3.19 | suffix  9.9 | ambig  3.2
+  final     n=  1200 | novelty  0.00 (share with no 3-byte match 100.0%) | entropy 1.04 | suffix  1.4 | ambig  0.6
+  step      n=  4784 | novelty  2.00 (share with no 3-byte match 67.5%) | entropy 3.45 | suffix 12.6 | ambig  3.6
+  word      n=316511 | novelty  5.26 (share with no 3-byte match 37.1%) | entropy 1.11 | suffix  5.0 | ambig  1.9
+  all       n=1155784 | novelty  5.20 (share with no 3-byte match 36.9%) | entropy 0.55 | suffix  5.2 | ambig  1.2
+
+== reason: coverage at a 10% budget (share of each kind of start that starts a patch)
+  rule                               rate  computed     copy    final     step     word
+  entropy10                          0.100    17.1%    54.2%     0.0%   100.0%    20.3%
+  novelty(oracle)10                  0.055    23.3%     0.0%   100.0%    27.5%     8.9%
+  entropy+novelty(oracle)10          0.099    73.2%    61.3%     0.0%    77.2%    18.5%
+  suffix10                           0.055     0.0%     0.0%     0.0%     0.0%     0.6%
+  entropy+suffix10                   0.099     6.3%    33.7%     0.0%     9.0%    22.6%
+  ambig10                            0.058    57.9%    50.6%     0.0%    65.6%    15.9%
+  entropy+ambig10                    0.100    99.2%    85.1%     0.0%   100.0%    24.6%
+  dep[math]10                        0.092     0.0%     0.0%     0.0%     0.0%     4.4%
+  entropy+dep[math]10                0.100   100.0%   100.0%     0.0%   100.0%    16.6%
+  dep[reason]10                      0.093     0.0%     0.0%     0.0%     0.0%     4.6%
+  entropy+dep[reason]10              0.100   100.0%   100.0%     0.0%    99.5%    18.3%
+  novtab[math]10                     0.099     0.0%     0.0%     0.0%     0.0%    21.0%
+  entropy+novtab[math]10             0.100    93.6%   100.0%     0.0%    95.3%    23.3%
+  novnet[math]10                     0.100    20.5%    10.3%     0.0%     0.0%    15.1%
+  entropy+novnet[math]10             0.100    90.1%    99.5%     0.0%    33.5%    18.6%
+  novtab[reason]10                   0.099   100.0%   100.0%     0.0%     0.0%     9.5%
+  entropy+novtab[reason]10           0.100    90.3%   100.0%     0.0%    69.3%    16.3%
+  novnet[reason]10                   0.100    85.5%     0.0%   100.0%     0.6%     4.3%
+  entropy+novnet[reason]10           0.100    75.1%    10.4%     0.0%   100.0%    18.9%
+
+-> results/reuse_screen.json

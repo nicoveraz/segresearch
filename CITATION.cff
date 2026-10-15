@@ -6,8 +6,8 @@ authors:
     given-names: "Nicolás"
     affiliation: "Independent researcher, Chile"
     email: "nicovera@quetru.cl"
-version: "1.0.0"
-date-released: "2026-10-08"
+version: "2.0.0"
+date-released: "2026-10-15"
 license: MIT
 repository-code: "https://github.com/nicoveraz/segresearch"
 doi: "10.5281/zenodo.23238215"

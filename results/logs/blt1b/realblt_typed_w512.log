@@ -1,0 +1,27 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:13<59:08,  6.99s/it]Loading weights: 100%|██████████| 510/510 [00:13<00:00, 36.47it/s]
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (1029 > 1024). Running this sequence through the model will result in indexing errors
+thresholds fitted on 297 GSM8K train problems; train patch rates: entropy@15 0.150, results@15 0.150, entdep@15 0.150, typed@15 0.150, typedc@15 0.150, entropy@10 0.100, results@10 0.100, entdep@10 0.100, typed@10 0.100, typedc@10 0.100
+  25 problems, 80s
+  50 problems, 148s
+  75 problems, 216s
+  100 problems, 283s
+  125 problems, 350s
+  150 problems, 417s
+  175 problems, 494s
+  200 problems, 558s
+  225 problems, 633s
+  250 problems, 696s
+  275 problems, 766s
+
+BLT-1B, 294 GSM8K test problems, typed-uncertainty layouts; 796 in-line results
+RESULT default    patch rate 0.255 | covered: results 78.8%, final 100.0%, other numbers 88.4% | in-line results: 0.523 bits, exact 76.8% | final: 0.719 bits, exact 73.5%
+RESULT entropy@15 patch rate 0.157 | covered: results 48.1%, final 98.3%, other numbers 71.2% | in-line results: 1.328 bits, exact 47.0% | final: 0.954 bits, exact 65.0%
+RESULT results@15 patch rate 0.157 | covered: results 100.0%, final 98.3%, other numbers 70.1% | in-line results: 0.780 bits, exact 66.1% | final: 0.877 bits, exact 67.0%
+RESULT entdep@15  patch rate 0.157 | covered: results 100.0%, final 96.6%, other numbers 70.4% | in-line results: 0.532 bits, exact 76.5% | final: 1.045 bits, exact 67.3%
+RESULT typed@15   patch rate 0.157 | covered: results 71.5%, final  2.7%, other numbers 48.9% | in-line results: 0.911 bits, exact 64.2% | final: 1.493 bits, exact 46.6%
+RESULT typedc@15  patch rate 0.155 | covered: results 60.1%, final  0.0%, other numbers 23.4% | in-line results: 1.471 bits, exact 50.0% | final: 1.521 bits, exact 43.9%
+RESULT entropy@10 patch rate 0.106 | covered: results 16.2%, final 93.5%, other numbers 51.8% | in-line results: 2.337 bits, exact 19.0% | final: 1.441 bits, exact 51.4%
+RESULT results@10 patch rate 0.106 | covered: results 100.0%, final 93.2%, other numbers 49.8% | in-line results: 1.246 bits, exact 51.8% | final: 1.198 bits, exact 60.5%
+RESULT entdep@10  patch rate 0.105 | covered: results 100.0%, final 90.1%, other numbers 51.8% | in-line results: 0.826 bits, exact 67.1% | final: 1.142 bits, exact 62.9%
+RESULT typed@10   patch rate 0.105 | covered: results 66.1%, final  0.3%, other numbers 32.0% | in-line results: 1.345 bits, exact 48.7% | final: 2.163 bits, exact 32.0%
+RESULT typedc@10  patch rate 0.104 | covered: results 53.4%, final  0.0%, other numbers 17.0% | in-line results: 1.896 bits, exact 36.4% | final: 2.115 bits, exact 30.6%

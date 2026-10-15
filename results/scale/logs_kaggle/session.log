@@ -1,0 +1,18 @@
+[ 0.00 h] disk: 1070 GB free in /tmp, 19 GB in /kaggle/working
+[ 0.00 h] GPUs: Tesla T4, 15360 MiB
+Tesla T4, 15360 MiB
+[ 0.00 h] corpus and masks
+[ 0.33 h] masks built
+[ 0.33 h] start 12m novc13 s0 on GPU 0
+[ 0.33 h] start 12m novc10 s0 on GPU 1
+[ 1.36 h] done 12m_novc10_s0 on GPU 1 after 1.03 h
+[ 1.36 h] start 12m novc13 s1 on GPU 1
+[ 1.43 h] done 12m_novc13_s0 on GPU 0 after 1.10 h
+[ 1.43 h] start 12m novc10 s1 on GPU 0
+[ 2.45 h] done 12m_novc13_s1 on GPU 1 after 1.09 h
+[ 2.45 h] start 12m novc13 s2 on GPU 1
+[ 2.47 h] done 12m_novc10_s1 on GPU 0 after 1.04 h
+[ 2.47 h] start 12m novc10 s2 on GPU 0
+[ 3.51 h] done 12m_novc10_s2 on GPU 0 after 1.04 h
+[ 3.55 h] done 12m_novc13_s2 on GPU 1 after 1.09 h
+[ 3.55 h] session done: 6 results in the output

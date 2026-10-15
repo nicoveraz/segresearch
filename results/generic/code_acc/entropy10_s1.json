@@ -1,0 +1,31 @@
+{
+ "domain": "code",
+ "rule": "entropy10",
+ "seed": 1,
+ "bpb": 1.6622099537210369,
+ "bpb_new": 1.9169376010188615,
+ "bpb_copy": 1.2230481335497483,
+ "val_rate": 0.07558393478393555,
+ "train_seconds": 4233,
+ "cfg": {
+  "d": 320,
+  "glayers": 8,
+  "bs": 128,
+  "steps": 30500,
+  "lr": 0.0012,
+  "warmup": 1000,
+  "micro": 128,
+  "seed": 1
+ },
+ "device": "Tesla T4",
+ "acc_id_copy": 0.2437736090658813,
+ "n_id_copy": 31238,
+ "acc_id_new": 0.15084857472400726,
+ "n_id_new": 60690,
+ "acc_num_new": 0.1461029623238424,
+ "n_num_new": 3477,
+ "acc_rhs_copy": 0.21400061406202026,
+ "n_rhs_copy": 6514,
+ "acc_rhs_new": 0.1595014450867052,
+ "n_rhs_new": 5536
+}

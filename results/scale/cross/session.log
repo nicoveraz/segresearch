@@ -1,0 +1,7 @@
+[ 0.00 h] corpus and masks
+[ 0.77 h] masks built
+[ 0.77 h] start 12m nov10 s0 (train, then cross-evaluate) on GPU 0
+[ 0.77 h] start 12m nov10 s1 (train, then cross-evaluate) on GPU 1
+[ 1.81 h] done 12m nov10 s0
+[ 1.81 h] done 12m nov10 s1
+[ 1.81 h] session done

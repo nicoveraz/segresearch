@@ -22,6 +22,9 @@ problems by default, SEGR_BLT_THRESH=problem for the original top-R-per-problem 
     entdep@R     entropy + dependence (standardized)
     entdepM@R    entropy + the dependence table fit on GSM8K math (cross-domain transfer, no refit)
     oracle@R     boundaries forced at every target start, the rest by entropy (uses the targets)
+With SEGR_REASON_TYPED=1 (local follow-up; recorded as blt_<task>_typed so the paper's records are untouched):
+    typed@R        typed uncertainty from BLT-1B's patcher (typed_screen.typed): sure of the kind, not the item
+    typed+final@R  a boundary after the format marker 'Answer: ' (logic only), the rest by typed
 
 Scored per target kind: bits per byte (teacher forced) and exact match.
 
@@ -39,6 +42,7 @@ import blt_layouts
 import blt_load
 import registry
 
+TYPED = os.environ.get("SEGR_REASON_TYPED") == "1"
 BUDGETS = (0.15, 0.10)
 MATH_DEP = os.path.expanduser(f"~/.cache/segresearch-blt/dependence_table{blt_load.SUFFIX}.npy")
 NAMES = ["Anne", "Bob", "Charlie", "Dave", "Erin", "Fiona", "Gary", "Harry"]
@@ -132,10 +136,15 @@ def main(task, n_train, n_test):
     def prep(b):
         ids = torch.tensor([[1] + [x + 4 for x in b]], device=dev)          # BOS + byte tokens (byte + 4)
         with torch.no_grad():
-            ent, dl, _ = model.model.patcher(ids, patch_size=cfg.patch_size, threshold=cfg.patching_threshold,
-                                             max_patch_length=cfg.max_patch_length)
+            ent, dl, lg = model.model.patcher(ids, patch_size=cfg.patch_size, threshold=cfg.patching_threshold,
+                                              max_patch_length=cfg.max_patch_length)
         n = ids.shape[1]; e = ent[0].float().cpu().numpy()
         score = np.full(n, -np.inf); score[2:] = e[1:n - 1]
+        if TYPED:                                                           # typed uncertainty, same position shift
+            import typed_screen
+            T = typed_screen.typed(torch.log_softmax(lg[0, :, 4:260].float(), -1).cpu().numpy())[3]
+            tscore = np.full(n, -np.inf); tscore[2:] = T[1:n - 1]
+            score = (score, tscore)
         return ids, n, score, np.r_[0, np.cumsum(dl[0].cpu().numpy())[:-1]]
 
     def L(st, n):
@@ -154,6 +163,7 @@ def main(task, n_train, n_test):
         b = text.encode()
         ids, n, score, default = prep(b)
         train_seen.append((b, n, score, [s + 1 for _, s, _ in spans]))
+        score = score[0] if TYPED else score
         tight = np.r_[0, 1, np.argsort(-score)[:max(int(0.10 * n) - 2, 1)]]
         loss = lambda st: -logp(ids, st, n)[:-1].gather(1, ids[0, 1:, None])[:, 0].cpu().numpy()
         gain = loss(tight) - loss(default)
@@ -172,18 +182,30 @@ def main(task, n_train, n_test):
         dep, depM = np.full(n, -np.inf), np.full(n, -np.inf)
         dep[2:] = [lookup(own, b, t - 1) for t in range(2, n)]
         depM[2:] = [lookup(math_tab, b, t - 1) for t in range(2, n)]
+        if TYPED:
+            return {"entropy": score[0], "T": score[1], "dep": dep, "depM": depM}
         return {"entropy": score, "dep": dep, "depM": depM}
+
+    def marker_starts(b, marker=b"Answer: "):
+        out, i = [], b.find(marker)
+        while i >= 0:
+            out.append(i + len(marker) + 1); i = b.find(marker, i + 1)
+        return out
 
     kinds = sorted({k for _, sp in problems(task, 50, seed=2) for k, _, _ in sp})
     layouts = ["default"] + [f"{k}@{int(r * 100)}" for r in BUDGETS
                              for k in ("entropy", "dep", "entdep", "entdepM", "oracle")]
     kind_of = {"entropy": "entropy", "dep": "dep", "entdep": "entropy+dep", "entdepM": "entropy+depM", "oracle": "forced"}
+    if TYPED:
+        extra = ["typed"] + (["typed+final"] if task != "trace" else [])
+        layouts = ["default"] + [f"{k}@{int(r * 100)}" for r in BUDGETS for k in ("entropy", "entdep", "oracle", *extra)]
+        kind_of.update({"typed": "T", "typed+final": "forced[final]:T"})
     fit = None
     if blt_layouts.MODE == "train":
         # budget thresholds fitted on the same TRAIN problems, applied position by position at test time (#26)
         fit = blt_layouts.Fit(BUDGETS)
         for b, n, score, tstarts in train_seen:
-            fit.add(sig_of(b, n, score), tstarts)
+            fit.add(sig_of(b, n, score), {"default": tstarts, "final": marker_starts(b)})
         fit.done()
         print("  train patch rates: " + ", ".join(
             f"{l} {fit.rate(kind_of[l.split('@')[0]], int(l.split('@')[1]) / 100):.3f}" for l in layouts[1:]), flush=True)
@@ -201,7 +223,8 @@ def main(task, n_train, n_test):
         lay = {"default": default}
         for name in layouts[1:]:
             k, R = name.split("@")
-            lay[name] = blt_layouts.layout(kind_of[k], int(R) / 100, sig, fit, tstarts if k == "oracle" else ())
+            lay[name] = blt_layouts.layout(kind_of[k], int(R) / 100, sig, fit, {"default": tstarts if k == "oracle" else (),
+                                                                                "final": marker_starts(b)})
         for name, st in lay.items():
             st = np.array(sorted(set(int(x) for x in st if 0 <= x < n)))
             lp = logp(ids, st, n); S = set(st.tolist()); rate[name].append(len(st) / n)
@@ -220,8 +243,9 @@ def main(task, n_train, n_test):
         registry.emit("realblt_reason", f"RESULT {name:11s} patch rate {np.mean(rate[name]):.3f} | " + " | ".join(
             f"{k}: covered {np.mean(s['cov']):5.1%}, {np.mean(s['bits']):.3f} bits, exact {np.mean(s['exact']):5.1%}"
             + (f", choice {np.mean(s['choice']):5.1%}" if s["choice"] else "")
-            for k, s in st_[name].items()), experiment="blt_" + task, thresh=blt_layouts.MODE, window=blt_load.WINDOW)
-    registry.save_items(f"blt_{task}_{blt_layouts.MODE}{blt_load.SUFFIX}", {"layouts": st_, "pid": pid}, experiment="blt_" + task,
+            for k, s in st_[name].items()), experiment="blt_" + task + ("_typed" if TYPED else ""), thresh=blt_layouts.MODE, window=blt_load.WINDOW)
+    registry.save_items(f"blt_{task}{'_typed' if TYPED else ''}_{blt_layouts.MODE}{blt_load.SUFFIX}", {"layouts": st_, "pid": pid},
+                        experiment="blt_" + task + ("_typed" if TYPED else ""),
                         thresh=blt_layouts.MODE, n_problems=n_test)
 
 

@@ -1,0 +1,33 @@
+{
+ "bpb": 1.6498784135665263,
+ "rate": 0.11947782221201225,
+ "computed_bits": 2.314776563914991,
+ "copy_bits": 0.1240496127334776,
+ "final_bits": 0.6604081554678449,
+ "boxed_bits": 2.064132100958973,
+ "computed_acc": 0.122,
+ "computed_n": 1000,
+ "final_acc": 0.7833333333333333,
+ "final_n": 660,
+ "boxed_acc": 0.02857142857142857,
+ "boxed_n": 700,
+ "e2e_acc": 0.0,
+ "e2e_n": 100,
+ "size": "12m",
+ "arm": "nov10",
+ "seed": 1,
+ "params": 11741440,
+ "train_seconds": 3480,
+ "cfg": {
+  "d": 320,
+  "glayers": 8,
+  "bs": 128,
+  "steps": 30500,
+  "lr": 0.0012,
+  "warmup": 1000,
+  "micro": 128,
+  "seed": 1
+ },
+ "device": "Tesla T4",
+ "toy": false
+}

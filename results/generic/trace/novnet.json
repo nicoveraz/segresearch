@@ -1,0 +1,71 @@
+{
+ "true target (ceiling)": {
+  "rate": 0.10017447302026532,
+  "computed value": {
+   "covered": 0.20392644491738204,
+   "share": 0.05412953512580293
+  },
+  "copied value": {
+   "covered": 0.005954539958892516,
+   "share": 0.0012504125726762638
+  },
+  "line start": {
+   "covered": 0.3891070178732993,
+   "share": 0.2893530860436185
+  },
+  "operand": {
+   "covered": 0.0967741935483871,
+   "share": 0.02568740955137482
+  },
+  "literal": {
+   "covered": 0.24385279848538635,
+   "share": 0.06540229009571687
+  }
+ },
+ "network (128 bytes)": {
+  "rate": 0.09940638479693986,
+  "computed value": {
+   "covered": 0.7426050359884263,
+   "share": 0.19863758475118332
+  },
+  "copied value": {
+   "covered": 0.0,
+   "share": 0.0
+  },
+  "line start": {
+   "covered": 0.3535055224568531,
+   "share": 0.26490981194831775
+  },
+  "operand": {
+   "covered": 2.391257562352041e-05,
+   "share": 6.396315722144045e-06
+  },
+  "literal": {
+   "covered": 0.5545142586676133,
+   "share": 0.1498720736855571
+  }
+ },
+ "2-byte table": {
+  "rate": 0.10010707455033775,
+  "computed value": {
+   "covered": 0.0,
+   "share": 0.0
+  },
+  "copied value": {
+   "covered": 0.0,
+   "share": 0.0
+  },
+  "line start": {
+   "covered": 1.0,
+   "share": 0.7441343478868409
+  },
+  "operand": {
+   "covered": 0.0,
+   "share": 0.0
+  },
+  "literal": {
+   "covered": 0.0,
+   "share": 0.0
+  }
+ }
+}

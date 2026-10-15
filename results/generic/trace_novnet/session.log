@@ -1,0 +1,7 @@
+[ 0.00 h] trace: prep
+[ 0.13 h] trace: prep done; {  "thr_entropy": 3.6251156330108643,  "thr_novelty": -2.2610926628112793,  "thr_novelty_t10": -2.220276117324829,  "thr_entropy_tnov": 3.6163406372070312,  "train_rate": {   "entropy10": 0.09996824900309245,   "novelty": 0.10255286534627278,   "novelty_t10": 0.08190695444742839,   "entropy_tnov": 0
+[ 0.13 h] trace: start novelty_net s0 on GPU 0
+[ 0.13 h] trace: start novelty_net s1 on GPU 1
+[ 0.88 h] trace: done novelty_net s0 after 0.75 h
+[ 0.89 h] trace: done novelty_net s1 after 0.76 h
+[ 0.90 h] session done

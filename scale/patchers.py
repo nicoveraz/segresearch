@@ -3,6 +3,8 @@
   - the small entropy model: trained as prepare.train_lm, scored as prepare.score_stream (entropy of byte i given
     the bytes before it, with at least CTX/2 bytes of context; the first CTX/2 + 1 entries are 0) and, during
     decoding, as mathexp._entropy_window;
+  - typed uncertainty from the same model (typed_screen.py): P(likeliest byte class) x within-class entropy /
+    log2|class|, i.e. sure of the KIND of the next byte (digit, letter, ...) but not of WHICH one;
   - boundary dependence, fitted as deptrigger.py "marginal" mode: a reference BLT-lite model trained with random
     patch starts (25%), then, for random training windows with a random 10% layout, the drop in mean loss on bytes
     t..t+3 from adding one patch start at t, averaged per preceding 2-byte context (contexts seen < 20 times fall
@@ -23,6 +25,62 @@ def _hi(dev):
     """float64 for log-probabilities where the device supports it (CPU, CUDA: matches the MLX code's float64
     log-softmax); float32 on Apple MPS, which has no float64."""
     return torch.float32 if torch.device(dev).type == "mps" else torch.float64
+
+
+def _byte_classes():
+    """digits, lowercase, uppercase, whitespace, ASCII punctuation, other bytes (typed_screen.byte_classes)."""
+    c = np.full(256, 5, np.int64)
+    c[ord("0"):ord("9") + 1] = 0
+    c[ord("a"):ord("z") + 1] = 1
+    c[ord("A"):ord("Z") + 1] = 2
+    c[[9, 10, 13, 32]] = 3
+    for x in range(33, 127):
+        if c[x] == 5:
+            c[x] = 4
+    return c
+
+
+_ONEHOT = np.eye(6)[_byte_classes()]
+_LOGSIZE = np.log2(np.maximum(_ONEHOT.sum(0), 2))
+
+
+def typed_from_logprobs(lp):
+    """lp: (..., 256) natural-log probabilities (torch) -> typed uncertainty T in [0, 1] (typed_screen.typed)."""
+    oh = torch.as_tensor(_ONEHOT, dtype=lp.dtype, device=lp.device)
+    ls = torch.as_tensor(_LOGSIZE, dtype=lp.dtype, device=lp.device)
+    p = lp.exp()
+    Pc = p @ oh
+    Pcs = Pc.clamp_min(1e-12)
+    Hin = torch.log2(Pcs) - ((p * lp / np.log(2)) @ oh) / Pcs
+    norm = (Hin / ls).clamp(0, 1)
+    cs = Pc.argmax(-1, keepdim=True)
+    return Pc.gather(-1, cs)[..., 0] * norm.gather(-1, cs)[..., 0]
+
+
+@torch.no_grad()
+def score_typed(model, stream, dev=None, batch=512):
+    """Typed uncertainty of byte i given bytes < i, windowed exactly as score_stream (first CTX/2 + 1 entries 0)."""
+    dev = dev or next(model.parameters()).device
+    T = np.zeros(len(stream), np.float32)
+    half = CTX // 2
+    starts = np.arange(0, len(stream) - CTX, half)
+    for b in range(0, len(starts), batch):
+        st = starts[b:b + batch]
+        X = torch.from_numpy(np.stack([stream[s:s + CTX] for s in st]).astype(np.int64)).to(dev)
+        lp = torch.log_softmax(model(X).to(_hi(dev)), -1)[:, half:]
+        T[st[0] + half + 1:st[-1] + CTX + 1] = typed_from_logprobs(lp).reshape(-1).cpu().numpy()
+    return T
+
+
+@torch.no_grad()
+def typed_window(model, w):
+    """Typed uncertainty of each byte of window w given the bytes before it (0 for the first byte)."""
+    T = np.zeros(len(w), np.float32)
+    if len(w) > 1:
+        dev = next(model.parameters()).device
+        lp = torch.log_softmax(model(torch.from_numpy(w[None, :-1].astype(np.int64)).to(dev)).to(_hi(dev)), -1)[0]
+        T[1:] = typed_from_logprobs(lp).cpu().numpy()                 # row i predicts byte i+1
+    return T
 
 
 def train_entropy_lm(stream, cfg=ENTROPY, seed=0, dev=None, log_every=1000):

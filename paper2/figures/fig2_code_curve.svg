@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" font-family="sans-serif" font-size="12">
+<rect width="480" height="320" fill="white"/>
+<text x="240.0" y="22" text-anchor="middle" font-weight="bold">Code (12M): bits per byte vs patch rate</text>
+<line x1="55" y1="265" x2="425" y2="265" stroke="#333"/>
+<line x1="55" y1="55" x2="55" y2="265" stroke="#333"/>
+<text x="240.0" y="305" text-anchor="middle">eval patch rate (%)</text>
+<text x="15" y="160.0" transform="rotate(-90 15 160.0)" text-anchor="middle">bits per byte</text>
+<polyline fill="none" stroke="#c0392b" stroke-width="2" points="95.1,75.0 162.3,136.6 239.4,178.9 329.1,220.3"/>
+<circle cx="95.1" cy="75.0" r="4" fill="#c0392b"/>
+<text x="101.1" y="69.0" fill="#c0392b" font-size="10">entropy_tnov</text>
+<circle cx="239.4" cy="178.9" r="4" fill="#c0392b"/>
+<text x="245.4" y="172.9" fill="#c0392b" font-size="10">entropy_t14</text>
+<circle cx="329.1" cy="220.3" r="4" fill="#c0392b"/>
+<text x="335.1" y="214.3" fill="#c0392b" font-size="10">entropy_t17</text>
+<circle cx="162.3" cy="136.6" r="4" fill="#c0392b"/>
+<text x="168.3" y="130.6" fill="#c0392b" font-size="10">entropy10</text>
+<circle cx="168.8" cy="101.9" r="4" fill="#1f6fb2"/>
+<text x="174.8" y="95.9" fill="#1f6fb2" font-size="10">novelty</text>
+<circle cx="384.9" cy="245.0" r="4" fill="#1f6fb2"/>
+<text x="390.9" y="239.0" fill="#1f6fb2" font-size="10">novelty_t10</text>
+<text x="59.8" y="281" text-anchor="middle" fill="#555">5</text>
+<text x="139.9" y="281" text-anchor="middle" fill="#555">7</text>
+<text x="220.1" y="281" text-anchor="middle" fill="#555">9</text>
+<text x="300.2" y="281" text-anchor="middle" fill="#555">11</text>
+<text x="380.3" y="281" text-anchor="middle" fill="#555">13</text>
+<text x="49" y="240.2" text-anchor="end" fill="#555">1.55</text>
+<text x="49" y="190.1" text-anchor="end" fill="#555">1.60</text>
+<text x="49" y="140.0" text-anchor="end" fill="#555">1.65</text>
+<text x="49" y="90.0" text-anchor="end" fill="#555">1.70</text>
+</svg>

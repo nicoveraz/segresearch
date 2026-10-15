@@ -70,6 +70,16 @@ def _layouts(rule, ent, W):
     h = (-(lp.exp() * lp).sum(-1) / np.log(2)).cpu().numpy()             # h[:, t]: entropy of the byte after t
     H = np.c_[np.zeros(len(W)), h[:, :-1]].astype(np.float32)
     bd = np.zeros((len(W), W.shape[1] + 1), np.int64)
+    if getattr(rule, "kind", None) in ("typed", "final+typed"):                           # typed values from the same predictions
+        from scale.patchers import typed_from_logprobs
+        tb = typed_from_logprobs(lp).cpu().numpy()                        # tb[:, t]: typed value of the byte after t
+        Tw = np.c_[np.zeros(len(W)), tb[:, :-1]].astype(np.float32)
+        for r in range(len(W)):
+            bd[r, :-1] = rule.mask(W[r], H[r], Tw[r])
+            bd[r, -1] = rule.mask(np.r_[W[r], 0].astype(np.uint8), np.r_[H[r], np.float32(h[r, -1])],
+                                  np.r_[Tw[r], np.float32(tb[r, -1])])[-1]
+        bd[:, 0] = 1
+        return bd
     for r in range(len(W)):
         bd[r, :-1] = rule.mask(W[r], H[r])
         bd[r, -1] = rule.mask(np.r_[W[r], 0].astype(np.uint8), np.r_[H[r], np.float32(h[r, -1])])[-1]

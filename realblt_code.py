@@ -13,6 +13,8 @@ TRAIN chunks by default, SEGR_BLT_THRESH=problem for the original top-R-per-chun
     oracle@R     boundaries forced at every repeated-identifier start, the rest by entropy (uses the targets)
 
 Scored on the repeated identifiers: bits per byte (teacher forced) and exact match.
+With SEGR_CODE_TYPED=1 (local follow-up; recorded as blt_code_typed so the paper's records are untouched), also:
+    typed@R      typed uncertainty from BLT-1B's patcher (typed_screen.typed): sure of the kind, not the item
 
     <env>/bin/python realblt_code.py [N_TRAIN_CHUNKS] [N_TEST_CHUNKS]
 """
@@ -34,6 +36,7 @@ import blt_layouts
 import blt_load
 import registry
 
+TYPED = os.environ.get("SEGR_CODE_TYPED") == "1"
 MODEL = "itazap/blt-1b-hf"
 BUDGETS = (0.15, 0.10)
 CHUNK = 800
@@ -82,10 +85,15 @@ def main(n_train, n_test):
     def prep(b):
         ids = torch.tensor([[1] + [x + 4 for x in b]], device=dev)          # BOS + byte tokens (byte + 4)
         with torch.no_grad():
-            ent, dl, _ = model.model.patcher(ids, patch_size=cfg.patch_size, threshold=cfg.patching_threshold,
-                                             max_patch_length=cfg.max_patch_length)
+            ent, dl, lg = model.model.patcher(ids, patch_size=cfg.patch_size, threshold=cfg.patching_threshold,
+                                              max_patch_length=cfg.max_patch_length)
         n = ids.shape[1]; e = ent[0].float().cpu().numpy()
         score = np.full(n, -np.inf); score[2:] = e[1:n - 1]
+        if TYPED:                                                           # typed uncertainty, same position shift
+            import typed_screen
+            T = typed_screen.typed(torch.log_softmax(lg[0, :, 4:260].float(), -1).cpu().numpy())[3]
+            tscore = np.full(n, -np.inf); tscore[2:] = T[1:n - 1]
+            TS[id(score)] = tscore
         return ids, n, score, np.r_[0, np.cumsum(dl[0].cpu().numpy())[:-1]]
 
     def L(st, n):
@@ -96,6 +104,7 @@ def main(n_train, n_test):
         with torch.no_grad():
             return torch.log_softmax(model(input_ids=ids, patch_lengths=L(st, n), use_cache=False).logits[0].float(), -1)
 
+    TS = {}                                                               # typed score per entropy array (TYPED)
     t0 = time.time()
     print(f"fitting boundary dependence on {n_train} train chunks", flush=True)
     s2, s1 = defaultdict(list), defaultdict(list)
@@ -120,14 +129,16 @@ def main(n_train, n_test):
         dep = np.full(n, -np.inf); dep[2:] = [dep_at(b, t - 1) for t in range(2, n)]
         return dep
 
-    layouts = ["default"] + [f"{k}@{int(r * 100)}" for r in BUDGETS for k in ("entropy", "dep", "entdep", "oracle")]
-    kind_of = {"entropy": "entropy", "dep": "dep", "entdep": "entropy+dep", "oracle": "forced"}
+    layouts = ["default"] + [f"{k}@{int(r * 100)}" for r in BUDGETS
+                             for k in ("entropy", "dep", "entdep", "oracle") + (("typed",) if TYPED else ())]
+    kind_of = {"entropy": "entropy", "dep": "dep", "entdep": "entropy+dep", "oracle": "forced", "typed": "T"}
+    sig_of = lambda b, n, score: {"entropy": score, "dep": dep_of(b, n), **({"T": TS[id(score)]} if TYPED else {})}
     fit = None
     if blt_layouts.MODE == "train":
         # budget thresholds fitted on the same TRAIN chunks, applied position by position at test time (#26)
         fit = blt_layouts.Fit(BUDGETS)
         for b, n, score in train_seen:
-            fit.add({"entropy": score, "dep": dep_of(b, n)}, [s + 1 for s, _ in targets(b)])
+            fit.add(sig_of(b, n, score), [s + 1 for s, _ in targets(b)])
         fit.done()
         print("  train patch rates: " + ", ".join(
             f"{l} {fit.rate(kind_of[l.split('@')[0]], int(l.split('@')[1]) / 100):.3f}" for l in layouts[1:]), flush=True)
@@ -141,7 +152,7 @@ def main(n_train, n_test):
         pid += [used - 1] * len(spans)
         ids, n, score, default = prep(b)
         tstarts = [s + 1 for s, _ in spans]                                  # token = byte + 1
-        sig = {"entropy": score, "dep": dep_of(b, n)}
+        sig = sig_of(b, n, score)
         lay = {"default": default}
         for name in layouts[1:]:
             k, R = name.split("@")
@@ -160,8 +171,9 @@ def main(n_train, n_test):
     for name in layouts:
         s = st_[name]
         registry.emit("realblt_code", f"RESULT {name:11s} patch rate {np.mean(s['rate']):.3f} | covered {np.mean(s['cov']):5.1%} | repeated identifiers: {np.mean(s['bits']):.3f} bits, "
-              f"exact {np.mean(s['exact']):5.1%}", experiment="blt_code", thresh=blt_layouts.MODE, window=blt_load.WINDOW)
-    registry.save_items(f"blt_code_{blt_layouts.MODE}{blt_load.SUFFIX}", {"layouts": st_, "pid": pid}, experiment="blt_code",
+              f"exact {np.mean(s['exact']):5.1%}", experiment="blt_code" + ("_typed" if TYPED else ""), thresh=blt_layouts.MODE, window=blt_load.WINDOW)
+    registry.save_items(f"blt_code{'_typed' if TYPED else ''}_{blt_layouts.MODE}{blt_load.SUFFIX}", {"layouts": st_, "pid": pid},
+                        experiment="blt_code" + ("_typed" if TYPED else ""),
                         thresh=blt_layouts.MODE, n_chunks=used)
 
 

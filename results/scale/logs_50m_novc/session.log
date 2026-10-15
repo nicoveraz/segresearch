@@ -1,0 +1,16 @@
+== setup Wed Oct 14 01:11:14 UTC 2026
+2.8.0+cu128 NVIDIA A40
+== corpus and the novc13 mask Wed Oct 14 01:12:59 UTC 2026
+  downloading data/train-00000-of-00114-5a023365406cb9c4.parquet (236 MB)
+  downloading data/train-00001-of-00114-e32fc2813a15f61c.parquet (238 MB)
+  downloading data/train-00002-of-00114-1429d96b99aec578.parquet (238 MB)
+  downloading data/train-00003-of-00114-e7fc257ef044bc03.parquet (242 MB)
+building the corpus
+corpus verified: 1.90 GB
+entropy scored in 410s
+  novc13            threshold -2.1526  train rate 0.1282  val rate 0.1142
+== runs Wed Oct 14 01:21:31 UTC 2026
+  done 50m novc13 s2
+  done 50m novc13 s0
+  done 50m novc13 s1
+== packing Wed Oct 14 10:49:56 UTC 2026

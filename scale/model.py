@@ -21,6 +21,12 @@ import torch.nn.functional as F
 NEG = -1e9          # the MLX code masks with -1e9 (not -inf); kept so fully masked rows behave the same
 
 
+def _neg(a):
+    """NEG, or float16's most negative finite value when a is float16 (fp16 autocast on T4s: -1e9 overflows).
+    A fully masked row still gets a uniform softmax, as with -1e9; fp32 and bf16 are unchanged."""
+    return torch.finfo(torch.float16).min if a.dtype == torch.float16 else NEG
+
+
 def ln(x, g):
     m = x.mean(-1, keepdim=True)
     v = ((x - m) ** 2).mean(-1, keepdim=True)
@@ -47,7 +53,7 @@ class Block(nn.Module):
         q, k, v = (ln(h, self.ln1) @ self.qkv).split(D, -1)
         sh = lambda t: t.view(B, T, nh, hd).transpose(1, 2)
         a = (sh(q) @ sh(k).transpose(-1, -2)) / math.sqrt(hd)
-        a = a.masked_fill(~mask[:, None], NEG)
+        a = a.masked_fill(~mask[:, None], _neg(a))
         h = h + (a.softmax(-1) @ sh(v)).transpose(1, 2).reshape(B, T, D) @ self.o
         return h + gelu_approx(ln(h, self.ln2) @ self.w1) @ self.w2
 
@@ -100,7 +106,8 @@ class BLTLite(nn.Module):
         k = (en @ X.k).view(B, T, 4, hd).transpose(1, 2)
         v = (en @ X.v).view(B, T, 4, hd).transpose(1, 2)
         mine = (pid[:, None, :] == torch.arange(P, device=e.device)[None, :, None])[:, None]   # (B, 1, P, T)
-        a = ((q @ k.transpose(-1, -2)) / math.sqrt(hd)).masked_fill(~mine, NEG)
+        a = (q @ k.transpose(-1, -2)) / math.sqrt(hd)
+        a = a.masked_fill(~mine, _neg(a))
         out = (a.softmax(-1) @ v).transpose(1, 2).reshape(B, P, D)
         return mean + out @ X.o
 

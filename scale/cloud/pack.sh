@@ -11,6 +11,6 @@ cp "$ROOT"/scale/cloud/*.sh "$ROOT"/scale/cloud/*.py "$TMP/pilot/scale/cloud/"
 cp "$ROOT"/registry.py "$TMP/pilot/"
 cp -r "$BUNDLE" "$TMP/pilot/bundle"
 (cd "$ROOT" && git rev-parse HEAD) > "$TMP/pilot/COMMIT"
-tar czf "$OUT" -C "$TMP" pilot
+COPYFILE_DISABLE=1 tar --no-mac-metadata -czf "$OUT" -C "$TMP" pilot   # no macOS metadata (Linux tar warns about it)
 rm -rf "$TMP"
 echo "packed $(du -h "$OUT" | cut -f1) -> $OUT (commit $(cd "$ROOT" && git rev-parse --short HEAD))"

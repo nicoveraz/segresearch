@@ -1,0 +1,21 @@
+{
+ "domain": "prose",
+ "rule": "novelty",
+ "seed": 1,
+ "bpb": 1.7383817779794084,
+ "bpb_new": 1.7660432463378366,
+ "bpb_copy": 1.5267416373557825,
+ "val_rate": 0.10333686403646762,
+ "train_seconds": 2790,
+ "cfg": {
+  "d": 320,
+  "glayers": 8,
+  "bs": 128,
+  "steps": 30500,
+  "lr": 0.0012,
+  "warmup": 1000,
+  "micro": 128,
+  "seed": 1
+ },
+ "device": "Tesla T4"
+}

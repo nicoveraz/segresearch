@@ -1,0 +1,20 @@
+ok 2.8.0+cu128 2.8.3.post2 2.3.1
+-rw-r--r-- 1 root root 6414086360 Oct 14 03:25 /workspace/hnet_ckpt/hnet_2stage_XL.pt
+-rw-r--r-- 1 root root 5083413223 Oct 14 03:27 /workspace/hnet_ckpt/hnet_1stage_XL.pt
+500 Python chunks (<= 1000 bytes)
+== hnet_2stage_XL
+  100 chunks, 105s
+  200 chunks, 128s
+  300 chunks, 151s
+  400 chunks, 174s
+  500 chunks, 197s
+  stage 0: chunk rate 0.641 | chunk starts at: stmt 59% (100% with space), rhs 80% (86% with space), tok 60% (94% with space), mid 40% (40% with space)
+  stage 1: chunk rate 0.265 | chunk starts at: stmt 33% (45% with space), rhs 28% (35% with space), tok 12% (65% with space), mid 4% (4% with space)
+== hnet_1stage_XL
+  100 chunks, 17s
+  200 chunks, 35s
+  300 chunks, 52s
+  400 chunks, 70s
+  500 chunks, 87s
+  stage 0: chunk rate 0.508 | chunk starts at: stmt 33% (100% with space), rhs 41% (65% with space), tok 21% (88% with space), mid 18% (18% with space)
+-> /workspace/work/logs/hnet_code.json

@@ -1,0 +1,27 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:12<54:13,  6.41s/it]Loading weights: 100%|██████████| 510/510 [00:12<00:00, 39.77it/s]
+[trace] fitting boundary dependence on 300 train problems
+  149 contexts; top: b'w ' 0.37, b'ow' 0.35, b'no' 0.28, b' 1' 0.26, b'12' 0.21, b'14' 0.21, b'17' 0.20, b'16' 0.18, b'37' 0.17, b' 2' 0.17
+  train patch rates: entropy@15 0.150, entdep@15 0.150, oracle@15 0.150, typed@15 0.150, entropy@10 0.100, entdep@10 0.100, oracle@10 0.100, typed@10 0.100
+  25 test problems, 205s
+  50 test problems, 250s
+  75 test problems, 295s
+  100 test problems, 340s
+  125 test problems, 384s
+  150 test problems, 430s
+  175 test problems, 476s
+  200 test problems, 520s
+  225 test problems, 561s
+  250 test problems, 604s
+  275 test problems, 646s
+  300 test problems, 690s
+
+BLT-1B, task trace: 300 test problems, budget thresholds: train; targets computed 2469, copy 1716
+RESULT default     patch rate 0.318 | computed: covered 92.3%, 2.715 bits, exact 20.5% | copy: covered 97.1%, 0.375 bits, exact 82.5%
+RESULT entropy@15  patch rate 0.150 | computed: covered 35.7%, 3.593 bits, exact 11.1% | copy: covered 54.4%, 0.774 bits, exact 66.7%
+RESULT entdep@15   patch rate 0.149 | computed: covered 100.0%, 3.462 bits, exact 10.9% | copy: covered 100.0%, 0.889 bits, exact 67.2%
+RESULT oracle@15   patch rate 0.149 | computed: covered 100.0%, 3.362 bits, exact 12.8% | copy: covered 100.0%, 0.663 bits, exact 72.2%
+RESULT typed@15    patch rate 0.148 | computed: covered 82.7%, 3.456 bits, exact 12.3% | copy: covered 92.6%, 0.784 bits, exact 76.7%
+RESULT entropy@10  patch rate 0.099 | computed: covered 14.3%, 3.863 bits, exact 10.0% | copy: covered 31.5%, 0.974 bits, exact 58.3%
+RESULT entdep@10   patch rate 0.099 | computed: covered 100.0%, 3.761 bits, exact  9.0% | copy: covered 100.0%, 1.004 bits, exact 62.3%
+RESULT oracle@10   patch rate 0.099 | computed: covered 100.0%, 3.636 bits, exact  9.7% | copy: covered 100.0%, 0.971 bits, exact 61.0%
+RESULT typed@10    patch rate 0.098 | computed: covered 64.8%, 3.804 bits, exact  9.6% | copy: covered 72.6%, 1.164 bits, exact 62.9%

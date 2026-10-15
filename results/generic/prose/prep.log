@@ -1,0 +1,30 @@
+prose: 539 MB train, 1.1 MB val
+{"thr_entropy": 4.794213771820068, "thr_novelty": -1.7358675003051758, "train_rate": {"entropy10": 0.10005163235641687, "novelty": 0.10479323648191281}, "val_rate": {"entropy10": 0.10133377617732406, "novelty": 0.1033370625458868}, "val_copy_share": 0.11628772783522454, "seconds": 364}
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Generating test split:   0%|          | 0/4358 [00:00<?, ? examples/s]
+Generating test split: 100%|██████████| 4358/4358 [00:00<00:00, 46122.31 examples/s]
+
+Generating train split:   0%|          | 0/1801350 [00:00<?, ? examples/s]
+Generating train split:   4%|▎         | 66000/1801350 [00:00<00:02, 648073.77 examples/s]
+Generating train split:   9%|▊         | 157000/1801350 [00:00<00:02, 796641.91 examples/s]
+Generating train split:  13%|█▎        | 240000/1801350 [00:00<00:02, 771259.53 examples/s]
+Generating train split:  19%|█▊        | 335000/1801350 [00:00<00:01, 835880.92 examples/s]
+Generating train split:  25%|██▌       | 453000/1801350 [00:00<00:01, 806641.83 examples/s]
+Generating train split:  30%|███       | 544000/1801350 [00:00<00:01, 833781.03 examples/s]
+Generating train split:  37%|███▋      | 672000/1801350 [00:00<00:01, 812559.90 examples/s]
+Generating train split:  42%|████▏     | 755000/1801350 [00:00<00:01, 815315.30 examples/s]
+Generating train split:  48%|████▊     | 865000/1801350 [00:01<00:01, 781467.78 examples/s]
+Generating train split:  55%|█████▍    | 987675/1801350 [00:01<00:01, 760450.92 examples/s]
+Generating train split:  60%|█████▉    | 1074675/1801350 [00:01<00:00, 784217.35 examples/s]
+Generating train split:  66%|██████▌   | 1192675/1801350 [00:01<00:00, 781819.21 examples/s]
+Generating train split:  71%|███████▏  | 1285675/1801350 [00:01<00:00, 774810.69 examples/s]
+Generating train split:  77%|███████▋  | 1378675/1801350 [00:01<00:00, 811868.83 examples/s]
+Generating train split:  82%|████████▏ | 1471675/1801350 [00:01<00:00, 840992.31 examples/s]
+Generating train split:  88%|████████▊ | 1592675/1801350 [00:01<00:00, 823783.26 examples/s]
+Generating train split:  93%|█████████▎| 1676675/1801350 [00:02<00:00, 825630.97 examples/s]
+Generating train split:  98%|█████████▊| 1768675/1801350 [00:02<00:00, 848224.98 examples/s]
+Generating train split: 100%|██████████| 1801350/1801350 [00:02<00:00, 808537.69 examples/s]
+
+Generating validation split:   0%|          | 0/3760 [00:00<?, ? examples/s]
+Generating validation split: 100%|██████████| 3760/3760 [00:00<00:00, 626189.52 examples/s]

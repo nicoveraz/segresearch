@@ -1,0 +1,18 @@
+== setup Wed Oct 14 13:49:25 UTC 2026
+2.8.0+cu128 NVIDIA A40
+== corpus and the entropy10 and dep10 masks Wed Oct 14 13:49:30 UTC 2026
+  downloading data/train-00000-of-00114-5a023365406cb9c4.parquet (236 MB)
+  downloading data/train-00001-of-00114-e32fc2813a15f61c.parquet (238 MB)
+  downloading data/train-00002-of-00114-1429d96b99aec578.parquet (238 MB)
+  downloading data/train-00003-of-00114-e7fc257ef044bc03.parquet (242 MB)
+building the corpus
+corpus verified: 1.90 GB
+entropy scored in 403s
+  entropy10         threshold 4.8972  train rate 0.1000  val rate 0.1120
+  dep10             threshold 0.1235  train rate 0.0993  val rate 0.1089
+== runs Wed Oct 14 13:57:39 UTC 2026
+  done 50m dep10 s2
+  done 50m dep10 s1
+  done 50m entropy10 s2
+  done 50m entropy10 s1
+== packing Thu Oct 15 02:01:27 UTC 2026

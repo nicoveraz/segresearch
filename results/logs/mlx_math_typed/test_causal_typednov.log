@@ -1,0 +1,70 @@
+Rules: 40 windows of 1024 bytes x 8 positions t each; a leak = output at positions <= t changed
+  PASS   rule        boundary.py (H12)                                         0/320
+  PASS   rule        baselines.stride                                          0/320
+  PASS   rule        baselines.blt_entropy                                     0/320
+  PASS   rule        baselines.excess_vs_reference                             0/320
+  PASS   rule        baselines.trajectory_gated                                0/320
+  SPLIT  split-level harness.masks budget step (blt_entropy, eval split)     229/320  earliest change t-472
+  CAUGHT control     surprisal level (reads byte t)                          320/320  earliest change t-0
+  CAUGHT control     reference surprisal jump                                320/320  earliest change t-0
+  PASS   rule        realtext.words                                            0/320
+  PASS   rule        realtext.words+jump20                                     0/320
+  PASS   rule        realtext.words+jump25                                     0/320
+  SPLIT  split-level realtext.entropy (refits on the split if over budget)   237/320  earliest change t-16
+  SPLIT  split-level realtext.jump25 (refits on the split if over budget)    222/320  earliest change t-494
+  CAUGHT control     word starts before 7338f28                                8/320  earliest change t-0
+  PASS   rule        mathexp.entropy                                           0/320
+  PASS   rule        mathexp.jump                                              0/320
+  PASS   rule        mathexp.syntax+jump                                       0/320
+  PASS   rule        mathexp.words                                             0/320
+  PASS   rule        mathexp.words+jump                                        0/320
+  PASS   rule        mathexp.syntax                                            0/320
+  PASS   rule        mathexp.stride6+syntax                                    0/320
+  PASS   rule        mathexp.words+syntax                                      0/320
+  PASS   rule        mathexp.words+syntax+digits                               0/320
+  PASS   rule        mathexp.words+syntax+ops                                  0/320
+  PASS   rule        mathexp.words+syntax+rand07                               0/320
+  PASS   rule        mathexp.words+syntax+rand22                               0/320
+  PASS   rule        mathexp.entropy10                                         0/320
+  PASS   rule        mathexp.jump10                                            0/320
+  PASS   rule        mathexp.syntax+entropy10                                  0/320
+  PASS   rule        mathexp.dep10                                             0/320
+  PASS   rule        mathexp.entdep10                                          0/320
+  PASS   rule        mathexp.nov10                                             0/320
+  PASS   rule        mathexp.entnov10                                          0/320
+  PASS   rule        mathexp.final+nov10                                       0/320
+  PASS   rule        mathexp.typed10                                           0/320
+  PASS   rule        mathexp.typedc10                                          0/320
+  PASS   rule        mathexp.typednov10                                        0/320
+  PASS   rule        mathexp.sp:none                                           0/320
+  PASS   rule        mathexp.sp:dense5                                         0/320
+  PASS   rule        mathexp.sp:entropy                                        0/320
+  PASS   rule        mathexp.sp:jump                                           0/320
+  PASS   rule        mathexp.sp:syntax                                         0/320
+  PASS   rule        mathexp.sp:random                                         0/320
+  PASS   rule        mathexp.sp:learned                                        0/320
+  PASS   rule        mathexp.sp16:none                                         0/320
+  PASS   rule        mathexp.sp16:dense8                                       0/320
+  PASS   rule        mathexp.sp16:entropy                                      0/320
+  PASS   rule        mathexp.sp16:jump                                         0/320
+  PASS   rule        mathexp.sp16:syntax                                       0/320
+  PASS   rule        mathexp.sp16:random                                       0/320
+  PASS   rule        mathexp.sp16:learned                                      0/320
+Models: 12 trials each; leak = logits <= t changed; blind = logits at t ignore byte t
+  PASS   harness model pool=sum local=patch scratch=0                        leaks 0  blind 0
+  PASS   harness model pool=sum local=window scratch=0                       leaks 0  blind 0
+  PASS   harness model pool=xattn local=patch scratch=0                      leaks 0  blind 0
+  PASS   harness model pool=xattn local=window scratch=0                     leaks 0  blind 0
+  PASS   harness model pool=sum local=patch scratch=1                        leaks 0  blind 0
+  PASS   harness model pool=sum local=window scratch=1                       leaks 0  blind 0
+  PASS   harness model pool=xattn local=patch scratch=1                      leaks 0  blind 0
+  PASS   harness model pool=xattn local=window scratch=1                     leaks 0  blind 0
+  PASS   learned_chunking model local=patch                                  leaks 0  blind 0
+  PASS   learned_chunking model local=window                                 leaks 0  blind 0
+  PASS   prepare.score_stream (entropy scorer)                               leaks 0  blind 0
+BLT-1B layouts (blt_layouts.py, synthetic token signals)
+  PASS   rule        problem mode reproduces the old inline layouts (800/800 identical)
+  PASS   rule        train mode: starts <= t unchanged when signals after t change (0/480 changed)
+  SPLIT  split-level problem mode: starts <= t unchanged when signals after t change (328/480 changed)
+  PASS   rule        train mode: mean patch rate on train within 0.01 of R (worst gap 0.0001)
+all must-pass checks passed

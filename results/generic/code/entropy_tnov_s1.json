@@ -1,0 +1,21 @@
+{
+ "domain": "code",
+ "rule": "entropy_tnov",
+ "seed": 1,
+ "bpb": 1.727742618003446,
+ "bpb_new": 1.9889942775085867,
+ "bpb_copy": 1.2773331099342096,
+ "val_rate": 0.05879926681518555,
+ "train_seconds": 3308,
+ "cfg": {
+  "d": 320,
+  "glayers": 8,
+  "bs": 128,
+  "steps": 30500,
+  "lr": 0.0012,
+  "warmup": 1000,
+  "micro": 128,
+  "seed": 1
+ },
+ "device": "Tesla T4"
+}

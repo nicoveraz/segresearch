@@ -1,0 +1,20 @@
+== code: 5.9 MB train, 1.5 MB held out
+  novelty target (10s)
+    novelty, 2-byte table  rate 10.2%  rank corr 0.39 | line/statement start:   0% cov,  0% of bd (chance  2%) | after '='/'return '/'(':   0% cov,  0% of bd (chance  2%) | token start:  28% cov, 30% of bd (chance 11%) | mid-identifier:  12% cov, 57% of bd (chance 50%) |
+    novelty, network       rate 10.1%  rank corr 0.52 | line/statement start:   9% cov,  2% of bd (chance  2%) | after '='/'return '/'(':   2% cov,  0% of bd (chance  2%) | token start:  13% cov, 15% of bd (chance 11%) | mid-identifier:  14% cov, 68% of bd (chance 50%) |
+    novelty, true target   rate  7.6%  rank corr 1.00 | line/statement start:  18% cov,  6% of bd (chance  2%) | after '='/'return '/'(':  12% cov,  3% of bd (chance  2%) | token start:  16% cov, 23% of bd (chance 11%) | mid-identifier:   7% cov, 49% of bd (chance 50%) |
+  gain target: reference 6000 updates + samples (243s)
+  gain rank corr on held-out sampled positions: table 0.07 (fitted on all, optimistic), network 0.03
+    gain, 2-byte table     rate 10.0%  rank corr 0.02 | line/statement start:   1% cov,  0% of bd (chance  2%) | after '='/'return '/'(':   9% cov,  1% of bd (chance  2%) | token start:  10% cov, 11% of bd (chance 11%) | mid-identifier:  14% cov, 71% of bd (chance 50%) |
+    gain, network          rate 10.1%  rank corr -0.00 | line/statement start:   7% cov,  2% of bd (chance  2%) | after '='/'return '/'(':  12% cov,  2% of bd (chance  2%) | token start:  10% cov, 11% of bd (chance 11%) | mid-identifier:  12% cov, 57% of bd (chance 50%) |
+  code done in 881s
+== math: 6.0 MB train, 0.9 MB held out
+  novelty target (8s)
+    novelty, 2-byte table  rate  9.5%  rank corr 0.22 | line/statement start:  75% cov,  9% of bd (chance  1%) | after '='/'return '/'(':  26% cov,  5% of bd (chance  2%) | token start:  15% cov, 32% of bd (chance 20%) | mid-identifier:   5% cov, 27% of bd (chance 47%) |
+    novelty, network       rate 10.0%  rank corr 0.44 | line/statement start:  38% cov,  4% of bd (chance  1%) | after '='/'return '/'(':  21% cov,  4% of bd (chance  2%) | token start:  13% cov, 26% of bd (chance 20%) | mid-identifier:   8% cov, 37% of bd (chance 47%) |
+    novelty, true target   rate  9.0%  rank corr 1.00 | line/statement start:  52% cov,  6% of bd (chance  1%) | after '='/'return '/'(':  15% cov,  3% of bd (chance  2%) | token start:  16% cov, 35% of bd (chance 20%) | mid-identifier:   6% cov, 32% of bd (chance 47%) |
+  gain target: reference 6000 updates + samples (96s)
+  gain rank corr on held-out sampled positions: table 0.10 (fitted on all, optimistic), network 0.03
+    gain, 2-byte table     rate  9.9%  rank corr 0.00 | line/statement start:  27% cov,  3% of bd (chance  1%) | after '='/'return '/'(':  29% cov,  6% of bd (chance  2%) | token start:  10% cov, 19% of bd (chance 20%) | mid-identifier:  11% cov, 51% of bd (chance 47%) |
+    gain, network          rate 10.0%  rank corr 0.00 | line/statement start:  11% cov,  1% of bd (chance  1%) | after '='/'return '/'(':  13% cov,  3% of bd (chance  2%) | token start:  12% cov, 23% of bd (chance 20%) | mid-identifier:  10% cov, 45% of bd (chance 47%) |
+  math done in 607s

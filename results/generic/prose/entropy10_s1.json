@@ -1,0 +1,21 @@
+{
+ "domain": "prose",
+ "rule": "entropy10",
+ "seed": 1,
+ "bpb": 1.8540932407948096,
+ "bpb_new": 1.8833578883509672,
+ "bpb_copy": 1.6301870459452947,
+ "val_rate": 0.10132331452622159,
+ "train_seconds": 2810,
+ "cfg": {
+  "d": 320,
+  "glayers": 8,
+  "bs": 128,
+  "steps": 30500,
+  "lr": 0.0012,
+  "warmup": 1000,
+  "micro": 128,
+  "seed": 1
+ },
+ "device": "Tesla T4"
+}

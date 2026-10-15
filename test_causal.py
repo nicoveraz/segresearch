@@ -148,7 +148,7 @@ def realtext_cases():
 
 MATH_RULES = ["entropy", "jump", "syntax+jump", "words", "words+jump", "syntax", "stride6+syntax", "words+syntax",
               "words+syntax+digits", "words+syntax+ops", "words+syntax+rand07", "words+syntax+rand22",
-              "entropy10", "jump10", "syntax+entropy10", "dep10", "entdep10", "nov10", "entnov10", "final+nov10",
+              "entropy10", "jump10", "syntax+entropy10", "dep10", "entdep10", "nov10", "entnov10", "final+nov10", "typed10", "typedc10", "typednov10", "final+typed10",
               "sp:none", "sp:dense5", "sp:entropy", "sp:jump", "sp:syntax", "sp:random", "sp:learned",
               "sp16:none", "sp16:dense8", "sp16:entropy", "sp16:jump", "sp16:syntax", "sp16:random", "sp16:learned"]
 

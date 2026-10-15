@@ -96,6 +96,13 @@ def run(model, probs):
             for k, pos in targets.items():
                 for x in pos:
                     add(f"s{st}_{k}", x in S)
+                    # H-Net chunks like BPE tokens: a chunk often starts AT the space before a word or number
+                    add(f"s{st}_{k}_sp", x in S or (x >= 1 and b[x - 1] in b" \n" and (x - 1) in S))
+                    if k != "all":                                  # bytes back to the nearest chunk start (0 = at x)
+                        g = next((d for d in range(0, 8) if (x - d) in S), 8)
+                        for d in (0, 1, 2, 3):
+                            add(f"s{st}_{k}_gap{d}", g == d)
+                        add(f"s{st}_{k}_gap4+", g >= 4)
         for k, pos in targets.items():
             for x in pos:
                 add(f"H_{k}", float(H[x]))                     # entropy of the prediction of byte x (input x+1)
@@ -126,6 +133,12 @@ def main(n):
             print(f"  stage {st[1:]}: chunk rate {r[f'{st}_all']['mean']:.3f} | chunk starts at: computed results "
                   f"{r[f'{st}_res']['mean']:.1%}, final answers {r[f'{st}_fin']['mean']:.1%}, other numbers "
                   f"{r[f'{st}_num_other']['mean']:.1%}, word starts {r[f'{st}_word']['mean']:.1%}")
+            print(f"           counting a start at the preceding space: computed results {r[f'{st}_res_sp']['mean']:.1%}, "
+                  f"final answers {r[f'{st}_fin_sp']['mean']:.1%}, other numbers {r[f'{st}_num_other_sp']['mean']:.1%}, "
+                  f"word starts {r[f'{st}_word_sp']['mean']:.1%}")
+            for k in ("res", "fin", "num_other", "word"):
+                print(f"           {k:9s} nearest chunk start 0/1/2/3/4+ bytes back: " + " / ".join(
+                    f"{r[f'{st}_{k}_gap{d}']['mean']:.0%}" for d in ("0", "1", "2", "3", "4+")))
         print(f"  next-byte entropy (bits): results {r['H_res']['mean']:.2f}, final {r['H_fin']['mean']:.2f}, "
               f"other numbers {r['H_num_other']['mean']:.2f}, words {r['H_word']['mean']:.2f}, all {r['H_all']['mean']:.2f}")
         cov, unc = r.get("exact_res_covered", {}), r.get("exact_res_uncovered", {})

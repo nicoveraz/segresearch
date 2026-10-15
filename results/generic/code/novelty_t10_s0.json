@@ -1,0 +1,21 @@
+{
+ "domain": "code",
+ "rule": "novelty_t10",
+ "seed": 0,
+ "bpb": 1.537390454227359,
+ "bpb_new": 1.7765583950882824,
+ "bpb_copy": 1.1250542616337895,
+ "val_rate": 0.1311502456665039,
+ "train_seconds": 3612,
+ "cfg": {
+  "d": 320,
+  "glayers": 8,
+  "bs": 128,
+  "steps": 30500,
+  "lr": 0.0012,
+  "warmup": 1000,
+  "micro": 128,
+  "seed": 0
+ },
+ "device": "Tesla T4"
+}

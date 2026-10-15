@@ -1,0 +1,58 @@
+{
+ "entropy10": {
+  "rate": 0.10001554584020021,
+  "computed value": {
+   "covered": 0.0,
+   "share": 0.0,
+   "chance": 0.026647763687969235
+  },
+  "copied value": {
+   "covered": 0.0,
+   "share": 0.0,
+   "chance": 0.02092346105719343
+  },
+  "variable name (line start)": {
+   "covered": 0.21995917557701292,
+   "share": 0.16389729897251293,
+   "chance": 0.07452418284197034
+  },
+  "literal value": {
+   "covered": 0.5259814936041471,
+   "share": 0.14174553603356616,
+   "chance": 0.026952958096807665
+  },
+  "operator/operand": {
+   "covered": 0.8196166854565953,
+   "share": 0.21837556917062007,
+   "chance": 0.026647763687969235
+  }
+ },
+ "novelty": {
+  "rate": 0.10261542071049258,
+  "computed value": {
+   "covered": 0.0,
+   "share": 0.0,
+   "chance": 0.026647763687969235
+  },
+  "copied value": {
+   "covered": 0.0,
+   "share": 0.0,
+   "chance": 0.02092346105719343
+  },
+  "variable name (line start)": {
+   "covered": 1.0,
+   "share": 0.7262474034212104,
+   "chance": 0.07452418284197034
+  },
+  "literal value": {
+   "covered": 0.0,
+   "share": 0.0,
+   "chance": 0.026952958096807665
+  },
+  "operator/operand": {
+   "covered": 0.0,
+   "share": 0.0,
+   "chance": 0.026647763687969235
+  }
+ }
+}

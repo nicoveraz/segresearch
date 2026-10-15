@@ -2,7 +2,8 @@
 
 Mirrors mathexp._train: random windows of CTX bytes drawn with np.random.default_rng(seed), bd[:, 0] = 1, mean
 cross-entropy, AdamW (weight decay 0.01) with linear warmup and cosine decay to lr/10, exactly as prepare.adamw.
-Adds what the cloud needs: bf16 autocast on CUDA, checkpoints every few minutes, and resume.
+Adds what the cloud needs: bf16 autocast on CUDA (fp16 with loss scaling on GPUs without native bf16, e.g. the T4;
+SEGR_SCALE_AMP=bf16|fp16|fp32 overrides), checkpoints every few minutes, and resume.
 
 The corpus and masks are numpy arrays or memmaps (uint8 bytes; uint8 0/1 mask or a bit-packed mask, see
 scale/masks.py), so the same code runs on the Mac and on a rented GPU.
@@ -60,7 +61,7 @@ def make_model(cfg):
 
 
 def train(cfg, data, mask, ckpt=None, ckpt_minutes=10.0, log_every=500, model=None, dev=None, losses=None):
-    """cfg: d, glayers, steps, bs, lr, seed (+ pool, local, window, warmup, micro). Returns the trained model.
+    """cfg: d, glayers, steps, bs, lr, seed (+ pool, local, window, warmup, micro, clip). Returns the trained model.
     If ckpt is a path, saves model/optimizer/sampler state there every ckpt_minutes and resumes from it."""
     dev = dev or device()
     torch.manual_seed(cfg["seed"])
@@ -74,6 +75,11 @@ def train(cfg, data, mask, ckpt=None, ckpt_minutes=10.0, log_every=500, model=No
         batches.rng.bit_generator.state = st["rng"]; k0 = st["k"]
         print(f"  resumed from {ckpt} at update {k0}", flush=True)
     amp = dev.type == "cuda"
+    adt = os.environ.get("SEGR_SCALE_AMP") or ("bf16" if amp and torch.cuda.get_device_capability(dev)[0] >= 8 else "fp16")
+    amp = amp and adt != "fp32"
+    scaler = torch.amp.GradScaler("cuda", enabled=amp and adt == "fp16")   # fp16 needs loss scaling; bf16 does not
+    if ckpt and os.path.exists(ckpt) and "scaler" in st:
+        scaler.load_state_dict(st["scaler"])
     t_save = time.time(); t0 = time.time(); run = 0.0
     for k in range(k0, cfg["steps"]):
         x, y, bd = (torch.from_numpy(a).to(dev) for a in batches())
@@ -83,12 +89,16 @@ def train(cfg, data, mask, ckpt=None, ckpt_minutes=10.0, log_every=500, model=No
         micro = cfg.get("micro", cfg["bs"])            # gradient accumulation: same update, less memory
         loss = 0.0
         for c in range(0, cfg["bs"], micro):
-            with torch.autocast("cuda", dtype=torch.bfloat16, enabled=amp):
+            with torch.autocast("cuda", dtype=torch.bfloat16 if adt == "bf16" else torch.float16, enabled=amp):
                 logits = model(x[c:c + micro], bd[c:c + micro])
             part = F.cross_entropy(logits.float().reshape(-1, 256), y[c:c + micro].reshape(-1)) * (len(x[c:c + micro]) / cfg["bs"])
-            part.backward()
+            scaler.scale(part).backward()
             loss = loss + part.detach()
-        opt.step()
+        if cfg.get("clip"):                               # gradient-norm clipping (cfg["clip"], e.g. 1.0); off by default
+            scaler.unscale_(opt)
+            torch.nn.utils.clip_grad_norm_(model.parameters(), cfg["clip"])
+        scaler.step(opt)                                  # plain opt.step() when loss scaling is off
+        scaler.update()
         if losses is not None:
             losses.append(loss.item())
         if log_every and (k + 1) % log_every == 0:
@@ -98,7 +108,7 @@ def train(cfg, data, mask, ckpt=None, ckpt_minutes=10.0, log_every=500, model=No
         if ckpt and (time.time() - t_save > ckpt_minutes * 60 or k + 1 == cfg["steps"]):
             tmp = ckpt + ".tmp"
             torch.save({"model": model.state_dict(), "opt": opt.state_dict(),
-                        "rng": batches.rng.bit_generator.state, "k": k + 1, "cfg": cfg}, tmp)
+                        "rng": batches.rng.bit_generator.state, "k": k + 1, "cfg": cfg, "scaler": scaler.state_dict()}, tmp)
             os.replace(tmp, ckpt)
             t_save = time.time()
     return model

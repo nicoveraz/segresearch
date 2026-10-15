@@ -1,0 +1,11 @@
+[ 0.00 h] code: prep
+[ 0.12 h] code: prep done; {  "thr_entropy": 4.931272506713867,  "thr_novelty": -2.330014228820801,  "thr_novelty_t10": -2.4856197834014893,  "thr_entropy_tnov": 5.027021408081055,  "train_rate": {   "entropy10": 0.09995982445450911,   "novelty": 0.06599486301720682,   "novelty_t10": 0.11210579121327745,   "entropy_tnov": 0.0
+[ 0.12 h] code: start entropy10 s0 on GPU 0
+[ 0.12 h] code: start novelty s0 on GPU 1
+[ 1.03 h] code: done novelty s0 after 0.92 h
+[ 1.03 h] code: start entropy10 s1 on GPU 1
+[ 1.31 h] code: done entropy10 s0 after 1.19 h
+[ 1.31 h] code: start novelty s1 on GPU 0
+[ 2.22 h] code: done entropy10 s1 after 1.18 h
+[ 2.22 h] code: done novelty s1 after 0.92 h
+[ 2.23 h] session done

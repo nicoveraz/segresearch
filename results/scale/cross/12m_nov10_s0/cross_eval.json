@@ -1,0 +1,58 @@
+{
+ "nov10": {
+  "bpb": 1.6683862236859242,
+  "rate": 0.11947782221201225,
+  "computed_bits": 2.346592231145912,
+  "copy_bits": 0.12849272611618737,
+  "final_bits": 0.9111673559804035,
+  "boxed_bits": 2.108699031272166,
+  "computed_acc": 0.12,
+  "computed_n": 1000,
+  "final_acc": 0.6893939393939394,
+  "final_n": 660,
+  "boxed_acc": 0.02142857142857143,
+  "boxed_n": 700
+ },
+ "entropy10": {
+  "bpb": 2.561444170118832,
+  "rate": 0.11204459467695582,
+  "computed_bits": 3.2384763525363747,
+  "copy_bits": 3.9084625703508693,
+  "final_bits": 5.379259187274348,
+  "boxed_bits": 2.93482854553361,
+  "computed_acc": 0.038,
+  "computed_n": 1000,
+  "final_acc": 0.0,
+  "final_n": 660,
+  "boxed_acc": 0.0,
+  "boxed_n": 700
+ },
+ "typed14": {
+  "bpb": 2.8969320966661227,
+  "rate": 0.10565801996258772,
+  "computed_bits": 3.3138805757448098,
+  "copy_bits": 3.320948218742008,
+  "final_bits": 4.426708957612307,
+  "boxed_bits": 3.101386242545061,
+  "computed_acc": 0.022,
+  "computed_n": 1000,
+  "final_acc": 0.00909090909090909,
+  "final_n": 660,
+  "boxed_acc": 0.002857142857142857,
+  "boxed_n": 700
+ },
+ "final+typed14": {
+  "bpb": 2.898849184759956,
+  "rate": 0.1070012048814106,
+  "computed_bits": 3.3139260653494667,
+  "copy_bits": 3.320130880056033,
+  "final_bits": 5.218974963892328,
+  "boxed_bits": 2.8898277946012296,
+  "computed_acc": 0.022,
+  "computed_n": 1000,
+  "final_acc": 0.0,
+  "final_n": 660,
+  "boxed_acc": 0.0014285714285714286,
+  "boxed_n": 700
+ }
+}

@@ -1,0 +1,26 @@
+{
+ "entropy10": {
+  "name": "entropy10",
+  "thr": 4.897160053253174
+ },
+ "dep10": {
+  "name": "dep10",
+  "thr": 0.1235247403383255
+ },
+ "syntax+entropy10": {
+  "name": "syntax+entropy10",
+  "thr": 4.915890693664551
+ },
+ "nov10": {
+  "name": "nov10",
+  "thr": -2.4909090995788574
+ },
+ "typed14": {
+  "name": "typed14",
+  "thr": 0.7138575315475464
+ },
+ "final+typed14": {
+  "name": "final+typed14",
+  "thr": 0.714120090007782
+ }
+}

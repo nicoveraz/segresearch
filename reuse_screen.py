@@ -27,9 +27,7 @@ import sys
 
 import numpy as np
 
-import mathexp
-import realtext
-from prepare import CTX, RI
+CTX = 128                               # prepare.CTX (kept literal so this module imports without MLX)
 
 CORPORA = {"math": os.path.expanduser("~/.cache/segresearch-math/math.npz"),
            "reason": os.path.expanduser("~/.cache/segresearch-reason/math.npz")}
@@ -70,6 +68,7 @@ def match_signals(b, W=CTX, cap=CAP):
 
 
 def starts(roles, role):
+    from prepare import RI
     m = roles == RI[role]
     return m & ~np.r_[False, m[:-1]]
 
@@ -107,6 +106,8 @@ def net_fit(b, target, K, epochs):
 
 def main(K, epochs):
     import deptrigger
+    import mathexp
+    import realtext
     data = {}
     for c, path in CORPORA.items():
         z = np.load(path)

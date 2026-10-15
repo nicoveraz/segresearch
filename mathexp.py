@@ -25,6 +25,12 @@ Patch rules, in two compute groups:
                                 preceding 2-byte context (how often the next bytes do NOT repeat the last 128 bytes;
                                 reuse_screen.py fit), alone, plus entropy (standardized), or with a patch forced after
                                 the final-answer markers '#### ' and '\\boxed{' and the rest of the budget by novelty
+          typedR / typedcR      tight budget, label-free, causal (typed_screen.py): the small model sure of the KIND of the
+                                next byte (digit, letter, ...) but ignorant of WHICH one: T = P(likeliest class) x
+                                within-class entropy / log2|class|; typedc = standardized T minus class entropy
+          final+typedR          tight budget: a patch forced after the final-answer markers '#### ' and '\\boxed{' (format
+                                cue), the rest of the budget by typed uncertainty
+          typednovR             tight budget, label-free: typed uncertainty + the novelty table (standardized sum)
           entdepR / depR        tight budget, label-free: entropy + boundary dependence (standardized), or dependence
                                 alone, to R% (table fitted by deptrigger.py from the model's own losses)
           syntax / stride6+syntax   math syntax alone / plus a patch every 6 bytes (syntax without word alignment)
@@ -267,7 +273,7 @@ class Rule:
                 raise SystemExit(f"unknown rule {name}")
             self.name = name
             return
-        m = re.fullmatch(r"(entropy|jump|syntax\+entropy|dep|entdep|ndep|nov|entnov|final\+nov)(\d+)", name)
+        m = re.fullmatch(r"(entropy|jump|syntax\+entropy|dep|entdep|ndep|nov|entnov|final\+nov|typed|typedc|typednov|final\+typed)(\d+)", name)
         if m:
             # tight budget: R% of bytes start a patch (entropy10, dep15, syntax+entropy20, ...)
             self.kind, R = m.group(1), int(m.group(2)) / 100
@@ -289,6 +295,20 @@ class Rule:
                     self.thr = np.quantile(Ntr[rest], 1 - (R - fin.mean()) / rest.mean())
                 else:
                     self.thr = np.quantile(self.score(btr, Htr) if self.kind == "entnov" else Ntr, 1 - R)
+            elif self.kind in ("typed", "typedc", "typednov", "final+typed"):   # typed uncertainty from the small model
+                self.pat = _patcher(z if hasattr(z, "files") else np.load(NPZ))   # a dict of arrays has no model
+                Ttr, Ctr = self.typed(btr)
+                if self.kind == "typednov":                          # second signal: the novelty table (#31)
+                    import deptrigger
+                    t = np.load(os.path.join(CACHE, "novtab.npz"))
+                    self.dep = lambda b: deptrigger.table_lookup(t["T2"], t["T1"], float(t["glob"]), b) if len(b) else np.zeros(0, np.float32)
+                    Ctr = self.dep(btr)
+                self.mu = (float(Ttr.mean()), float(Ttr.std()), float(Ctr.mean()), float(Ctr.std()))
+                if self.kind == "final+typed":                       # format cue for answers, rest by typed
+                    fin = _syntax_starts(btr, FINAL); rest = ~fin
+                    self.thr = np.quantile(Ttr[rest], 1 - (R - fin.mean()) / rest.mean())
+                else:
+                    self.thr = np.quantile(self.tscore(btr), 1 - R)
             elif self.kind == "ndep":                                    # learned patcher (neural_patcher.py)
                 import neural_patcher
                 net = neural_patcher.load(os.environ.get("SEGR_NPATCH"))
@@ -320,6 +340,34 @@ class Rule:
         elif name not in ("words", "syntax", "stride6+syntax", "words+syntax", "words+syntax+digits", "words+syntax+ops"):
             raise SystemExit(f"unknown rule {name}")
 
+    def typed(self, b):
+        """(T, Hclass) for every byte of b, from the small model's next-byte distribution given the bytes before it:
+        windowed as score_stream for long streams, from the window start for short ones (as _entropy_window)."""
+        import typed_screen
+        import hashlib
+        key = hashlib.blake2b(np.ascontiguousarray(b).tobytes(), digest_size=16).digest()   # the whole text
+        if getattr(self, "_memo", (None,))[0] == key:
+            return self._memo[1]
+        if len(b) > 4 * CTX:
+            _, Hc, _, T = typed_screen.score_typed(self.pat, PATCHER["heads"], b)
+        else:
+            T, Hc = np.zeros(len(b), np.float32), np.zeros(len(b), np.float32)
+            if len(b) > 1:
+                lg = log_softmax_np(prepare.lm_forward(self.pat, mx.array(b[None, :-1].astype(np.int32)), PATCHER["heads"]))[0]
+                _, hc, _, t = typed_screen.typed(lg)               # row i predicts byte i+1
+                T[1:], Hc[1:] = t, hc
+        self._memo = (key, (T, Hc))
+        return T, Hc
+
+    def tscore(self, b):
+        T, Hc = self.typed(b)
+        if self.kind in ("typed", "final+typed"):
+            return T
+        mt, st, mc, sc = self.mu
+        if self.kind == "typednov":
+            return (T - mt) / st + (self.dep(b) - mc) / sc
+        return (T - mt) / st - (Hc - mc) / sc
+
     def score(self, b, H):
         mh, sh, md, sd = self.mu
         return (H - mh) / sh + (self.dep(b) - md) / sd
@@ -329,6 +377,9 @@ class Rule:
         if self.kind is not None:
             return {"entdep": lambda: self.score(b, H) > self.thr, "dep": lambda: self.dep(b) > self.thr,
                     "entnov": lambda: self.score(b, H) > self.thr, "nov": lambda: self.dep(b) > self.thr,
+                    "typed": lambda: self.tscore(b) > self.thr, "typedc": lambda: self.tscore(b) > self.thr,
+                    "typednov": lambda: self.tscore(b) > self.thr,
+                    "final+typed": lambda: _syntax_starts(b, FINAL) | (self.tscore(b) > self.thr),
                     "final+nov": lambda: _syntax_starts(b, FINAL) | (self.dep(b) > self.thr),
                     "ndep": lambda: self.ndep(b) > self.thr,
                     "entropy": lambda: H > self.thr, "jump": lambda: J > self.thr,

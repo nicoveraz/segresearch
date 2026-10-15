@@ -1,0 +1,25 @@
+{
+ "domain": "trace",
+ "rule": "novelty_net",
+ "seed": 0,
+ "bpb": 1.1952937290700005,
+ "bpb_new": 1.3763984670642142,
+ "bpb_copy": 0.7516621063644054,
+ "val_rate": 0.10007286071777344,
+ "train_seconds": 2692,
+ "cfg": {
+  "d": 320,
+  "glayers": 8,
+  "bs": 128,
+  "steps": 30500,
+  "lr": 0.0012,
+  "warmup": 1000,
+  "micro": 128,
+  "seed": 0
+ },
+ "device": "Tesla T4",
+ "acc_computed": 0.4767284063818082,
+ "n_computed": 27265,
+ "acc_copied": 0.363972628074718,
+ "n_copied": 21628
+}

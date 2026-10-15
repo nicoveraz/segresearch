@@ -21,6 +21,20 @@ Byte-level models such as [BLT](https://arxiv.org/abs/2412.09871) group bytes in
 
 What is known (BLT, SpaceByte, H-Net, Scratchpad Patching) and what looks new is in `literature.md`. The full lab log, including negative results and corrections, is `notes.md`. Open work is tracked in the GitHub issues and milestones.
 
+## Paper 2: novelty patching (draft, `paper2/`)
+
+*Patch where the text is new: a compression view of where byte-level models should spend compute.* A label-free rule motivated by LZ77: start a patch where the upcoming bytes are unlikely to repeat the last 128 (a two-byte lookup table fitted in seconds).
+
+| Evidence (BLT-style models trained from scratch, ~11% patches, 3 seeds) | Result |
+|---|---|
+| 50M parameters, math | computed results: novelty 57% vs entropy 21% vs dependence 35%; final answers 90% vs 60% vs 78% |
+| Scale trend (final answers, novelty - entropy) | 1M: no clear effect; 12M: +25 points; 50M: +30 points |
+| Table fitted on the raw pretraining corpus | keeps the gain (computed 57%, final 86% at 50M) |
+| Outside math (12M) | prose: lower bits per byte; code and execution traces: ties |
+| Boundary enrichment (surprisal at patch starts) | highest for entropy (1.61), the rule worst on computed results |
+
+Manuscript, generated tables and the arXiv build: `paper2/`. Experiments: `scale/`.
+
 ## Layout
 
 | Path | What it is |

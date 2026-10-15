@@ -33,7 +33,7 @@ What is known (BLT, SpaceByte, H-Net, Scratchpad Patching) and what looks new is
 | Outside math (12M) | prose: lower bits per byte; code and execution traces: ties |
 | Boundary enrichment (surprisal at patch starts) | highest for entropy (1.61), the rule worst on computed results |
 
-Manuscript, generated tables and the arXiv build: `paper2/`. Experiments: `scale/`.
+Manuscript, generated tables and the arXiv build: `paper2/`. Experiments: `scale/`. Archived release: [doi:10.5281/zenodo.23400010](https://doi.org/10.5281/zenodo.23400010).
 
 ## Layout
 

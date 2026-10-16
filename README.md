@@ -1,6 +1,6 @@
 # segresearch
 
-[![arXiv](https://img.shields.io/badge/arXiv-2610.11790-b31b1b.svg)](https://arxiv.org/abs/2610.11790) [![DOI](https://zenodo.org/badge/1400008714.svg)](https://doi.org/10.5281/zenodo.23238215)
+[![arXiv](https://img.shields.io/badge/arXiv-2610.11790-b31b1b.svg)](https://arxiv.org/abs/2610.11790) [![arXiv paper 2](https://img.shields.io/badge/arXiv-2610.22100-b31b1b.svg)](https://arxiv.org/abs/2610.22100) [![DOI](https://zenodo.org/badge/1400008714.svg)](https://doi.org/10.5281/zenodo.23238215)
 
 Where should a byte-level model start its patches? This repo began as an autonomous research loop in the style of [karpathy/autoresearch](https://github.com/karpathy/autoresearch) and grew into a set of experiments on that question, run on an Apple Silicon Mac (MLX) and on Meta's trained BLT-1B (PyTorch).
 
@@ -21,7 +21,7 @@ Byte-level models such as [BLT](https://arxiv.org/abs/2412.09871) group bytes in
 
 What is known (BLT, SpaceByte, H-Net, Scratchpad Patching) and what looks new is in `literature.md`. The full lab log, including negative results and corrections, is `notes.md`. Open work is tracked in the GitHub issues and milestones.
 
-## Paper 2: novelty patching (draft, `paper2/`)
+## Paper 2: novelty patching ([arXiv:2610.22100](https://arxiv.org/abs/2610.22100), `paper2/`)
 
 *Patch where the text is new: a compression view of where byte-level models should spend compute.* A label-free rule motivated by LZ77: start a patch where the upcoming bytes are unlikely to repeat the last 128 (a two-byte lookup table fitted in seconds).
 

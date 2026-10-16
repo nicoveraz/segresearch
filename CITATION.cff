@@ -22,6 +22,9 @@ identifiers:
     value: "10.5281/zenodo.23400010"
     description: "Zenodo DOI of v2.0.0 (paper 2)"
   - type: doi
+    value: "10.48550/arXiv.2610.22100"
+    description: "arXiv DOI of paper 2"
+  - type: doi
     value: "10.48550/arXiv.2610.11790"
     description: "arXiv DOI of the paper"
 preferred-citation:

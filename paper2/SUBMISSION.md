@@ -3,12 +3,12 @@
 Paste these by hand into the arXiv form. `./build.sh` builds and verifies `arxiv-submission.tar.gz`.
 
 ## Status
-Not yet submitted. Checklist:
+**SUBMITTED to arXiv on 2026-10-15: arXiv:2610.22100** (doi:10.48550/arXiv.2610.22100; cs.CL, cross-list cs.LG). Zenodo release v2.0.0: doi:10.5281/zenodo.23400010. Checklist:
 - [x] References checked (new ones against their arXiv/publisher pages, 2026-10-15).
 - [x] `./build.sh` ends with `OK -- verified from the tarball's own contents.` (10 pages)
 - [x] Code public: https://github.com/nicoveraz/segresearch (PR #35)
-- [ ] Optional: GitHub release + Zenodo DOI, added to Comments (as for paper 1)
-- [ ] Upload `paper2/arxiv-submission.tar.gz`; compare arXiv's compiled PDF with `paper2/arxiv.pdf` before confirming.
+- [x] GitHub release v2.0.0 + Zenodo DOI (not in Comments; in README and CITATION.cff)
+- [x] Upload `paper2/arxiv-submission.tar.gz`; compare arXiv's compiled PDF with `paper2/arxiv.pdf` before confirming.
 
 ## Title
 ```

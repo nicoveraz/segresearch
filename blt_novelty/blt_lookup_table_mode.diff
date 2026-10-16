@@ -1,0 +1,51 @@
+--- a/bytelatent/data/patcher.py
++++ b/bytelatent/data/patcher.py
+@@ -25,6 +25,7 @@
+     space = "space"
+     static = "static"
+     byte = "byte"
++    lookup_table = "lookup_table"
+ 
+ 
+ class PatcherArgs(BaseModel):
+@@ -39,6 +40,8 @@
+     patching_batch_size: int = 1
+     device: str = "cuda"
+     monotonicity: bool = False
++    # lookup_table mode: a torch file with a boolean [vocab, vocab] "lookup_table" (e.g. blt_novelty.fit_table)
++    lookup_table_path: str | None = None
+     log_time: bool = False
+ 
+     def build(self) -> "Patcher":
+@@ -501,6 +504,14 @@
+         self.patching_batch_size = patcher_args.patching_batch_size
+         self.device = patcher_args.device
+         self.monotonicity = patcher_args.monotonicity
++        self.lookup_table = None
++        if self.patching_mode == PatchingModeEnum.lookup_table:
++            assert (
++                patcher_args.lookup_table_path is not None
++            ), "lookup_table patching needs lookup_table_path"
++            self.lookup_table = torch.load(
++                patcher_args.lookup_table_path, map_location="cpu"
++            )["lookup_table"].bool()
+         self.log_time = patcher_args.log_time
+         if self.log_time:
+             self.log = defaultdict(float)
+@@ -588,6 +599,16 @@
+             if self.log_time:
+                 self.log["patch_lengths_from_start_ids"] += time.time() - s
+                 s = time.time()
++        # LOOKUP TABLE (patch start decided from the two previous tokens)
++        elif self.patching_mode == PatchingModeEnum.lookup_table:
++            patch_start_ids = find_lookup_table_patch_start_ids(
++                tokens,
++                self.lookup_table.to(tokens.device),
++                include_next_token=include_next_token,
++            )
++            patch_lengths = patch_lengths_from_start_ids(
++                patch_start_ids, seq_len_next_tok
++            )
+         # BPE
+         elif self.patching_mode == PatchingModeEnum.bpe:
+             patch_start_ids = find_bpe_delim_patch_start_ids(tokens, delim=BPE_ID)

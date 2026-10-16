@@ -13,7 +13,7 @@ helps at BLT's scales is the open question this folder is meant to make easy to 
 **Why it fits BLT directly.** `bytelatent/data/patcher.py` already contains a lookup-table patcher
 (`find_lookup_table_patch_start_ids`: a patch starts at token *i* + 2 when `table[token[i], token[i+1]]` is True),
 present since the initial release but not connected to any patching mode and released without a table. This folder
-supplies the table and a 30-line diff that exposes the function as an opt-in mode. The default patcher is unchanged.
+supplies the table and a small diff (22 added lines) that exposes the function as an opt-in mode. The default patcher is unchanged.
 
 ## Contents
 

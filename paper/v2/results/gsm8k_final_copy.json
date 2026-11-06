@@ -1,0 +1,281 @@
+{
+ "source": "GSM8K test set (openai/grade-school-math, test.jsonl), 1,319 problems",
+ "sha256": "3730d312f6e3440559ace48831e51066acaca737f6eabec99bccb9e4b3c39d14",
+ "regex": "(?:(?<![A-Za-z0-9).])-)?\\d+(?:,\\d{3})*(?:\\.\\d+)?",
+ "all_raw": {
+  "n": 1319,
+  "identical": 1226,
+  "identical_share": 0.9294920394238059,
+  "same_digits": 1248,
+  "same_digits_share": 0.9461713419257013,
+  "same_value": 1283,
+  "same_value_share": 0.9727065959059894,
+  "last_result": 1173,
+  "last_result_share": 0.8893100833965125,
+  "tail": {
+   "median": 8.0,
+   "p75": 18,
+   "p90": 29,
+   "min": 0,
+   "max": 73
+  },
+  "to_answer": {
+   "median": 14.0,
+   "p75": 24,
+   "p90": 35,
+   "min": 6,
+   "max": 79
+  },
+  "start_to_start": {
+   "median": 17.0,
+   "p75": 26,
+   "p90": 37,
+   "min": 7,
+   "max": 81
+  },
+  "no_match_examples": [
+   [
+    "24",
+    "15"
+   ],
+   [
+    "40",
+    "9"
+   ],
+   [
+    "6",
+    "75"
+   ],
+   [
+    "000",
+    "118000"
+   ],
+   [
+    "5",
+    "8"
+   ],
+   [
+    "4",
+    "6"
+   ],
+   [
+    "15",
+    "8"
+   ],
+   [
+    "5",
+    "14"
+   ],
+   [
+    "5",
+    "17"
+   ],
+   [
+    "170",
+    "11050"
+   ]
+  ]
+ },
+ "all_blt": {
+  "n": 1319,
+  "identical": 1226,
+  "identical_share": 0.9294920394238059,
+  "same_digits": 1248,
+  "same_digits_share": 0.9461713419257013,
+  "same_value": 1283,
+  "same_value_share": 0.9727065959059894,
+  "last_result": 984,
+  "last_result_share": 0.7460197119029568,
+  "tail": {
+   "median": 8.0,
+   "p75": 18,
+   "p90": 29,
+   "min": 0,
+   "max": 73
+  },
+  "to_answer": {
+   "median": 29.0,
+   "p75": 39,
+   "p90": 50,
+   "min": 21,
+   "max": 94
+  },
+  "start_to_start": {
+   "median": 32.0,
+   "p75": 41,
+   "p90": 52,
+   "min": 22,
+   "max": 96
+  },
+  "no_match_examples": [
+   [
+    "24",
+    "15"
+   ],
+   [
+    "40",
+    "9"
+   ],
+   [
+    "6",
+    "75"
+   ],
+   [
+    "000",
+    "118000"
+   ],
+   [
+    "5",
+    "8"
+   ],
+   [
+    "4",
+    "6"
+   ],
+   [
+    "15",
+    "8"
+   ],
+   [
+    "5",
+    "14"
+   ],
+   [
+    "5",
+    "17"
+   ],
+   [
+    "170",
+    "11050"
+   ]
+  ]
+ },
+ "first660_raw": {
+  "n": 660,
+  "identical": 604,
+  "identical_share": 0.9151515151515152,
+  "same_digits": 622,
+  "same_digits_share": 0.9424242424242424,
+  "same_value": 638,
+  "same_value_share": 0.9666666666666667,
+  "last_result": 588,
+  "last_result_share": 0.8909090909090909,
+  "tail": {
+   "median": 8.0,
+   "p75": 17,
+   "p90": 30,
+   "min": 0,
+   "max": 73
+  },
+  "to_answer": {
+   "median": 14.0,
+   "p75": 23,
+   "p90": 36,
+   "min": 6,
+   "max": 79
+  },
+  "start_to_start": {
+   "median": 16.0,
+   "p75": 25,
+   "p90": 38,
+   "min": 7,
+   "max": 81
+  },
+  "no_match_examples": [
+   [
+    "24",
+    "15"
+   ],
+   [
+    "40",
+    "9"
+   ],
+   [
+    "6",
+    "75"
+   ],
+   [
+    "000",
+    "118000"
+   ],
+   [
+    "5",
+    "8"
+   ],
+   [
+    "4",
+    "6"
+   ],
+   [
+    "15",
+    "8"
+   ],
+   [
+    "5",
+    "14"
+   ],
+   [
+    "5",
+    "17"
+   ],
+   [
+    "170",
+    "11050"
+   ]
+  ]
+ },
+ "blt294_blt": {
+  "n": 294,
+  "identical": 272,
+  "identical_share": 0.9251700680272109,
+  "same_digits": 281,
+  "same_digits_share": 0.95578231292517,
+  "same_value": 289,
+  "same_value_share": 0.9829931972789115,
+  "last_result": 217,
+  "last_result_share": 0.7380952380952381,
+  "tail": {
+   "median": 7,
+   "p75": 17,
+   "p90": 28,
+   "min": 0,
+   "max": 73
+  },
+  "to_answer": {
+   "median": 28,
+   "p75": 38,
+   "p90": 49,
+   "min": 21,
+   "max": 94
+  },
+  "start_to_start": {
+   "median": 31,
+   "p75": 40,
+   "p90": 52,
+   "min": 22,
+   "max": 96
+  },
+  "no_match_examples": [
+   [
+    "24",
+    "15"
+   ],
+   [
+    "40",
+    "9"
+   ],
+   [
+    "6",
+    "75"
+   ],
+   [
+    "000",
+    "118000"
+   ],
+   [
+    "5",
+    "8"
+   ]
+  ]
+ }
+}

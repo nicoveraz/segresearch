@@ -1,5 +1,8 @@
 # Email to the BLT authors (draft; send only after paper 2 is on arXiv)
 
+> Version 1 working file (October 2026), kept as a record. Several of its claims are corrected or withdrawn in
+> version 2 of the paper; see `manuscript.md`, "Changes in version 2".
+
 To: Artidoro Pagnoni (artidoro at cs.washington.edu)
 Cc: Srinivasan Iyer (sviyer at meta.com)
 Subject: Entropy patching misses computed results; a cheap reuse-based patcher fixes it (BLT follow-up)

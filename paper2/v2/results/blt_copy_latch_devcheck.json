@@ -1,0 +1,2370 @@
+{
+ "status": "exploratory: stored dev outputs and dev problems (GSM8K idx 0-299) only; no model run",
+ "A_recount": {
+  "eq_test": {
+   "computed_value_positions": {
+    "all": 977,
+    "L8": 1,
+    "L8c": 0,
+    "V8": 66,
+    "SIV": 0,
+    "PO": 0,
+    "SIVPO": 0,
+    "L8b": 55
+   },
+   "D-L8": {
+    "in_layout": 799,
+    "removed": 1,
+    "new_value": 1,
+    "new_value_prefix_test": 1,
+    "cases": [
+     {
+      "text": 147,
+      "idx": null,
+      "token": 596,
+      "value": "10560",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "o travel 2 miles * (5280 feet/1 mile) = "
+     }
+    ]
+   },
+   "D-L8c": {
+    "in_layout": 799,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0,
+    "cases": []
+   },
+   "D-V8": {
+    "in_layout": 799,
+    "removed": 50,
+    "new_value": 46,
+    "new_value_prefix_test": 45,
+    "cases": [
+     {
+      "text": 5,
+      "idx": null,
+      "token": 475,
+      "value": "40",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "priced glasses, Kylar will pay 8 * 5 = $"
+     },
+     {
+      "text": 6,
+      "idx": null,
+      "token": 325,
+      "value": "160",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": " as Charleston, which is 2 * 80 sheep = "
+     },
+     {
+      "text": 6,
+      "idx": null,
+      "token": 393,
+      "value": "260",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "e has 20 sheep + 160 sheep + 80 sheep = "
+     },
+     {
+      "text": 15,
+      "idx": null,
+      "token": 580,
+      "value": "96",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "fit of 1.2% which is $8000*(1.2/100) = $"
+     },
+     {
+      "text": 16,
+      "idx": null,
+      "token": 556,
+      "value": "230",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": " the two days is 460 miles / 2 trains = "
+     },
+     {
+      "text": 17,
+      "idx": null,
+      "token": 371,
+      "value": "450",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "k coaching: $30/hour * 15 hours/week = $"
+     },
+     {
+      "text": 17,
+      "idx": null,
+      "token": 478,
+      "value": "1150",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "akes per week: $700/week + $450/week = $"
+     },
+     {
+      "text": 19,
+      "idx": null,
+      "token": 821,
+      "value": "6",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "rissa has to travel: 6 miles / 1 hour = "
+     },
+     {
+      "text": 28,
+      "idx": null,
+      "token": 328,
+      "value": "25",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "s.\nHenry traveled 60 miles - 35 miles = "
+     },
+     {
+      "text": 49,
+      "idx": null,
+      "token": 442,
+      "value": "30",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "ccupied units is 120 units - 90 units = "
+     },
+     {
+      "text": 63,
+      "idx": null,
+      "token": 558,
+      "value": "14",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "rvice company charged her 10/100*140 = $"
+     },
+     {
+      "text": 64,
+      "idx": null,
+      "token": 543,
+      "value": "300",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "iply 25 miles per gallon x 12 gallons = "
+     },
+     {
+      "text": 66,
+      "idx": null,
+      "token": 421,
+      "value": "10",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "has sent 2 teams * 5 players per team = "
+     },
+     {
+      "text": 66,
+      "idx": null,
+      "token": 487,
+      "value": "2",
+      "new_value": false,
+      "new_value_prefix_test": false,
+      "context": " each sent 2 teams * 1 coach per team = "
+     },
+     {
+      "text": 71,
+      "idx": null,
+      "token": 347,
+      "value": "60",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": " is 40 instructions + 20 instructions = "
+     },
+     {
+      "text": 74,
+      "idx": null,
+      "token": 822,
+      "value": "34",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "2 = $18\nArtie sells 17 begonias x $2 = $"
+     },
+     {
+      "text": 87,
+      "idx": null,
+      "token": 495,
+      "value": "720",
+      "new_value": true,
+      "new_value_prefix_test": false,
+      "context": "will increase by 10/100 * $7200/year = $"
+     },
+     {
+      "text": 87,
+      "idx": null,
+      "token": 599,
+      "value": "2160",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "r salary will be 3 years * $720/year = $"
+     },
+     {
+      "text": 103,
+      "idx": null,
+      "token": 383,
+      "value": "500",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "s.\nThis leaves a total of 750 \u2013 250 = "
+     },
+     {
+      "text": 126,
+      "idx": null,
+      "token": 558,
+      "value": "300",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": " peppers at a total price of 20 * 15 = $"
+     },
+     {
+      "text": 128,
+      "idx": null,
+      "token": 608,
+      "value": "30",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": " number who left: 40 elves - 10 elves = "
+     },
+     {
+      "text": 147,
+      "idx": null,
+      "token": 596,
+      "value": "10560",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "o travel 2 miles * (5280 feet/1 mile) = "
+     },
+     {
+      "text": 147,
+      "idx": null,
+      "token": 670,
+      "value": "40",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "ke Tim 10560 feet / (264 feet/minute) = "
+     },
+     {
+      "text": 151,
+      "idx": null,
+      "token": 700,
+      "value": "128",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "ay.\nIn one semester, he spends 8 x 16 = "
+     },
+     {
+      "text": 152,
+      "idx": null,
+      "token": 406,
+      "value": "720",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "croissants: 120 rolls * 6 inches/roll = "
+     },
+     {
+      "text": 154,
+      "idx": null,
+      "token": 665,
+      "value": "80",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "th to the 40-yard line because 40 x 2 = "
+     },
+     {
+      "text": 168,
+      "idx": null,
+      "token": 357,
+      "value": "540",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "sect legs: 90 spiders * 6 legs/spider = "
+     },
+     {
+      "text": 170,
+      "idx": null,
+      "token": 626,
+      "value": "1500",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": " per month: $1000/month + $500/month = $"
+     },
+     {
+      "text": 174,
+      "idx": null,
+      "token": 464,
+      "value": "2000",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "= $1500\nCar fuel costs him 1/3*$6000 = $"
+     },
+     {
+      "text": 181,
+      "idx": null,
+      "token": 300,
+      "value": "30",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "ether, they had 10 apples + 20 apples = "
+     },
+     {
+      "text": 194,
+      "idx": null,
+      "token": 699,
+      "value": "5000",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "10 cents per sentence * 500 sentences = "
+     },
+     {
+      "text": 205,
+      "idx": null,
+      "token": 668,
+      "value": "30",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "ng, Sara has already saved $10 + $20 = $"
+     },
+     {
+      "text": 206,
+      "idx": null,
+      "token": 668,
+      "value": "42",
+      "new_value": false,
+      "new_value_prefix_test": false,
+      "context": " 42\nNow add like terms to get 8r + 10 = "
+     },
+     {
+      "text": 207,
+      "idx": null,
+      "token": 332,
+      "value": "3",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "hort sides of the park: 1.5 miles * 2 = "
+     },
+     {
+      "text": 209,
+      "idx": null,
+      "token": 591,
+      "value": "2",
+      "new_value": false,
+      "new_value_prefix_test": false,
+      "context": "o the second equation, we get 4s + 16 = "
+     },
+     {
+      "text": 209,
+      "idx": null,
+      "token": 712,
+      "value": "32",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "ng 2s from both sides, we get 2s + 16 = "
+     },
+     {
+      "text": 221,
+      "idx": null,
+      "token": 439,
+      "value": "32",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "Pokemon: 40 water type - 8 water type = "
+     },
+     {
+      "text": 227,
+      "idx": null,
+      "token": 334,
+      "value": "75",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "ts in the garden is 25 bugs + 50 ants = "
+     },
+     {
+      "text": 228,
+      "idx": null,
+      "token": 306,
+      "value": "12",
+      "new_value": false,
+      "new_value_prefix_test": false,
+      "context": "enguins are eating their dinner: 36/3 = "
+     },
+     {
+      "text": 252,
+      "idx": null,
+      "token": 404,
+      "value": "8000",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "ood: 20 sections * 400 pounds/section = "
+     },
+     {
+      "text": 260,
+      "idx": null,
+      "token": 443,
+      "value": "42000",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "he transfer fee is $350 000 x 12/100 = $"
+     },
+     {
+      "text": 261,
+      "idx": null,
+      "token": 385,
+      "value": "20",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "nsfer fees.\nHe paid $400 000 x 5/100 = $"
+     },
+     {
+      "text": 261,
+      "idx": null,
+      "token": 583,
+      "value": "118",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": " net proceeds is $400 000 - $282 000 = $"
+     },
+     {
+      "text": 269,
+      "idx": null,
+      "token": 461,
+      "value": "2400",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "eds cost her 80 packets * $30/packet = $"
+     },
+     {
+      "text": 281,
+      "idx": null,
+      "token": 282,
+      "value": "12",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "have a total of: 2 rows * 6 stars/row = "
+     },
+     {
+      "text": 281,
+      "idx": null,
+      "token": 439,
+      "value": "40",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "tars are missing, 76 stars - 36 stars = "
+     },
+     {
+      "text": 287,
+      "idx": null,
+      "token": 459,
+      "value": "42",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "ts than Mike, so he has 2 * 21 points = "
+     },
+     {
+      "text": 287,
+      "idx": null,
+      "token": 525,
+      "value": "81",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "ave 42 points + 18 points + 21 points = "
+     },
+     {
+      "text": 287,
+      "idx": null,
+      "token": 627,
+      "value": "83",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "all friends have 81 points + 2 points = "
+     },
+     {
+      "text": 290,
+      "idx": null,
+      "token": 460,
+      "value": "3",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": " of rice will last 42 kg / 14 kg/week = "
+     }
+    ]
+   },
+   "D-SIV": {
+    "in_layout": 799,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0,
+    "cases": []
+   },
+   "D-PO": {
+    "in_layout": 799,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0,
+    "cases": []
+   },
+   "D-SIVPO": {
+    "in_layout": 799,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0,
+    "cases": []
+   },
+   "D-L8b": {
+    "in_layout": 799,
+    "removed": 50,
+    "new_value": 46,
+    "new_value_prefix_test": 45,
+    "cases": []
+   },
+   "E10-L8": {
+    "in_layout": 129,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0,
+    "cases": []
+   },
+   "E10-L8c": {
+    "in_layout": 129,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0,
+    "cases": []
+   },
+   "E10-V8": {
+    "in_layout": 129,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0,
+    "cases": []
+   },
+   "E10-SIV": {
+    "in_layout": 129,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0,
+    "cases": []
+   },
+   "E10-PO": {
+    "in_layout": 129,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0,
+    "cases": []
+   },
+   "E10-SIVPO": {
+    "in_layout": 129,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0,
+    "cases": []
+   },
+   "E10-L8b": {
+    "in_layout": 129,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0,
+    "cases": []
+   }
+  },
+  "eq_train": {
+   "computed_value_positions": {
+    "all": 1134,
+    "L8": 1,
+    "L8c": 0,
+    "V8": 80,
+    "SIV": 1,
+    "PO": 0,
+    "SIVPO": 1,
+    "L8b": 66
+   },
+   "D-L8": {
+    "in_layout": 890,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0,
+    "cases": []
+   },
+   "D-L8c": {
+    "in_layout": 890,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0,
+    "cases": []
+   },
+   "D-V8": {
+    "in_layout": 890,
+    "removed": 59,
+    "new_value": 57,
+    "new_value_prefix_test": 56,
+    "cases": [
+     {
+      "text": 17,
+      "idx": null,
+      "token": 884,
+      "value": "43",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "pink hard hats + 24 yellow hards hats = "
+     },
+     {
+      "text": 21,
+      "idx": null,
+      "token": 507,
+      "value": "1080",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "per day: 90 snakes * 12 beetles/snake = "
+     },
+     {
+      "text": 28,
+      "idx": null,
+      "token": 330,
+      "value": "8",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "use had 20 total gnomes \u2013 12 gnomes = "
+     },
+     {
+      "text": 31,
+      "idx": null,
+      "token": 415,
+      "value": "120",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "0/small painting x 4 small paintings = $"
+     },
+     {
+      "text": 36,
+      "idx": null,
+      "token": 247,
+      "value": "15",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": " * 1/2 = $30.\nTommy earned $30 * 1/2 = $"
+     },
+     {
+      "text": 37,
+      "idx": null,
+      "token": 442,
+      "value": "2.50",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "e cost of 5 cups of soda is $0.5 x 5 = $"
+     },
+     {
+      "text": 39,
+      "idx": null,
+      "token": 518,
+      "value": "825",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "lly gets: 11 pieces/house * 75 houses = "
+     },
+     {
+      "text": 41,
+      "idx": null,
+      "token": 436,
+      "value": "400",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "uld budget for her dress is $200 * 2 = $"
+     },
+     {
+      "text": 51,
+      "idx": null,
+      "token": 431,
+      "value": "24",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "living room curtains: 4 feet * 6 feet = "
+     },
+     {
+      "text": 51,
+      "idx": null,
+      "token": 532,
+      "value": "8",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "he bathroom curtains: 2 feet * 4 feet = "
+     },
+     {
+      "text": 58,
+      "idx": null,
+      "token": 678,
+      "value": "80",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "ved $4 daily is 20 students x $4/day = $"
+     },
+     {
+      "text": 60,
+      "idx": null,
+      "token": 679,
+      "value": "96",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "ng games + 64 hours watching practice = "
+     },
+     {
+      "text": 67,
+      "idx": null,
+      "token": 654,
+      "value": "6",
+      "new_value": false,
+      "new_value_prefix_test": false,
+      "context": "to run six miles a day because 18 / 3 = "
+     },
+     {
+      "text": 75,
+      "idx": null,
+      "token": 291,
+      "value": "1",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "he cost of Andrew's toast is 1 \u00d7 $1 = $"
+     },
+     {
+      "text": 75,
+      "idx": null,
+      "token": 375,
+      "value": "6",
+      "new_value": false,
+      "new_value_prefix_test": false,
+      "context": "The cost of Andrew's eggs is 2 \u00d7 $3 = $"
+     },
+     {
+      "text": 83,
+      "idx": null,
+      "token": 363,
+      "value": "16",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "d hats that Zola has is 4/5 * 20 hats = "
+     },
+     {
+      "text": 83,
+      "idx": null,
+      "token": 399,
+      "value": "48",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "s = 16 hats\nZola also has 2 * 24 hats = "
+     },
+     {
+      "text": 83,
+      "idx": null,
+      "token": 453,
+      "value": "64",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "Zola has a total of 48 hats + 16 hats = "
+     },
+     {
+      "text": 83,
+      "idx": null,
+      "token": 522,
+      "value": "108",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "eir hats, they have 64 hats + 44 hats = "
+     },
+     {
+      "text": 92,
+      "idx": null,
+      "token": 468,
+      "value": "2",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": " = $1095/year\nBob saves 1/2 * $4/day = $"
+     },
+     {
+      "text": 92,
+      "idx": null,
+      "token": 560,
+      "value": "730",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": " in a year is $2/day * 365 days/year = $"
+     },
+     {
+      "text": 101,
+      "idx": null,
+      "token": 650,
+      "value": "36",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "loss * 3 people per tube of lip gloss = "
+     },
+     {
+      "text": 133,
+      "idx": null,
+      "token": 407,
+      "value": "218",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "y the regular price, so it's 109 x 2 = $"
+     },
+     {
+      "text": 139,
+      "idx": null,
+      "token": 380,
+      "value": "63",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "Side High are rejected: 70% * 90 kids = "
+     },
+     {
+      "text": 139,
+      "idx": null,
+      "token": 580,
+      "value": "260",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "of kids: 120 kids + 90 kids + 50 kids = "
+     },
+     {
+      "text": 139,
+      "idx": null,
+      "token": 736,
+      "value": "148",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "60 kids - 24 kids - 63 kids - 25 kids = "
+     },
+     {
+      "text": 161,
+      "idx": null,
+      "token": 383,
+      "value": "133",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": " these games means 50/100 * 266 games = "
+     },
+     {
+      "text": 161,
+      "idx": null,
+      "token": 468,
+      "value": "931",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": " he had to spend 133 games * $7/game = $"
+     },
+     {
+      "text": 161,
+      "idx": null,
+      "token": 569,
+      "value": "399",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "they've cost him 133 games * $3/game = $"
+     },
+     {
+      "text": 172,
+      "idx": null,
+      "token": 412,
+      "value": "20",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "r the turtle: 20 feet / 1 foot/second = "
+     },
+     {
+      "text": 178,
+      "idx": null,
+      "token": 434,
+      "value": "30",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "Colton gave away 12 + 14 + 4 stickers = "
+     },
+     {
+      "text": 181,
+      "idx": null,
+      "token": 640,
+      "value": "20",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "ends $80 Lisa\u2019s cost for coats / 4 = $"
+     },
+     {
+      "text": 183,
+      "idx": null,
+      "token": 562,
+      "value": "2450",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "ases reduced to 2500 cases - 50 cases = "
+     },
+     {
+      "text": 183,
+      "idx": null,
+      "token": 800,
+      "value": "3750",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "navirus became 3950 cases - 200 cases = "
+     },
+     {
+      "text": 199,
+      "idx": null,
+      "token": 613,
+      "value": "195",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "nt she earns after 3 days is $65 x 3 = $"
+     },
+     {
+      "text": 209,
+      "idx": null,
+      "token": 306,
+      "value": "12",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "cond year, Bobby will acquire 24 * .5 = "
+     },
+     {
+      "text": 209,
+      "idx": null,
+      "token": 431,
+      "value": "18",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "hird year, Bobby will acquire 36 * .5 = "
+     },
+     {
+      "text": 210,
+      "idx": null,
+      "token": 799,
+      "value": "5",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "eed to practice 1250 hours / 250 days = "
+     },
+     {
+      "text": 211,
+      "idx": null,
+      "token": 533,
+      "value": "250",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "on.\nTherefore, they planted 150 + 100 = "
+     },
+     {
+      "text": 218,
+      "idx": null,
+      "token": 285,
+      "value": "3",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "les.\nThere are 1200 miles / 400 miles = "
+     },
+     {
+      "text": 237,
+      "idx": null,
+      "token": 288,
+      "value": "108",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": " also bought 6 packs \u00d7 18 balls/pack = "
+     },
+     {
+      "text": 239,
+      "idx": null,
+      "token": 484,
+      "value": "1.5",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "en chocolate chip cookies - 2.5 dozen = "
+     },
+     {
+      "text": 239,
+      "idx": null,
+      "token": 623,
+      "value": "36",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "ies.\n3 dozen cookies is 3 *12 cookies = "
+     },
+     {
+      "text": 251,
+      "idx": null,
+      "token": 527,
+      "value": "180",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "g for Section H: 20 rows * 9 cars/row = "
+     },
+     {
+      "text": 258,
+      "idx": null,
+      "token": 831,
+      "value": "60",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "60 = 12(4A) + 12A\n$60 = 48A + 12A\n$60 = "
+     },
+     {
+      "text": 261,
+      "idx": null,
+      "token": 296,
+      "value": "2400",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "00 * 2)/weekend day * 2 weekend days = $"
+     },
+     {
+      "text": 264,
+      "idx": null,
+      "token": 586,
+      "value": "21",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": " used equals 42 pizzas x 0.5 kg/pizza = "
+     },
+     {
+      "text": 264,
+      "idx": null,
+      "token": 705,
+      "value": "2",
+      "new_value": true,
+      "new_value_prefix_test": false,
+      "context": " Jimmy can make is 1kg \u00f7 0.5kg/pizza = "
+     },
+     {
+      "text": 272,
+      "idx": null,
+      "token": 540,
+      "value": "1,500",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": ",000 then Gretel makes 34,500-33,000 = $"
+     },
+     {
+      "text": 273,
+      "idx": null,
+      "token": 453,
+      "value": "800",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "\nSabrina read 4 books *200 pages/book = "
+     },
+     {
+      "text": 273,
+      "idx": null,
+      "token": 598,
+      "value": "5",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "e second month, she read 1/2*10 books = "
+     },
+     {
+      "text": 273,
+      "idx": null,
+      "token": 672,
+      "value": "1000",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": " she read is 5 books * 200 pages/book = "
+     },
+     {
+      "text": 273,
+      "idx": null,
+      "token": 813,
+      "value": "1000",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "a has to read 2800 pages - 1800 pages = "
+     },
+     {
+      "text": 276,
+      "idx": null,
+      "token": 294,
+      "value": "32",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "= $16 in April.\nHe will save $16 x 2 = $"
+     },
+     {
+      "text": 276,
+      "idx": null,
+      "token": 329,
+      "value": "64",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "2 = $32 in May.\nHe will save $32 x 2 = $"
+     },
+     {
+      "text": 280,
+      "idx": null,
+      "token": 374,
+      "value": "3",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": " third ticket sold will cost $2 + $1 = $"
+     },
+     {
+      "text": 288,
+      "idx": null,
+      "token": 336,
+      "value": "27",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "al, Mary used 15 gallons + 12 gallons = "
+     },
+     {
+      "text": 290,
+      "idx": null,
+      "token": 533,
+      "value": "30",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "tta throws tantrums for 6 * 5 minutes = "
+     },
+     {
+      "text": 290,
+      "idx": null,
+      "token": 650,
+      "value": "54",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "s 18 minutes + 30 minutes + 6 minutes = "
+     }
+    ]
+   },
+   "D-SIV": {
+    "in_layout": 890,
+    "removed": 1,
+    "new_value": 1,
+    "new_value_prefix_test": 1,
+    "cases": []
+   },
+   "D-PO": {
+    "in_layout": 890,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0,
+    "cases": []
+   },
+   "D-SIVPO": {
+    "in_layout": 890,
+    "removed": 1,
+    "new_value": 1,
+    "new_value_prefix_test": 1,
+    "cases": [
+     {
+      "text": 258,
+      "idx": null,
+      "token": 831,
+      "value": "60",
+      "new_value": true,
+      "new_value_prefix_test": true,
+      "context": "60 = 12(4A) + 12A\n$60 = 48A + 12A\n$60 = "
+     }
+    ]
+   },
+   "D-L8b": {
+    "in_layout": 890,
+    "removed": 58,
+    "new_value": 56,
+    "new_value_prefix_test": 55,
+    "cases": []
+   },
+   "E10-L8": {
+    "in_layout": 123,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0,
+    "cases": []
+   },
+   "E10-L8c": {
+    "in_layout": 123,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0,
+    "cases": []
+   },
+   "E10-V8": {
+    "in_layout": 123,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0,
+    "cases": []
+   },
+   "E10-SIV": {
+    "in_layout": 123,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0,
+    "cases": []
+   },
+   "E10-PO": {
+    "in_layout": 123,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0,
+    "cases": []
+   },
+   "E10-SIVPO": {
+    "in_layout": 123,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0,
+    "cases": []
+   },
+   "E10-L8b": {
+    "in_layout": 123,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0,
+    "cases": []
+   }
+  }
+ },
+ "A_decisions": {
+  "go (b) at D: L8 new-value removals (whole-number test), allowed 2 of 799": 1,
+  "go (b) at E10: L8 new-value removals (must be 0)": 0,
+  "L8c trigger (more than 2 of 799)": false,
+  "V8 at D, new / same (whole-number)": [
+   46,
+   4
+  ],
+  "V8 at D, new / same (prefix test, as reported)": [
+   45,
+   5
+  ],
+  "removals where the two tests differ": {
+   "eq_test": [
+    {
+     "rule": "D-V8",
+     "text": 87,
+     "idx": null,
+     "token": 495,
+     "value": "720",
+     "new_value": true,
+     "new_value_prefix_test": false,
+     "context": "will increase by 10/100 * $7200/year = $"
+    }
+   ],
+   "eq_train": [
+    {
+     "rule": "D-V8",
+     "text": 264,
+     "idx": null,
+     "token": 705,
+     "value": "2",
+     "new_value": true,
+     "new_value_prefix_test": false,
+     "context": " Jimmy can make is 1kg \u00f7 0.5kg/pizza = "
+    }
+   ]
+  },
+  "eq_train (E10 fitted in-sample on eq_train)": {
+   "D-L8": {
+    "in_layout": 890,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0
+   },
+   "E10-L8": {
+    "in_layout": 123,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0
+   },
+   "D-L8c": {
+    "in_layout": 890,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0
+   },
+   "D-V8": {
+    "in_layout": 890,
+    "removed": 59,
+    "new_value": 57,
+    "new_value_prefix_test": 56
+   },
+   "D-SIVPO": {
+    "in_layout": 890,
+    "removed": 1,
+    "new_value": 1,
+    "new_value_prefix_test": 1
+   },
+   "E10-SIVPO": {
+    "in_layout": 123,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0
+   }
+  }
+ },
+ "B_choice2": {
+  "pooled D": {
+   "new_value": 1,
+   "in_layout": 1689,
+   "rate": 0.0005920663114268798
+  },
+  "D computed-value starts per text": {
+   "eq_test": 2.7176870748299318,
+   "eq_train": 2.9966329966329965,
+   "pooled": 2.8578680203045685
+  },
+  "F6 expected D starts": {
+   "eq_test": 1631,
+   "eq_train": 1798,
+   "pooled": 1715
+  },
+  "P(C4 at D holds: at most 4)": {
+   "eq_test": {
+    "jeffreys": 0.9406849621027975,
+    "plug_in": 0.9968399297448597
+   },
+   "eq_train": {
+    "jeffreys": 0.9257588347424803,
+    "plug_in": 0.9952517582291794
+   },
+   "pooled": {
+    "jeffreys": 0.9333095890015735,
+    "plug_in": 0.9960986983893596
+   }
+  },
+  "P(zero at D), O6's former bar, for reference": {
+   "eq_test": {
+    "jeffreys": 0.3629198357870786,
+    "plug_in": 0.38073177517859447
+   },
+   "eq_train": {
+    "jeffreys": 0.3371611088405811,
+    "plug_in": 0.3448881118791422
+   },
+   "pooled": {
+    "jeffreys": 0.34956852341224776,
+    "plug_in": 0.36225977134890236
+   }
+  },
+  "eq_test alone": {
+   "eq_test": {
+    "jeffreys": 0.7568610661899057,
+    "plug_in": 0.9435436625447648
+   },
+   "eq_train": {
+    "jeffreys": 0.7219677671630959,
+    "plug_in": 0.92195067153932
+   },
+   "pooled": {
+    "jeffreys": 0.7391266729291958,
+    "plug_in": 0.9331696642637771
+   }
+  },
+  "E10 (K2)": {
+   "new_value": 0,
+   "in_layout": 252,
+   "F6 expected E10 starts": 256,
+   "P(K2) if E10's rate were D's pooled rate": 0.14064139465446446,
+   "P(K2), Jeffreys on E10's own 0 of n": 0.29683471519479665
+  },
+  "L8 masks at computed-value positions": [
+   {
+    "group": "eq_test",
+    "text": 147,
+    "token": 596,
+    "value": "10560",
+    "D_start": true,
+    "h_t-1_bits": 2.5134452665487412,
+    "new_value": true,
+    "context": "o travel 2 miles * (5280 feet/1 mile) = "
+   },
+   {
+    "group": "eq_train",
+    "text": 279,
+    "token": 259,
+    "value": "2210",
+    "D_start": false,
+    "h_t-1_bits": 1.8484530211389845,
+    "new_value": true,
+    "context": "ku has is 2125 stickers + 85 stickers = "
+   }
+  ]
+ },
+ "C_rewrites": {
+  "F1 digits4": {
+   "texts": 293,
+   "fires_c1": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masks_whole_copy": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masked_tokens_outside_copy_per_text": {
+    "V8": 87.96928327645051,
+    "SIV": 6.733788395904437,
+    "PO": 0.18771331058020477,
+    "SIVPO": 6.897610921501706,
+    "L8b": 45.13310580204778
+   },
+   "distance_median": 222.0,
+   "in_F4_window": 7
+  },
+  "F2a digits4": {
+   "texts": 293,
+   "fires_c1": {
+    "V8": 0,
+    "SIV": 0,
+    "PO": 0,
+    "SIVPO": 0,
+    "L8b": 0
+   },
+   "masks_whole_copy": {
+    "V8": 0,
+    "SIV": 0,
+    "PO": 0,
+    "SIVPO": 0,
+    "L8b": 0
+   },
+   "masked_tokens_outside_copy_per_text": {
+    "V8": 86.87713310580205,
+    "SIV": 3.733788395904437,
+    "PO": 0.18771331058020477,
+    "SIVPO": 3.8976109215017063,
+    "L8b": 45.081911262798634
+   },
+   "distance_median": 233.0,
+   "in_F4_window": 7
+  },
+  "F2b digits4": {
+   "texts": 293,
+   "fires_c1": {
+    "V8": 293,
+    "SIV": 0,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masks_whole_copy": {
+    "V8": 293,
+    "SIV": 0,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 290
+   },
+   "masked_tokens_outside_copy_per_text": {
+    "V8": 95.84982935153583,
+    "SIV": 3.733788395904437,
+    "PO": 0.19112627986348124,
+    "SIVPO": 3.901023890784983,
+    "L8b": 46.051194539249146
+   },
+   "distance_median": 253.0,
+   "in_F4_window": 8
+  },
+  "F4 digits4": {
+   "texts": 293,
+   "fires_c1": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masks_whole_copy": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masked_tokens_outside_copy_per_text": {
+    "V8": 89.07508532423208,
+    "SIV": 10.754266211604095,
+    "PO": 0.28668941979522183,
+    "SIVPO": 11.017064846416382,
+    "L8b": 46.27645051194539
+   },
+   "distance_median": 451.0,
+   "in_F4_window": 105
+  },
+  "F3 digits6": {
+   "texts": 293,
+   "fires_c1": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masks_whole_copy": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masked_tokens_outside_copy_per_text": {
+    "V8": 87.96928327645051,
+    "SIV": 6.733788395904437,
+    "PO": 0.18771331058020477,
+    "SIVPO": 6.897610921501706,
+    "L8b": 45.13310580204778
+   },
+   "distance_median": 224.0,
+   "in_F4_window": 7
+  },
+  "F3 letters4": {
+   "texts": 293,
+   "fires_c1": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masks_whole_copy": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masked_tokens_outside_copy_per_text": {
+    "V8": 87.96928327645051,
+    "SIV": 6.733788395904437,
+    "PO": 0.28668941979522183,
+    "SIVPO": 6.996587030716723,
+    "L8b": 45.13310580204778
+   },
+   "distance_median": 222.0,
+   "in_F4_window": 7
+  },
+  "F3 mixed": {
+   "texts": 293,
+   "fires_c1": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masks_whole_copy": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masked_tokens_outside_copy_per_text": {
+    "V8": 87.96928327645051,
+    "SIV": 6.733788395904437,
+    "PO": 0.18771331058020477,
+    "SIVPO": 6.897610921501706,
+    "L8b": 45.13310580204778
+   },
+   "distance_median": 226.0,
+   "in_F4_window": 7
+  },
+  "F3 dose": {
+   "texts": 293,
+   "fires_c1": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 34,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masks_whole_copy": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 34,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masked_tokens_outside_copy_per_text": {
+    "V8": 97.8566552901024,
+    "SIV": 16.733788395904437,
+    "PO": 0.18771331058020477,
+    "SIVPO": 16.897610921501705,
+    "L8b": 47.10238907849829
+   },
+   "distance_median": 232.0,
+   "in_F4_window": 7
+  }
+ },
+ "D_xdomain": {
+  "math/all/L8": {
+   "docs": 110,
+   "footprint": 0.0019909899269407935,
+   "E10_masked_per_kB": 0.2526230695387103,
+   "D_masked_per_kB": 0.5557707529851625,
+   "net_bpb_E10": 2.7550855482696898e-05
+  },
+  "math/all/SIVPO": {
+   "docs": 110,
+   "footprint": 0.012485869033357518,
+   "E10_masked_per_kB": 0.5052461390774206,
+   "D_masked_per_kB": 1.296798423632046,
+   "net_bpb_E10": -0.00031539435674918654
+  },
+  "math/all/SIV": {
+   "docs": 110,
+   "footprint": 0.012199031501510115,
+   "E10_masked_per_kB": 0.45472152516967845,
+   "D_masked_per_kB": 1.195749195816562,
+   "net_bpb_E10": -0.0005807850208669067
+  },
+  "math/all/PO": {
+   "docs": 110,
+   "footprint": 0.0003037103278384261,
+   "E10_masked_per_kB": 0.05052461390774205,
+   "D_masked_per_kB": 0.11789076578473145,
+   "net_bpb_E10": -7.560854359502824e-05
+  },
+  "math/test/L8": {
+   "docs": 60,
+   "footprint": 0.0025675161658425256,
+   "E10_masked_per_kB": 0.3480131612250063,
+   "D_masked_per_kB": 0.6960263224500126,
+   "net_bpb_E10": 0.0007806184381751947
+  },
+  "math/test/SIVPO": {
+   "docs": 60,
+   "footprint": 0.00909724863699759,
+   "E10_masked_per_kB": 0.3163756011136421,
+   "D_masked_per_kB": 0.7909390027841052,
+   "net_bpb_E10": 0.0002604158587189935
+  },
+  "math/test/SIV": {
+   "docs": 60,
+   "footprint": 0.008843666793457588,
+   "E10_masked_per_kB": 0.2847380410022779,
+   "D_masked_per_kB": 0.7276638825613768,
+   "net_bpb_E10": 0.00021018382181656027
+  },
+  "math/test/PO": {
+   "docs": 60,
+   "footprint": 0.00025358184354000256,
+   "E10_masked_per_kB": 0.03163756011136421,
+   "D_masked_per_kB": 0.06327512022272842,
+   "net_bpb_E10": 8.117443578088172e-05
+  },
+  "algebra/all/L8": {
+   "docs": 110,
+   "footprint": 0.0024731380445499056,
+   "E10_masked_per_kB": 0.11675812719963971,
+   "D_masked_per_kB": 0.4003135789701933,
+   "net_bpb_E10": 0.00014112175963466712
+  },
+  "algebra/all/SIVPO": {
+   "docs": 110,
+   "footprint": 0.0067509984459335265,
+   "E10_masked_per_kB": 0.08339866228545693,
+   "D_masked_per_kB": 0.46703250879855884,
+   "net_bpb_E10": -9.817349579273296e-05
+  },
+  "algebra/all/SIV": {
+   "docs": 110,
+   "footprint": 0.00574837491435924,
+   "E10_masked_per_kB": 0.06671892982836555,
+   "D_masked_per_kB": 0.3836338465131019,
+   "net_bpb_E10": 3.3467521385607855e-05
+  },
+  "algebra/all/PO": {
+   "docs": 110,
+   "footprint": 0.0010694651003459051,
+   "E10_masked_per_kB": 0.016679732457091388,
+   "D_masked_per_kB": 0.08339866228545693,
+   "net_bpb_E10": -5.821759131343152e-05
+  },
+  "algebra/test/L8": {
+   "docs": 60,
+   "footprint": 0.002426301103967002,
+   "E10_masked_per_kB": 0.12109469605231292,
+   "D_masked_per_kB": 0.51465245822233,
+   "net_bpb_E10": 0.0004736213656365655
+  },
+  "algebra/test/SIVPO": {
+   "docs": 60,
+   "footprint": 0.0077338347688948195,
+   "E10_masked_per_kB": 0.03027367401307823,
+   "D_masked_per_kB": 0.4843787842092517,
+   "net_bpb_E10": -0.00013177179487602102
+  },
+  "algebra/test/SIV": {
+   "docs": 60,
+   "footprint": 0.007491204658498119,
+   "E10_masked_per_kB": 0.03027367401307823,
+   "D_masked_per_kB": 0.45410511019617344,
+   "net_bpb_E10": -1.8392414121657833e-05
+  },
+  "algebra/test/PO": {
+   "docs": 60,
+   "footprint": 0.0003639451655950503,
+   "E10_masked_per_kB": 0.0,
+   "D_masked_per_kB": 0.03027367401307823,
+   "net_bpb_E10": 0.0
+  },
+  "code/all/L8": {
+   "docs": 110,
+   "footprint": 0.012095735462869722,
+   "E10_masked_per_kB": 1.567031527738797,
+   "D_masked_per_kB": 2.2920759659463,
+   "net_bpb_E10": 0.0003228037729674856
+  },
+  "code/all/SIVPO": {
+   "docs": 110,
+   "footprint": 0.14144867801690827,
+   "E10_masked_per_kB": 4.32687809898026,
+   "D_masked_per_kB": 8.65375619796052,
+   "net_bpb_E10": 0.002728512667819084
+  },
+  "code/all/SIV": {
+   "docs": 110,
+   "footprint": 0.13794758904943677,
+   "E10_masked_per_kB": 3.9526616147441294,
+   "D_masked_per_kB": 7.846851903826363,
+   "net_bpb_E10": 0.0023180783664396997
+  },
+  "code/all/PO": {
+   "docs": 110,
+   "footprint": 0.0071895271773494765,
+   "E10_masked_per_kB": 0.6081017868837122,
+   "D_masked_per_kB": 1.2746748994293198,
+   "net_bpb_E10": -5.345896340919079e-05
+  },
+  "code/test/L8": {
+   "docs": 60,
+   "footprint": 0.010214394770229878,
+   "E10_masked_per_kB": 1.6751497970491591,
+   "D_masked_per_kB": 2.3838670188776496,
+   "net_bpb_E10": -0.00017839168185045798
+  },
+  "code/test/SIVPO": {
+   "docs": 60,
+   "footprint": 0.14437778207857557,
+   "E10_masked_per_kB": 4.381161007667032,
+   "D_masked_per_kB": 8.483130382492536,
+   "net_bpb_E10": 0.0020358303124507295
+  },
+  "code/test/SIV": {
+   "docs": 60,
+   "footprint": 0.14134571963099155,
+   "E10_masked_per_kB": 3.9945879775787643,
+   "D_masked_per_kB": 7.667031763417305,
+   "net_bpb_E10": 0.0017884341487944024
+  },
+  "code/test/PO": {
+   "docs": 60,
+   "footprint": 0.006451196696987291,
+   "E10_masked_per_kB": 0.6442883834804458,
+   "D_masked_per_kB": 1.2671004875115435,
+   "net_bpb_E10": -7.10094611083872e-05
+  },
+  "prose/all/L8": {
+   "docs": 110,
+   "footprint": 0.0012944414422339798,
+   "E10_masked_per_kB": 0.5271018185012738,
+   "D_masked_per_kB": 0.6400522081801182,
+   "net_bpb_E10": -0.00029673961715716437
+  },
+  "prose/all/SIVPO": {
+   "docs": 110,
+   "footprint": 0.0015457892950949466,
+   "E10_masked_per_kB": 0.10040034638119502,
+   "D_masked_per_kB": 0.20080069276239004,
+   "net_bpb_E10": 8.726124782578773e-05
+  },
+  "prose/all/SIV": {
+   "docs": 110,
+   "footprint": 0.00144525015395056,
+   "E10_masked_per_kB": 0.06275021648824688,
+   "D_masked_per_kB": 0.13805047627414316,
+   "net_bpb_E10": -5.6835612900529605e-05
+  },
+  "prose/all/PO": {
+   "docs": 110,
+   "footprint": 0.00010053914114438677,
+   "E10_masked_per_kB": 0.03765012989294813,
+   "D_masked_per_kB": 0.06275021648824688,
+   "net_bpb_E10": -0.00017171463746325926
+  },
+  "prose/test/L8": {
+   "docs": 60,
+   "footprint": 0.0019052865964235704,
+   "E10_masked_per_kB": 0.7335579854663824,
+   "D_masked_per_kB": 0.9398711688788025,
+   "net_bpb_E10": 0.0002190590074213576
+  },
+  "prose/test/SIVPO": {
+   "docs": 60,
+   "footprint": 0.0022496154993916855,
+   "E10_masked_per_kB": 0.06877106113747336,
+   "D_masked_per_kB": 0.20631318341242005,
+   "net_bpb_E10": -9.00035683522785e-05
+  },
+  "prose/test/SIV": {
+   "docs": 60,
+   "footprint": 0.0021807497187980624,
+   "E10_masked_per_kB": 0.06877106113747336,
+   "D_masked_per_kB": 0.1833894963665956,
+   "net_bpb_E10": -4.275023351057664e-05
+  },
+  "prose/test/PO": {
+   "docs": 60,
+   "footprint": 6.886578059362302e-05,
+   "E10_masked_per_kB": 0.0,
+   "D_masked_per_kB": 0.02292368704582445,
+   "net_bpb_E10": 0.0
+  },
+  "clinical/all/L8": {
+   "docs": 110,
+   "footprint": 0.0042285188686476405,
+   "E10_masked_per_kB": 0.3571975302342195,
+   "D_masked_per_kB": 0.5357962953513292,
+   "net_bpb_E10": 0.000412203573405624
+  },
+  "clinical/all/SIVPO": {
+   "docs": 110,
+   "footprint": 0.0004982242775747975,
+   "E10_masked_per_kB": 0.06378527325611062,
+   "D_masked_per_kB": 0.08929938255855488,
+   "net_bpb_E10": 0.00011067929824846232
+  },
+  "clinical/all/SIV": {
+   "docs": 110,
+   "footprint": 5.109992590510744e-05,
+   "E10_masked_per_kB": 0.012757054651222125,
+   "D_masked_per_kB": 0.012757054651222125,
+   "net_bpb_E10": 0.00018684989476426558
+  },
+  "clinical/all/PO": {
+   "docs": 110,
+   "footprint": 0.0004471243516696901,
+   "E10_masked_per_kB": 0.0510282186048885,
+   "D_masked_per_kB": 0.07654232790733274,
+   "net_bpb_E10": 6.168636064198015e-05
+  },
+  "clinical/test/L8": {
+   "docs": 60,
+   "footprint": 0.004361544172234596,
+   "E10_masked_per_kB": 0.3938467241219535,
+   "D_masked_per_kB": 0.6023538133629877,
+   "net_bpb_E10": -0.00011030039192074565
+  },
+  "clinical/test/SIVPO": {
+   "docs": 60,
+   "footprint": 0.0008815887156644395,
+   "E10_masked_per_kB": 0.09266981744045964,
+   "D_masked_per_kB": 0.13900472616068946,
+   "net_bpb_E10": 0.00029421831986822615
+  },
+  "clinical/test/SIV": {
+   "docs": 60,
+   "footprint": 9.279881217520415e-05,
+   "E10_masked_per_kB": 0.02316745436011491,
+   "D_masked_per_kB": 0.02316745436011491,
+   "net_bpb_E10": 0.0003010696724517033
+  },
+  "clinical/test/PO": {
+   "docs": 60,
+   "footprint": 0.0007887899034892354,
+   "E10_masked_per_kB": 0.06950236308034473,
+   "D_masked_per_kB": 0.11583727180057454,
+   "net_bpb_E10": 2.6812495739883538e-05
+  },
+  "traces/all/L8": {
+   "docs": 110,
+   "footprint": 0.00012467584280869738,
+   "E10_masked_per_kB": 0.03735152767748201,
+   "D_masked_per_kB": 0.062252546129136686,
+   "net_bpb_E10": -1.7838416463715667e-05
+  },
+  "traces/all/SIVPO": {
+   "docs": 110,
+   "footprint": 0.040357570317175344,
+   "E10_masked_per_kB": 2.9134191588435967,
+   "D_masked_per_kB": 14.766303941831222,
+   "net_bpb_E10": -0.0010979300301169794
+  },
+  "traces/all/SIV": {
+   "docs": 110,
+   "footprint": 0.040357570317175344,
+   "E10_masked_per_kB": 2.9134191588435967,
+   "D_masked_per_kB": 14.766303941831222,
+   "net_bpb_E10": -0.0010979300301169794
+  },
+  "traces/all/PO": {
+   "docs": 110,
+   "footprint": 0.0,
+   "E10_masked_per_kB": 0.0,
+   "D_masked_per_kB": 0.0,
+   "net_bpb_E10": 0.0
+  },
+  "traces/test/L8": {
+   "docs": 60,
+   "footprint": 0.0001598064059539301,
+   "E10_masked_per_kB": 0.02279825821307252,
+   "D_masked_per_kB": 0.04559651642614504,
+   "net_bpb_E10": -5.605034192990195e-05
+  },
+  "traces/test/SIVPO": {
+   "docs": 60,
+   "footprint": 0.04234869757779147,
+   "E10_masked_per_kB": 3.0321683423386454,
+   "D_masked_per_kB": 15.00125390420172,
+   "net_bpb_E10": -0.0013819725436328104
+  },
+  "traces/test/SIV": {
+   "docs": 60,
+   "footprint": 0.04234869757779147,
+   "E10_masked_per_kB": 3.0321683423386454,
+   "D_masked_per_kB": 15.00125390420172,
+   "net_bpb_E10": -0.0013819725436328104
+  },
+  "traces/test/PO": {
+   "docs": 60,
+   "footprint": 0.0,
+   "E10_masked_per_kB": 0.0,
+   "D_masked_per_kB": 0.0,
+   "net_bpb_E10": 0.0
+  }
+ },
+ "E_far_copies": {
+  "n": 8,
+  "argmax_ok_c1": 8,
+  "distances": [
+   583,
+   556,
+   562,
+   619,
+   563,
+   556,
+   534,
+   552
+  ],
+  "D_exact": 1,
+  "D-all_exact": 8
+ },
+ "F_step3_G0": {
+  "E10": {
+   "exact_equal": 293,
+   "bits_within_0.05": 1.0,
+   "of": 293
+  },
+  "E10.V8": {
+   "exact_equal": 293,
+   "bits_within_0.05": 1.0,
+   "of": 293
+  }
+ },
+ "G_planted_peek": {
+  "texts": 20,
+  "changed_decisions": 25,
+  "caught": true
+ },
+ "I_dev_L8_vs_SIV": {
+  "pairs": {
+   "D.L8 vs D.SIV": {
+    "computed": {
+     "exact": [
+      0.003787878787878788,
+      [
+       -0.001293956610000034,
+       0.009473225054421363
+      ]
+     ],
+     "bits_per_unit": [
+      0.01326674222946167,
+      [
+       -0.0005324059909334315,
+       0.030608543078270826
+      ]
+     ]
+    },
+    "id_new": {
+     "exact": [
+      0.0,
+      [
+       0.0,
+       0.0
+      ]
+     ],
+     "bits_per_unit": [
+      0.002512398026502173,
+      [
+       -0.004497624501433389,
+       0.010510871516152858
+      ]
+     ]
+    },
+    "id_copy": {
+     "exact": [
+      -0.013651877133105802,
+      [
+       -0.030716723549488054,
+       0.0
+      ]
+     ],
+     "bits_per_unit": [
+      0.0426537762729788,
+      [
+       0.01095365201450452,
+       0.07809093735934113
+      ]
+     ]
+    },
+    "copied": {
+     "exact": [
+      0.0008561643835616438,
+      [
+       -0.0034440083540184306,
+       0.005313282240584578
+      ]
+     ],
+     "bits_per_unit": [
+      -0.0028817745002165233,
+      [
+       -0.01263139180055856,
+       0.006677696626720302
+      ]
+     ]
+    },
+    "word_new": {
+     "exact": [
+      0.0015105740181268882,
+      [
+       -0.0021673067652843063,
+       0.00546455556651041
+      ]
+     ],
+     "bits_per_unit": [
+      -0.014302226306808679,
+      [
+       -0.027385949064149363,
+       -0.0033047068141410663
+      ]
+     ]
+    },
+    "word_rep": {
+     "exact": [
+      0.001994870333428327,
+      [
+       0.00014178922480593455,
+       0.003907434154613249
+      ]
+     ],
+     "bits_per_unit": [
+      -0.005854365559988601,
+      [
+       -0.010410937216279038,
+       -0.0016113216060853347
+      ]
+     ]
+    },
+    "final": {
+     "exact": [
+      -0.006825938566552901,
+      [
+       -0.020477815699658702,
+       0.006825938566552901
+      ]
+     ],
+     "bits_per_unit": [
+      0.038302924445871606,
+      [
+       0.013927713809566693,
+       0.07297331837765592
+      ]
+     ]
+    },
+    "bpb": [
+     -7.404234800782959e-05,
+     [
+      -0.0006072912763042942,
+      0.00045998144882880457
+     ]
+    ],
+    "bpb_without_copy": [
+     -0.00015685308784823998,
+     [
+      -0.000693254738715589,
+      0.0003733425410529633
+     ]
+    ],
+    "rate": 0.00013562545988249353
+   },
+   "E10.L8 vs E10.SIV": {
+    "computed": {
+     "exact": [
+      -0.0012626262626262627,
+      [
+       -0.005912651732133115,
+       0.002728606147354609
+      ]
+     ],
+     "bits_per_unit": [
+      0.004355196398918075,
+      [
+       -0.004933545628460557,
+       0.013316555647461092
+      ]
+     ]
+    },
+    "id_new": {
+     "exact": [
+      0.0,
+      [
+       0.0,
+       0.0
+      ]
+     ],
+     "bits_per_unit": [
+      -0.002123119888045275,
+      [
+       -0.01036866923647936,
+       0.007217790974691861
+      ]
+     ]
+    },
+    "id_copy": {
+     "exact": [
+      -0.0034129692832764505,
+      [
+       -0.017064846416382253,
+       0.006825938566552901
+      ]
+     ],
+     "bits_per_unit": [
+      0.004242976777789536,
+      [
+       -0.012803501928218802,
+       0.0235124430355358
+      ]
+     ]
+    },
+    "copied": {
+     "exact": [
+      0.0004280821917808219,
+      [
+       -0.0030501089324618735,
+       0.00451192506922984
+      ]
+     ],
+     "bits_per_unit": [
+      -0.007327532727424413,
+      [
+       -0.017424582030815094,
+       0.0021392246662670067
+      ]
+     ]
+    },
+    "word_new": {
+     "exact": [
+      0.005035246727089627,
+      [
+       0.0020058676028084253,
+       0.008488362068965515
+      ]
+     ],
+     "bits_per_unit": [
+      -0.009279639219109265,
+      [
+       -0.019635401488628534,
+       0.0005562574086716434
+      ]
+     ]
+    },
+    "word_rep": {
+     "exact": [
+      -0.00014249073810202338,
+      [
+       -0.0013990761037132495,
+       0.0011597786783357495
+      ]
+     ],
+     "bits_per_unit": [
+      -0.0016366885781254174,
+      [
+       -0.005395928449468622,
+       0.001731311227270488
+      ]
+     ]
+    },
+    "final": {
+     "exact": [
+      -0.0034129692832764505,
+      [
+       -0.017064846416382253,
+       0.006825938566552901
+      ]
+     ],
+     "bits_per_unit": [
+      0.01286713519600878,
+      [
+       -0.001997935253198643,
+       0.030473712808849866
+      ]
+     ]
+    },
+    "bpb": [
+     0.0003115482490122203,
+     [
+      -0.0002797686164703279,
+      0.0009370298692465372
+     ]
+    ],
+    "bpb_without_copy": [
+     0.00030577022349285716,
+     [
+      -0.0002844903388681413,
+      0.0009306600491336286
+     ]
+    ],
+    "rate": 4.578134580338067e-06
+   }
+  },
+  "paired_rows": {
+   "D": {
+    "id_copy exact": {
+     "diff": [
+      -0.013651877133105802,
+      [
+       -0.030716723549488054,
+       0.0
+      ]
+     ],
+     "class": "tie"
+    },
+    "C3 computed": {
+     "diff": [
+      0.003787878787878788,
+      [
+       -0.001293956610000034,
+       0.009473225054421363
+      ]
+     ],
+     "class": "tie"
+    },
+    "C3f final": {
+     "diff": [
+      -0.006825938566552901,
+      [
+       -0.020477815699658702,
+       0.006825938566552901
+      ]
+     ],
+     "class": "tie"
+    },
+    "C3c copied": {
+     "diff": [
+      0.0008561643835616438,
+      [
+       -0.0034440083540184306,
+       0.005313282240584578
+      ]
+     ],
+     "class": "tie"
+    },
+    "C2 bits per byte without the copy": {
+     "diff": [
+      0.00015685308784823998,
+      [
+       -0.0003733425410529633,
+       0.000693254738715589
+      ]
+     ],
+     "class": "tie"
+    },
+    "id_copy bits per copy": {
+     "diff": [
+      -0.0426537762729788,
+      [
+       -0.07809093735934113,
+       -0.01095365201450452
+      ]
+     ],
+     "class": "tie"
+    }
+   },
+   "E10": {
+    "id_copy exact": {
+     "diff": [
+      -0.0034129692832764505,
+      [
+       -0.017064846416382253,
+       0.006825938566552901
+      ]
+     ],
+     "class": "tie"
+    },
+    "C3 computed": {
+     "diff": [
+      -0.0012626262626262627,
+      [
+       -0.005912651732133115,
+       0.002728606147354609
+      ]
+     ],
+     "class": "tie"
+    },
+    "C3f final": {
+     "diff": [
+      -0.0034129692832764505,
+      [
+       -0.017064846416382253,
+       0.006825938566552901
+      ]
+     ],
+     "class": "tie"
+    },
+    "C3c copied": {
+     "diff": [
+      0.0004280821917808219,
+      [
+       -0.0030501089324618735,
+       0.00451192506922984
+      ]
+     ],
+     "class": "tie"
+    },
+    "C2 bits per byte without the copy": {
+     "diff": [
+      -0.00030577022349285716,
+      [
+       -0.0009306600491336286,
+       0.0002844903388681413
+      ]
+     ],
+     "class": "tie"
+    },
+    "id_copy bits per copy": {
+     "diff": [
+      -0.004242976777789536,
+      [
+       -0.0235124430355358,
+       0.012803501928218802
+      ]
+     ],
+     "class": "tie"
+    }
+   }
+  }
+ },
+ "H_causality_restated": {
+  "texts": 1839,
+  "distinct_L8_L8c_decisions": 2098222,
+  "boundary_comparisons": 4181732,
+  "all_comparisons": 1327362096,
+  "changed": 0
+ },
+ "seconds": 15.912791728973389
+}

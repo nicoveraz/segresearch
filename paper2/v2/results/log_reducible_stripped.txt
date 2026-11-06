@@ -1,0 +1,202 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:12<54:38,  6.45s/it]Loading weights: 100%|██████████| 510/510 [00:12<00:00, 39.47it/s]
+  100 problems
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (1262 > 1024). Running this sequence through the model will result in indexing errors
+  200 problems
+  300 problems
+  400 problems
+  500 problems
+  600 problems
+  700 problems
+  800 problems
+  900 problems
+  1000 problems
+  1100 problems
+  1200 problems
+{
+ "n_problems": 1292,
+ "n_bytes": 639890,
+ "format": "stripped (realblt_budget.problem)",
+ "by_kind": {
+  "computed": {
+   "n": 4520,
+   "s_small": 3.278407573699951,
+   "s_large": 0.6814637780189514,
+   "ent_small": 2.9035959243774414,
+   "nov": -1.1665239334106445,
+   "novc": -2.451767683029175,
+   "lz_true": 0.2354258849557522,
+   "lz_true4": 0.3816924778761062,
+   "reducible": 2.5969436168670654
+  },
+  "copied": {
+   "n": 10836,
+   "s_small": 3.677814483642578,
+   "s_large": 1.6092861890792847,
+   "ent_small": 3.042781352996826,
+   "nov": -2.6563355922698975,
+   "novc": -2.5842485427856445,
+   "lz_true": 0.23554586563307495,
+   "lz_true4": 0.23101236618678478,
+   "reducible": 2.068528175354004
+  },
+  "final": {
+   "n": 1290,
+   "s_small": 5.13777494430542,
+   "s_large": 1.4721934795379639,
+   "ent_small": 4.323605060577393,
+   "nov": -2.9523398876190186,
+   "novc": -2.310150146484375,
+   "lz_true": 0.30848837209302327,
+   "lz_true4": 0.30910852713178294,
+   "reducible": 3.665580987930298
+  },
+  "word": {
+   "n": 44097,
+   "s_small": 2.2397849559783936,
+   "s_large": 1.4613806009292603,
+   "ent_small": 2.4377260208129883,
+   "nov": -3.38247013092041,
+   "novc": -2.5476999282836914,
+   "lz_true": 0.13536686439094767,
+   "lz_true4": 0.1327301176950813,
+   "reducible": 0.7784044146537781
+  },
+  "all bytes": {
+   "n": 639890,
+   "s_small": 1.0957834720611572,
+   "s_large": 0.6830657124519348,
+   "ent_small": 1.1089208126068115,
+   "nov": -3.206488609313965,
+   "novc": -2.4613285064697266,
+   "lz_true": 0.3352590381977855,
+   "lz_true4": 0.33837456437825253,
+   "reducible": 0.4127177596092224
+  }
+ },
+ "spearman": {
+  "ent_small": {
+   "with_reducible": 0.4952699491248395,
+   "with_lz_true": 0.19105600510451637,
+   "with_lz_true4": 0.21734696021714178
+  },
+  "nov": {
+   "with_reducible": 0.022635809103870683,
+   "with_lz_true": 0.0976230584027367,
+   "with_lz_true4": 0.11942845368876295
+  },
+  "novc": {
+   "with_reducible": 0.01374720064597579,
+   "with_lz_true": 0.06075302886796601,
+   "with_lz_true4": 0.06031245151613347
+  },
+  "s_small": {
+   "with_reducible": 0.5341858579761972,
+   "with_lz_true": 0.21325302659209505,
+   "with_lz_true4": 0.24887922335801446
+  },
+  "lz_true": {
+   "with_reducible": 0.026091049266034352
+  }
+ },
+ "coverage_top10": {
+  "ent_small": {
+   "computed": 0.18429203539823008,
+   "copied": 0.4034699150978221,
+   "final": 0.9441860465116279,
+   "word": 0.3013130144907817
+  },
+  "nov": {
+   "computed": 1.0,
+   "copied": 0.3682170542635659,
+   "final": 0.0,
+   "word": 0.01260856747624555
+  },
+  "novc": {
+   "computed": 0.14800884955752214,
+   "copied": 0.0945921004060539,
+   "final": 0.0,
+   "word": 0.002675918996757149
+  },
+  "s_small": {
+   "computed": 0.3471238938053097,
+   "copied": 0.42386489479512734,
+   "final": 0.7976744186046512,
+   "word": 0.23348527110687803
+  },
+  "reducible (oracle)": {
+   "computed": 0.7440265486725663,
+   "copied": 0.5612772240679217,
+   "final": 0.9046511627906977,
+   "word": 0.2019184978569971
+  },
+  "lz_true (oracle)": {
+   "computed": 0.011725663716814159,
+   "copied": 0.015319306016980436,
+   "final": 0.224031007751938,
+   "word": 0.012631244755879085
+  },
+  "lz_true4 (oracle)": {
+   "computed": 0.04446902654867257,
+   "copied": 0.04614248800295312,
+   "final": 0.12093023255813953,
+   "word": 0.027530217475111685
+  }
+ },
+ "plane": {
+  "computed": {
+   "lz_true_pct": 0.48009783761229974,
+   "lz_true4_pct": 0.5859490609005391,
+   "s_large_pct": 0.6308491173538262
+  },
+  "copied": {
+   "lz_true_pct": 0.44324754743255096,
+   "lz_true4_pct": 0.4417580243076685,
+   "s_large_pct": 0.7598002305657683
+  },
+  "final": {
+   "lz_true_pct": 0.4180525074501056,
+   "lz_true4_pct": 0.4539617934574752,
+   "s_large_pct": 0.8189300153454184
+  },
+  "word": {
+   "lz_true_pct": 0.33188601883897295,
+   "lz_true4_pct": 0.35364428302996676,
+   "s_large_pct": 0.7479511624148535
+  },
+  "selected by ent_small": {
+   "lz_true_pct": 0.5932065052811155,
+   "lz_true4_pct": 0.5983585757503098,
+   "s_large_pct": 0.8567194896919991
+  },
+  "selected by nov": {
+   "lz_true_pct": 0.5432483895750652,
+   "lz_true4_pct": 0.5635657332668422,
+   "s_large_pct": 0.5964183145068872
+  },
+  "selected by novc": {
+   "lz_true_pct": 0.5322177422198971,
+   "lz_true4_pct": 0.5373722384984778,
+   "s_large_pct": 0.5121455355577285
+  },
+  "selected by s_small": {
+   "lz_true_pct": 0.625421613197111,
+   "lz_true4_pct": 0.6522460630334417,
+   "s_large_pct": 0.874904632399648
+  },
+  "selected by reducible (oracle)": {
+   "lz_true_pct": 0.5429515912337194,
+   "lz_true4_pct": 0.5739778428958687,
+   "s_large_pct": 0.728044805259371
+  },
+  "selected by lz_true (oracle)": {
+   "lz_true_pct": 0.9322977386738348,
+   "lz_true4_pct": 0.8940825766928687,
+   "s_large_pct": 0.6367907991927677
+  },
+  "selected by lz_true4 (oracle)": {
+   "lz_true_pct": 0.8763730726062225,
+   "lz_true4_pct": 0.8940825766928687,
+   "s_large_pct": 0.6208684293514275
+  }
+ }
+}

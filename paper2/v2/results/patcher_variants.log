@@ -1,0 +1,112 @@
+    update 1000 loss 2.511
+    update 2000 loss 2.272
+    update 3000 loss 2.225
+    update 4000 loss 2.335
+    update 1000 loss 2.582
+    update 2000 loss 2.356
+    update 3000 loss 2.281
+    update 4000 loss 2.386
+    update 1000 loss 5.707
+    update 2000 loss 5.485
+    update 3000 loss 5.441
+    update 4000 loss 5.625
+    update 1000 loss 2.205
+    update 2000 loss 1.935
+    update 3000 loss 1.844
+    update 4000 loss 1.925
+    update 1000 loss 5.821
+    update 2000 loss 5.554
+    update 3000 loss 5.522
+    update 4000 loss 5.697
+V0: loss {'heldout_corpus_bits': 3.221395254135132, 'val_bits': 3.1175060272216797}
+V1: loss {'heldout_corpus_bits': 3.2409026622772217, 'val_bits': 3.1468706130981445}
+V2: loss {'heldout_corpus_bits': 3.2571475505828857, 'val_bits': 3.1787664890289307}
+V3: loss {'heldout_corpus_bits': 2.660984516143799, 'val_bits': 2.4585909843444824}
+V4: loss {'heldout_corpus_bits': 3.3069727420806885, 'val_bits': 3.2411746978759766}
+V0_bundle: loss {'heldout_corpus_bits': 3.221398115158081, 'val_bits': 3.1175148487091064}
+AUC orig|all|V0|probe                        0.966
+AUC orig|all|V0|entropy                      0.761
+AUC orig|all|V1|probe                        0.976
+AUC orig|all|V1|entropy                      0.727
+AUC orig|all|V1|head                         0.934
+AUC orig|all|V2|probe                        0.981
+AUC orig|all|V2|entropy                      0.761
+AUC orig|all|V3|probe                        0.986
+AUC orig|all|V3|entropy                      0.169
+AUC orig|all|V4|probe                        0.980
+AUC orig|all|V4|entropy                      0.781
+AUC orig|all|V4|head                         0.958
+AUC orig|all|V0_bundle|probe                 0.966
+AUC orig|all|V0_bundle|entropy               0.761
+AUC orig|within_numbers|V0|probe             0.886
+AUC orig|within_numbers|V0|entropy           0.781
+AUC orig|within_numbers|V1|probe             0.910
+AUC orig|within_numbers|V1|entropy           0.725
+AUC orig|within_numbers|V1|head              0.780
+AUC orig|within_numbers|V2|probe             0.927
+AUC orig|within_numbers|V2|entropy           0.751
+AUC orig|within_numbers|V3|probe             0.948
+AUC orig|within_numbers|V3|entropy           0.075
+AUC orig|within_numbers|V4|probe             0.932
+AUC orig|within_numbers|V4|entropy           0.757
+AUC orig|within_numbers|V4|head              0.855
+AUC orig|within_numbers|V0_bundle|probe      0.886
+AUC orig|within_numbers|V0_bundle|entropy    0.781
+DIFF orig|all|V1-V0                   +0.010 [+0.007, +0.012]
+DIFF orig|all|V2-V0                   +0.014 [+0.011, +0.018]
+DIFF orig|all|V3-V0                   +0.020 [+0.016, +0.023]
+DIFF orig|all|V4-V0                   +0.014 [+0.011, +0.017]
+DIFF orig|all|V1-V3                   -0.010 [-0.013, -0.008]
+DIFF orig|all|V2-V3                   -0.005 [-0.008, -0.003]
+DIFF orig|all|V4-V3                   -0.006 [-0.008, -0.004]
+DIFF orig|within_numbers|V1-V0        +0.024 [+0.013, +0.035]
+DIFF orig|within_numbers|V2-V0        +0.041 [+0.028, +0.055]
+DIFF orig|within_numbers|V3-V0        +0.062 [+0.048, +0.076]
+DIFF orig|within_numbers|V4-V0        +0.046 [+0.035, +0.059]
+DIFF orig|within_numbers|V1-V3        -0.038 [-0.049, -0.026]
+DIFF orig|within_numbers|V2-V3        -0.021 [-0.032, -0.009]
+DIFF orig|within_numbers|V4-V3        -0.016 [-0.026, -0.006]
+AUC prose|all|V0|probe                       0.831
+AUC prose|all|V0|entropy                     0.483
+AUC prose|all|V1|probe                       0.823
+AUC prose|all|V1|entropy                     0.522
+AUC prose|all|V1|head                        0.579
+AUC prose|all|V2|probe                       0.823
+AUC prose|all|V2|entropy                     0.528
+AUC prose|all|V3|probe                       0.853
+AUC prose|all|V3|entropy                     0.471
+AUC prose|all|V4|probe                       0.828
+AUC prose|all|V4|entropy                     0.507
+AUC prose|all|V4|head                        0.570
+AUC prose|all|V0_bundle|probe                0.831
+AUC prose|all|V0_bundle|entropy              0.483
+AUC prose|within_numbers|V0|probe            0.655
+AUC prose|within_numbers|V0|entropy          0.466
+AUC prose|within_numbers|V1|probe            0.628
+AUC prose|within_numbers|V1|entropy          0.493
+AUC prose|within_numbers|V1|head             0.547
+AUC prose|within_numbers|V2|probe            0.637
+AUC prose|within_numbers|V2|entropy          0.487
+AUC prose|within_numbers|V3|probe            0.651
+AUC prose|within_numbers|V3|entropy          0.488
+AUC prose|within_numbers|V4|probe            0.659
+AUC prose|within_numbers|V4|entropy          0.475
+AUC prose|within_numbers|V4|head             0.524
+AUC prose|within_numbers|V0_bundle|probe     0.655
+AUC prose|within_numbers|V0_bundle|entropy   0.466
+DIFF prose|all|V1-V0                  -0.008 [-0.020, +0.003]
+DIFF prose|all|V2-V0                  -0.007 [-0.018, +0.004]
+DIFF prose|all|V3-V0                  +0.022 [+0.013, +0.032]
+DIFF prose|all|V4-V0                  -0.002 [-0.013, +0.008]
+DIFF prose|all|V1-V3                  -0.031 [-0.043, -0.019]
+DIFF prose|all|V2-V3                  -0.030 [-0.041, -0.018]
+DIFF prose|all|V4-V3                  -0.025 [-0.037, -0.013]
+DIFF prose|within_numbers|V1-V0       -0.027 [-0.043, -0.013]
+DIFF prose|within_numbers|V2-V0       -0.018 [-0.033, -0.004]
+DIFF prose|within_numbers|V3-V0       -0.004 [-0.018, +0.010]
+DIFF prose|within_numbers|V4-V0       +0.004 [-0.008, +0.015]
+DIFF prose|within_numbers|V1-V3       -0.023 [-0.040, -0.007]
+DIFF prose|within_numbers|V2-V3       -0.014 [-0.031, +0.002]
+DIFF prose|within_numbers|V4-V3       +0.008 [-0.007, +0.023]
+VERDICT U1 {"verdict": "FAILS", "above_V0": [], "above_V0_and_V3": []}
+VERDICT U2 {"verdict": "FAILS", "above_V0": [], "above_V0_and_V3": []}

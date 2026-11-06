@@ -1,0 +1,54 @@
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   0%|          | 1/338 [00:00<03:48,  1.48it/s]Loading weights:  54%|█████▍    | 183/338 [00:00<00:00, 313.15it/s]Loading weights:  83%|████████▎ | 281/338 [00:01<00:00, 300.88it/s]Loading weights: 100%|██████████| 338/338 [00:01<00:00, 262.15it/s]
+qwen states ('orig', 'train'): 1382 problems
+qwen states ('orig', 'test'): 275 problems
+qwen states ('prose', 'train'): 1382 problems
+qwen states ('prose', 'test'): 275 problems
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:15<1:03:46,  7.53s/it]Loading weights: 100%|██████████| 510/510 [00:15<00:00, 33.80it/s]
+patcher orig/train: 1382 problems
+patcher orig/test: 275 problems
+patcher prose/train: 1382 problems
+patcher prose/test: 275 problems
+router rp_orig trained (22900 candidates)
+router rp_prose trained (35536 candidates)
+router rq_orig trained (22900 candidates)
+router rq_prose trained (35536 candidates)
+AUC orig  entropy   0.597 [0.580, 0.611]
+AUC orig  table     0.978 [0.973, 0.982]
+AUC orig  rp_orig   0.999 [0.998, 0.999]
+AUC orig  rp_prose  0.965 [0.961, 0.968]
+AUC orig  rq_orig   0.997 [0.996, 0.998]
+AUC orig  rq_prose  0.947 [0.943, 0.952]
+AUC prose entropy   0.657 [0.636, 0.678]
+AUC prose table     0.621 [0.596, 0.649]
+AUC prose rp_orig   0.720 [0.692, 0.747]
+AUC prose rp_prose  0.969 [0.964, 0.974]
+AUC prose rq_orig   0.787 [0.768, 0.805]
+AUC prose rq_prose  0.982 [0.978, 0.985]
+  layouts orig: 50/275
+  layouts orig: 100/275
+  layouts orig: 150/275
+  layouts orig: 200/275
+  layouts orig: 250/275
+  layouts prose: 50/275
+  layouts prose: 100/275
+  layouts prose: 150/275
+  layouts prose: 200/275
+  layouts prose: 250/275
+LAYOUT orig  entropy   exact res 0.166 cov 0.136 fin 0.516 bpb 0.8142 rate 0.104 forced 0.000
+LAYOUT orig  with      exact res 0.536 cov 1.000 fin 0.629 bpb 0.7667 rate 0.109 forced 0.000 | vs entropy +37.0 [+33.0, +40.9]
+LAYOUT orig  table     exact res 0.602 cov 1.000 fin 0.615 bpb 0.7634 rate 0.102 forced 0.029 | vs entropy +43.6 [+39.4, +47.9]
+LAYOUT orig  rp_orig   exact res 0.647 cov 1.000 fin 0.629 bpb 0.7542 rate 0.103 forced 0.031 | vs entropy +48.1 [+43.9, +52.3]
+LAYOUT orig  rp_prose  exact res 0.623 cov 1.000 fin 0.615 bpb 0.7353 rate 0.103 forced 0.030 | vs entropy +45.7 [+41.6, +49.7]
+LAYOUT orig  rq_orig   exact res 0.605 cov 1.000 fin 0.582 bpb 0.7650 rate 0.102 forced 0.029 | vs entropy +43.9 [+40.0, +47.8]
+LAYOUT orig  rq_prose  exact res 0.571 cov 1.000 fin 0.571 bpb 0.7618 rate 0.101 forced 0.028 | vs entropy +40.5 [+36.2, +44.7]
+LAYOUT prose entropy   exact res 0.217 cov 0.572 fin 0.622 bpb 0.7988 rate 0.101 forced 0.000
+LAYOUT prose with      exact res 0.346 cov 1.000 fin 0.629 bpb 0.7875 rate 0.102 forced 0.000 | vs entropy +12.9 [+10.3, +15.8]
+LAYOUT prose table     exact res 0.262 cov 0.702 fin 0.556 bpb 0.8110 rate 0.100 forced 0.029 | vs entropy +4.5 [+0.6, +8.1]
+LAYOUT prose rp_orig   exact res 0.297 cov 0.797 fin 0.545 bpb 0.8038 rate 0.100 forced 0.030 | vs entropy +8.0 [+4.5, +11.8]
+LAYOUT prose rp_prose  exact res 0.361 cov 0.994 fin 0.593 bpb 0.7852 rate 0.102 forced 0.031 | vs entropy +14.5 [+10.9, +18.2]
+LAYOUT prose rq_orig   exact res 0.302 cov 0.821 fin 0.560 bpb 0.7976 rate 0.101 forced 0.031 | vs entropy +8.6 [+5.4, +12.0]
+LAYOUT prose rq_prose  exact res 0.352 cov 0.996 fin 0.564 bpb 0.7990 rate 0.101 forced 0.029 | vs entropy +13.5 [+10.0, +17.3]
+VERDICT L1_router_patcher_prose {"value": 0.14486638537271448, "ci": [0.10906312190481753, 0.18169709388971683], "holds": true}
+VERDICT L2_router_patcher_orig_on_prose {"value": 0.08016877637130802, "ci": [0.04494178767134425, 0.11765099614142843], "holds": true}
+VERDICT L3_qwen_orig_auc_on_prose {"value": 0.7865648332381079, "ci": [0.7676481050453902, 0.8051138783715327], "holds": true, "patcher_orig_auc_on_prose": {"value": 0.7199975518878404, "ci": [0.6920071869927622, 0.7473511254572812]}, "difference": {"value": 0.06656728135026746, "ci": [0.035101968645413116, 0.09777004479516135]}}
+VERDICT L4_bpb_and_gap {"table": {"bpb_minus_entropy": {"value": 0.012770392399849154, "ci": [0.007575050457418548, 0.018282304002922755]}, "gap_closed": 0.3478260869565219}, "rp_orig": {"bpb_minus_entropy": {"value": 0.004444228527810148, "ci": [-0.0017144276183678107, 0.010037784330070968]}, "gap_closed": 0.6195652173913043}, "rp_prose": {"bpb_minus_entropy": {"value": -0.013513335950483889, "ci": [-0.018886382905475424, -0.008120175720568156]}, "gap_closed": 1.1195652173913044}, "rq_orig": {"bpb_minus_entropy": {"value": -0.0029084476262722027, "ci": [-0.00877581910365915, 0.0029918030886145045]}, "gap_closed": 0.6630434782608696}, "rq_prose": {"bpb_minus_entropy": {"value": 0.00021578329113338193, "ci": [-0.0050951712934021775, 0.005136400067073858]}, "gap_closed": 1.0434782608695652}}

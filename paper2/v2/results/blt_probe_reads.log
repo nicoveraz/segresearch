@@ -1,0 +1,66 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:13<56:36,  6.69s/it]Loading weights: 100%|██████████| 510/510 [00:13<00:00, 38.10it/s]
+patcher orig/train: 1382 problems
+patcher orig/test: 275 problems
+patcher prose/train: 1382 problems
+patcher prose/test: 275 problems
+probe marker_prose fitted
+probe auto_prose fitted
+probe anynum_prose fitted
+probe auto_orig fitted
+probe anynum_orig fitted
+counts orig: {'candidates': 16439, 'numbers': 3488, 'computed': 711, 'other_new': 644, 'copies': 2133, 'computed_not_new': 122, 'bytes': 129690}
+AUC orig  marker_prose computed_all             0.966 [0.962, 0.969]
+AUC orig  marker_prose computed_within_numbers  0.844 [0.831, 0.857]
+AUC orig  marker_prose number_all               0.900 [0.893, 0.907]
+AUC orig  auto_prose   computed_all             0.956 [0.950, 0.961]
+AUC orig  auto_prose   computed_within_numbers  0.788 [0.765, 0.810]
+AUC orig  auto_prose   number_all               0.929 [0.924, 0.934]
+AUC orig  anynum_prose computed_all             0.947 [0.943, 0.951]
+AUC orig  anynum_prose computed_within_numbers  0.726 [0.709, 0.743]
+AUC orig  anynum_prose number_all               0.956 [0.952, 0.960]
+AUC orig  auto_orig    computed_all             0.980 [0.976, 0.984]
+AUC orig  auto_orig    computed_within_numbers  0.899 [0.879, 0.917]
+AUC orig  auto_orig    number_all               0.960 [0.956, 0.964]
+AUC orig  anynum_orig  computed_all             0.942 [0.937, 0.947]
+AUC orig  anynum_orig  computed_within_numbers  0.691 [0.671, 0.711]
+AUC orig  anynum_orig  number_all               0.976 [0.973, 0.979]
+counts prose: {'candidates': 26610, 'numbers': 3085, 'computed': 711, 'other_new': 418, 'copies': 1956, 'computed_not_new': 81, 'bytes': 188844}
+AUC prose marker_prose computed_all             0.969 [0.964, 0.973]
+AUC prose marker_prose computed_within_numbers  0.848 [0.830, 0.867]
+AUC prose marker_prose number_all               0.887 [0.880, 0.894]
+AUC prose auto_prose   computed_all             0.960 [0.955, 0.966]
+AUC prose auto_prose   computed_within_numbers  0.768 [0.738, 0.795]
+AUC prose auto_prose   number_all               0.901 [0.894, 0.909]
+AUC prose anynum_prose computed_all             0.931 [0.924, 0.938]
+AUC prose anynum_prose computed_within_numbers  0.589 [0.562, 0.614]
+AUC prose anynum_prose number_all               0.944 [0.939, 0.949]
+AUC prose auto_orig    computed_all             0.911 [0.902, 0.919]
+AUC prose auto_orig    computed_within_numbers  0.601 [0.574, 0.627]
+AUC prose auto_orig    number_all               0.886 [0.877, 0.896]
+AUC prose anynum_orig  computed_all             0.924 [0.916, 0.931]
+AUC prose anynum_orig  computed_within_numbers  0.580 [0.555, 0.606]
+AUC prose anynum_orig  number_all               0.925 [0.919, 0.932]
+FORCED orig  marker_prose {"n_forced": 3891, "share_computed": 0.182, "share_other_new": 0.097, "share_copies": 0.391, "share_non_number": 0.329, "recall_computed": 0.999}
+FORCED orig  auto_prose   {"n_forced": 3971, "share_computed": 0.179, "share_other_new": 0.127, "share_copies": 0.403, "share_non_number": 0.291, "recall_computed": 1.0}
+FORCED orig  anynum_prose {"n_forced": 4006, "share_computed": 0.177, "share_other_new": 0.134, "share_copies": 0.431, "share_non_number": 0.258, "recall_computed": 1.0}
+FORCED orig  auto_orig    {"n_forced": 3890, "share_computed": 0.183, "share_other_new": 0.152, "share_copies": 0.445, "share_non_number": 0.221, "recall_computed": 1.0}
+FORCED orig  anynum_orig  {"n_forced": 3912, "share_computed": 0.181, "share_other_new": 0.15, "share_copies": 0.479, "share_non_number": 0.19, "recall_computed": 0.996}
+FORCED prose marker_prose {"n_forced": 5776, "share_computed": 0.12, "share_other_new": 0.056, "share_copies": 0.219, "share_non_number": 0.604, "recall_computed": 0.976}
+FORCED prose auto_prose   {"n_forced": 5838, "share_computed": 0.119, "share_other_new": 0.07, "share_copies": 0.223, "share_non_number": 0.589, "recall_computed": 0.973}
+FORCED prose anynum_prose {"n_forced": 5874, "share_computed": 0.114, "share_other_new": 0.066, "share_copies": 0.277, "share_non_number": 0.544, "recall_computed": 0.938}
+FORCED prose auto_orig    {"n_forced": 5599, "share_computed": 0.11, "share_other_new": 0.069, "share_copies": 0.225, "share_non_number": 0.596, "recall_computed": 0.864}
+FORCED prose anynum_orig  {"n_forced": 5654, "share_computed": 0.114, "share_other_new": 0.069, "share_copies": 0.26, "share_non_number": 0.557, "recall_computed": 0.906}
+LAYOUT orig  entropy      exact res 0.166 fin 0.516 bpb 0.8142 rate 0.104
+LAYOUT orig  marker_prose exact res 0.626 fin 0.615 bpb 0.7366 rate 0.103 | vs entropy +46.0 [+41.9, +50.0]
+LAYOUT orig  auto_prose   exact res 0.644 fin 0.633 bpb 0.7301 rate 0.103 | vs entropy +47.8 [+43.6, +52.1]
+LAYOUT orig  anynum_prose exact res 0.679 fin 0.647 bpb 0.7233 rate 0.104 | vs entropy +51.3 [+47.7, +55.4]
+LAYOUT prose entropy      exact res 0.217 fin 0.622 bpb 0.7988 rate 0.101
+LAYOUT prose marker_prose exact res 0.366 fin 0.585 bpb 0.7864 rate 0.102 | vs entropy +14.9 [+11.3, +18.7]
+LAYOUT prose auto_prose   exact res 0.384 fin 0.575 bpb 0.7866 rate 0.102 | vs entropy +16.7 [+12.5, +20.8]
+LAYOUT prose anynum_prose exact res 0.356 fin 0.596 bpb 0.7791 rate 0.102 | vs entropy +13.9 [+10.2, +17.7]
+VERDICT W1_within_number_auc {"value": 0.7680403148501642, "ci": [0.738029144848199, 0.7950238917256496], "verdict": "HOLDS"}
+VERDICT W2_auto_minus_anynum_res {"value": 0.02812939521800281, "ci": [0.0042973820194450564, 0.05271046591044376], "verdict": "HOLDS"}
+CONTEXT computed: 'to $' x52 (+1.7); 'comes to' x44 (+1.6); 'total of' x35 (+2.0); 'of $' x27 (+1.5); 'gives $' x13 (+1.7); 'out to' x12 (+1.8); 'by gives' x11 (+1.4); 'from leaves' x9 (-0.7)
+CONTEXT copy: 'the $' x70 (+0.1); 'multiplying by' x48 (+0.6); 'at $' x45 (+1.0); 'so multiplying' x40 (-3.8); 'of $' x31 (-0.0); 'away from' x24 (-2.9); 'from the' x24 (-3.6); 'to the' x23 (-3.6)
+CONTEXT other_new: 'of $' x28 (+2.7); 'to $' x21 (+2.9); 'the $' x17 (+3.9); 'comes to' x14 (+1.7); 'of is' x10 (-1.6); 'at $' x10 (+3.0); 'multiplying by' x9 (+0.7); 'costs $' x9 (+2.8)
+TOP100 {"kinds": {"other_new": 79, "computed": 20, "copy": 1}, "words": [["the $", 13], ["to $", 13], ["of $", 12], ["comes to", 10], ["total of", 5], ["at $", 4], ["another $", 4], ["is $", 4], ["charges $", 2], ["plus $", 2], ["costs $", 2], ["gives $", 2], ["owing $", 2], ["his $", 2], ["that $", 1]]}

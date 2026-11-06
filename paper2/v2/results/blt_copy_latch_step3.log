@@ -1,0 +1,158 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:13<55:52,  6.60s/it]Loading weights: 100%|██████████| 510/510 [00:13<00:00, 38.60it/s]
+  25 problems, 25s
+  50 problems, 48s
+  75 problems, 70s
+  100 problems, 92s
+  125 problems, 113s
+  150 problems, 134s
+  175 problems, 157s
+  200 problems, 177s
+  225 problems, 199s
+  250 problems, 219s
+  275 problems, 239s
+{
+ "status": "exploratory (dev texts); rules followup/O6b_COPY_LATCH_RULES.md at 267de39; step 3 is reported only and never changes L8",
+ "n_test": 293,
+ "patcher_rerun_mismatched_texts": 0,
+ "by_layout": {
+  "E10": {
+   "rate": 0.10720513260472599,
+   "bpb": 1.0210546067824735,
+   "bpb_without_copy": 1.023740178643353,
+   "computed": {
+    "n": 792,
+    "exact": 0.18181818181818182,
+    "bits_per_unit": 5.745969696779444
+   },
+   "id_new": {
+    "n": 293,
+    "exact": 0.0,
+    "bits_per_unit": 22.562398213982174
+   },
+   "id_copy": {
+    "n": 293,
+    "exact": 0.5460750853242321,
+    "bits_per_unit": 2.6913415403089425
+   },
+   "copied": {
+    "n": 2336,
+    "exact": 0.3540239726027397,
+    "bits_per_unit": 3.267240487141152
+   },
+   "word_new": {
+    "n": 1986,
+    "exact": 0.25327291037260824,
+    "bits_per_unit": 5.245478638844547
+   },
+   "word_rep": {
+    "n": 7018,
+    "exact": 0.6679965802222856,
+    "bits_per_unit": 1.8623894217959427
+   },
+   "final": {
+    "n": 293,
+    "exact": 0.32764505119453924,
+    "bits_per_unit": 3.909095331568767
+   }
+  },
+  "E10.V8": {
+   "rate": 0.10806134390662553,
+   "bpb": 1.021041199032183,
+   "bpb_without_copy": 1.0246417367791343,
+   "computed": {
+    "n": 792,
+    "exact": 0.20075757575757575,
+    "bits_per_unit": 5.601088869451273
+   },
+   "id_new": {
+    "n": 293,
+    "exact": 0.0,
+    "bits_per_unit": 22.523284313214923
+   },
+   "id_copy": {
+    "n": 293,
+    "exact": 0.7133105802047781,
+    "bits_per_unit": 2.216739134983805
+   },
+   "copied": {
+    "n": 2336,
+    "exact": 0.3480308219178082,
+    "bits_per_unit": 3.3286060814375746
+   },
+   "word_new": {
+    "n": 1986,
+    "exact": 0.2527693856998993,
+    "bits_per_unit": 5.343021036867589
+   },
+   "word_rep": {
+    "n": 7018,
+    "exact": 0.6632943858649187,
+    "bits_per_unit": 1.9008676396302262
+   },
+   "final": {
+    "n": 293,
+    "exact": 0.3447098976109215,
+    "bits_per_unit": 3.8930826916426113
+   }
+  },
+  "E10.V8+k": {
+   "rate": 0.11020644333314755,
+   "bpb": 1.02191457386777,
+   "bpb_without_copy": 1.0243811525871938,
+   "computed": {
+    "n": 792,
+    "exact": 0.20075757575757575,
+    "bits_per_unit": 5.601088869451273
+   },
+   "id_new": {
+    "n": 293,
+    "exact": 0.0,
+    "bits_per_unit": 22.523284313214923
+   },
+   "id_copy": {
+    "n": 293,
+    "exact": 0.4778156996587031,
+    "bits_per_unit": 2.8083626125452867
+   },
+   "copied": {
+    "n": 2336,
+    "exact": 0.3480308219178082,
+    "bits_per_unit": 3.3286060814375746
+   },
+   "word_new": {
+    "n": 1986,
+    "exact": 0.2527693856998993,
+    "bits_per_unit": 5.343021036867589
+   },
+   "word_rep": {
+    "n": 7018,
+    "exact": 0.6632943858649187,
+    "bits_per_unit": 1.9008676396302262
+   },
+   "final": {
+    "n": 293,
+    "exact": 0.36860068259385664,
+    "bits_per_unit": 3.8151094727345294
+   }
+  }
+ },
+ "id_copy_by_E10_c1": {
+  "with E10 start at c1": {
+   "n": 93,
+   "E10": 0.3010752688172043,
+   "E10.V8": 0.7849462365591398,
+   "E10.V8+k": 0.5376344086021505
+  },
+  "without E10 start at c1": {
+   "n": 200,
+   "E10": 0.66,
+   "E10.V8": 0.68,
+   "E10.V8+k": 0.45
+  }
+ }
+}
+E10.V8 vs E10 | rate +0.0009 | bpb-c +0.0009 | computed +1.9 id_new +0.0 id_copy +16.7 copied -0.6 word_new -0.1 word_rep -0.5 final +1.7
+E10.V8+k vs E10 | rate +0.0030 | bpb-c +0.0006 | computed +1.9 id_new +0.0 id_copy -6.8 copied -0.6 word_new -0.1 word_rep -0.5 final +4.1
+E10.V8+k vs E10.V8 | rate +0.0021 | bpb-c -0.0003 | computed +0.0 id_new +0.0 id_copy -23.5 copied +0.0 word_new +0.0 word_rep +0.0 final +2.4
+wrote results/blt_copy_latch_step3.json (exploratory, dev)
+exit 0

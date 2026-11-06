@@ -1,0 +1,817 @@
+masks 6s
+rewrites F1 digits4 {'V8': 293, 'SIV': 293, 'PO': 293, 'SIVPO': 293, 'L8b': 293} 7s
+rewrites F2a digits4 {'V8': 0, 'SIV': 0, 'PO': 0, 'SIVPO': 0, 'L8b': 0} 8s
+rewrites F2b digits4 {'V8': 293, 'SIV': 0, 'PO': 293, 'SIVPO': 293, 'L8b': 293} 9s
+rewrites F4 digits4 {'V8': 293, 'SIV': 293, 'PO': 293, 'SIVPO': 293, 'L8b': 293} 9s
+rewrites F3 digits6 {'V8': 293, 'SIV': 293, 'PO': 293, 'SIVPO': 293, 'L8b': 293} 10s
+rewrites F3 letters4 {'V8': 293, 'SIV': 293, 'PO': 293, 'SIVPO': 293, 'L8b': 293} 11s
+rewrites F3 mixed {'V8': 293, 'SIV': 293, 'PO': 293, 'SIVPO': 293, 'L8b': 293} 12s
+rewrites F3 dose {'V8': 293, 'SIV': 293, 'PO': 34, 'SIVPO': 293, 'L8b': 293} 12s
+{
+ "status": "exploratory: stored dev outputs and dev problems (GSM8K idx 0-299) only; no model run",
+ "A_decisions": {
+  "go (b) at D: L8 new-value removals (whole-number test), allowed 2 of 799": 1,
+  "go (b) at E10: L8 new-value removals (must be 0)": 0,
+  "L8c trigger (more than 2 of 799)": false,
+  "V8 at D, new / same (whole-number)": [
+   46,
+   4
+  ],
+  "V8 at D, new / same (prefix test, as reported)": [
+   45,
+   5
+  ],
+  "removals where the two tests differ": {
+   "eq_test": [
+    {
+     "rule": "D-V8",
+     "text": 87,
+     "idx": null,
+     "token": 495,
+     "value": "720",
+     "new_value": true,
+     "new_value_prefix_test": false,
+     "context": "will increase by 10/100 * $7200/year = $"
+    }
+   ],
+   "eq_train": [
+    {
+     "rule": "D-V8",
+     "text": 264,
+     "idx": null,
+     "token": 705,
+     "value": "2",
+     "new_value": true,
+     "new_value_prefix_test": false,
+     "context": " Jimmy can make is 1kg \u00f7 0.5kg/pizza = "
+    }
+   ]
+  },
+  "eq_train (E10 fitted in-sample on eq_train)": {
+   "D-L8": {
+    "in_layout": 890,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0
+   },
+   "E10-L8": {
+    "in_layout": 123,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0
+   },
+   "D-L8c": {
+    "in_layout": 890,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0
+   },
+   "D-V8": {
+    "in_layout": 890,
+    "removed": 59,
+    "new_value": 57,
+    "new_value_prefix_test": 56
+   },
+   "D-SIVPO": {
+    "in_layout": 890,
+    "removed": 1,
+    "new_value": 1,
+    "new_value_prefix_test": 1
+   },
+   "E10-SIVPO": {
+    "in_layout": 123,
+    "removed": 0,
+    "new_value": 0,
+    "new_value_prefix_test": 0
+   }
+  }
+ },
+ "B_choice2": {
+  "pooled D": {
+   "new_value": 1,
+   "in_layout": 1689,
+   "rate": 0.0005920663114268798
+  },
+  "D computed-value starts per text": {
+   "eq_test": 2.7176870748299318,
+   "eq_train": 2.9966329966329965,
+   "pooled": 2.8578680203045685
+  },
+  "F6 expected D starts": {
+   "eq_test": 1631,
+   "eq_train": 1798,
+   "pooled": 1715
+  },
+  "P(C4 at D holds: at most 4)": {
+   "eq_test": {
+    "jeffreys": 0.9406849621027975,
+    "plug_in": 0.9968399297448597
+   },
+   "eq_train": {
+    "jeffreys": 0.9257588347424803,
+    "plug_in": 0.9952517582291794
+   },
+   "pooled": {
+    "jeffreys": 0.9333095890015735,
+    "plug_in": 0.9960986983893596
+   }
+  },
+  "P(zero at D), O6's former bar, for reference": {
+   "eq_test": {
+    "jeffreys": 0.3629198357870786,
+    "plug_in": 0.38073177517859447
+   },
+   "eq_train": {
+    "jeffreys": 0.3371611088405811,
+    "plug_in": 0.3448881118791422
+   },
+   "pooled": {
+    "jeffreys": 0.34956852341224776,
+    "plug_in": 0.36225977134890236
+   }
+  },
+  "eq_test alone": {
+   "eq_test": {
+    "jeffreys": 0.7568610661899057,
+    "plug_in": 0.9435436625447648
+   },
+   "eq_train": {
+    "jeffreys": 0.7219677671630959,
+    "plug_in": 0.92195067153932
+   },
+   "pooled": {
+    "jeffreys": 0.7391266729291958,
+    "plug_in": 0.9331696642637771
+   }
+  },
+  "E10 (K2)": {
+   "new_value": 0,
+   "in_layout": 252,
+   "F6 expected E10 starts": 256,
+   "P(K2) if E10's rate were D's pooled rate": 0.14064139465446446,
+   "P(K2), Jeffreys on E10's own 0 of n": 0.29683471519479665
+  },
+  "L8 masks at computed-value positions": [
+   {
+    "group": "eq_test",
+    "text": 147,
+    "token": 596,
+    "value": "10560",
+    "D_start": true,
+    "h_t-1_bits": 2.5134452665487412,
+    "new_value": true,
+    "context": "o travel 2 miles * (5280 feet/1 mile) = "
+   },
+   {
+    "group": "eq_train",
+    "text": 279,
+    "token": 259,
+    "value": "2210",
+    "D_start": false,
+    "h_t-1_bits": 1.8484530211389845,
+    "new_value": true,
+    "context": "ku has is 2125 stickers + 85 stickers = "
+   }
+  ]
+ },
+ "C_rewrites": {
+  "F1 digits4": {
+   "texts": 293,
+   "fires_c1": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masks_whole_copy": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masked_tokens_outside_copy_per_text": {
+    "V8": 87.96928327645051,
+    "SIV": 6.733788395904437,
+    "PO": 0.18771331058020477,
+    "SIVPO": 6.897610921501706,
+    "L8b": 45.13310580204778
+   },
+   "distance_median": 222.0,
+   "in_F4_window": 7
+  },
+  "F2a digits4": {
+   "texts": 293,
+   "fires_c1": {
+    "V8": 0,
+    "SIV": 0,
+    "PO": 0,
+    "SIVPO": 0,
+    "L8b": 0
+   },
+   "masks_whole_copy": {
+    "V8": 0,
+    "SIV": 0,
+    "PO": 0,
+    "SIVPO": 0,
+    "L8b": 0
+   },
+   "masked_tokens_outside_copy_per_text": {
+    "V8": 86.87713310580205,
+    "SIV": 3.733788395904437,
+    "PO": 0.18771331058020477,
+    "SIVPO": 3.8976109215017063,
+    "L8b": 45.081911262798634
+   },
+   "distance_median": 233.0,
+   "in_F4_window": 7
+  },
+  "F2b digits4": {
+   "texts": 293,
+   "fires_c1": {
+    "V8": 293,
+    "SIV": 0,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masks_whole_copy": {
+    "V8": 293,
+    "SIV": 0,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 290
+   },
+   "masked_tokens_outside_copy_per_text": {
+    "V8": 95.84982935153583,
+    "SIV": 3.733788395904437,
+    "PO": 0.19112627986348124,
+    "SIVPO": 3.901023890784983,
+    "L8b": 46.051194539249146
+   },
+   "distance_median": 253.0,
+   "in_F4_window": 8
+  },
+  "F4 digits4": {
+   "texts": 293,
+   "fires_c1": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masks_whole_copy": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masked_tokens_outside_copy_per_text": {
+    "V8": 89.07508532423208,
+    "SIV": 10.754266211604095,
+    "PO": 0.28668941979522183,
+    "SIVPO": 11.017064846416382,
+    "L8b": 46.27645051194539
+   },
+   "distance_median": 451.0,
+   "in_F4_window": 105
+  },
+  "F3 digits6": {
+   "texts": 293,
+   "fires_c1": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masks_whole_copy": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masked_tokens_outside_copy_per_text": {
+    "V8": 87.96928327645051,
+    "SIV": 6.733788395904437,
+    "PO": 0.18771331058020477,
+    "SIVPO": 6.897610921501706,
+    "L8b": 45.13310580204778
+   },
+   "distance_median": 224.0,
+   "in_F4_window": 7
+  },
+  "F3 letters4": {
+   "texts": 293,
+   "fires_c1": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masks_whole_copy": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masked_tokens_outside_copy_per_text": {
+    "V8": 87.96928327645051,
+    "SIV": 6.733788395904437,
+    "PO": 0.28668941979522183,
+    "SIVPO": 6.996587030716723,
+    "L8b": 45.13310580204778
+   },
+   "distance_median": 222.0,
+   "in_F4_window": 7
+  },
+  "F3 mixed": {
+   "texts": 293,
+   "fires_c1": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masks_whole_copy": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 293,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masked_tokens_outside_copy_per_text": {
+    "V8": 87.96928327645051,
+    "SIV": 6.733788395904437,
+    "PO": 0.18771331058020477,
+    "SIVPO": 6.897610921501706,
+    "L8b": 45.13310580204778
+   },
+   "distance_median": 226.0,
+   "in_F4_window": 7
+  },
+  "F3 dose": {
+   "texts": 293,
+   "fires_c1": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 34,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masks_whole_copy": {
+    "V8": 293,
+    "SIV": 293,
+    "PO": 34,
+    "SIVPO": 293,
+    "L8b": 293
+   },
+   "masked_tokens_outside_copy_per_text": {
+    "V8": 97.8566552901024,
+    "SIV": 16.733788395904437,
+    "PO": 0.18771331058020477,
+    "SIVPO": 16.897610921501705,
+    "L8b": 47.10238907849829
+   },
+   "distance_median": 232.0,
+   "in_F4_window": 7
+  }
+ },
+ "E_far_copies": {
+  "n": 8,
+  "argmax_ok_c1": 8,
+  "distances": [
+   583,
+   556,
+   562,
+   619,
+   563,
+   556,
+   534,
+   552
+  ],
+  "D_exact": 1,
+  "D-all_exact": 8
+ },
+ "F_step3_G0": {
+  "E10": {
+   "exact_equal": 293,
+   "bits_within_0.05": 1.0,
+   "of": 293
+  },
+  "E10.V8": {
+   "exact_equal": 293,
+   "bits_within_0.05": 1.0,
+   "of": 293
+  }
+ },
+ "G_planted_peek": {
+  "texts": 20,
+  "changed_decisions": 25,
+  "caught": true
+ },
+ "I_dev_L8_vs_SIV": {
+  "pairs": {
+   "D.L8 vs D.SIV": {
+    "computed": {
+     "exact": [
+      0.003787878787878788,
+      [
+       -0.001293956610000034,
+       0.009473225054421363
+      ]
+     ],
+     "bits_per_unit": [
+      0.01326674222946167,
+      [
+       -0.0005324059909334315,
+       0.030608543078270826
+      ]
+     ]
+    },
+    "id_new": {
+     "exact": [
+      0.0,
+      [
+       0.0,
+       0.0
+      ]
+     ],
+     "bits_per_unit": [
+      0.002512398026502173,
+      [
+       -0.004497624501433389,
+       0.010510871516152858
+      ]
+     ]
+    },
+    "id_copy": {
+     "exact": [
+      -0.013651877133105802,
+      [
+       -0.030716723549488054,
+       0.0
+      ]
+     ],
+     "bits_per_unit": [
+      0.0426537762729788,
+      [
+       0.01095365201450452,
+       0.07809093735934113
+      ]
+     ]
+    },
+    "copied": {
+     "exact": [
+      0.0008561643835616438,
+      [
+       -0.0034440083540184306,
+       0.005313282240584578
+      ]
+     ],
+     "bits_per_unit": [
+      -0.0028817745002165233,
+      [
+       -0.01263139180055856,
+       0.006677696626720302
+      ]
+     ]
+    },
+    "word_new": {
+     "exact": [
+      0.0015105740181268882,
+      [
+       -0.0021673067652843063,
+       0.00546455556651041
+      ]
+     ],
+     "bits_per_unit": [
+      -0.014302226306808679,
+      [
+       -0.027385949064149363,
+       -0.0033047068141410663
+      ]
+     ]
+    },
+    "word_rep": {
+     "exact": [
+      0.001994870333428327,
+      [
+       0.00014178922480593455,
+       0.003907434154613249
+      ]
+     ],
+     "bits_per_unit": [
+      -0.005854365559988601,
+      [
+       -0.010410937216279038,
+       -0.0016113216060853347
+      ]
+     ]
+    },
+    "final": {
+     "exact": [
+      -0.006825938566552901,
+      [
+       -0.020477815699658702,
+       0.006825938566552901
+      ]
+     ],
+     "bits_per_unit": [
+      0.038302924445871606,
+      [
+       0.013927713809566693,
+       0.07297331837765592
+      ]
+     ]
+    },
+    "bpb": [
+     -7.404234800782959e-05,
+     [
+      -0.0006072912763042942,
+      0.00045998144882880457
+     ]
+    ],
+    "bpb_without_copy": [
+     -0.00015685308784823998,
+     [
+      -0.000693254738715589,
+      0.0003733425410529633
+     ]
+    ],
+    "rate": 0.00013562545988249353
+   },
+   "E10.L8 vs E10.SIV": {
+    "computed": {
+     "exact": [
+      -0.0012626262626262627,
+      [
+       -0.005912651732133115,
+       0.002728606147354609
+      ]
+     ],
+     "bits_per_unit": [
+      0.004355196398918075,
+      [
+       -0.004933545628460557,
+       0.013316555647461092
+      ]
+     ]
+    },
+    "id_new": {
+     "exact": [
+      0.0,
+      [
+       0.0,
+       0.0
+      ]
+     ],
+     "bits_per_unit": [
+      -0.002123119888045275,
+      [
+       -0.01036866923647936,
+       0.007217790974691861
+      ]
+     ]
+    },
+    "id_copy": {
+     "exact": [
+      -0.0034129692832764505,
+      [
+       -0.017064846416382253,
+       0.006825938566552901
+      ]
+     ],
+     "bits_per_unit": [
+      0.004242976777789536,
+      [
+       -0.012803501928218802,
+       0.0235124430355358
+      ]
+     ]
+    },
+    "copied": {
+     "exact": [
+      0.0004280821917808219,
+      [
+       -0.0030501089324618735,
+       0.00451192506922984
+      ]
+     ],
+     "bits_per_unit": [
+      -0.007327532727424413,
+      [
+       -0.017424582030815094,
+       0.0021392246662670067
+      ]
+     ]
+    },
+    "word_new": {
+     "exact": [
+      0.005035246727089627,
+      [
+       0.0020058676028084253,
+       0.008488362068965515
+      ]
+     ],
+     "bits_per_unit": [
+      -0.009279639219109265,
+      [
+       -0.019635401488628534,
+       0.0005562574086716434
+      ]
+     ]
+    },
+    "word_rep": {
+     "exact": [
+      -0.00014249073810202338,
+      [
+       -0.0013990761037132495,
+       0.0011597786783357495
+      ]
+     ],
+     "bits_per_unit": [
+      -0.0016366885781254174,
+      [
+       -0.005395928449468622,
+       0.001731311227270488
+      ]
+     ]
+    },
+    "final": {
+     "exact": [
+      -0.0034129692832764505,
+      [
+       -0.017064846416382253,
+       0.006825938566552901
+      ]
+     ],
+     "bits_per_unit": [
+      0.01286713519600878,
+      [
+       -0.001997935253198643,
+       0.030473712808849866
+      ]
+     ]
+    },
+    "bpb": [
+     0.0003115482490122203,
+     [
+      -0.0002797686164703279,
+      0.0009370298692465372
+     ]
+    ],
+    "bpb_without_copy": [
+     0.00030577022349285716,
+     [
+      -0.0002844903388681413,
+      0.0009306600491336286
+     ]
+    ],
+    "rate": 4.578134580338067e-06
+   }
+  },
+  "paired_rows": {
+   "D": {
+    "id_copy exact": {
+     "diff": [
+      -0.013651877133105802,
+      [
+       -0.030716723549488054,
+       0.0
+      ]
+     ],
+     "class": "tie"
+    },
+    "C3 computed": {
+     "diff": [
+      0.003787878787878788,
+      [
+       -0.001293956610000034,
+       0.009473225054421363
+      ]
+     ],
+     "class": "tie"
+    },
+    "C3f final": {
+     "diff": [
+      -0.006825938566552901,
+      [
+       -0.020477815699658702,
+       0.006825938566552901
+      ]
+     ],
+     "class": "tie"
+    },
+    "C3c copied": {
+     "diff": [
+      0.0008561643835616438,
+      [
+       -0.0034440083540184306,
+       0.005313282240584578
+      ]
+     ],
+     "class": "tie"
+    },
+    "C2 bits per byte without the copy": {
+     "diff": [
+      0.00015685308784823998,
+      [
+       -0.0003733425410529633,
+       0.000693254738715589
+      ]
+     ],
+     "class": "tie"
+    },
+    "id_copy bits per copy": {
+     "diff": [
+      -0.0426537762729788,
+      [
+       -0.07809093735934113,
+       -0.01095365201450452
+      ]
+     ],
+     "class": "tie"
+    }
+   },
+   "E10": {
+    "id_copy exact": {
+     "diff": [
+      -0.0034129692832764505,
+      [
+       -0.017064846416382253,
+       0.006825938566552901
+      ]
+     ],
+     "class": "tie"
+    },
+    "C3 computed": {
+     "diff": [
+      -0.0012626262626262627,
+      [
+       -0.005912651732133115,
+       0.002728606147354609
+      ]
+     ],
+     "class": "tie"
+    },
+    "C3f final": {
+     "diff": [
+      -0.0034129692832764505,
+      [
+       -0.017064846416382253,
+       0.006825938566552901
+      ]
+     ],
+     "class": "tie"
+    },
+    "C3c copied": {
+     "diff": [
+      0.0004280821917808219,
+      [
+       -0.0030501089324618735,
+       0.00451192506922984
+      ]
+     ],
+     "class": "tie"
+    },
+    "C2 bits per byte without the copy": {
+     "diff": [
+      -0.00030577022349285716,
+      [
+       -0.0009306600491336286,
+       0.0002844903388681413
+      ]
+     ],
+     "class": "tie"
+    },
+    "id_copy bits per copy": {
+     "diff": [
+      -0.004242976777789536,
+      [
+       -0.0235124430355358,
+       0.012803501928218802
+      ]
+     ],
+     "class": "tie"
+    }
+   }
+  }
+ },
+ "H_causality_restated": {
+  "texts": 1839,
+  "distinct_L8_L8c_decisions": 2098222,
+  "boundary_comparisons": 4181732,
+  "all_comparisons": 1327362096,
+  "changed": 0
+ },
+ "seconds": 15.912791728973389
+}
+wrote results/blt_copy_latch_devcheck.json (exploratory)

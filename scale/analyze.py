@@ -31,6 +31,8 @@ def load(d):
     runs = defaultdict(dict)
     for f in glob.glob(os.path.join(d, "runs", "*", "result.json")):
         o = json.load(open(f))
+        if o.get("cfg", {}).get("clip"):  # the 50M re-runs with gradient clipping (paper 2) are a second recipe: keep them apart
+            continue
         runs[(o["size"], o["arm"])][o["seed"]] = o
     return runs
 

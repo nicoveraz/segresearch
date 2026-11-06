@@ -1,0 +1,26 @@
+{
+ "orig|$": {
+  "n": 167,
+  "entropy_covered": 0.0,
+  "exact_entropy": 0.041916167664670656,
+  "exact_with": 0.437125748502994
+ },
+ "orig|= ": {
+  "n": 544,
+  "entropy_covered": 0.17830882352941177,
+  "exact_entropy": 0.20404411764705882,
+  "exact_with": 0.5661764705882353
+ },
+ "prose|$": {
+  "n": 163,
+  "entropy_covered": 0.0,
+  "exact_entropy": 0.09202453987730061,
+  "exact_with": 0.4539877300613497
+ },
+ "prose|space": {
+  "n": 548,
+  "entropy_covered": 0.7427007299270073,
+  "exact_entropy": 0.25364963503649635,
+  "exact_with": 0.31386861313868614
+ }
+}

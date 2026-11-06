@@ -1,0 +1,58 @@
+{
+ "status": "self-test of the O6c code on dev problems (bytes only; no model)",
+ "builder": {
+  "dev texts": 250,
+  "visited": 255,
+  "deterministic": true,
+  "copy's first token before the end (tokens)": [
+   34,
+   39
+  ]
+ },
+ "cutoff mask": "250 dev texts (76 longer than 620 tokens) and one joined text of 1023 tokens: SIV+PO below 620, nothing from 620 on",
+ "causal": "70 prefixes of 21 texts: a p-byte prefix's mask equals the full text's mask at tokens 0..p+1",
+ "layout": "short texts: D.SIVPO620 = D.SIVPO on 10; a 1023-token text: 5 starts from token 620 on where SIV+PO's mask holds",
+ "guard refuses here": {
+  "": "O6C_FILED='' does not name a commit",
+  "HEAD": "3875d32c33311d23e9b1a4938eef24b149b57709 introduced no heading line '## O6c confirmatory rule, filed (YYYY-MM-DD)' (outside code fences and comments, dated 2026-10-31 or later)",
+  "HEAD^{tree}": "O6C_FILED='HEAD^{tree}' does not name a commit",
+  ":0": "O6C_FILED=':0' does not name a commit",
+  "no-such-commit": "O6C_FILED='no-such-commit' does not name a commit"
+ },
+ "guard covers": [
+  "_seg.py",
+  "analysis/2026-10-30_copyfix/bytes/final_rules.py",
+  "blt_light.py",
+  "realblt_copy_latch.py",
+  "realblt_copy_latch_cutoff.py",
+  "realblt_copy_latch_fresh.py",
+  "realblt_copy_veto.py",
+  "realblt_quadrant.py",
+  "segresearch/blt_layouts.py",
+  "segresearch/blt_load.py",
+  "segresearch/realblt_budget.py",
+  "segresearch/registry.py"
+ ],
+ "guard in a scratch repository": {
+  "accepts": "the filing commit",
+  "refuses": {
+   "no heading": "240e757408956e366e3649ffcc83d88ecf140a0c introduced no heading line '## O6c confirmatory rule, filed (YYYY-MM-DD)' (outside code fences and comments, dated 2026-10-31 or later)",
+   "O6b's heading": "a27f64bd41061ef9e59c4b165275558a6dda51ed introduced no heading line '## O6c confirmatory rule, filed (YYYY-MM-DD)' (outside code fences and comments, dated 2026-10-31 or later)",
+   "dated before 2026-10-31": "8e8c6fbfae5318e8bb311a2e88239678e48340e6 introduced no heading line '## O6c confirmatory rule, filed (YYYY-MM-DD)' (outside code fences and comments, dated 2026-10-31 or later)",
+   "a filing commit that also edits code": "5f2c30c7586bce1762a4b2b1275ba42817fc41a5 changes code against its parent; a filing commit changes the text only",
+   "code changed after filing": "the code differs from 2b6d023bbfc5c2e9593b74f5f49aca8014cea81b: git diff 2b6d023bbfc5c2e9593b74f5f49aca8014cea81b",
+   "the O6b code changed from its pin": "realblt_copy_latch_fresh.py at 1e0d3436753dda866fadf27c3263b802ca80c65e differs from O6b's pin, 565e80c26155957701dd639d38fb939c491b2f30",
+   "a pin that is not its code": "the code at fb6447644b404fa85ce230eb741175eccd3e7c7c differs from the code commit its rules file pins, 1c1af89497c9b94e9ba2420fb11cab963905d222"
+  }
+ },
+ "model": {
+  "model": "itazap/blt-1b-hf",
+  "snapshot": "91aa6b8e168046ad91e517d2191e1e974f50cc01",
+  "weights_blob": "fdc3e6f1571c7c81a2d6f1b3c36b0deabd56509c466d4735aef72a9517436f94",
+  "transformers": "5.18.0",
+  "torch": "2.14.1",
+  "numpy": "2.5.3",
+  "modeling_blt_sha256": "df8ecdd41c5a85d3623ea8670bbbeeeda4c3c52827a0961a33ede11a085a5f32",
+  "device": "mps"
+ }
+}

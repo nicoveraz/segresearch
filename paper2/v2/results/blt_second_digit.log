@@ -1,0 +1,52 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:13<55:10,  6.52s/it]Loading weights: 100%|██████████| 510/510 [00:13<00:00, 39.08it/s]
+patcher orig/train: 1382 problems
+patcher orig/test: 275 problems
+patcher prose/train: 1382 problems
+patcher prose/test: 275 problems
+orig: tau 1.469 forced {"P_per_token": 0.0133549232785874, "P_all_per_token": 0.026856349757113117, "P_shares": {"computed": 0.3094688221709007, "other_new": 0.1945727482678984, "copy": 0.4959584295612009}}
+prose: tau 1.219 forced {"P_per_token": 0.0080913346465866, "P_all_per_token": 0.016336235199423864, "P_shares": {"computed": 0.406413612565445, "other_new": 0.14397905759162305, "copy": 0.44960732984293195}}
+LAYOUT orig  E     exact 0.166 tail 0.427 fin 0.516 bpb 0.8142 rate 0.104
+LAYOUT orig  P     exact 0.228 tail 0.661 fin 0.604 bpb 0.7841 rate 0.104
+LAYOUT orig  P_all exact 0.242 tail 0.770 fin 0.662 bpb 0.7545 rate 0.103
+LAYOUT orig  D     exact 0.712 tail 0.790 fin 0.658 bpb 0.7219 rate 0.103
+LAYOUT orig  DP    exact 0.733 tail 0.820 fin 0.651 bpb 0.7305 rate 0.104
+LAYOUT orig  O1    exact 0.508 tail 0.655 fin 0.600 bpb 0.7809 rate 0.103
+LAYOUT orig  O2    exact 0.217 tail 0.622 fin 0.596 bpb 0.7981 rate 0.104
+DIFF orig  O2   -E     exact +5.1 [+3.2, +7.2]
+DIFF orig  O2   -E     tail  +19.5 [+15.8, +23.0]
+DIFF orig  P    -E     exact +6.2 [+3.7, +8.7]
+DIFF orig  P    -E     tail  +23.4 [+19.6, +27.3]
+DIFF orig  DP   -D     exact +2.1 [-0.3, +4.5]
+DIFF orig  DP   -D     tail  +3.0 [+0.8, +5.3]
+DIFF orig  P    -P_all exact -1.4 [-3.9, +1.1]
+DIFF orig  P    -P_all tail  -10.9 [-14.5, -7.5]
+DIFF orig  O1   -E     exact +34.2 [+30.1, +38.2]
+DIFF orig  O1   -E     tail  +22.9 [+19.2, +26.7]
+DIFF orig  D    -E     exact +54.6 [+50.4, +58.3]
+DIFF orig  D    -E     tail  +36.3 [+32.0, +40.8]
+DIFF orig  P_all-E     exact +7.6 [+4.8, +10.5]
+DIFF orig  P_all-E     tail  +34.3 [+30.0, +38.5]
+LAYOUT prose E     exact 0.217 tail 0.481 fin 0.622 bpb 0.7988 rate 0.101
+LAYOUT prose P     exact 0.253 tail 0.644 fin 0.629 bpb 0.7984 rate 0.101
+LAYOUT prose P_all exact 0.276 tail 0.684 fin 0.615 bpb 0.7975 rate 0.102
+LAYOUT prose D     exact 0.384 tail 0.615 fin 0.575 bpb 0.7866 rate 0.102
+LAYOUT prose DP    exact 0.409 tail 0.711 fin 0.545 bpb 0.7982 rate 0.102
+LAYOUT prose O1    exact 0.331 tail 0.571 fin 0.622 bpb 0.7939 rate 0.101
+LAYOUT prose O2    exact 0.257 tail 0.642 fin 0.633 bpb 0.7983 rate 0.101
+DIFF prose O2   -E     exact +4.1 [+2.2, +6.1]
+DIFF prose O2   -E     tail  +16.1 [+12.6, +19.7]
+DIFF prose P    -E     exact +3.7 [+1.3, +6.1]
+DIFF prose P    -E     tail  +16.3 [+12.7, +19.8]
+DIFF prose DP   -D     exact +2.5 [+0.3, +4.7]
+DIFF prose DP   -D     tail  +9.6 [+6.9, +12.4]
+DIFF prose P    -P_all exact -2.3 [-4.6, +0.1]
+DIFF prose P    -P_all tail  -4.0 [-6.9, -1.0]
+DIFF prose O1   -E     exact +11.4 [+8.7, +14.2]
+DIFF prose O1   -E     tail  +9.1 [+6.3, +12.1]
+DIFF prose D    -E     exact +16.7 [+12.7, +20.9]
+DIFF prose D    -E     tail  +13.4 [+9.3, +17.6]
+DIFF prose P_all-E     exact +5.9 [+3.1, +8.9]
+DIFF prose P_all-E     tail  +20.3 [+16.4, +24.1]
+VERDICT T1 {"value": 0.040787623066104076, "ci": [0.02194787379972565, 0.06083654763678233], "verdict": "HOLDS"}
+VERDICT T2 {"value": 0.03656821378340366, "ci": [0.01253351504216907, 0.06077465284018535], "verdict": "HOLDS"}
+VERDICT T3 {"value": 0.02531645569620253, "ci": [0.002714901547917141, 0.04734730857112492], "verdict": "HOLDS"}

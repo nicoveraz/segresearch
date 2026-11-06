@@ -1,0 +1,136 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:16<1:10:47,  8.36s/it]Loading weights: 100%|██████████| 510/510 [00:16<00:00, 30.41it/s]
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (1048 > 1024). Running this sequence through the model will result in indexing errors
+293 test problems; window 0; default threshold 1.3354 nats
+  25 problems, 127s
+  50 problems, 164s
+  75 problems, 200s
+  100 problems, 233s
+  125 problems, 267s
+  150 problems, 300s
+  175 problems, 340s
+  200 problems, 373s
+  225 problems, 411s
+  250 problems, 441s
+  275 problems, 474s
+{
+ "n": 293,
+ "exact": {
+  "FULL": 0.23208191126279865,
+  "D": 0.23208191126279865,
+  "D-all": 0.6552901023890785
+ },
+ "bits": {
+  "FULL": 3.579519756824897,
+  "D": 3.5794245277248553,
+  "D-all": 5.295707909116973
+ },
+ "G0": {
+  "FULL_equals_D": 292,
+  "of": 293,
+  "D_vs_float_threshold_mismatched_starts": 227
+ },
+ "conversion_check": {
+  "exact_D": 0.23208191126279865,
+  "exact_D-all": 0.6552901023890785,
+  "diff": 0.4232081911262799,
+  "ci": [
+   0.3412969283276451,
+   0.5085324232081911
+  ],
+  "bits_saved": [
+   -1.7162833813921177,
+   [
+    -2.354457969172721,
+    -1.1017795357993039
+   ]
+  ],
+  "hazard_without_window_fix": true
+ }
+}
+{
+ "share_onset_start": 0.9965870307167235,
+ "share_inside_start": 0.9556313993174061,
+ "share_onset_or_inside": 1.0,
+ "share_start_in_context_bytes": [
+  0.3720136518771331,
+  1.0,
+  0.20477815699658702,
+  0.18088737201365188,
+  0.20819112627986347,
+  0.19112627986348124,
+  0.23890784982935154,
+  0.23208191126279865
+ ],
+ "share_start_after_copy": 0.46757679180887374,
+ "rate_D": 0.3105189324052556,
+ "cells": {
+  "onset=0 inside=1": {
+   "n": 1,
+   "exact_D": 0.0,
+   "exact_D-all": 1.0
+  },
+  "onset=1 inside=0": {
+   "n": 13,
+   "exact_D": 0.07692307692307693,
+   "exact_D-all": 1.0
+  },
+  "onset=1 inside=1": {
+   "n": 279,
+   "exact_D": 0.24014336917562723,
+   "exact_D-all": 0.6379928315412187
+  }
+ },
+ "first_failing_digit": {
+  "FULL": {
+   "0": 1,
+   "1": 8,
+   "2": 25,
+   "3": 191
+  },
+  "D": {
+   "0": 1,
+   "1": 8,
+   "2": 25,
+   "3": 191
+  },
+  "D-all": {
+   "0": 24,
+   "1": 32,
+   "2": 14,
+   "3": 31
+  }
+ },
+ "patcher_entropy_bits_copy_digits_and_after": [
+  3.793,
+  2.168,
+  2.426,
+  2.737,
+  2.225
+ ],
+ "patcher_entropy_bits_source_digits": [
+  4.972,
+  3.723,
+  3.953,
+  3.787
+ ],
+ "patcher_own_copy_exact": 0.2901023890784983,
+ "patcher_own_digit_ok": [
+  0.686,
+  0.775,
+  0.645,
+  0.345
+ ],
+ "distance_bytes": {
+  "min": 59,
+  "median": 222.0,
+  "max": 619,
+  "within_window": 285
+ },
+ "beyond_window": {
+  "n": 8,
+  "exact_FULL": 0.625,
+  "exact_D": 0.625,
+  "exact_D-all": 0.0
+ }
+}
+wrote results/blt_copy_gate_w0.json

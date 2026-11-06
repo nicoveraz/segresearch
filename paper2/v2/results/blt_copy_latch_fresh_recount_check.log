@@ -1,0 +1,10 @@
+keys compared: 28 x 4 fields
+changed counts: none
+eq_test D-L8 {'in_layout': 799, 'removed': 1, 'new_value': 1, 'new_value_prefix_test': 1}
+eq_test E10-L8 {'in_layout': 129, 'removed': 0, 'new_value': 0, 'new_value_prefix_test': 0}
+eq_test D-V8 {'in_layout': 799, 'removed': 50, 'new_value': 46, 'new_value_prefix_test': 45}
+eq_test E10-V8 {'in_layout': 129, 'removed': 0, 'new_value': 0, 'new_value_prefix_test': 0}
+eq_train D-L8 {'in_layout': 890, 'removed': 0, 'new_value': 0, 'new_value_prefix_test': 0}
+eq_train E10-L8 {'in_layout': 123, 'removed': 0, 'new_value': 0, 'new_value_prefix_test': 0}
+eq_train D-V8 {'in_layout': 890, 'removed': 59, 'new_value': 57, 'new_value_prefix_test': 56}
+eq_train E10-V8 {'in_layout': 123, 'removed': 0, 'new_value': 0, 'new_value_prefix_test': 0}

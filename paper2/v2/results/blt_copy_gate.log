@@ -1,0 +1,211 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:18<1:16:58,  9.09s/it]Loading weights: 100%|██████████| 510/510 [00:18<00:00, 27.91it/s]
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (1048 > 1024). Running this sequence through the model will result in indexing errors
+293 test problems; window 512; default threshold 1.3354 nats
+  25 problems, 94s
+  50 problems, 182s
+  75 problems, 266s
+  100 problems, 350s
+  125 problems, 435s
+  150 problems, 520s
+  175 problems, 615s
+  200 problems, 696s
+  225 problems, 787s
+  250 problems, 863s
+  275 problems, 946s
+{
+ "n": 293,
+ "exact": {
+  "FULL": 0.13993174061433447,
+  "D": 0.13993174061433447,
+  "D-all": 0.9010238907849829,
+  "D-onset": 0.2832764505119454,
+  "D-inside": 0.10238907849829351,
+  "D+onset": 0.09215017064846416
+ },
+ "bits": {
+  "FULL": 3.061314281343193,
+  "D": 3.061314281343193,
+  "D-all": 1.6600775463385793,
+  "D-onset": 2.829162977661289,
+  "D-inside": 3.400983786013346,
+  "D+onset": 3.4341753326585267
+ },
+ "G0": {
+  "FULL_equals_D": 293,
+  "of": 293,
+  "D_vs_float_threshold_mismatched_starts": 193,
+  "saved_exact": 0.13993174061433447,
+  "FULL_bits_within_0.05_of_saved": 1.0,
+  "met": true
+ },
+ "G1": {
+  "exact_D": 0.13993174061433447,
+  "exact_D-all": 0.9010238907849829,
+  "diff": 0.7610921501706485,
+  "ci": [
+   0.7098976109215017,
+   0.8088737201365188
+  ],
+  "bits_saved": [
+   1.4012367350046138,
+   [
+    1.3165317494180626,
+    1.4885696781805553
+   ]
+  ],
+  "holds": true
+ },
+ "G2": {
+  "n": 285,
+  "exact_D": 0.14035087719298245,
+  "exact_D-all": 0.8982456140350877,
+  "diff": 0.7578947368421053,
+  "ci": [
+   0.7087719298245614,
+   0.8105263157894737
+  ],
+  "holds": true
+ },
+ "gate_passes": true
+}
+{
+ "share_onset_start": 0.9863481228668942,
+ "share_inside_start": 0.9215017064846417,
+ "share_onset_or_inside": 0.9965870307167235,
+ "share_start_in_context_bytes": [
+  0.18771331058020477,
+  1.0,
+  0.040955631399317405,
+  0.0,
+  0.0,
+  0.0034129692832764505,
+  0.0,
+  0.0
+ ],
+ "share_start_after_copy": 0.20136518771331058,
+ "rate_D": 0.27351337484962934,
+ "cells": {
+  "onset=0 inside=0": {
+   "n": 1,
+   "exact_D": 1.0,
+   "exact_D-all": 1.0,
+   "exact_D-onset": 1.0,
+   "exact_D-inside": 1.0,
+   "exact_D+onset": 0.0
+  },
+  "onset=0 inside=1": {
+   "n": 3,
+   "exact_D": 0.0,
+   "exact_D-all": 0.6666666666666666,
+   "exact_D-onset": 0.0,
+   "exact_D-inside": 0.6666666666666666,
+   "exact_D+onset": 0.0
+  },
+  "onset=1 inside=0": {
+   "n": 22,
+   "exact_D": 0.09090909090909091,
+   "exact_D-all": 1.0,
+   "exact_D-onset": 1.0,
+   "exact_D-inside": 0.09090909090909091,
+   "exact_D+onset": 0.09090909090909091
+  },
+  "onset=1 inside=1": {
+   "n": 267,
+   "exact_D": 0.14232209737827714,
+   "exact_D-all": 0.8951310861423221,
+   "exact_D-onset": 0.2247191011235955,
+   "exact_D-inside": 0.09363295880149813,
+   "exact_D+onset": 0.09363295880149813
+  }
+ },
+ "first_failing_digit": {
+  "FULL": {
+   "0": 0,
+   "1": 5,
+   "2": 20,
+   "3": 227
+  },
+  "D": {
+   "0": 0,
+   "1": 5,
+   "2": 20,
+   "3": 227
+  },
+  "D-all": {
+   "0": 0,
+   "1": 0,
+   "2": 0,
+   "3": 29
+  },
+  "D-onset": {
+   "0": 0,
+   "1": 5,
+   "2": 7,
+   "3": 198
+  },
+  "D-inside": {
+   "0": 0,
+   "1": 5,
+   "2": 19,
+   "3": 239
+  },
+  "D+onset": {
+   "0": 0,
+   "1": 5,
+   "2": 19,
+   "3": 242
+  }
+ },
+ "patcher_entropy_bits_copy_digits_and_after": [
+  3.163,
+  1.561,
+  1.925,
+  2.3,
+  1.554
+ ],
+ "patcher_entropy_bits_source_digits": [
+  4.971,
+  3.724,
+  3.952,
+  3.787
+ ],
+ "patcher_own_copy_exact": 0.30716723549488056,
+ "patcher_own_digit_ok": [
+  0.986,
+  0.976,
+  0.836,
+  0.399
+ ],
+ "distance_bytes": {
+  "min": 59,
+  "median": 222.0,
+  "max": 619,
+  "within_window": 285
+ },
+ "onset_alone_D+onset_minus_D-all": {
+  "exact": [
+   -0.8088737201365188,
+   [
+    -0.8498293515358362,
+    -0.7610921501706485
+   ]
+  ],
+  "bits": [
+   -1.7740977863199474,
+   [
+    -1.8713647422352138,
+    -1.681423472546982
+   ]
+  ]
+ },
+ "beyond_window": {
+  "n": 8,
+  "exact_FULL": 0.125,
+  "exact_D": 0.125,
+  "exact_D-all": 1.0,
+  "exact_D-onset": 0.25,
+  "exact_D-inside": 0.0,
+  "exact_D+onset": 0.0
+ }
+}
+wrote results/blt_copy_gate.json

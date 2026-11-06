@@ -1,0 +1,144 @@
+{
+ "status": "self-test of the confirmatory code on dev problems (bytes only; no model)",
+ "F1 generic = build": "588 of 588",
+ "F6 = realblt_budget.problem": "294 of 294",
+ "F1 digits4": "60 texts; V_8 at c1 in 60",
+ "F2a digits4": "60 texts; V_8 at c1 in 0",
+ "F2b digits4": "60 texts; V_8 at c1 in 60",
+ "F3 digits6": "60 texts; V_8 at c1 in 60",
+ "F3 letters4": "60 texts; V_8 at c1 in 60",
+ "F3 mixed": "60 texts; V_8 at c1 in 60",
+ "F3 dose": "60 texts; V_8 at c1 in 60",
+ "F4 digits4": "60 texts; V_8 at c1 in 60",
+ "whole-number test": "6 cases",
+ "control and K6 partition": "checked on a 71 x 101 grid",
+ "dev blocks (smoke sizes)": {
+  "F1": [
+   10,
+   10,
+   0,
+   20
+  ],
+  "F2a": [
+   10,
+   10,
+   21,
+   40
+  ],
+  "F2b": [
+   10,
+   10,
+   41,
+   60
+  ],
+  "F3": [
+   10,
+   10,
+   61,
+   80
+  ],
+  "F4": [
+   10,
+   10,
+   81,
+   127
+  ]
+ },
+ "F3 kinds in the smoke block": {
+  "digits6": 3,
+  "letters4": 3,
+  "mixed": 2,
+  "dose": 2
+ },
+ "classifier": "4 cases",
+ "C1e (i) exact counts": "360600 pairs at n = 600 agree with 10 k1 >= 9 k2; without the tolerance 14 of the 60 exact ties failed",
+ "guard refuses here": {
+  "": "O6B_FILED='' does not name a commit",
+  "HEAD": "4026becb07c7ef1aa244b2893d341b79e0b7f71d introduced no heading line '## Confirmatory rule, filed (YYYY-MM-DD)' (outside code fences and comments, dated 2026-10-30 or later): only a filing or re-filing commit qualifies",
+  "HEAD^{tree}": "O6B_FILED='HEAD^{tree}' does not name a commit",
+  ":0": "O6B_FILED=':0' does not name a commit",
+  "4b76f51": "4b76f511d1a62f70116cb45c476f66cda0a7fe7e introduced no heading line '## Confirmatory rule, filed (YYYY-MM-DD)' (outside code fences and comments, dated 2026-10-30 or later): only a filing or re-filing commit qualifies",
+  "no-such-commit": "O6B_FILED='no-such-commit' does not name a commit"
+ },
+ "guard covers": {
+  ".": [
+   "HEAD",
+   [
+    "_seg.py",
+    "analysis/2026-10-30_copyfix/bytes/final_rules.py",
+    "blt_light.py",
+    "realblt_copy_latch.py",
+    "realblt_copy_latch_fresh.py",
+    "realblt_copy_veto.py",
+    "realblt_quadrant.py"
+   ]
+  ],
+  "segresearch": [
+   "19859849b3d8",
+   [
+    "blt_layouts.py",
+    "blt_load.py",
+    "realblt_budget.py",
+    "registry.py"
+   ]
+  ]
+ },
+ "model": {
+  "model": "itazap/blt-1b-hf",
+  "snapshot": "91aa6b8e168046ad91e517d2191e1e974f50cc01",
+  "weights_blob": "fdc3e6f1571c7c81a2d6f1b3c36b0deabd56509c466d4735aef72a9517436f94",
+  "transformers": "5.18.0",
+  "torch": "2.14.1",
+  "numpy": "2.5.3",
+  "modeling_blt_sha256": "df8ecdd41c5a85d3623ea8670bbbeeeda4c3c52827a0961a33ede11a085a5f32",
+  "device": "mps"
+ },
+ "guard in a scratch repository": {
+  "accepts": [
+   "the filing commit",
+   "the filing commit after a later commit that leaves the code alone",
+   "a two-commit re-filing"
+  ],
+  "refuses": [
+   "O6B_FILED=HEAD after a later commit",
+   "a filing commit that also edits code",
+   "a heading dated before 2026-10-30",
+   "a heading inside a code fence",
+   "a heading inside an HTML comment",
+   "a heading quoted in a sentence",
+   "a later commit with changed code",
+   "a merge",
+   "a re-filing commit whose pin is not its code",
+   "a side branch",
+   "an imported file the commit lacks",
+   "code changed after filing, not committed",
+   "no heading",
+   "submodule code changed after filing",
+   "the filing commit, with code changed in a later commit",
+   "the index (:0)"
+  ]
+ },
+ "job gate in a scratch repository": {
+  "lets J2 run under the filing": true,
+  "refuses": {
+   "J2 again under the same filing": "j2 already ran under the filing commit 376dba6f5367831e4f2e171a94e324a8882da930; a redo needs a re-filing commit",
+   "J2 after its output was removed with rm": "a commit in 376dba6f5367831e4f2e171a94e324a8882da930..HEAD touched results/blt_copy_latch_fresh_j2.json: j2 already ran under this filing",
+   "J2 after a reset to before its output (pushed, then reset)": "a commit in 376dba6f5367831e4f2e171a94e324a8882da930..@{upstream} touched results/blt_copy_latch_fresh_j2.json: j2 already ran under this filing",
+   "J2 after git rm, committed and pushed": "a commit in 376dba6f5367831e4f2e171a94e324a8882da930..HEAD touched results/blt_copy_latch_fresh_j2.json: j2 already ran under this filing",
+   "J3 after the re-filing, with J2 from the earlier filing": "J2 has not run, so K5 cannot be read: no scoring",
+   "`verdict` after the re-filing, with J2-J7 from the earlier filing": "`verdict` needs J2-J7 under this filing unless a stop applies (missing: j2, j3, j4, j5, j6, j7)"
+  },
+  "differences listed against the earlier filing (one changed bar)": [
+   "bars/C1/holds",
+   "bars/C1/value",
+   "fix_claim/scope",
+   "kills"
+  ],
+  "which result counts after a re-filing": {
+   "a J1 redo": "the re-filed chain (J1 redo)",
+   "a J7 check failure": "the earlier filing's chain",
+   "another bug": "the earlier filing's chain"
+  }
+ },
+ "doses tested by part": "train idx 71: draw() returned 11 doses over 400 seeds, never 25; joined, '$25' and '25' read '$2525' and let it in"
+}

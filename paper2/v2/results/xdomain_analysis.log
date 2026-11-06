@@ -1,0 +1,36 @@
+== math: base rate test 0.108 (fit 0.100); removal side: gain at base starts +1.80 bits, elsewhere +0.80
+   bits oracle/doc 121.07 | E 0.23 | N 0.25 (+0.02 [-0.02,+0.07]) | H 0.26 (+0.03 [+0.00,+0.07]) | U 0.26 (+0.03 [+0.01,+0.05]) | G_dom 0.32 (+0.10 [+0.06,+0.14]) | G_lodo 0.22 (-0.00 [-0.04,+0.03]) | G_math 0.32 (+0.10 [+0.06,+0.14])
+   unit oracle/doc 7.60 | E 0.35 | N 0.32 (-0.02 [-0.09,+0.05]) | H 0.37 (+0.02 [-0.04,+0.09]) | U 0.35 (+0.00 [+0.00,+0.00]) | G_dom 0.33 (-0.02 [-0.08,+0.05]) | G_lodo 0.16 (-0.19 [-0.25,-0.14]) | G_math 0.33 (-0.02 [-0.08,+0.05])
+   by class (share, bits gain, unit gain, in base): value 0.01 3.82 0.416 0.14; digit 0.03 2.43 0.129 0.45; word 0.16 1.51 0.096 0.43; inside 0.56 0.59 None 0.02; space 0.20 0.83 None 0.01; other 0.04 1.47 None 0.1
+   spearman with bits gain: E 0.15, N 0.02, H 0.12, G_dom 0.20, G_lodo 0.11
+== algebra: base rate test 0.099 (fit 0.100); removal side: gain at base starts +1.58 bits, elsewhere +0.79
+   bits oracle/doc 119.14 | E 0.19 | N 0.07 (-0.12 [-0.15,-0.09]) | H 0.08 (-0.10 [-0.12,-0.08]) | U 0.25 (+0.06 [+0.04,+0.08]) | G_dom 0.23 (+0.05 [+0.02,+0.07]) | G_lodo 0.16 (-0.03 [-0.05,-0.00]) | G_math 0.19 (+0.00 [-0.02,+0.03])
+   unit oracle/doc 5.98 | E 0.25 | N 0.18 (-0.07 [-0.17,+0.03]) | H 0.25 (+0.01 [-0.06,+0.07]) | U 0.25 (+0.00 [+0.00,+0.00]) | G_dom 0.19 (-0.05 [-0.14,+0.04]) | G_lodo 0.18 (-0.07 [-0.16,+0.02]) | G_math 0.17 (-0.07 [-0.15,+0.01])
+   by class (share, bits gain, unit gain, in base): value 0.00 2.24 0.112 0.45; digit 0.05 1.39 0.043 0.2; word 0.15 1.63 0.088 0.39; inside 0.46 0.55 None 0.02; space 0.16 0.75 None 0.02; other 0.19 0.97 None 0.08
+   spearman with bits gain: E 0.12, N -0.03, H 0.07, G_dom 0.18, G_lodo 0.08
+== code: base rate test 0.099 (fit 0.100); removal side: gain at base starts +0.94 bits, elsewhere +0.25
+   bits oracle/doc 100.19 | E 0.13 | N 0.07 (-0.06 [-0.09,-0.03]) | H 0.14 (+0.02 [-0.01,+0.04]) | U 0.23 (+0.10 [+0.07,+0.13]) | G_dom 0.16 (+0.03 [-0.00,+0.06]) | G_lodo 0.14 (+0.01 [-0.02,+0.04]) | G_math 0.08 (-0.04 [-0.07,-0.01])
+   unit oracle/doc 2.78 | E 0.44 | N 0.44 (+0.01 [-0.11,+0.12]) | H 0.52 (+0.08 [+0.01,+0.17]) | U 0.44 (+0.00 [+0.00,+0.00]) | G_dom 0.41 (-0.02 [-0.14,+0.09]) | G_lodo 0.37 (-0.07 [-0.18,+0.05]) | G_math 0.43 (-0.01 [-0.13,+0.11])
+   by class (share, bits gain, unit gain, in base): value 0.00 0.35 0.115 0.5; digit 0.01 0.68 0.046 0.3; word 0.11 1.01 0.075 0.52; inside 0.45 0.26 None 0.05; space 0.32 0.14 None 0.01; other 0.12 0.34 None 0.11
+   spearman with bits gain: E 0.08, N 0.05, H 0.10, G_dom 0.08, G_lodo 0.03
+== prose: base rate test 0.118 (fit 0.100); removal side: gain at base starts +2.11 bits, elsewhere +0.42
+   bits oracle/doc 131.62 | E 0.22 | N 0.10 (-0.12 [-0.15,-0.08]) | H 0.16 (-0.06 [-0.09,-0.03]) | U 0.24 (+0.02 [+0.00,+0.04]) | G_dom 0.18 (-0.04 [-0.06,-0.01]) | G_lodo 0.18 (-0.04 [-0.06,-0.01]) | G_math 0.18 (-0.04 [-0.07,-0.01])
+   unit oracle/doc 4.12 | E 0.48 | N 0.25 (-0.23 [-0.33,-0.15]) | H 0.39 (-0.09 [-0.16,-0.03]) | U 0.48 (+0.00 [+0.00,+0.00]) | G_dom 0.31 (-0.17 [-0.27,-0.07]) | G_lodo 0.31 (-0.17 [-0.26,-0.08]) | G_math 0.34 (-0.15 [-0.23,-0.07])
+   by class (share, bits gain, unit gain, in base): value 0.00 None None None; digit 0.00 1.38 0.017 0.39; word 0.16 1.89 0.089 0.6; inside 0.65 0.39 None 0.02; space 0.16 0.34 None 0.01; other 0.03 0.36 None 0.11
+   spearman with bits gain: E 0.19, N 0.02, H 0.17, G_dom 0.14, G_lodo 0.13
+== clinical: base rate test 0.094 (fit 0.100); removal side: gain at base starts +2.60 bits, elsewhere +0.67
+   bits oracle/doc 165.00 | E 0.26 | N 0.09 (-0.17 [-0.20,-0.14]) | H 0.18 (-0.08 [-0.10,-0.06]) | U 0.29 (+0.03 [+0.01,+0.04]) | G_dom 0.26 (-0.00 [-0.03,+0.02]) | G_lodo 0.21 (-0.05 [-0.08,-0.02]) | G_math 0.22 (-0.04 [-0.07,-0.02])
+   unit oracle/doc 5.92 | E 0.34 | N 0.25 (-0.09 [-0.17,-0.01]) | H 0.31 (-0.02 [-0.08,+0.03]) | U 0.34 (+0.00 [+0.00,+0.00]) | G_dom 0.30 (-0.04 [-0.12,+0.06]) | G_lodo 0.28 (-0.05 [-0.12,+0.02]) | G_math 0.23 (-0.11 [-0.17,-0.04])
+   by class (share, bits gain, unit gain, in base): value 0.00 None None None; digit 0.01 3.75 0.058 0.68; word 0.16 2.07 0.089 0.48; inside 0.65 0.57 None 0.01; space 0.16 0.68 None 0.01; other 0.03 0.57 None 0.06
+   spearman with bits gain: E 0.18, N 0.06, H 0.16, G_dom 0.18, G_lodo 0.13
+== traces: base rate test 0.099 (fit 0.100); removal side: gain at base starts +0.11 bits, elsewhere +0.13
+   bits oracle/doc 85.47 | E 0.06 | N 0.05 (-0.02 [-0.04,+0.01]) | H 0.06 (-0.01 [-0.03,+0.02]) | U 0.08 (+0.01 [-0.00,+0.03]) | G_dom 0.12 (+0.05 [+0.02,+0.09]) | G_lodo 0.05 (-0.01 [-0.04,+0.02]) | G_math 0.05 (-0.02 [-0.05,+0.02])
+   unit oracle/doc 4.32 | E 0.05 | N 0.03 (-0.02 [-0.09,+0.05]) | H 0.01 (-0.04 [-0.10,+0.02]) | U 0.05 (+0.00 [+0.00,+0.00]) | G_dom 0.17 (+0.11 [-0.01,+0.23]) | G_lodo 0.00 (-0.05 [-0.13,+0.03]) | G_math 0.00 (-0.05 [-0.13,+0.02])
+   by class (share, bits gain, unit gain, in base): value 0.08 0.49 0.033 0.25; digit 0.02 0.28 0.003 0.27; word 0.13 0.11 0.005 0.44; inside 0.22 0.16 None 0.03; space 0.35 0.09 None 0.02; other 0.21 0.05 None 0.01
+   spearman with bits gain: E 0.02, N 0.03, H 0.03, G_dom 0.07, G_lodo 0.00
+top pooled contexts (bits): '?\n' +3.00 (n 122), '$2' +2.69 (n 55), '$1' +2.55 (n 87), ' $' +2.43 (n 662), '&=' +2.33 (n 53), '\\\n' +2.24 (n 50), 's ' +1.97 (n 2764), '$\\' +1.95 (n 53), 'r ' +1.95 (n 1151), 'h ' +1.91 (n 592), 'e ' +1.90 (n 3611), '. ' +1.90 (n 1022)
+top pooled contexts (unit): 'x ' +0.27 (n 51), '?\n' +0.19 (n 122), 'c ' +0.17 (n 123), '.\n' +0.16 (n 174), 'f.' +0.14 (n 87), 'l ' +0.14 (n 634), ' $' +0.11 (n 536), '}{' +0.11 (n 53), 'p ' +0.11 (n 71), 'h ' +0.11 (n 521), '6 ' +0.10 (n 59), 'r ' +0.10 (n 1043)
+VERDICT X1 {"verdict": "fails", "domains_H_above_E_unit": ["code"]}
+VERDICT X2 {"verdict": "does not hold", "domains": ["code"], "N_minus_E_bits_below0": ["algebra", "code", "prose", "clinical"]}
+VERDICT X3 {"bits": {"verdict": "fails", "lodo_above_E": [], "lodo_within_80pct_of_dom": ["code", "prose", "clinical"]}, "unit": {"verdict": "fails", "lodo_above_E": [], "lodo_within_80pct_of_dom": ["algebra", "code", "prose", "clinical"]}}
+VERDICT X4 {"verdict": "does not hold", "G_math_minus_E": {"value": -0.07242339832869081, "ci": [-0.15305261047754812, 0.008151380166496257]}, "N_minus_E": {"value": -0.06685236768802229, "ci": [-0.16988641080795502, 0.025338531576908123]}}

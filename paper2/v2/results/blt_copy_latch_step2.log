@@ -1,0 +1,163 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:14<1:00:20,  7.13s/it]Loading weights: 100%|██████████| 510/510 [00:14<00:00, 35.75it/s]
+rule L8; 295 train / 293 test; default train rate 0.2604; patcher rerun differs from the stored outputs on 0 test texts
+  25 problems, 53s
+  50 problems, 103s
+  75 problems, 152s
+  100 problems, 201s
+  125 problems, 247s
+  150 problems, 296s
+  175 problems, 351s
+  200 problems, 395s
+  225 problems, 449s
+  250 problems, 494s
+  275 problems, 541s
+{
+ "status": "exploratory (dev texts); rules followup/O6b_COPY_LATCH_RULES.md at 267de39",
+ "rule": "L8",
+ "n_test": 293,
+ "train_rate_default": 0.26036021727391123,
+ "thresholds_nats": {
+  "entropy@0.2604": [
+   1.34375,
+   1.0
+  ],
+  "entropy@0.1000": [
+   2.40625,
+   0.5456989247311828
+  ],
+  "entl8@0.2604": [
+   1.3125,
+   0.7702127659574468
+  ],
+  "entl8@0.1000": [
+   2.40625,
+   0.8983516483516484
+  ],
+  "entsiv@0.2604": [
+   1.3046875,
+   0.4481132075471698
+  ],
+  "entsiv@0.1000": [
+   2.40625,
+   0.9368131868131868
+  ]
+ },
+ "patcher_rerun_mismatched_texts": 0,
+ "G0_reproduction": {
+  "D": {
+   "exact_equal": 293,
+   "of": 293,
+   "bits_within_0.05": 1.0
+  },
+  "E10": {
+   "exact_equal": 293,
+   "of": 293,
+   "bits_within_0.05": 1.0
+  },
+  "met": true
+ },
+ "D_fit_identical_to_D": 293,
+ "removed_starts": {
+  "D-L8": {
+   "id_copy inside": 448,
+   "id_copy start": 284,
+   "other": 46,
+   "word_rep start": 16,
+   "copied start": 7,
+   "word_new start": 3,
+   "copied inside": 2,
+   "computed start": 1,
+   "computed inside": 1
+  },
+  "E10-L8": {
+   "id_copy start": 92,
+   "other": 26,
+   "word_rep start": 5,
+   "copied start": 1,
+   "word_new start": 1,
+   "id_copy inside": 1
+  }
+ },
+ "bars": {
+  "id_copy_D": {
+   "value": [
+    0.7542662116040956,
+    [
+     0.7030716723549488,
+     0.8020477815699659
+    ]
+   ],
+   "holds": true
+  },
+  "id_copy_E10": {
+   "value": [
+    0.15017064846416384,
+    [
+     0.10921501706484642,
+     0.1945392491467577
+    ]
+   ],
+   "holds": true
+  },
+  "C2_bpb_without_copy": {
+   "value": [
+    0.0006330665000055391,
+    -0.000994848686886364
+   ],
+   "holds": true
+  },
+  "C3_computed": {
+   "value": [
+    0.0025252525252525255,
+    0.0
+   ],
+   "holds": true
+  },
+  "C3f_final": {
+   "value": [
+    0.0034129692832764505,
+    0.010238907849829351
+   ],
+   "holds": true
+  },
+  "C3c_copied": {
+   "value": [
+    0.004708904109589041,
+    0.0012842465753424657
+   ],
+   "holds": true
+  },
+  "rate": {
+   "value": [
+    -0.000757652562273059,
+    7.234280759123302e-05
+   ],
+   "holds": true
+  },
+  "all": true
+ },
+ "go": {
+  "G0": true,
+  "bars": true,
+  "all": true,
+  "kill": []
+ }
+}
+D         rate 0.274 bpb-c 0.8140 computed 78.0 id_new 0.0 id_copy 14.0 copied 64.4 word_new 34.5 word_rep 74.5 final 72.4
+E10       rate 0.107 bpb-c 1.0237 computed 18.2 id_new 0.0 id_copy 54.6 copied 35.4 word_new 25.3 word_rep 66.8 final 32.8
+D-fit     rate 0.274 bpb-c 0.8140 computed 78.0 id_new 0.0 id_copy 14.0 copied 64.4 word_new 34.5 word_rep 74.5 final 72.4
+D.L8      rate 0.273 bpb-c 0.8147 computed 78.3 id_new 0.0 id_copy 89.4 copied 64.9 word_new 34.8 word_rep 74.6 final 72.7
+E10.L8    rate 0.107 bpb-c 1.0227 computed 18.2 id_new 0.0 id_copy 69.6 copied 35.5 word_new 25.4 word_rep 66.8 final 33.8
+D-L8      rate 0.268 bpb-c 0.8161 computed 78.0 id_new 0.0 id_copy 88.4 copied 64.4 word_new 34.7 word_rep 74.5 final 73.0
+E10-L8    rate 0.106 bpb-c 1.0247 computed 18.2 id_new 0.0 id_copy 70.3 copied 35.4 word_new 25.3 word_rep 66.8 final 33.1
+D.SIV     rate 0.273 bpb-c 0.8148 computed 77.9 id_new 0.0 id_copy 90.8 copied 64.8 word_new 34.7 word_rep 74.4 final 73.4
+E10.SIV   rate 0.107 bpb-c 1.0224 computed 18.3 id_new 0.0 id_copy 70.0 copied 35.5 word_new 24.9 word_rep 66.9 final 34.1
+D.L8 vs D | rate -0.0008 | bpb-c +0.0006 | computed +0.3 [-0.7, +1.1] id_new +0.0 [+0.0, +0.0] id_copy +75.4 [+70.3, +80.2] copied +0.5 [+0.0, +1.0] word_new +0.3 [-0.1, +0.7] word_rep +0.0 [-0.2, +0.2] final +0.3 [-1.0, +1.7]
+E10.L8 vs E10 | rate +0.0001 | bpb-c -0.0010 | computed +0.0 [-0.4, +0.4] id_new +0.0 [+0.0, +0.0] id_copy +15.0 [+10.9, +19.5] copied +0.1 [-0.3, +0.6] word_new +0.1 [-0.2, +0.4] word_rep +0.0 [-0.2, +0.2] final +1.0 [-1.4, +3.4]
+D-L8 vs D | rate -0.0059 | bpb-c +0.0020 | computed +0.0 [-0.4, +0.4] id_new +0.0 [+0.0, +0.0] id_copy +74.4 [+69.3, +79.2] copied -0.0 [-0.3, +0.3] word_new +0.2 [+0.0, +0.3] word_rep -0.0 [-0.1, +0.0] final +0.7 [-0.7, +2.0]
+E10-L8 vs E10 | rate -0.0009 | bpb-c +0.0009 | computed +0.0 [+0.0, +0.0] id_new +0.0 [+0.0, +0.0] id_copy +15.7 [+11.6, +19.8] copied +0.0 [-0.3, +0.3] word_new +0.0 [-0.1, +0.1] word_rep +0.0 [-0.0, +0.1] final +0.3 [-0.7, +1.7]
+D.SIV vs D | rate -0.0009 | bpb-c +0.0008 | computed -0.1 [-1.1, +0.8] id_new +0.0 [+0.0, +0.0] id_copy +76.8 [+71.7, +81.6] copied +0.4 [-0.2, +1.0] word_new +0.2 [-0.4, +0.6] word_rep -0.2 [-0.5, +0.1] final +1.0 [-0.7, +3.1]
+E10.SIV vs E10 | rate +0.0001 | bpb-c -0.0013 | computed +0.1 [-0.5, +0.8] id_new +0.0 [+0.0, +0.0] id_copy +15.4 [+10.9, +19.8] copied +0.1 [-0.3, +0.5] word_new -0.4 [-0.9, +0.1] word_rep +0.1 [-0.2, +0.3] final +1.4 [-0.7, +3.8]
+D-fit vs D | rate +0.0000 | bpb-c +0.0000 | computed +0.0 [+0.0, +0.0] id_new +0.0 [+0.0, +0.0] id_copy +0.0 [+0.0, +0.0] copied +0.0 [+0.0, +0.0] word_new +0.0 [+0.0, +0.0] word_rep +0.0 [+0.0, +0.0] final +0.0 [+0.0, +0.0]
+wrote results/blt_copy_latch_step2.json (exploratory, dev)
+exit 0

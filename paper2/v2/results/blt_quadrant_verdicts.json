@@ -1,0 +1,115 @@
+{
+ "P1": {
+  "id_new": {
+   "gain": -0.7240039968653343,
+   "gain_ci": [
+    -0.8621817868724211,
+    -0.5827882045771889
+   ],
+   "computed_minus_k": 3.849733837923185,
+   "diff_ci": [
+    3.5911064713344767,
+    4.10884655087162
+   ],
+   "share_of_computed": -0.23162718266793889,
+   "upper_below_25pct": true,
+   "lower_at_or_above_50pct": false,
+   "gain_per_byte": -0.18100099921633359
+  },
+  "id_copy": {
+   "gain": -1.332657617717066,
+   "gain_ci": [
+    -1.4415125285043244,
+    -1.2193536957579667
+   ],
+   "computed_minus_k": 4.458387458774917,
+   "diff_ci": [
+    4.2024779922241535,
+    4.716140302104655
+   ],
+   "share_of_computed": -0.4263508637925184,
+   "upper_below_25pct": true,
+   "lower_at_or_above_50pct": false,
+   "gain_per_byte": -0.3331644044292665
+  },
+  "copied": {
+   "gain": 1.2082651027785563,
+   "gain_ci": [
+    1.131477089511189,
+    1.2826411370314383
+   ],
+   "computed_minus_k": 1.9174647382792944,
+   "diff_ci": [
+    1.7001132232383651,
+    2.1442566650598143
+   ],
+   "share_of_computed": 0.386554553406202,
+   "upper_below_25pct": false,
+   "lower_at_or_above_50pct": false,
+   "gain_per_byte": 0.7365841341698525
+  },
+  "word_rep": {
+   "gain": 0.5869735761333238,
+   "gain_ci": [
+    0.5435249309708629,
+    0.6327148197667906
+   ],
+   "computed_minus_k": 2.538756264924527,
+   "diff_ci": [
+    2.324382665265637,
+    2.766286534851015
+   ],
+   "share_of_computed": 0.18778768671020923,
+   "upper_below_25pct": true,
+   "lower_at_or_above_50pct": false,
+   "gain_per_byte": 0.15582394267421706
+  },
+  "computed": {
+   "gain": 3.1257298410578507,
+   "gain_per_byte": 1.5088292045169118
+  },
+  "verdict": "INCONCLUSIVE",
+  "verdict_detail": {
+   "a_all_differences_above_0": true,
+   "b_all_upper_bounds_below_25pct": false
+  }
+ },
+ "P2": {
+  "easy": {
+   "n": 662,
+   "qwen_bits_per_byte": 0.07844223900714128,
+   "gain": 2.179540556081039,
+   "gain_ci": [
+    1.9618302965781527,
+    2.3949685837226724
+   ]
+  },
+  "middle": {
+   "n": 662,
+   "qwen_bits_per_byte": 0.5993067081511201,
+   "gain": 1.983939321030753,
+   "gain_ci": [
+    1.7778528560623517,
+    2.2033531280519565
+   ]
+  },
+  "hard": {
+   "n": 662,
+   "qwen_bits_per_byte": 2.09396567031336,
+   "gain": 1.0186233482129443,
+   "gain_ci": [
+    0.8570895340096326,
+    1.1920423322641893
+   ]
+  },
+  "easy_minus_hard": {
+   "diff": 1.1609172078680945,
+   "ci": [
+    0.8882921831976278,
+    1.4367365686491815
+   ]
+  },
+  "verdict": "HOLDS",
+  "spearman_qwen_vs_blt_full": 0.8411688899533023
+ }
+}

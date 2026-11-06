@@ -6,8 +6,8 @@ authors:
     given-names: "Nicolás"
     affiliation: "Independent researcher, Chile"
     email: "nicovera@quetru.cl"
-version: "2.0.0"
-date-released: "2026-10-15"
+version: "2.1.0"
+date-released: "2026-11-06"
 license: MIT
 repository-code: "https://github.com/nicoveraz/segresearch"
 doi: "10.5281/zenodo.23238215"
@@ -23,7 +23,7 @@ identifiers:
     description: "Zenodo DOI of v2.0.0 (paper 2)"
   - type: doi
     value: "10.48550/arXiv.2610.22100"
-    description: "arXiv DOI of paper 2"
+    description: "arXiv DOI of paper 2 (version 2: When the next byte's type is fixed)"
   - type: doi
     value: "10.48550/arXiv.2610.11790"
     description: "arXiv DOI of the paper"

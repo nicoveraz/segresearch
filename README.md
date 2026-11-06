@@ -8,32 +8,29 @@ Where should a byte-level model start its patches? This repo began as an autonom
 
 Byte-level models such as [BLT](https://arxiv.org/abs/2412.09871) group bytes into patches and run their large global model once per patch. BLT starts a patch where a small model's next-byte entropy is high.
 
-**Under tight patch budgets, entropy-triggered patching skips positions whose type is predictable but whose value must be computed** (e.g. the number after `=` in a worked math solution). A patch start there matters for accuracy, and a label-free rule can find those positions.
+**Under tight patch budgets, entropy-triggered patching skips positions whose type the preceding text fixes but whose value must be computed** (e.g. the number after `= ` in a worked math solution): once the next byte is almost surely a digit, the small model's entropy stays near log2 10 ≈ 3.3 bits, about BLT-1B's threshold for a 10% budget. A patch start there matters for accuracy, and a label-free rule can find those positions. The effect is largest in cue-formatted text and at tight budgets; version 2 of both papers (release v2.1.0) states these limits.
 
 | Evidence | Result |
 |---|---|
 | BLT-1B (512-byte window restored), patches changed at inference, 15% / 10% of bytes | computed results exact: entropy 47% / 19% vs a boundary after each `= ` 66% / 52% vs label-free entropy + dependence 77% / 67% (default layout at 26%: 77%) |
 | BLT-1B adapted to a 10% budget (LoRA, 3 runs per rule) | entropy 33% vs hand-written 63% vs entropy + dependence 73% |
 | Small BLT-like models trained at a 10% budget (1.1M parameters, 3 seeds) | computed / final-answer exact: entropy 7% / 10%, label-free dependence 17% / 67%, hand-written result boundaries 25% / 73% |
-| Scaling: trained from scratch at 1.1M, 11.7M, 53.7M parameters (OpenWebMath + GSM8K/MATH, 3 seeds) | dependence − entropy on final answers: −1.6, +10.1, +19.8 points; computed results at 53.7M: 36% vs 14% |
-| Scratchpad Patching (reimplemented, 5 seeds) | its entropy trigger is no better than random for answers (5.6% vs 5.9%); answer-start scratchpads 38% |
+| Scaling: trained from scratch at 1.1M, 11.7M, 53.7M parameters (OpenWebMath + GSM8K/MATH, 3 seeds) | dependence − entropy on final answers: −1.6 (not detectable), +10.1, +19.8 points (teacher-forced final answers mostly copy the last computed result); computed results at 53.7M: 36% vs 14% |
+| Scratchpad Patching (reimplemented, 5 seeds) | no detectable difference between its entropy trigger and random scratchpads on final answers (5.6% vs 5.9%); answer-start scratchpads 38% |
 | Copies and lookups (code identifiers, proof steps) | small effect (1-3 points): the value is not computed |
 
 What is known (BLT, SpaceByte, H-Net, Scratchpad Patching) and what looks new is in `literature.md`. The full lab log, including negative results and corrections, is `notes.md`. Open work is tracked in the GitHub issues and milestones.
 
-## Paper 2: novelty patching ([arXiv:2610.22100](https://arxiv.org/abs/2610.22100), `paper2/`)
+## Paper 2: the two-byte table and the cue ceiling ([arXiv:2610.22100](https://arxiv.org/abs/2610.22100), `paper2/`)
 
-*Patch where the text is new: a compression view of where byte-level models should spend compute.* A label-free rule motivated by LZ77: start a patch where the upcoming bytes are unlikely to repeat the last 128 (a two-byte lookup table fitted in seconds).
+Version 2: *When the next byte's type is fixed: why entropy patching skips computed values under tight budgets.* Version 1 (*Patch where the text is new: a compression view of where byte-level models should spend compute*) proposed a label-free patching rule motivated by LZ77: a two-byte lookup table that predicts whether the upcoming bytes repeat recent text. Version 2 corrects version 1's main claims and is the project's final record; no venue is intended.
 
-| Evidence (BLT-style models trained from scratch, ~11% patches, 3 seeds) | Result |
-|---|---|
-| 50M parameters, math | computed results: novelty 57% vs entropy 21% vs dependence 35%; final answers 90% vs 60% vs 78% |
-| Scale trend (final answers, novelty - entropy) | 1M: no clear effect; 12M: +25 points; 50M: +30 points |
-| Table fitted on the raw pretraining corpus | keeps the gain (computed 57%, final 86% at 50M) |
-| Outside math (12M) | prose: lower bits per byte; code and execution traces: ties |
-| Boundary enrichment (surprisal at patch starts) | highest for entropy (1.61), the rule worst on computed results |
+- On BLT-1B, a cue that fixes the next byte's type caps the patcher's entropy near log2 10 bits, so entropy starts a patch at 0% of values after a dollar sign and 19% after `= `; writing `is ` instead of `= ` raises the 19% to 66%.
+- The two-byte table acts as a learned detector of cues that tend to precede new values in its fitting text, not as a novelty detector: on the same problems rewritten as prose, its margin over entropy falls from +42.1 to −8.9 points.
+- In BLT-style models trained from scratch (teacher-forced exact match), it beats entropy at 50M by 36.8 points on computed results and 29.6 on final answers, on the same A40 GPU. The 1M and 12M comparisons mixed GPUs and precision, and a hand-written marker rule is not distinguishable from it there.
+- Version 1's statement that the rule lowers bits per byte on prose is withdrawn, and "the corpus-fitted table keeps the gain" is corrected (it keeps most of it). The paper's "Changes in version 2" lists every change.
 
-Manuscript, generated tables and the arXiv build: `paper2/`. Experiments: `scale/`. Archived release: [doi:10.5281/zenodo.23400010](https://doi.org/10.5281/zenodo.23400010).
+Manuscript, tables and the arXiv build: `paper2/`. Results, scripts, data and the filed decision rules behind version 2: `paper2/v2/`. Archived releases: v2.0.0 (version 1), [doi:10.5281/zenodo.23400010](https://doi.org/10.5281/zenodo.23400010); v2.1.0 (version 2 of both papers), doi:ZENODO_V210_DOI.
 
 ## Layout
 
@@ -91,7 +88,7 @@ Models trained here are small (up to 128 dimensions, 4 global layers). Most accu
 
 ## Citation and license
 
-Code and results are released under the MIT license (`LICENSE`); the paper is CC BY 4.0. If you use this work, please cite the paper ([arXiv:2610.11790](https://arxiv.org/abs/2610.11790); also in `CITATION.cff`):
+Code and results are released under the MIT license (`LICENSE`); the paper is CC BY 4.0. If you use this work, please cite the paper ([arXiv:2610.11790](https://arxiv.org/abs/2610.11790), version 2; also in `CITATION.cff`). The follow-up is [arXiv:2610.22100](https://arxiv.org/abs/2610.22100) (version 2).
 
 ```bibtex
 @article{verazuniga2026anticipate,

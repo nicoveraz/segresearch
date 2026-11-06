@@ -13,7 +13,8 @@ before the arXiv replacement:
    papers' version 2 (v2.0.0 already exists, for paper 2 version 1). This branch was created from `origin/master` and
    still tracks it; `git branch --unset-upstream paper1-v2` removes that, so that a bare `git pull` or `git push` does
    nothing unexpected.
-2. Files outside this branch's scope, for the main session before tagging:
+2. Files outside this branch's scope, for the main session before tagging (done on the branch `release-v2.1.0`,
+   2026-11-06, with step 1's merge):
    - `scale/analyze.load()`: make it skip runs with `cfg["clip"]` (or key them apart). As it is, a `_clip` run can
      replace the unclipped run with the same size, rule and seed, so running `make_tables.py` or `make_figures.py`
      rewrites Table 3 and Figure 2 with the two recipes mixed. The manuscript does not depend on this fix: its

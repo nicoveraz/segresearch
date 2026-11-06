@@ -43,7 +43,7 @@ def blt_compute():
     fig, axes = plt.subplots(1, 2, figsize=(10, 4), sharex=True)
     for ax, metric, title in zip(axes, ("results_exact", "final_exact"), ("In-line computed results (GSM8K)", "Final answers (GSM8K)")):
         d = by["default"]
-        ax.scatter([100], [100 * d[metric]], color="black", marker="*", s=120, zorder=5, label="BLT-1B default (~28%)")
+        ax.scatter([100], [100 * d[metric]], color="black", marker="*", s=120, zorder=5, label="BLT-1B default (~26%)")
         for label, (k, c, m, ent) in fams.items():
             pts = sorted((by[f"{k}@{R}"]["rate"], by[f"{k}@{R}"][metric]) for R in (10, 15) if f"{k}@{R}" in by)
             xs = [100 * (r * per_patch + per_byte + (patcher if ent else 0)) / ref for r, _ in pts]

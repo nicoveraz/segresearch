@@ -1,0 +1,34 @@
+J7 (O6b, F5): 600 fresh F1 test texts under the released conversion; the cutoff at token 620
+  the copy's first token sits 34-40 tokens before the end; c1 >= 620: 111 texts; copies straddling token 620 (c1 < 620 <= their last token): 1
+  exact copies: {'D': 0.195, 'D-all': 0.6933, 'D.L8': 0.7633, 'D.SIVPO': 0.6967, 'cut': 0.7767}
+  by length (n, then D, D-all, D.L8, D.SIVPO and the cutoff's approximated outcome):
+    tokens 0-600: n 448, D 0.138, D-all 0.888, D.L8 0.879, D.SIVPO 0.879, cut 0.879; L8 fires at c1 0.982
+    tokens 600-700: n 73, D 0.247, D-all 0.247, D.L8 0.384, D.SIVPO 0.329, cut 0.493; L8 fires at c1 0.205
+    tokens 700-: n 79, D 0.468, D-all 0.000, D.L8 0.456, D.SIVPO 0.000, cut 0.456; L8 fires at c1 0.013
+  by the copy's first token (n; L8 fires at c1; D.L8, D.SIVPO and the cutoff exact; copies L8 lost to the cutoff and kept):
+    c1 0-574: n 455; fires 446; D.L8 0.877, D.SIVPO 0.877, cut 0.877; lost 6, kept 6
+    c1 575-619: n 34; fires 9; D.L8 0.265, D.SIVPO 0.500, cut 0.500; lost 9, kept 1
+    c1 620-699: n 44; fires 1; D.L8 0.477, D.SIVPO 0.045, cut 0.477; lost 0, kept 0
+    c1 700-: n 67; fires 0; D.L8 0.433, D.SIVPO 0.000, cut 0.433; lost 0, kept 0
+  D.L8 - cutoff, approximated: -1.33 points (15 copies lost, 7 kept); lost where L8 did not fire at c1: 12
+  D.L8 - D.SIVPO on J7 itself: +6.67 points; D-all - D: +49.83
+
+the primary class on 600 fresh texts (exact over the counts; each count's class is one seeded draw):
+  J7 as truth: {'L8 better': 0.0, 'cutoff better': 0.224, 'tie': 0.776}
+  J7's uncertainty (Jeffreys): {'L8 better': 0.002, 'cutoff better': 0.288, 'tie': 0.71}
+  J7 as truth, with 2 more copies per 600 lost by the cutoff: {'L8 better': 0.0, 'cutoff better': 0.129, 'tie': 0.871}
+  J7 as truth, with 5 more copies per 600 lost by the cutoff: {'L8 better': 0.003, 'cutoff better': 0.049, 'tie': 0.948}
+  J7 as truth, with 10 more copies per 600 lost by the cutoff: {'L8 better': 0.044, 'cutoff better': 0.007, 'tie': 0.949}
+  for comparison, the same calculation at other cutoffs:
+    token 665: D.L8 - cutoff +0.67 points (16 lost, 20 kept); J7 as truth {'L8 better': 0.094, 'cutoff better': 0.003, 'tie': 0.903}; Jeffreys {'L8 better': 0.169, 'cutoff better': 0.027, 'tie': 0.804}
+    token 700: D.L8 - cutoff +1.83 points (16 lost, 27 kept); J7 as truth {'L8 better': 0.399, 'cutoff better': 0.0, 'tie': 0.601}; Jeffreys {'L8 better': 0.419, 'cutoff better': 0.005, 'tie': 0.577}
+
+dev ([JW0]: 293 F1 texts from GSM8K test problems 0-299 under the released conversion), by the copy's position:
+  rebuilt with F1's builder: all 293 texts' token counts and distances equal [JW0]'s; the copy's first token sits 34-40 tokens before the end
+  the argmax canary (L8's stand-in) keeps 224 of 293 copies (0.765)
+  masking every copy start (D-all) against D, by the copy's first token: c1 0-574: 182 of 200 against 27; c1 575-626: 10 of 24 against 3; c1 627-: 0 of 69 against 38
+  a cutoff c (D-all where c1 < c, D elsewhere) keeps the most, 230 of 293, for c in 612-627
+  cutoff 620: keeps 230 (0.785); canary - cutoff -2.05 points (the canary lost 8 copies the cutoff kept and kept 2 it lost); class on 600 fresh texts, dev as truth {'L8 better': 0.0, 'cutoff better': 0.562, 'tie': 0.438}; Jeffreys {'L8 better': 0.002, 'cutoff better': 0.512, 'tie': 0.486}
+  cutoff 665: keeps 222 (0.758); canary - cutoff +0.68 points (the canary lost 8 copies the cutoff kept and kept 10 it lost); class on 600 fresh texts, dev as truth {'L8 better': 0.097, 'cutoff better': 0.003, 'tie': 0.9}; Jeffreys {'L8 better': 0.216, 'cutoff better': 0.059, 'tie': 0.725}
+  cutoff 700: keeps 213 (0.727); canary - cutoff +3.75 points (the canary lost 8 copies the cutoff kept and kept 19 it lost); class on 600 fresh texts, dev as truth {'L8 better': 0.869, 'cutoff better': 0.0, 'tie': 0.131}; Jeffreys {'L8 better': 0.735, 'cutoff better': 0.002, 'tie': 0.263}
+  by text length instead (D-all under 700 tokens, D from 700 on), as the first draft computed it: 0.758 on all 293 (the canary 0.765); 0.765 on the 285 with distance < 512 (the canary 0.768)

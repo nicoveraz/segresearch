@@ -1,0 +1,300 @@
+{
+ "input": {
+  "file": "GSM8K test.jsonl (openai/grade-school-math, MIT)",
+  "sha256": "3730d312f6e3440559ace48831e51066acaca737f6eabec99bccb9e4b3c39d14",
+  "lines": 1319
+ },
+ "definition": "Definition (primary). The final answer is the text after the last '####', stripped, with commas removed. The last number before the marker is the last match of  -?\\d[\\d,]*(?:\\.\\d+)?  in the solution text before '####', with GSM8K's calculator annotations <<...>> left in place (they precede the result they compute); its commas are removed and a trailing '.' is stripped. The two are compared as strings. Distances are UTF-8 bytes from the end of that number to the end of its line, and to the '####' marker (a newline always precedes the marker). Quantiles: the median is statistics.median; p75 and p90 are sorted(x)[int(q * n)].",
+ "primary": {
+  "all": {
+   "n": 1319,
+   "n_equal": 1248,
+   "share": 0.9461713419257013,
+   "bytes_to_end_of_line": {
+    "median": 8.0,
+    "p75": 18,
+    "p90": 29,
+    "zero": 205
+   },
+   "bytes_to_marker": {
+    "median": 9.0,
+    "p75": 19,
+    "p90": 30
+   }
+  },
+  "first_660": {
+   "n": 660,
+   "n_equal": 622,
+   "share": 0.9424242424242424,
+   "bytes_to_end_of_line": {
+    "median": 8.0,
+    "p75": 17,
+    "p90": 30,
+    "zero": 117
+   },
+   "bytes_to_marker": {
+    "median": 9.0,
+    "p75": 18,
+    "p90": 31
+   }
+  }
+ },
+ "variants": {
+  "all | signed | string | annotations kept": {
+   "n": 1319,
+   "n_equal": 1248,
+   "share": 0.9461713419257013,
+   "bytes_to_end_of_line": {
+    "median": 8.0,
+    "p75": 18,
+    "p90": 29,
+    "zero": 205
+   },
+   "bytes_to_marker": {
+    "median": 9.0,
+    "p75": 19,
+    "p90": 30
+   }
+  },
+  "all | signed | string | annotations removed": {
+   "n": 1319,
+   "n_equal": 1248,
+   "share": 0.9461713419257013,
+   "bytes_to_end_of_line": {
+    "median": 8.0,
+    "p75": 18,
+    "p90": 29,
+    "zero": 205
+   },
+   "bytes_to_marker": {
+    "median": 9.0,
+    "p75": 19,
+    "p90": 30
+   }
+  },
+  "all | signed | numeric | annotations kept": {
+   "n": 1319,
+   "n_equal": 1283,
+   "share": 0.9727065959059894,
+   "bytes_to_end_of_line": {
+    "median": 8,
+    "p75": 18,
+    "p90": 28,
+    "zero": 225
+   },
+   "bytes_to_marker": {
+    "median": 9,
+    "p75": 19,
+    "p90": 29
+   }
+  },
+  "all | signed | numeric | annotations removed": {
+   "n": 1319,
+   "n_equal": 1283,
+   "share": 0.9727065959059894,
+   "bytes_to_end_of_line": {
+    "median": 8,
+    "p75": 18,
+    "p90": 28,
+    "zero": 225
+   },
+   "bytes_to_marker": {
+    "median": 9,
+    "p75": 19,
+    "p90": 29
+   }
+  },
+  "all | unsigned | string | annotations kept": {
+   "n": 1319,
+   "n_equal": 1246,
+   "share": 0.9446550416982562,
+   "bytes_to_end_of_line": {
+    "median": 8.0,
+    "p75": 18,
+    "p90": 29,
+    "zero": 205
+   },
+   "bytes_to_marker": {
+    "median": 9.0,
+    "p75": 19,
+    "p90": 30
+   }
+  },
+  "all | unsigned | string | annotations removed": {
+   "n": 1319,
+   "n_equal": 1246,
+   "share": 0.9446550416982562,
+   "bytes_to_end_of_line": {
+    "median": 8.0,
+    "p75": 18,
+    "p90": 29,
+    "zero": 205
+   },
+   "bytes_to_marker": {
+    "median": 9.0,
+    "p75": 19,
+    "p90": 30
+   }
+  },
+  "all | unsigned | numeric | annotations kept": {
+   "n": 1319,
+   "n_equal": 1281,
+   "share": 0.9711902956785443,
+   "bytes_to_end_of_line": {
+    "median": 8,
+    "p75": 18,
+    "p90": 28,
+    "zero": 225
+   },
+   "bytes_to_marker": {
+    "median": 9,
+    "p75": 19,
+    "p90": 29
+   }
+  },
+  "all | unsigned | numeric | annotations removed": {
+   "n": 1319,
+   "n_equal": 1281,
+   "share": 0.9711902956785443,
+   "bytes_to_end_of_line": {
+    "median": 8,
+    "p75": 18,
+    "p90": 28,
+    "zero": 225
+   },
+   "bytes_to_marker": {
+    "median": 9,
+    "p75": 19,
+    "p90": 29
+   }
+  },
+  "first_660 | signed | string | annotations kept": {
+   "n": 660,
+   "n_equal": 622,
+   "share": 0.9424242424242424,
+   "bytes_to_end_of_line": {
+    "median": 8.0,
+    "p75": 17,
+    "p90": 30,
+    "zero": 117
+   },
+   "bytes_to_marker": {
+    "median": 9.0,
+    "p75": 18,
+    "p90": 31
+   }
+  },
+  "first_660 | signed | string | annotations removed": {
+   "n": 660,
+   "n_equal": 622,
+   "share": 0.9424242424242424,
+   "bytes_to_end_of_line": {
+    "median": 8.0,
+    "p75": 17,
+    "p90": 30,
+    "zero": 117
+   },
+   "bytes_to_marker": {
+    "median": 9.0,
+    "p75": 18,
+    "p90": 31
+   }
+  },
+  "first_660 | signed | numeric | annotations kept": {
+   "n": 660,
+   "n_equal": 638,
+   "share": 0.9666666666666667,
+   "bytes_to_end_of_line": {
+    "median": 8.0,
+    "p75": 17,
+    "p90": 30,
+    "zero": 127
+   },
+   "bytes_to_marker": {
+    "median": 9.0,
+    "p75": 18,
+    "p90": 31
+   }
+  },
+  "first_660 | signed | numeric | annotations removed": {
+   "n": 660,
+   "n_equal": 638,
+   "share": 0.9666666666666667,
+   "bytes_to_end_of_line": {
+    "median": 8.0,
+    "p75": 17,
+    "p90": 30,
+    "zero": 127
+   },
+   "bytes_to_marker": {
+    "median": 9.0,
+    "p75": 18,
+    "p90": 31
+   }
+  },
+  "first_660 | unsigned | string | annotations kept": {
+   "n": 660,
+   "n_equal": 621,
+   "share": 0.9409090909090909,
+   "bytes_to_end_of_line": {
+    "median": 8,
+    "p75": 17,
+    "p90": 30,
+    "zero": 117
+   },
+   "bytes_to_marker": {
+    "median": 9,
+    "p75": 18,
+    "p90": 31
+   }
+  },
+  "first_660 | unsigned | string | annotations removed": {
+   "n": 660,
+   "n_equal": 621,
+   "share": 0.9409090909090909,
+   "bytes_to_end_of_line": {
+    "median": 8,
+    "p75": 17,
+    "p90": 30,
+    "zero": 117
+   },
+   "bytes_to_marker": {
+    "median": 9,
+    "p75": 18,
+    "p90": 31
+   }
+  },
+  "first_660 | unsigned | numeric | annotations kept": {
+   "n": 660,
+   "n_equal": 637,
+   "share": 0.9651515151515152,
+   "bytes_to_end_of_line": {
+    "median": 8,
+    "p75": 17,
+    "p90": 30,
+    "zero": 127
+   },
+   "bytes_to_marker": {
+    "median": 9,
+    "p75": 18,
+    "p90": 31
+   }
+  },
+  "first_660 | unsigned | numeric | annotations removed": {
+   "n": 660,
+   "n_equal": 637,
+   "share": 0.9651515151515152,
+   "bytes_to_end_of_line": {
+    "median": 8,
+    "p75": 17,
+    "p90": 30,
+    "zero": 127
+   },
+   "bytes_to_marker": {
+    "median": 9,
+    "p75": 18,
+    "p90": 31
+   }
+  }
+ }
+}

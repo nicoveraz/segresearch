@@ -1,0 +1,59 @@
+dev F1 discordance, L8 against SIV (lost, kept, same): {'D': (5, 1, 287), 'E10': (2, 1, 290)}
+  F1 D         dev          P(L8 better) 0.000  P(SIV+PO better) 0.169  P(tie) 0.831  P(tie, 2 points or more) 0.000
+  F1 D         Jeffreys     P(L8 better) 0.001  P(SIV+PO better) 0.276  P(tie) 0.723  P(tie, 2 points or more) 0.000
+  F1 D         recall 0.97  P(L8 better) 0.000  P(SIV+PO better) 0.844  P(tie) 0.156  P(tie, 2 points or more) 0.000
+  F1 D         recall 0.95  P(L8 better) 0.000  P(SIV+PO better) 0.999  P(tie) 0.001  P(tie, 2 points or more) 0.000
+  F1 D         recall 0.9   P(L8 better) 0.000  P(SIV+PO better) 1.000  P(tie) 0.000  P(tie, 2 points or more) 0.000
+  F1 E10       dev          P(L8 better) 0.000  P(SIV+PO better) 0.000  P(tie) 1.000  P(tie, 2 points or more) 0.000
+  F1 E10       Jeffreys     P(L8 better) 0.006  P(SIV+PO better) 0.037  P(tie) 0.957  P(tie, 2 points or more) 0.000
+  F1 E10       recall 0.97  P(L8 better) 0.000  P(SIV+PO better) 0.000  P(tie) 1.000  P(tie, 2 points or more) 0.000
+  F1 E10       recall 0.95  P(L8 better) 0.000  P(SIV+PO better) 0.000  P(tie) 1.000  P(tie, 2 points or more) 0.000
+  F1 E10       recall 0.9   P(L8 better) 0.000  P(SIV+PO better) 0.000  P(tie) 1.000  P(tie, 2 points or more) 0.000
+  6-digit D    dev          P(L8 better) 0.000  P(SIV+PO better) 0.067  P(tie) 0.933  P(tie, 2 points or more) 0.370
+  6-digit D    Jeffreys     P(L8 better) 0.002  P(SIV+PO better) 0.096  P(tie) 0.902  P(tie, 2 points or more) 0.358
+  6-digit D    recall 0.97  P(L8 better) 0.000  P(SIV+PO better) 0.260  P(tie) 0.740  P(tie, 2 points or more) 0.472
+  6-digit D    recall 0.95  P(L8 better) 0.000  P(SIV+PO better) 0.587  P(tie) 0.413  P(tie, 2 points or more) 0.344
+  6-digit D    recall 0.9   P(L8 better) 0.000  P(SIV+PO better) 0.948  P(tie) 0.052  P(tie, 2 points or more) 0.051
+  mixed D      dev          P(L8 better) 0.000  P(SIV+PO better) 0.067  P(tie) 0.933  P(tie, 2 points or more) 0.370
+  mixed D      Jeffreys     P(L8 better) 0.002  P(SIV+PO better) 0.096  P(tie) 0.902  P(tie, 2 points or more) 0.358
+  mixed D      recall 0.97  P(L8 better) 0.000  P(SIV+PO better) 0.260  P(tie) 0.740  P(tie, 2 points or more) 0.472
+  mixed D      recall 0.95  P(L8 better) 0.000  P(SIV+PO better) 0.587  P(tie) 0.413  P(tie, 2 points or more) 0.344
+  mixed D      recall 0.9   P(L8 better) 0.000  P(SIV+PO better) 0.948  P(tie) 0.052  P(tie, 2 points or more) 0.051
+  letters D    dev          P(L8 better) 0.000  P(SIV+PO better) 0.067  P(tie) 0.933  P(tie, 2 points or more) 0.370
+  letters D    Jeffreys     P(L8 better) 0.002  P(SIV+PO better) 0.096  P(tie) 0.902  P(tie, 2 points or more) 0.358
+  letters D    recall 0.97  P(L8 better) 0.000  P(SIV+PO better) 0.260  P(tie) 0.740  P(tie, 2 points or more) 0.472
+  letters D    recall 0.95  P(L8 better) 0.000  P(SIV+PO better) 0.587  P(tie) 0.413  P(tie, 2 points or more) 0.344
+  letters D    recall 0.9   P(L8 better) 0.000  P(SIV+PO better) 0.948  P(tie) 0.052  P(tie, 2 points or more) 0.051
+  F2b D        dev          P(L8 better) 0.000  P(SIV+PO better) 0.255  P(tie) 0.745  P(tie, 2 points or more) 0.017
+  F2b D        Jeffreys     P(L8 better) 0.003  P(SIV+PO better) 0.290  P(tie) 0.707  P(tie, 2 points or more) 0.030
+  F2b D        recall 0.97  P(L8 better) 0.000  P(SIV+PO better) 0.736  P(tie) 0.264  P(tie, 2 points or more) 0.047
+  F2b D        recall 0.95  P(L8 better) 0.000  P(SIV+PO better) 0.977  P(tie) 0.023  P(tie, 2 points or more) 0.013
+  F2b D        recall 0.9   P(L8 better) 0.000  P(SIV+PO better) 1.000  P(tie) 0.000  P(tie, 2 points or more) 0.000
+  6-digit E10  dev          P(L8 better) 0.000  P(SIV+PO better) 0.004  P(tie) 0.996  P(tie, 2 points or more) 0.136
+  6-digit E10  Jeffreys     P(L8 better) 0.004  P(SIV+PO better) 0.017  P(tie) 0.979  P(tie, 2 points or more) 0.202
+  6-digit E10  recall 0.97  P(L8 better) 0.000  P(SIV+PO better) 0.004  P(tie) 0.996  P(tie, 2 points or more) 0.136
+  6-digit E10  recall 0.95  P(L8 better) 0.000  P(SIV+PO better) 0.004  P(tie) 0.996  P(tie, 2 points or more) 0.136
+  6-digit E10  recall 0.9   P(L8 better) 0.000  P(SIV+PO better) 0.004  P(tie) 0.996  P(tie, 2 points or more) 0.136
+  mixed E10    dev          P(L8 better) 0.000  P(SIV+PO better) 0.004  P(tie) 0.996  P(tie, 2 points or more) 0.136
+  mixed E10    Jeffreys     P(L8 better) 0.004  P(SIV+PO better) 0.017  P(tie) 0.979  P(tie, 2 points or more) 0.202
+  mixed E10    recall 0.97  P(L8 better) 0.000  P(SIV+PO better) 0.004  P(tie) 0.996  P(tie, 2 points or more) 0.136
+  mixed E10    recall 0.95  P(L8 better) 0.000  P(SIV+PO better) 0.004  P(tie) 0.996  P(tie, 2 points or more) 0.136
+  mixed E10    recall 0.9   P(L8 better) 0.000  P(SIV+PO better) 0.004  P(tie) 0.996  P(tie, 2 points or more) 0.136
+
+the windowed class
+  gates low: expected class rows 4.91
+    dev         : P(tie) 0.717  P(SIV+PO better) 0.283  P(L8 better) 0.000  P(mixed) 0.000  P(tie with a class row 2 points or more off) 0.471
+    Jeffreys    : P(tie) 0.550  P(SIV+PO better) 0.435  P(L8 better) 0.009  P(mixed) 0.006  P(tie with a class row 2 points or more off) 0.372
+    recall 0.97 : P(tie) 0.085  P(SIV+PO better) 0.914  P(L8 better) 0.000  P(mixed) 0.000  P(tie with a class row 2 points or more off) 0.072
+    recall 0.95 : P(tie) 0.000  P(SIV+PO better) 1.000  P(L8 better) 0.000  P(mixed) 0.000  P(tie with a class row 2 points or more off) 0.000
+  gates high: expected class rows 5.95
+    dev         : P(tie) 0.690  P(SIV+PO better) 0.309  P(L8 better) 0.000  P(mixed) 0.000  P(tie with a class row 2 points or more off) 0.505
+    Jeffreys    : P(tie) 0.517  P(SIV+PO better) 0.465  P(L8 better) 0.011  P(mixed) 0.008  P(tie with a class row 2 points or more off) 0.394
+    recall 0.97 : P(tie) 0.075  P(SIV+PO better) 0.925  P(L8 better) 0.000  P(mixed) 0.000  P(tie with a class row 2 points or more off) 0.067
+    recall 0.95 : P(tie) 0.000  P(SIV+PO better) 1.000  P(L8 better) 0.000  P(mixed) 0.000  P(tie with a class row 2 points or more off) 0.000
+
+null: a true difference of zero, with refit side effects flipping f of copies each way
+  f 0.005: P(a row not tied) at n 600 0.000, 300 0.003, 100 0.002; P(the windowed class leaves 'tie') 0.006-0.008
+  f 0.010: P(a row not tied) at n 600 0.001, 300 0.020, 100 0.014; P(the windowed class leaves 'tie') 0.042-0.057
+  f 0.030: P(a row not tied) at n 600 0.044, 300 0.045, 100 0.047; P(the windowed class leaves 'tie') 0.205-0.244
+  f 0.100: P(a row not tied) at n 600 0.048, 300 0.045, 100 0.047; P(the windowed class leaves 'tie') 0.211-0.250

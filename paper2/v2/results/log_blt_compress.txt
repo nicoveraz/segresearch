@@ -1,0 +1,28 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:14<1:00:06,  7.10s/it]Loading weights: 100%|██████████| 510/510 [00:14<00:00, 35.89it/s]
+[transformers] Token indices sequence length is longer than the specified maximum sequence length for this model (1029 > 1024). Running this sequence through the model will result in indexing errors
+297 train / 294 test; train rates: entropy@15 0.150, typed@15 0.150, nov@15 0.150, novc@15 0.150, lz@15 0.151, ppm@15 0.150, lz+nov@15 0.150, entropy@10 0.100, typed@10 0.100, nov@10 0.100, novc@10 0.100, lz@10 0.101, ppm@10 0.100, lz+nov@10 0.100
+  25 problems
+  50 problems
+  75 problems
+  100 problems
+  125 problems
+  150 problems
+  175 problems
+  200 problems
+  225 problems
+  250 problems
+  275 problems
+RESULT entropy@15   rate 0.157 | covered results 0.481 final 0.983 | exact results 0.470 final 0.650
+RESULT typed@15     rate 0.157 | covered results 0.715 final 0.027 | exact results 0.642 final 0.466
+RESULT nov@15       rate 0.154 | covered results 1.000 final 0.000 | exact results 0.665 final 0.364
+RESULT novc@15      rate 0.150 | covered results 0.000 final 0.000 | exact results 0.167 final 0.238
+RESULT lz@15        rate 0.158 | covered results 0.106 final 0.095 | exact results 0.242 final 0.344
+RESULT ppm@15       rate 0.145 | covered results 0.141 final 0.000 | exact results 0.195 final 0.037
+RESULT lz+nov@15    rate 0.157 | covered results 0.989 final 0.000 | exact results 0.602 final 0.333
+RESULT entropy@10   rate 0.106 | covered results 0.162 final 0.935 | exact results 0.190 final 0.514
+RESULT typed@10     rate 0.105 | covered results 0.661 final 0.003 | exact results 0.487 final 0.320
+RESULT nov@10       rate 0.103 | covered results 1.000 final 0.000 | exact results 0.565 final 0.194
+RESULT novc@10      rate 0.100 | covered results 0.000 final 0.000 | exact results 0.102 final 0.082
+RESULT lz@10        rate 0.107 | covered results 0.073 final 0.054 | exact results 0.151 final 0.224
+RESULT ppm@10       rate 0.097 | covered results 0.098 final 0.000 | exact results 0.134 final 0.031
+RESULT lz+nov@10    rate 0.106 | covered results 0.985 final 0.000 | exact results 0.541 final 0.259

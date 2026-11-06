@@ -1,5 +1,8 @@
 # Related work scan for paper 2 (2026-10-14, web search; abstracts only unless noted)
 
+> Version 1 working file (October 2026), kept as a record. Several of its claims are corrected or withdrawn in
+> version 2 of the paper; see `manuscript.md`, "Changes in version 2".
+
 **Bottom line:** no prior work found that sets byte-level patch boundaries from LZ-style reuse / novelty. The
 closest work either (a) learns boundaries end to end, (b) steers boundaries TOWARD high surprisal (the opposite of
 our finding), or (c) uses LZ compression to merge tokens, not to place compute. Search was not exhaustive (web search

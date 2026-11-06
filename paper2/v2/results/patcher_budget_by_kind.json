@@ -1,0 +1,42 @@
+{
+ "n_bytes": 639890,
+ "mean_entropy_all": 1.1089208126068115,
+ "threshold_p90": 3.3091030120849605,
+ "by_kind": {
+  "computed": {
+   "n": 4520,
+   "mean_entropy": 2.9035959243774414,
+   "mean_percentile": 0.8546422777725763,
+   "share_above_p90": 0.18429203539823008,
+   "share_of_budget": 0.013017862445107753
+  },
+  "copied": {
+   "n": 10836,
+   "mean_entropy": 3.042781352996826,
+   "mean_percentile": 0.8636475207495318,
+   "share_above_p90": 0.4034699150978221,
+   "share_of_budget": 0.06832424322930504
+  },
+  "final": {
+   "n": 1290,
+   "mean_entropy": 4.323605060577393,
+   "mean_percentile": 0.97252794296888,
+   "share_above_p90": 0.9441860465116279,
+   "share_of_budget": 0.019034521558392848
+  },
+  "word": {
+   "n": 44097,
+   "mean_entropy": 2.4377260208129883,
+   "mean_percentile": 0.780172978149021,
+   "share_above_p90": 0.3013130144907817,
+   "share_of_budget": 0.20764506399537422
+  },
+  "no unit start": {
+   "n": 579147,
+   "mean_entropy": 0.950393557548523,
+   "mean_percentile": 0.4680429726921815,
+   "share_above_p90": 0.07645554582860656,
+   "share_of_budget": 0.6919783087718202
+  }
+ }
+}

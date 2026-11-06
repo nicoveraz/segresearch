@@ -1,0 +1,5 @@
+corpus verified: 1.90 GB
+entropy scored in 2714s
+  probe fitted on 386769 candidates (73330 auto-label positives of 1327632 candidates)
+probe scored in 2369s
+  probetop3+entropy10 threshold 4.9987  train rate 0.1000  val rate 0.1303

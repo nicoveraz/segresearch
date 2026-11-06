@@ -1,0 +1,33 @@
+{
+ "bpb": 1.6140163545080046,
+ "rate": 0.13026901204412586,
+ "computed_bits": 2.299170485367507,
+ "copy_bits": 0.10842574803032856,
+ "final_bits": 0.7718472692076491,
+ "boxed_bits": 1.952709074431922,
+ "computed_acc": 0.105,
+ "computed_n": 1000,
+ "final_acc": 0.7348484848484849,
+ "final_n": 660,
+ "boxed_acc": 0.017142857142857144,
+ "boxed_n": 700,
+ "e2e_acc": 0.0,
+ "e2e_n": 100,
+ "size": "12m",
+ "arm": "probetop3+entropy10",
+ "seed": 0,
+ "params": 11741440,
+ "train_seconds": 20311,
+ "cfg": {
+  "d": 320,
+  "glayers": 8,
+  "bs": 128,
+  "steps": 30500,
+  "lr": 0.0012,
+  "warmup": 1000,
+  "micro": 128,
+  "seed": 0
+ },
+ "device": "mps",
+ "toy": false
+}

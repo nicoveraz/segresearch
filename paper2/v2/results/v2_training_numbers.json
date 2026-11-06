@@ -1,0 +1,4704 @@
+{
+ "source": "segresearch results/scale/runs (1M, 12M, 50M) and results/scale/cross; scale.analyze.welch",
+ "convention": "differences are b - a in points (accuracy) or bits per byte; 95% Welch interval over seeds, t from scale.analyze.T95 at the floored Welch-Satterthwaite df (seed variance only)",
+ "runs": [
+  {
+   "run": "12m_dep10_s0",
+   "size": "12m",
+   "arm": "dep10",
+   "seed": 0,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.072,
+   "computed_n": 1000,
+   "final_acc": 0.5848484848484848,
+   "final_n": 660,
+   "bpb": 1.673769954389294,
+   "rate": 0.1089327657419866,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.024285714285714285,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 0
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_dep10_s1",
+   "size": "12m",
+   "arm": "dep10",
+   "seed": 1,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.056,
+   "computed_n": 1000,
+   "final_acc": 0.5393939393939394,
+   "final_n": 660,
+   "bpb": 1.7036422974082508,
+   "rate": 0.1089327657419866,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.03142857142857143,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 1
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_dep10_s2",
+   "size": "12m",
+   "arm": "dep10",
+   "seed": 2,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.103,
+   "computed_n": 1000,
+   "final_acc": 0.5757575757575758,
+   "final_n": 660,
+   "bpb": 1.6425699659594888,
+   "rate": 0.1089327657419866,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.027142857142857142,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 2
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_entropy10_s0",
+   "size": "12m",
+   "arm": "entropy10",
+   "seed": 0,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.048,
+   "computed_n": 1000,
+   "final_acc": 0.4196969696969697,
+   "final_n": 660,
+   "bpb": 1.6696715403126408,
+   "rate": 0.11204459467695582,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.022857142857142857,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 0
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_entropy10_s1",
+   "size": "12m",
+   "arm": "entropy10",
+   "seed": 1,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.064,
+   "computed_n": 1000,
+   "final_acc": 0.4909090909090909,
+   "final_n": 660,
+   "bpb": 1.6430792738481115,
+   "rate": 0.11204459467695582,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.024285714285714285,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 1
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_entropy10_s2",
+   "size": "12m",
+   "arm": "entropy10",
+   "seed": 2,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.063,
+   "computed_n": 1000,
+   "final_acc": 0.48787878787878786,
+   "final_n": 660,
+   "bpb": 1.658048120746138,
+   "rate": 0.11204459467695582,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.024285714285714285,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 2
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_final+typed14_s0",
+   "size": "12m",
+   "arm": "final+typed14",
+   "seed": 0,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.063,
+   "computed_n": 1000,
+   "final_acc": 0.12878787878787878,
+   "final_n": 660,
+   "bpb": 1.6934758202903577,
+   "rate": 0.1070012048814106,
+   "e2e_acc": 0.01,
+   "e2e_n": 100,
+   "boxed_acc": 0.02,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 0
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_final+typed14_s1",
+   "size": "12m",
+   "arm": "final+typed14",
+   "seed": 1,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.051,
+   "computed_n": 1000,
+   "final_acc": 0.4893939393939394,
+   "final_n": 660,
+   "bpb": 1.7185990657100783,
+   "rate": 0.1070012048814106,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.024285714285714285,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 1
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_final+typed14_s2",
+   "size": "12m",
+   "arm": "final+typed14",
+   "seed": 2,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.063,
+   "computed_n": 1000,
+   "final_acc": 0.13636363636363635,
+   "final_n": 660,
+   "bpb": 1.7230324371921977,
+   "rate": 0.1070012048814106,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.024285714285714285,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 2
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_nov10_s0",
+   "size": "12m",
+   "arm": "nov10",
+   "seed": 0,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.142,
+   "computed_n": 1000,
+   "final_acc": 0.7227272727272728,
+   "final_n": 660,
+   "bpb": 1.6531178958202042,
+   "rate": 0.11947782221201225,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.018571428571428572,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 0
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_nov10_s1",
+   "size": "12m",
+   "arm": "nov10",
+   "seed": 1,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.096,
+   "computed_n": 1000,
+   "final_acc": 0.7121212121212122,
+   "final_n": 660,
+   "bpb": 1.6613750507790292,
+   "rate": 0.11947782221201225,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.032857142857142856,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 1
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_nov10_s2",
+   "size": "12m",
+   "arm": "nov10",
+   "seed": 2,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.065,
+   "computed_n": 1000,
+   "final_acc": 0.7090909090909091,
+   "final_n": 660,
+   "bpb": 1.7074926508251826,
+   "rate": 0.11947782221201225,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.022857142857142857,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 2
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_novc10_s0",
+   "size": "12m",
+   "arm": "novc10",
+   "seed": 0,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.094,
+   "computed_n": 1000,
+   "final_acc": 0.6636363636363637,
+   "final_n": 660,
+   "bpb": 1.7164404246907787,
+   "rate": 0.08678662347221507,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.024285714285714285,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 0
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_novc10_s1",
+   "size": "12m",
+   "arm": "novc10",
+   "seed": 1,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.079,
+   "computed_n": 1000,
+   "final_acc": 0.6787878787878788,
+   "final_n": 660,
+   "bpb": 1.7381936698764688,
+   "rate": 0.08678662347221507,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.03571428571428571,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 1
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_novc10_s2",
+   "size": "12m",
+   "arm": "novc10",
+   "seed": 2,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.069,
+   "computed_n": 1000,
+   "final_acc": 0.6803030303030303,
+   "final_n": 660,
+   "bpb": 1.7423198211718158,
+   "rate": 0.08678662347221507,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.024285714285714285,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 2
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_novc13_s0",
+   "size": "12m",
+   "arm": "novc13",
+   "seed": 0,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.072,
+   "computed_n": 1000,
+   "final_acc": 0.7121212121212122,
+   "final_n": 660,
+   "bpb": 1.6194060726639739,
+   "rate": 0.11420001969066897,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.02142857142857143,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 0
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_novc13_s1",
+   "size": "12m",
+   "arm": "novc13",
+   "seed": 1,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.111,
+   "computed_n": 1000,
+   "final_acc": 0.6984848484848485,
+   "final_n": 660,
+   "bpb": 1.615536582872588,
+   "rate": 0.11420001969066897,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.03571428571428571,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 1
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_novc13_s2",
+   "size": "12m",
+   "arm": "novc13",
+   "seed": 2,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.123,
+   "computed_n": 1000,
+   "final_acc": 0.6848484848484848,
+   "final_n": 660,
+   "bpb": 1.622239890774151,
+   "rate": 0.11420001969066897,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.03142857142857143,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 2
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_syntax+entropy10_s0",
+   "size": "12m",
+   "arm": "syntax+entropy10",
+   "seed": 0,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.149,
+   "computed_n": 1000,
+   "final_acc": 0.7636363636363637,
+   "final_n": 660,
+   "bpb": 1.6473690439469955,
+   "rate": 0.12126287511896446,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.022857142857142857,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 0
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_syntax+entropy10_s1",
+   "size": "12m",
+   "arm": "syntax+entropy10",
+   "seed": 1,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.103,
+   "computed_n": 1000,
+   "final_acc": 0.7393939393939394,
+   "final_n": 660,
+   "bpb": 1.666349043210833,
+   "rate": 0.12126287511896446,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.024285714285714285,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 1
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_syntax+entropy10_s2",
+   "size": "12m",
+   "arm": "syntax+entropy10",
+   "seed": 2,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.135,
+   "computed_n": 1000,
+   "final_acc": 0.7848484848484848,
+   "final_n": 660,
+   "bpb": 1.6222385983382952,
+   "rate": 0.12126287511896446,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.03,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 2
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_typed14_s0",
+   "size": "12m",
+   "arm": "typed14",
+   "seed": 0,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.065,
+   "computed_n": 1000,
+   "final_acc": 0.26212121212121214,
+   "final_n": 660,
+   "bpb": 1.6690549002232435,
+   "rate": 0.10565801996258772,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.025714285714285714,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 0
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_typed14_s1",
+   "size": "12m",
+   "arm": "typed14",
+   "seed": 1,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.056,
+   "computed_n": 1000,
+   "final_acc": 0.19090909090909092,
+   "final_n": 660,
+   "bpb": 1.6657727037145675,
+   "rate": 0.10565801996258772,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.037142857142857144,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 1
+   },
+   "failed": false
+  },
+  {
+   "run": "12m_typed14_s2",
+   "size": "12m",
+   "arm": "typed14",
+   "seed": 2,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.065,
+   "computed_n": 1000,
+   "final_acc": 0.11363636363636363,
+   "final_n": 660,
+   "bpb": 1.70040875551377,
+   "rate": 0.10565801996258772,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.03,
+   "boxed_n": 700,
+   "params": 11741440,
+   "cfg": {
+    "d": 320,
+    "glayers": 8,
+    "bs": 128,
+    "steps": 30500,
+    "lr": 0.0012,
+    "warmup": 1000,
+    "micro": 128,
+    "seed": 2
+   },
+   "failed": false
+  },
+  {
+   "run": "1m_dep10_s0",
+   "size": "1m",
+   "arm": "dep10",
+   "seed": 0,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.0,
+   "computed_n": 1000,
+   "final_acc": 0.0,
+   "final_n": 660,
+   "bpb": 4.718046571073381,
+   "rate": 0.1089327657419866,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.0,
+   "boxed_n": 700,
+   "params": 1132032,
+   "cfg": {
+    "d": 128,
+    "glayers": 4,
+    "bs": 32,
+    "steps": 32000,
+    "lr": 0.003,
+    "warmup": 100,
+    "seed": 0
+   },
+   "failed": true
+  },
+  {
+   "run": "1m_dep10_s1",
+   "size": "1m",
+   "arm": "dep10",
+   "seed": 1,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.043,
+   "computed_n": 1000,
+   "final_acc": 0.06212121212121212,
+   "final_n": 660,
+   "bpb": 2.1281357383008928,
+   "rate": 0.1089327657419866,
+   "e2e_acc": 0.01,
+   "e2e_n": 100,
+   "boxed_acc": 0.037142857142857144,
+   "boxed_n": 700,
+   "params": 1132032,
+   "cfg": {
+    "d": 128,
+    "glayers": 4,
+    "bs": 32,
+    "steps": 32000,
+    "lr": 0.003,
+    "warmup": 100,
+    "seed": 1
+   },
+   "failed": false
+  },
+  {
+   "run": "1m_dep10_s2",
+   "size": "1m",
+   "arm": "dep10",
+   "seed": 2,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.041,
+   "computed_n": 1000,
+   "final_acc": 0.045454545454545456,
+   "final_n": 660,
+   "bpb": 2.264437591579228,
+   "rate": 0.1089327657419866,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.022857142857142857,
+   "boxed_n": 700,
+   "params": 1132032,
+   "cfg": {
+    "d": 128,
+    "glayers": 4,
+    "bs": 32,
+    "steps": 32000,
+    "lr": 0.003,
+    "warmup": 100,
+    "seed": 2
+   },
+   "failed": false
+  },
+  {
+   "run": "1m_entropy10_s0",
+   "size": "1m",
+   "arm": "entropy10",
+   "seed": 0,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.036,
+   "computed_n": 1000,
+   "final_acc": 0.08787878787878788,
+   "final_n": 660,
+   "bpb": 2.0830764207775623,
+   "rate": 0.11204459467695582,
+   "e2e_acc": 0.01,
+   "e2e_n": 100,
+   "boxed_acc": 0.02,
+   "boxed_n": 700,
+   "params": 1132032,
+   "cfg": {
+    "d": 128,
+    "glayers": 4,
+    "bs": 32,
+    "steps": 32000,
+    "lr": 0.003,
+    "warmup": 100,
+    "seed": 0
+   },
+   "failed": false
+  },
+  {
+   "run": "1m_entropy10_s1",
+   "size": "1m",
+   "arm": "entropy10",
+   "seed": 1,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.049,
+   "computed_n": 1000,
+   "final_acc": 0.048484848484848485,
+   "final_n": 660,
+   "bpb": 2.090529947476911,
+   "rate": 0.11204459467695582,
+   "e2e_acc": 0.01,
+   "e2e_n": 100,
+   "boxed_acc": 0.022857142857142857,
+   "boxed_n": 700,
+   "params": 1132032,
+   "cfg": {
+    "d": 128,
+    "glayers": 4,
+    "bs": 32,
+    "steps": 32000,
+    "lr": 0.003,
+    "warmup": 100,
+    "seed": 1
+   },
+   "failed": false
+  },
+  {
+   "run": "1m_entropy10_s2",
+   "size": "1m",
+   "arm": "entropy10",
+   "seed": 2,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.048,
+   "computed_n": 1000,
+   "final_acc": 0.07424242424242425,
+   "final_n": 660,
+   "bpb": 2.1058702371762137,
+   "rate": 0.11204459467695582,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.03142857142857143,
+   "boxed_n": 700,
+   "params": 1132032,
+   "cfg": {
+    "d": 128,
+    "glayers": 4,
+    "bs": 32,
+    "steps": 32000,
+    "lr": 0.003,
+    "warmup": 100,
+    "seed": 2
+   },
+   "failed": false
+  },
+  {
+   "run": "1m_final+typed14_s0",
+   "size": "1m",
+   "arm": "final+typed14",
+   "seed": 0,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.039,
+   "computed_n": 1000,
+   "final_acc": 0.04090909090909091,
+   "final_n": 660,
+   "bpb": 2.1660315505904806,
+   "rate": 0.1070012048814106,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.007142857142857143,
+   "boxed_n": 700,
+   "params": 1132032,
+   "cfg": {
+    "d": 128,
+    "glayers": 4,
+    "bs": 32,
+    "steps": 32000,
+    "lr": 0.003,
+    "warmup": 100,
+    "seed": 0
+   },
+   "failed": false
+  },
+  {
+   "run": "1m_final+typed14_s1",
+   "size": "1m",
+   "arm": "final+typed14",
+   "seed": 1,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.049,
+   "computed_n": 1000,
+   "final_acc": 0.05,
+   "final_n": 660,
+   "bpb": 2.1651348330383438,
+   "rate": 0.1070012048814106,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.024285714285714285,
+   "boxed_n": 700,
+   "params": 1132032,
+   "cfg": {
+    "d": 128,
+    "glayers": 4,
+    "bs": 32,
+    "steps": 32000,
+    "lr": 0.003,
+    "warmup": 100,
+    "seed": 1
+   },
+   "failed": false
+  },
+  {
+   "run": "1m_final+typed14_s2",
+   "size": "1m",
+   "arm": "final+typed14",
+   "seed": 2,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.053,
+   "computed_n": 1000,
+   "final_acc": 0.05303030303030303,
+   "final_n": 660,
+   "bpb": 2.1712013605061684,
+   "rate": 0.1070012048814106,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.018571428571428572,
+   "boxed_n": 700,
+   "params": 1132032,
+   "cfg": {
+    "d": 128,
+    "glayers": 4,
+    "bs": 32,
+    "steps": 32000,
+    "lr": 0.003,
+    "warmup": 100,
+    "seed": 2
+   },
+   "failed": false
+  },
+  {
+   "run": "1m_nov10_s0",
+   "size": "1m",
+   "arm": "nov10",
+   "seed": 0,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.037,
+   "computed_n": 1000,
+   "final_acc": 0.24696969696969698,
+   "final_n": 660,
+   "bpb": 2.123794145640325,
+   "rate": 0.11947782221201225,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.024285714285714285,
+   "boxed_n": 700,
+   "params": 1132032,
+   "cfg": {
+    "d": 128,
+    "glayers": 4,
+    "bs": 32,
+    "steps": 32000,
+    "lr": 0.003,
+    "warmup": 100,
+    "seed": 0
+   },
+   "failed": false
+  },
+  {
+   "run": "1m_nov10_s1",
+   "size": "1m",
+   "arm": "nov10",
+   "seed": 1,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.032,
+   "computed_n": 1000,
+   "final_acc": 0.06515151515151515,
+   "final_n": 660,
+   "bpb": 2.142938390222919,
+   "rate": 0.11947782221201225,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.024285714285714285,
+   "boxed_n": 700,
+   "params": 1132032,
+   "cfg": {
+    "d": 128,
+    "glayers": 4,
+    "bs": 32,
+    "steps": 32000,
+    "lr": 0.003,
+    "warmup": 100,
+    "seed": 1
+   },
+   "failed": false
+  },
+  {
+   "run": "1m_nov10_s2",
+   "size": "1m",
+   "arm": "nov10",
+   "seed": 2,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.043,
+   "computed_n": 1000,
+   "final_acc": 0.06666666666666667,
+   "final_n": 660,
+   "bpb": 2.107895756909321,
+   "rate": 0.11947782221201225,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.03,
+   "boxed_n": 700,
+   "params": 1132032,
+   "cfg": {
+    "d": 128,
+    "glayers": 4,
+    "bs": 32,
+    "steps": 32000,
+    "lr": 0.003,
+    "warmup": 100,
+    "seed": 2
+   },
+   "failed": false
+  },
+  {
+   "run": "1m_syntax+entropy10_s0",
+   "size": "1m",
+   "arm": "syntax+entropy10",
+   "seed": 0,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.039,
+   "computed_n": 1000,
+   "final_acc": 0.5484848484848485,
+   "final_n": 660,
+   "bpb": 2.093230546396543,
+   "rate": 0.12126287511896446,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.024285714285714285,
+   "boxed_n": 700,
+   "params": 1132032,
+   "cfg": {
+    "d": 128,
+    "glayers": 4,
+    "bs": 32,
+    "steps": 32000,
+    "lr": 0.003,
+    "warmup": 100,
+    "seed": 0
+   },
+   "failed": false
+  },
+  {
+   "run": "1m_syntax+entropy10_s1",
+   "size": "1m",
+   "arm": "syntax+entropy10",
+   "seed": 1,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.041,
+   "computed_n": 1000,
+   "final_acc": 0.25303030303030305,
+   "final_n": 660,
+   "bpb": 2.120614831957016,
+   "rate": 0.12126287511896446,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.02,
+   "boxed_n": 700,
+   "params": 1132032,
+   "cfg": {
+    "d": 128,
+    "glayers": 4,
+    "bs": 32,
+    "steps": 32000,
+    "lr": 0.003,
+    "warmup": 100,
+    "seed": 1
+   },
+   "failed": false
+  },
+  {
+   "run": "1m_syntax+entropy10_s2",
+   "size": "1m",
+   "arm": "syntax+entropy10",
+   "seed": 2,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.059,
+   "computed_n": 1000,
+   "final_acc": 0.5621212121212121,
+   "final_n": 660,
+   "bpb": 2.112184407138933,
+   "rate": 0.12126287511896446,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.027142857142857142,
+   "boxed_n": 700,
+   "params": 1132032,
+   "cfg": {
+    "d": 128,
+    "glayers": 4,
+    "bs": 32,
+    "steps": 32000,
+    "lr": 0.003,
+    "warmup": 100,
+    "seed": 2
+   },
+   "failed": false
+  },
+  {
+   "run": "1m_typed14_s0",
+   "size": "1m",
+   "arm": "typed14",
+   "seed": 0,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.033,
+   "computed_n": 1000,
+   "final_acc": 0.03484848484848485,
+   "final_n": 660,
+   "bpb": 2.191410260463465,
+   "rate": 0.10565801996258772,
+   "e2e_acc": 0.01,
+   "e2e_n": 100,
+   "boxed_acc": 0.018571428571428572,
+   "boxed_n": 700,
+   "params": 1132032,
+   "cfg": {
+    "d": 128,
+    "glayers": 4,
+    "bs": 32,
+    "steps": 32000,
+    "lr": 0.003,
+    "warmup": 100,
+    "seed": 0
+   },
+   "failed": false
+  },
+  {
+   "run": "1m_typed14_s1",
+   "size": "1m",
+   "arm": "typed14",
+   "seed": 1,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.05,
+   "computed_n": 1000,
+   "final_acc": 0.03636363636363636,
+   "final_n": 660,
+   "bpb": 2.1942197529111778,
+   "rate": 0.10565801996258772,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.017142857142857144,
+   "boxed_n": 700,
+   "params": 1132032,
+   "cfg": {
+    "d": 128,
+    "glayers": 4,
+    "bs": 32,
+    "steps": 32000,
+    "lr": 0.003,
+    "warmup": 100,
+    "seed": 1
+   },
+   "failed": false
+  },
+  {
+   "run": "1m_typed14_s2",
+   "size": "1m",
+   "arm": "typed14",
+   "seed": 2,
+   "recipe": "noclip",
+   "device": "Tesla T4",
+   "computed_acc": 0.043,
+   "computed_n": 1000,
+   "final_acc": 0.04696969696969697,
+   "final_n": 660,
+   "bpb": 2.2027991867099654,
+   "rate": 0.10565801996258772,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.024285714285714285,
+   "boxed_n": 700,
+   "params": 1132032,
+   "cfg": {
+    "d": 128,
+    "glayers": 4,
+    "bs": 32,
+    "steps": 32000,
+    "lr": 0.003,
+    "warmup": 100,
+    "seed": 2
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_dep10_s0",
+   "size": "50m",
+   "arm": "dep10",
+   "seed": 0,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.327,
+   "computed_n": 1000,
+   "final_acc": 0.7848484848484848,
+   "final_n": 660,
+   "bpb": 1.4277705885746745,
+   "rate": 0.1089327657419866,
+   "e2e_acc": 0.01,
+   "e2e_n": 100,
+   "boxed_acc": 0.022857142857142857,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 0
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_dep10_s0_clip",
+   "size": "50m",
+   "arm": "dep10",
+   "seed": 0,
+   "recipe": "clip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.334,
+   "computed_n": 1000,
+   "final_acc": 0.7893939393939394,
+   "final_n": 660,
+   "bpb": 1.422371261292361,
+   "rate": 0.1089327657419866,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.03142857142857143,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 0,
+    "clip": 1.0
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_dep10_s1",
+   "size": "50m",
+   "arm": "dep10",
+   "seed": 1,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.357,
+   "computed_n": 1000,
+   "final_acc": 0.8015151515151515,
+   "final_n": 660,
+   "bpb": 1.4155783770977537,
+   "rate": 0.1089327657419866,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.04285714285714286,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 1
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_dep10_s1_clip",
+   "size": "50m",
+   "arm": "dep10",
+   "seed": 1,
+   "recipe": "clip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.37,
+   "computed_n": 1000,
+   "final_acc": 0.7848484848484848,
+   "final_n": 660,
+   "bpb": 1.412706840496665,
+   "rate": 0.1089327657419866,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.024285714285714285,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 1,
+    "clip": 1.0
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_dep10_s2",
+   "size": "50m",
+   "arm": "dep10",
+   "seed": 2,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.394,
+   "computed_n": 1000,
+   "final_acc": 0.7803030303030303,
+   "final_n": 660,
+   "bpb": 1.4172569052202502,
+   "rate": 0.1089327657419866,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.03428571428571429,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 2
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_dep10_s2_clip",
+   "size": "50m",
+   "arm": "dep10",
+   "seed": 2,
+   "recipe": "clip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.348,
+   "computed_n": 1000,
+   "final_acc": 0.7727272727272727,
+   "final_n": 660,
+   "bpb": 1.4261497133547527,
+   "rate": 0.1089327657419866,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.032857142857142856,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 2,
+    "clip": 1.0
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_entropy10_s0",
+   "size": "50m",
+   "arm": "entropy10",
+   "seed": 0,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.164,
+   "computed_n": 1000,
+   "final_acc": 0.5878787878787879,
+   "final_n": 660,
+   "bpb": 1.4391443630107816,
+   "rate": 0.11204459467695582,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.03428571428571429,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 0
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_entropy10_s0_clip",
+   "size": "50m",
+   "arm": "entropy10",
+   "seed": 0,
+   "recipe": "clip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.121,
+   "computed_n": 1000,
+   "final_acc": 0.6136363636363636,
+   "final_n": 660,
+   "bpb": 1.4139549808275302,
+   "rate": 0.11204459467695582,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.03142857142857143,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 0,
+    "clip": 1.0
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_entropy10_s1",
+   "size": "50m",
+   "arm": "entropy10",
+   "seed": 1,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.104,
+   "computed_n": 1000,
+   "final_acc": 0.5787878787878787,
+   "final_n": 660,
+   "bpb": 1.444463169010638,
+   "rate": 0.11204459467695582,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.025714285714285714,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 1
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_entropy10_s1_clip",
+   "size": "50m",
+   "arm": "entropy10",
+   "seed": 1,
+   "recipe": "clip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.275,
+   "computed_n": 1000,
+   "final_acc": 0.5954545454545455,
+   "final_n": 660,
+   "bpb": 1.4080711254417735,
+   "rate": 0.11204459467695582,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.032857142857142856,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 1,
+    "clip": 1.0
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_entropy10_s2",
+   "size": "50m",
+   "arm": "entropy10",
+   "seed": 2,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.149,
+   "computed_n": 1000,
+   "final_acc": 0.6045454545454545,
+   "final_n": 660,
+   "bpb": 1.4339090676032902,
+   "rate": 0.11204459467695582,
+   "e2e_acc": 0.01,
+   "e2e_n": 100,
+   "boxed_acc": 0.024285714285714285,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 2
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_entropy10_s2_clip",
+   "size": "50m",
+   "arm": "entropy10",
+   "seed": 2,
+   "recipe": "clip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.226,
+   "computed_n": 1000,
+   "final_acc": 0.5893939393939394,
+   "final_n": 660,
+   "bpb": 1.4249804642888892,
+   "rate": 0.11204459467695582,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.032857142857142856,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 2,
+    "clip": 1.0
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_entropy20_s0",
+   "size": "50m",
+   "arm": "entropy20",
+   "seed": 0,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.231,
+   "computed_n": 1000,
+   "final_acc": 0.8015151515151515,
+   "final_n": 660,
+   "bpb": 1.1458136310391482,
+   "rate": 0.2278620621756314,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.06142857142857143,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 0
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_final+typed14_s0_clip",
+   "size": "50m",
+   "arm": "final+typed14",
+   "seed": 0,
+   "recipe": "clip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.095,
+   "computed_n": 1000,
+   "final_acc": 0.6803030303030303,
+   "final_n": 660,
+   "bpb": 1.393647638728964,
+   "rate": 0.1070012048814106,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.024285714285714285,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 0,
+    "clip": 1.0
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_final+typed14_s1_clip",
+   "size": "50m",
+   "arm": "final+typed14",
+   "seed": 1,
+   "recipe": "clip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.093,
+   "computed_n": 1000,
+   "final_acc": 0.6393939393939394,
+   "final_n": 660,
+   "bpb": 1.4089400831673964,
+   "rate": 0.1070012048814106,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.03142857142857143,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 1,
+    "clip": 1.0
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_final+typed14_s2_clip",
+   "size": "50m",
+   "arm": "final+typed14",
+   "seed": 2,
+   "recipe": "clip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.097,
+   "computed_n": 1000,
+   "final_acc": 0.6515151515151515,
+   "final_n": 660,
+   "bpb": 1.413693977697842,
+   "rate": 0.1070012048814106,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.027142857142857142,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 2,
+    "clip": 1.0
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_jump10_s0",
+   "size": "50m",
+   "arm": "jump10",
+   "seed": 0,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.063,
+   "computed_n": 1000,
+   "final_acc": 0.5378787878787878,
+   "final_n": 660,
+   "bpb": 1.4104279412248375,
+   "rate": 0.09727073263353321,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.03857142857142857,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 0
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_nov10_s0_clip",
+   "size": "50m",
+   "arm": "nov10",
+   "seed": 0,
+   "recipe": "clip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.563,
+   "computed_n": 1000,
+   "final_acc": 0.906060606060606,
+   "final_n": 660,
+   "bpb": 1.4473838496556444,
+   "rate": 0.11947782221201225,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.024285714285714285,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 0,
+    "clip": 1.0
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_nov10_s1_clip",
+   "size": "50m",
+   "arm": "nov10",
+   "seed": 1,
+   "recipe": "clip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.585,
+   "computed_n": 1000,
+   "final_acc": 0.8939393939393939,
+   "final_n": 660,
+   "bpb": 1.4409216819302981,
+   "rate": 0.11947782221201225,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.02142857142857143,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 1,
+    "clip": 1.0
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_nov10_s2_clip",
+   "size": "50m",
+   "arm": "nov10",
+   "seed": 2,
+   "recipe": "clip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.577,
+   "computed_n": 1000,
+   "final_acc": 0.8863636363636364,
+   "final_n": 660,
+   "bpb": 1.4511079659552797,
+   "rate": 0.11947782221201225,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.04,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 2,
+    "clip": 1.0
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_novc13_s0_clip",
+   "size": "50m",
+   "arm": "novc13",
+   "seed": 0,
+   "recipe": "clip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.547,
+   "computed_n": 1000,
+   "final_acc": 0.8636363636363636,
+   "final_n": 660,
+   "bpb": 1.4278296321997408,
+   "rate": 0.11420001969066897,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.025714285714285714,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 0,
+    "clip": 1.0
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_novc13_s1_clip",
+   "size": "50m",
+   "arm": "novc13",
+   "seed": 1,
+   "recipe": "clip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.58,
+   "computed_n": 1000,
+   "final_acc": 0.853030303030303,
+   "final_n": 660,
+   "bpb": 1.434458307536068,
+   "rate": 0.11420001969066897,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.032857142857142856,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 1,
+    "clip": 1.0
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_novc13_s2_clip",
+   "size": "50m",
+   "arm": "novc13",
+   "seed": 2,
+   "recipe": "clip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.591,
+   "computed_n": 1000,
+   "final_acc": 0.8757575757575757,
+   "final_n": 660,
+   "bpb": 1.4455720665648524,
+   "rate": 0.11420001969066897,
+   "e2e_acc": 0.01,
+   "e2e_n": 100,
+   "boxed_acc": 0.037142857142857144,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 2,
+    "clip": 1.0
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_syntax+entropy10_s0",
+   "size": "50m",
+   "arm": "syntax+entropy10",
+   "seed": 0,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.368,
+   "computed_n": 1000,
+   "final_acc": 0.8575757575757575,
+   "final_n": 660,
+   "bpb": 1.4409562925439896,
+   "rate": 0.12126287511896446,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.014285714285714285,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 0
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_syntax+entropy10_s1",
+   "size": "50m",
+   "arm": "syntax+entropy10",
+   "seed": 1,
+   "recipe": "noclip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.499,
+   "computed_n": 1000,
+   "final_acc": 0.853030303030303,
+   "final_n": 660,
+   "bpb": 1.4205413196603343,
+   "rate": 0.12126287511896446,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.037142857142857144,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 1
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_typed14_s0_clip",
+   "size": "50m",
+   "arm": "typed14",
+   "seed": 0,
+   "recipe": "clip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.099,
+   "computed_n": 1000,
+   "final_acc": 0.5060606060606061,
+   "final_n": 660,
+   "bpb": 1.3998517393868934,
+   "rate": 0.10565801996258772,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.024285714285714285,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 0,
+    "clip": 1.0
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_typed14_s1_clip",
+   "size": "50m",
+   "arm": "typed14",
+   "seed": 1,
+   "recipe": "clip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.077,
+   "computed_n": 1000,
+   "final_acc": 0.4348484848484849,
+   "final_n": 660,
+   "bpb": 1.4072556639294989,
+   "rate": 0.10565801996258772,
+   "e2e_acc": 0.02,
+   "e2e_n": 100,
+   "boxed_acc": 0.024285714285714285,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 1,
+    "clip": 1.0
+   },
+   "failed": false
+  },
+  {
+   "run": "50m_typed14_s2_clip",
+   "size": "50m",
+   "arm": "typed14",
+   "seed": 2,
+   "recipe": "clip",
+   "device": "NVIDIA A40",
+   "computed_acc": 0.09,
+   "computed_n": 1000,
+   "final_acc": 0.11060606060606061,
+   "final_n": 660,
+   "bpb": 1.423204217032476,
+   "rate": 0.10565801996258772,
+   "e2e_acc": 0.0,
+   "e2e_n": 100,
+   "boxed_acc": 0.025714285714285714,
+   "boxed_n": 700,
+   "params": 53726976,
+   "cfg": {
+    "d": 576,
+    "glayers": 12,
+    "bs": 256,
+    "steps": 45800,
+    "lr": 0.00067,
+    "warmup": 1000,
+    "micro": 64,
+    "seed": 2,
+    "clip": 1.0
+   },
+   "failed": false
+  }
+ ],
+ "failed": [
+  "1m_dep10_s0"
+ ],
+ "arms": {
+  "12m dep10 noclip": {
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "devices": [
+    "NVIDIA A40"
+   ],
+   "computed": {
+    "values": [
+     7.199999999999999,
+     5.6000000000000005,
+     10.299999999999999
+    ],
+    "mean": 7.7,
+    "sd": 2.3895606290697033
+   },
+   "final": {
+    "values": [
+     58.484848484848484,
+     53.939393939393945,
+     57.57575757575758
+    ],
+    "mean": 56.666666666666664,
+    "sd": 2.4052284646041704
+   },
+   "bpb": {
+    "values": [
+     1.673769954389294,
+     1.7036422974082508,
+     1.6425699659594888
+    ],
+    "mean": 1.6733274059190115,
+    "sd": 0.03053857075909535
+   },
+   "rate": {
+    "values": [
+     0.1089327657419866,
+     0.1089327657419866,
+     0.1089327657419866
+    ],
+    "mean": 0.10893276574198658,
+    "sd": 1.6996749443881478e-17
+   }
+  },
+  "12m entropy10 noclip": {
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "devices": [
+    "NVIDIA A40"
+   ],
+   "computed": {
+    "values": [
+     4.8,
+     6.4,
+     6.3
+    ],
+    "mean": 5.833333333333333,
+    "sd": 0.8962886439832503
+   },
+   "final": {
+    "values": [
+     41.96969696969697,
+     49.09090909090909,
+     48.78787878787879
+    ],
+    "mean": 46.61616161616161,
+    "sd": 4.026807932379324
+   },
+   "bpb": {
+    "values": [
+     1.6696715403126408,
+     1.6430792738481115,
+     1.658048120746138
+    ],
+    "mean": 1.6569329783022966,
+    "sd": 0.01333115958694795
+   },
+   "rate": {
+    "values": [
+     0.11204459467695582,
+     0.11204459467695582,
+     0.11204459467695582
+    ],
+    "mean": 0.11204459467695582,
+    "sd": 0.0
+   }
+  },
+  "12m final+typed14 noclip": {
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "devices": [
+    "Tesla T4"
+   ],
+   "computed": {
+    "values": [
+     6.3,
+     5.1,
+     6.3
+    ],
+    "mean": 5.8999999999999995,
+    "sd": 0.692820323027551
+   },
+   "final": {
+    "values": [
+     12.878787878787879,
+     48.93939393939394,
+     13.636363636363635
+    ],
+    "mean": 25.151515151515152,
+    "sd": 20.604389415297575
+   },
+   "bpb": {
+    "values": [
+     1.6934758202903577,
+     1.7185990657100783,
+     1.7230324371921977
+    ],
+    "mean": 1.7117024410642114,
+    "sd": 0.015939603956812057
+   },
+   "rate": {
+    "values": [
+     0.1070012048814106,
+     0.1070012048814106,
+     0.1070012048814106
+    ],
+    "mean": 0.10700120488141059,
+    "sd": 1.6996749443881478e-17
+   }
+  },
+  "12m nov10 noclip": {
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "devices": [
+    "Tesla T4"
+   ],
+   "computed": {
+    "values": [
+     14.2,
+     9.6,
+     6.5
+    ],
+    "mean": 10.1,
+    "sd": 3.874274125562103
+   },
+   "final": {
+    "values": [
+     72.27272727272728,
+     71.21212121212122,
+     70.9090909090909
+    ],
+    "mean": 71.46464646464646,
+    "sd": 0.716032670644339
+   },
+   "bpb": {
+    "values": [
+     1.6531178958202042,
+     1.6613750507790292,
+     1.7074926508251826
+    ],
+    "mean": 1.6739951991414719,
+    "sd": 0.02930195563405978
+   },
+   "rate": {
+    "values": [
+     0.11947782221201225,
+     0.11947782221201225,
+     0.11947782221201225
+    ],
+    "mean": 0.11947782221201225,
+    "sd": 0.0
+   }
+  },
+  "12m novc10 noclip": {
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "devices": [
+    "Tesla T4"
+   ],
+   "computed": {
+    "values": [
+     9.4,
+     7.9,
+     6.9
+    ],
+    "mean": 8.066666666666668,
+    "sd": 1.2583057392117916
+   },
+   "final": {
+    "values": [
+     66.36363636363637,
+     67.87878787878789,
+     68.03030303030303
+    ],
+    "mean": 67.42424242424242,
+    "sd": 0.9216306864088182
+   },
+   "bpb": {
+    "values": [
+     1.7164404246907787,
+     1.7381936698764688,
+     1.7423198211718158
+    ],
+    "mean": 1.7323179719130213,
+    "sd": 0.013904267707215884
+   },
+   "rate": {
+    "values": [
+     0.08678662347221507,
+     0.08678662347221507,
+     0.08678662347221507
+    ],
+    "mean": 0.08678662347221507,
+    "sd": 0.0
+   }
+  },
+  "12m novc13 noclip": {
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "devices": [
+    "Tesla T4"
+   ],
+   "computed": {
+    "values": [
+     7.199999999999999,
+     11.1,
+     12.3
+    ],
+    "mean": 10.2,
+    "sd": 2.6664583251946774
+   },
+   "final": {
+    "values": [
+     71.21212121212122,
+     69.84848484848484,
+     68.48484848484848
+    ],
+    "mean": 69.84848484848486,
+    "sd": 1.3636363636363669
+   },
+   "bpb": {
+    "values": [
+     1.6194060726639739,
+     1.615536582872588,
+     1.622239890774151
+    ],
+    "mean": 1.6190608487702376,
+    "sd": 0.0033649619401107857
+   },
+   "rate": {
+    "values": [
+     0.11420001969066897,
+     0.11420001969066897,
+     0.11420001969066897
+    ],
+    "mean": 0.11420001969066897,
+    "sd": 0.0
+   }
+  },
+  "12m syntax+entropy10 noclip": {
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "devices": [
+    "NVIDIA A40"
+   ],
+   "computed": {
+    "values": [
+     14.899999999999999,
+     10.299999999999999,
+     13.5
+    ],
+    "mean": 12.899999999999999,
+    "sd": 2.3579652245103193
+   },
+   "final": {
+    "values": [
+     76.36363636363637,
+     73.93939393939394,
+     78.48484848484848
+    ],
+    "mean": 76.26262626262627,
+    "sd": 2.274410151353072
+   },
+   "bpb": {
+    "values": [
+     1.6473690439469955,
+     1.666349043210833,
+     1.6222385983382952
+    ],
+    "mean": 1.6453188951653743,
+    "sd": 0.022126571565278367
+   },
+   "rate": {
+    "values": [
+     0.12126287511896446,
+     0.12126287511896446,
+     0.12126287511896446
+    ],
+    "mean": 0.12126287511896446,
+    "sd": 0.0
+   }
+  },
+  "12m typed14 noclip": {
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "devices": [
+    "Tesla T4"
+   ],
+   "computed": {
+    "values": [
+     6.5,
+     5.6000000000000005,
+     6.5
+    ],
+    "mean": 6.2,
+    "sd": 0.5196152422706629
+   },
+   "final": {
+    "values": [
+     26.212121212121215,
+     19.090909090909093,
+     11.363636363636363
+    ],
+    "mean": 18.88888888888889,
+    "sd": 7.426303568764157
+   },
+   "bpb": {
+    "values": [
+     1.6690549002232435,
+     1.6657727037145675,
+     1.70040875551377
+    ],
+    "mean": 1.6784121198171935,
+    "sd": 0.01912020371116141
+   },
+   "rate": {
+    "values": [
+     0.10565801996258772,
+     0.10565801996258772,
+     0.10565801996258772
+    ],
+    "mean": 0.10565801996258772,
+    "sd": 0.0
+   }
+  },
+  "1m dep10 noclip": {
+   "seeds": [
+    1,
+    2
+   ],
+   "devices": [
+    "NVIDIA A40"
+   ],
+   "computed": {
+    "values": [
+     4.3,
+     4.1000000000000005
+    ],
+    "mean": 4.2,
+    "sd": 0.141421356237309
+   },
+   "final": {
+    "values": [
+     6.212121212121212,
+     4.545454545454546
+    ],
+    "mean": 5.378787878787879,
+    "sd": 1.1785113019775788
+   },
+   "bpb": {
+    "values": [
+     2.1281357383008928,
+     2.264437591579228
+    ],
+    "mean": 2.19628666494006,
+    "sd": 0.0963799647414046
+   },
+   "rate": {
+    "values": [
+     0.1089327657419866,
+     0.1089327657419866
+    ],
+    "mean": 0.1089327657419866,
+    "sd": 0.0
+   }
+  },
+  "1m entropy10 noclip": {
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "devices": [
+    "NVIDIA A40"
+   ],
+   "computed": {
+    "values": [
+     3.5999999999999996,
+     4.9,
+     4.8
+    ],
+    "mean": 4.433333333333334,
+    "sd": 0.7234178138070237
+   },
+   "final": {
+    "values": [
+     8.787878787878787,
+     4.848484848484849,
+     7.424242424242425
+    ],
+    "mean": 7.020202020202021,
+    "sd": 2.000535587912965
+   },
+   "bpb": {
+    "values": [
+     2.0830764207775623,
+     2.090529947476911,
+     2.1058702371762137
+    ],
+    "mean": 2.093158868476896,
+    "sd": 0.011622088268550464
+   },
+   "rate": {
+    "values": [
+     0.11204459467695582,
+     0.11204459467695582,
+     0.11204459467695582
+    ],
+    "mean": 0.11204459467695582,
+    "sd": 0.0
+   }
+  },
+  "1m final+typed14 noclip": {
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "devices": [
+    "Tesla T4"
+   ],
+   "computed": {
+    "values": [
+     3.9,
+     4.9,
+     5.3
+    ],
+    "mean": 4.7,
+    "sd": 0.7211102550927979
+   },
+   "final": {
+    "values": [
+     4.090909090909091,
+     5.0,
+     5.303030303030303
+    ],
+    "mean": 4.797979797979798,
+    "sd": 0.6308078786261008
+   },
+   "bpb": {
+    "values": [
+     2.1660315505904806,
+     2.1651348330383438,
+     2.1712013605061684
+    ],
+    "mean": 2.1674559147116645,
+    "sd": 0.0032744921349354694
+   },
+   "rate": {
+    "values": [
+     0.1070012048814106,
+     0.1070012048814106,
+     0.1070012048814106
+    ],
+    "mean": 0.10700120488141059,
+    "sd": 1.6996749443881478e-17
+   }
+  },
+  "1m nov10 noclip": {
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "devices": [
+    "Tesla T4"
+   ],
+   "computed": {
+    "values": [
+     3.6999999999999997,
+     3.2,
+     4.3
+    ],
+    "mean": 3.733333333333333,
+    "sd": 0.55075705472861
+   },
+   "final": {
+    "values": [
+     24.6969696969697,
+     6.515151515151516,
+     6.666666666666667
+    ],
+    "mean": 12.626262626262628,
+    "sd": 10.453813471666592
+   },
+   "bpb": {
+    "values": [
+     2.123794145640325,
+     2.142938390222919,
+     2.107895756909321
+    ],
+    "mean": 2.124876097590855,
+    "sd": 0.017546352965937408
+   },
+   "rate": {
+    "values": [
+     0.11947782221201225,
+     0.11947782221201225,
+     0.11947782221201225
+    ],
+    "mean": 0.11947782221201225,
+    "sd": 0.0
+   }
+  },
+  "1m syntax+entropy10 noclip": {
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "devices": [
+    "NVIDIA A40"
+   ],
+   "computed": {
+    "values": [
+     3.9,
+     4.1000000000000005,
+     5.8999999999999995
+    ],
+    "mean": 4.633333333333333,
+    "sd": 1.10151410945722
+   },
+   "final": {
+    "values": [
+     54.848484848484844,
+     25.303030303030305,
+     56.21212121212121
+    ],
+    "mean": 45.45454545454546,
+    "sd": 17.4650378817043
+   },
+   "bpb": {
+    "values": [
+     2.093230546396543,
+     2.120614831957016,
+     2.112184407138933
+    ],
+    "mean": 2.108676595164164,
+    "sd": 0.014025096525590603
+   },
+   "rate": {
+    "values": [
+     0.12126287511896446,
+     0.12126287511896446,
+     0.12126287511896446
+    ],
+    "mean": 0.12126287511896446,
+    "sd": 0.0
+   }
+  },
+  "1m typed14 noclip": {
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "devices": [
+    "Tesla T4"
+   ],
+   "computed": {
+    "values": [
+     3.3000000000000003,
+     5.0,
+     4.3
+    ],
+    "mean": 4.2,
+    "sd": 0.854400374531753
+   },
+   "final": {
+    "values": [
+     3.4848484848484853,
+     3.6363636363636362,
+     4.696969696969696
+    ],
+    "mean": 3.939393939393939,
+    "sd": 0.6604392338697985
+   },
+   "bpb": {
+    "values": [
+     2.191410260463465,
+     2.1942197529111778,
+     2.2027991867099654
+    ],
+    "mean": 2.1961430666948694,
+    "sd": 0.005933065160181617
+   },
+   "rate": {
+    "values": [
+     0.10565801996258772,
+     0.10565801996258772,
+     0.10565801996258772
+    ],
+    "mean": 0.10565801996258772,
+    "sd": 0.0
+   }
+  },
+  "50m dep10 clip": {
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "devices": [
+    "NVIDIA A40"
+   ],
+   "computed": {
+    "values": [
+     33.4,
+     37.0,
+     34.8
+    ],
+    "mean": 35.06666666666667,
+    "sd": 1.814754345175494
+   },
+   "final": {
+    "values": [
+     78.93939393939394,
+     78.48484848484848,
+     77.27272727272727
+    ],
+    "mean": 78.23232323232322,
+    "sd": 0.8615516216783857
+   },
+   "bpb": {
+    "values": [
+     1.422371261292361,
+     1.412706840496665,
+     1.4261497133547527
+    ],
+    "mean": 1.4204092717145926,
+    "sd": 0.00693287530517685
+   },
+   "rate": {
+    "values": [
+     0.1089327657419866,
+     0.1089327657419866,
+     0.1089327657419866
+    ],
+    "mean": 0.10893276574198658,
+    "sd": 1.6996749443881478e-17
+   }
+  },
+  "50m dep10 noclip": {
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "devices": [
+    "NVIDIA A40"
+   ],
+   "computed": {
+    "values": [
+     32.7,
+     35.699999999999996,
+     39.4
+    ],
+    "mean": 35.93333333333334,
+    "sd": 3.3560889936551623
+   },
+   "final": {
+    "values": [
+     78.48484848484848,
+     80.15151515151516,
+     78.03030303030303
+    ],
+    "mean": 78.88888888888889,
+    "sd": 1.1168355751260617
+   },
+   "bpb": {
+    "values": [
+     1.4277705885746745,
+     1.4155783770977537,
+     1.4172569052202502
+    ],
+    "mean": 1.420201956964226,
+    "sd": 0.006608139110635612
+   },
+   "rate": {
+    "values": [
+     0.1089327657419866,
+     0.1089327657419866,
+     0.1089327657419866
+    ],
+    "mean": 0.10893276574198658,
+    "sd": 1.6996749443881478e-17
+   }
+  },
+  "50m entropy10 clip": {
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "devices": [
+    "NVIDIA A40"
+   ],
+   "computed": {
+    "values": [
+     12.1,
+     27.500000000000004,
+     22.6
+    ],
+    "mean": 20.733333333333334,
+    "sd": 7.867867140040772
+   },
+   "final": {
+    "values": [
+     61.36363636363637,
+     59.54545454545455,
+     58.93939393939394
+    ],
+    "mean": 59.94949494949495,
+    "sd": 1.261615757252204
+   },
+   "bpb": {
+    "values": [
+     1.4139549808275302,
+     1.4080711254417735,
+     1.4249804642888892
+    ],
+    "mean": 1.4156688568527311,
+    "sd": 0.008583965478376704
+   },
+   "rate": {
+    "values": [
+     0.11204459467695582,
+     0.11204459467695582,
+     0.11204459467695582
+    ],
+    "mean": 0.11204459467695582,
+    "sd": 0.0
+   }
+  },
+  "50m entropy10 noclip": {
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "devices": [
+    "NVIDIA A40"
+   ],
+   "computed": {
+    "values": [
+     16.400000000000002,
+     10.4,
+     14.899999999999999
+    ],
+    "mean": 13.9,
+    "sd": 3.1224989991991996
+   },
+   "final": {
+    "values": [
+     58.78787878787879,
+     57.878787878787875,
+     60.45454545454545
+    ],
+    "mean": 59.04040404040404,
+    "sd": 1.3063148642805626
+   },
+   "bpb": {
+    "values": [
+     1.4391443630107816,
+     1.444463169010638,
+     1.4339090676032902
+    ],
+    "mean": 1.4391721998749032,
+    "sd": 0.005277105769017551
+   },
+   "rate": {
+    "values": [
+     0.11204459467695582,
+     0.11204459467695582,
+     0.11204459467695582
+    ],
+    "mean": 0.11204459467695582,
+    "sd": 0.0
+   }
+  },
+  "50m entropy20 noclip": {
+   "seeds": [
+    0
+   ],
+   "devices": [
+    "NVIDIA A40"
+   ],
+   "computed": {
+    "values": [
+     23.1
+    ],
+    "mean": 23.1,
+    "sd": null
+   },
+   "final": {
+    "values": [
+     80.15151515151516
+    ],
+    "mean": 80.15151515151516,
+    "sd": null
+   },
+   "bpb": {
+    "values": [
+     1.1458136310391482
+    ],
+    "mean": 1.1458136310391482,
+    "sd": null
+   },
+   "rate": {
+    "values": [
+     0.2278620621756314
+    ],
+    "mean": 0.2278620621756314,
+    "sd": null
+   }
+  },
+  "50m final+typed14 clip": {
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "devices": [
+    "NVIDIA A40"
+   ],
+   "computed": {
+    "values": [
+     9.5,
+     9.3,
+     9.700000000000001
+    ],
+    "mean": 9.5,
+    "sd": 0.20000000000000018
+   },
+   "final": {
+    "values": [
+     68.03030303030303,
+     63.93939393939394,
+     65.15151515151516
+    ],
+    "mean": 65.70707070707071,
+    "sd": 2.1012771780519928
+   },
+   "bpb": {
+    "values": [
+     1.393647638728964,
+     1.4089400831673964,
+     1.413693977697842
+    ],
+    "mean": 1.4054272331980675,
+    "sd": 0.01047468437204914
+   },
+   "rate": {
+    "values": [
+     0.1070012048814106,
+     0.1070012048814106,
+     0.1070012048814106
+    ],
+    "mean": 0.10700120488141059,
+    "sd": 1.6996749443881478e-17
+   }
+  },
+  "50m jump10 noclip": {
+   "seeds": [
+    0
+   ],
+   "devices": [
+    "NVIDIA A40"
+   ],
+   "computed": {
+    "values": [
+     6.3
+    ],
+    "mean": 6.3,
+    "sd": null
+   },
+   "final": {
+    "values": [
+     53.78787878787878
+    ],
+    "mean": 53.78787878787878,
+    "sd": null
+   },
+   "bpb": {
+    "values": [
+     1.4104279412248375
+    ],
+    "mean": 1.4104279412248375,
+    "sd": null
+   },
+   "rate": {
+    "values": [
+     0.09727073263353321
+    ],
+    "mean": 0.09727073263353321,
+    "sd": null
+   }
+  },
+  "50m nov10 clip": {
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "devices": [
+    "NVIDIA A40"
+   ],
+   "computed": {
+    "values": [
+     56.3,
+     58.5,
+     57.699999999999996
+    ],
+    "mean": 57.5,
+    "sd": 1.1135528725660055
+   },
+   "final": {
+    "values": [
+     90.6060606060606,
+     89.39393939393939,
+     88.63636363636364
+    ],
+    "mean": 89.54545454545455,
+    "sd": 0.9935512915609016
+   },
+   "bpb": {
+    "values": [
+     1.4473838496556444,
+     1.4409216819302981,
+     1.4511079659552797
+    ],
+    "mean": 1.446471165847074,
+    "sd": 0.005154108978302501
+   },
+   "rate": {
+    "values": [
+     0.11947782221201225,
+     0.11947782221201225,
+     0.11947782221201225
+    ],
+    "mean": 0.11947782221201225,
+    "sd": 0.0
+   }
+  },
+  "50m novc13 clip": {
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "devices": [
+    "NVIDIA A40"
+   ],
+   "computed": {
+    "values": [
+     54.7,
+     57.99999999999999,
+     59.099999999999994
+    ],
+    "mean": 57.26666666666666,
+    "sd": 2.2898325994127413
+   },
+   "final": {
+    "values": [
+     86.36363636363636,
+     85.3030303030303,
+     87.57575757575758
+    ],
+    "mean": 86.41414141414141,
+    "sd": 1.1372050756765395
+   },
+   "bpb": {
+    "values": [
+     1.4278296321997408,
+     1.434458307536068,
+     1.4455720665648524
+    ],
+    "mean": 1.4359533354335536,
+    "sd": 0.008965200812629274
+   },
+   "rate": {
+    "values": [
+     0.11420001969066897,
+     0.11420001969066897,
+     0.11420001969066897
+    ],
+    "mean": 0.11420001969066897,
+    "sd": 0.0
+   }
+  },
+  "50m syntax+entropy10 noclip": {
+   "seeds": [
+    0,
+    1
+   ],
+   "devices": [
+    "NVIDIA A40"
+   ],
+   "computed": {
+    "values": [
+     36.8,
+     49.9
+    ],
+    "mean": 43.349999999999994,
+    "sd": 9.263098833543772
+   },
+   "final": {
+    "values": [
+     85.75757575757575,
+     85.3030303030303
+    ],
+    "mean": 85.53030303030303,
+    "sd": 0.3214121732666116
+   },
+   "bpb": {
+    "values": [
+     1.4409562925439896,
+     1.4205413196603343
+    ],
+    "mean": 1.4307488061021618,
+    "sd": 0.014435565763772182
+   },
+   "rate": {
+    "values": [
+     0.12126287511896446,
+     0.12126287511896446
+    ],
+    "mean": 0.12126287511896446,
+    "sd": 0.0
+   }
+  },
+  "50m typed14 clip": {
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "devices": [
+    "NVIDIA A40"
+   ],
+   "computed": {
+    "values": [
+     9.9,
+     7.7,
+     9.0
+    ],
+    "mean": 8.866666666666667,
+    "sd": 1.106044001535804
+   },
+   "final": {
+    "values": [
+     50.60606060606061,
+     43.484848484848484,
+     11.06060606060606
+    ],
+    "mean": 35.05050505050505,
+    "sd": 21.078765515987694
+   },
+   "bpb": {
+    "values": [
+     1.3998517393868934,
+     1.4072556639294989,
+     1.423204217032476
+    ],
+    "mean": 1.4101038734496225,
+    "sd": 0.011933933808671403
+   },
+   "rate": {
+    "values": [
+     0.10565801996258772,
+     0.10565801996258772,
+     0.10565801996258772
+    ],
+    "mean": 0.10565801996258772,
+    "sd": 0.0
+   }
+  }
+ },
+ "arms_with_failed_seeds": {
+  "1m dep10 noclip": {
+   "seeds": [
+    0,
+    1,
+    2
+   ],
+   "devices": [
+    "NVIDIA A40"
+   ],
+   "computed": {
+    "values": [
+     0.0,
+     4.3,
+     4.1000000000000005
+    ],
+    "mean": 2.8000000000000003,
+    "sd": 2.4269322199023193
+   },
+   "final": {
+    "values": [
+     0.0,
+     6.212121212121212,
+     4.545454545454546
+    ],
+    "mean": 3.585858585858586,
+    "sd": 3.2153119277569706
+   },
+   "bpb": {
+    "values": [
+     4.718046571073381,
+     2.1281357383008928,
+     2.264437591579228
+    ],
+    "mean": 3.036873300317834,
+    "sd": 1.457532923651797
+   },
+   "rate": {
+    "values": [
+     0.1089327657419866,
+     0.1089327657419866,
+     0.1089327657419866
+    ],
+    "mean": 0.10893276574198658,
+    "sd": 1.6996749443881478e-17
+   }
+  }
+ },
+ "pairs": {
+  "1m noclip: nov10 - entropy10": {
+   "n": [
+    3,
+    3
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "Tesla T4"
+    ]
+   ],
+   "same_device": false,
+   "computed": {
+    "diff": -0.7000000000000006,
+    "ci": [
+     -2.369289669290505,
+     0.9692896692905035
+    ],
+    "df": 3.7354388095961113,
+    "df_floored": 3
+   },
+   "final": {
+    "diff": 5.606060606060607,
+    "ci": [
+     -20.817589110827093,
+     32.029710322948304
+    ],
+    "df": 2.1462921374833637,
+    "df_floored": 2
+   },
+   "bpb": {
+    "diff": 0.03171722911395891,
+    "ci": [
+     -0.006923257741660506,
+     0.07035771596957832
+    ],
+    "df": 3.4716445244911416,
+    "df_floored": 3
+   },
+   "recipe": "same",
+   "a": "entropy10",
+   "b": "nov10"
+  },
+  "1m noclip: syntax+entropy10 - entropy10": {
+   "n": [
+    3,
+    3
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "NVIDIA A40"
+    ]
+   ],
+   "same_device": true,
+   "computed": {
+    "diff": 0.1999999999999993,
+    "ci": [
+     -2.219494988628826,
+     2.6194949886288246
+    ],
+    "df": 3.4546565274109904,
+    "df_floored": 3
+   },
+   "final": {
+    "diff": 38.43434343434344,
+    "ci": [
+     -5.207986872279598,
+     82.07667374096647
+    ],
+    "df": 2.0524733429721005,
+    "df_floored": 2
+   },
+   "bpb": {
+    "diff": 0.01551772668726814,
+    "ci": [
+     -0.01792403530426539,
+     0.04895948867880167
+    ],
+    "df": 3.866578409430725,
+    "df_floored": 3
+   },
+   "recipe": "same",
+   "a": "entropy10",
+   "b": "syntax+entropy10"
+  },
+  "1m noclip: nov10 - syntax+entropy10": {
+   "n": [
+    3,
+    3
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "Tesla T4"
+    ]
+   ],
+   "same_device": false,
+   "computed": {
+    "diff": -0.8999999999999999,
+    "ci": [
+     -3.9574044911038864,
+     2.1574044911038865
+    ],
+    "df": 2.941176470588235,
+    "df_floored": 2
+   },
+   "final": {
+    "diff": -32.82828282828283,
+    "ci": [
+     -70.19879732213684,
+     4.542231665571187
+    ],
+    "df": 3.2700585582049357,
+    "df_floored": 3
+   },
+   "bpb": {
+    "diff": 0.01619950242669077,
+    "ci": [
+     -0.025041629542186902,
+     0.05744063439556844
+    ],
+    "df": 3.8148167529737695,
+    "df_floored": 3
+   },
+   "recipe": "same",
+   "a": "syntax+entropy10",
+   "b": "nov10"
+  },
+  "1m noclip: dep10 - entropy10": {
+   "n": [
+    3,
+    2
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "NVIDIA A40"
+    ]
+   ],
+   "same_device": true,
+   "computed": {
+    "diff": -0.2333333333333334,
+    "ci": [
+     -2.0800541508306014,
+     1.6133874841639346
+    ],
+    "df": 2.2212728225383884,
+    "df_floored": 2
+   },
+   "final": {
+    "diff": -1.6414141414141419,
+    "ci": [
+     -7.7656950711591275,
+     4.482866788330844
+    ],
+    "df": 2.998904021246221,
+    "df_floored": 2
+   },
+   "bpb": {
+    "diff": 0.10312779646316406,
+    "ci": [
+     -0.767258823398587,
+     0.9735144163249151
+    ],
+    "df": 1.0194340978238587,
+    "df_floored": 1
+   },
+   "recipe": "same",
+   "a": "entropy10",
+   "b": "dep10"
+  },
+  "1m noclip: nov10 - dep10": {
+   "n": [
+    2,
+    3
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "Tesla T4"
+    ]
+   ],
+   "same_device": false,
+   "computed": {
+    "diff": -0.46666666666666723,
+    "ci": [
+     -1.8999999999999995,
+     0.966666666666665
+    ],
+    "df": 2.36882624659481,
+    "df_floored": 2
+   },
+   "final": {
+    "diff": 7.247474747474749,
+    "ci": [
+     -18.95143750112628,
+     33.44638699607577
+    ],
+    "df": 2.0754734495965232,
+    "df_floored": 2
+   },
+   "bpb": {
+    "diff": -0.07141056734920515,
+    "ci": [
+     -0.9471262132966656,
+     0.8043050785982553
+    ],
+    "df": 1.0444247860609401,
+    "df_floored": 1
+   },
+   "recipe": "same",
+   "a": "dep10",
+   "b": "nov10"
+  },
+  "12m noclip: nov10 - entropy10": {
+   "n": [
+    3,
+    3
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "Tesla T4"
+    ]
+   ],
+   "same_device": false,
+   "computed": {
+    "diff": 4.266666666666667,
+    "ci": [
+     -5.605660538427604,
+     14.138993871760938
+    ],
+    "df": 2.213468049563587,
+    "df_floored": 2
+   },
+   "final": {
+    "diff": 24.84848484848485,
+    "ci": [
+     14.694690943734923,
+     35.002278753234776
+    ],
+    "df": 2.1263484364744767,
+    "df_floored": 2
+   },
+   "bpb": {
+    "diff": 0.0170622208391753,
+    "ci": [
+     -0.06285781945984875,
+     0.09698226113819935
+    ],
+    "df": 2.79393231765323,
+    "df_floored": 2
+   },
+   "recipe": "same",
+   "a": "entropy10",
+   "b": "nov10"
+  },
+  "12m noclip: syntax+entropy10 - entropy10": {
+   "n": [
+    3,
+    3
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "NVIDIA A40"
+    ]
+   ],
+   "same_device": true,
+   "computed": {
+    "diff": 7.0666666666666655,
+    "ci": [
+     0.8041316811800021,
+     13.32920165215333
+    ],
+    "df": 2.5661194836470025,
+    "df_floored": 2
+   },
+   "final": {
+    "diff": 29.646464646464658,
+    "ci": [
+     21.155582051822545,
+     38.13734724110677
+    ],
+    "df": 3.1582003894373654,
+    "df_floored": 3
+   },
+   "bpb": {
+    "diff": -0.011614083136922249,
+    "ci": [
+     -0.05904141327469991,
+     0.03581324700085541
+    ],
+    "df": 3.2829495276473533,
+    "df_floored": 3
+   },
+   "recipe": "same",
+   "a": "entropy10",
+   "b": "syntax+entropy10"
+  },
+  "12m noclip: nov10 - syntax+entropy10": {
+   "n": [
+    3,
+    3
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "Tesla T4"
+    ]
+   ],
+   "same_device": false,
+   "computed": {
+    "diff": -2.799999999999999,
+    "ci": [
+     -11.126905547680963,
+     5.526905547680965
+    ],
+    "df": 3.3029061287511166,
+    "df_floored": 3
+   },
+   "final": {
+    "diff": -4.7979797979798064,
+    "ci": [
+     -10.717652185140189,
+     1.1216925891805758
+    ],
+    "df": 2.3925931544104144,
+    "df_floored": 2
+   },
+   "bpb": {
+    "diff": 0.02867630397609755,
+    "ci": [
+     -0.03873644027563168,
+     0.09608904822782678
+    ],
+    "df": 3.7212079640534235,
+    "df_floored": 3
+   },
+   "recipe": "same",
+   "a": "syntax+entropy10",
+   "b": "nov10"
+  },
+  "12m noclip: dep10 - entropy10": {
+   "n": [
+    3,
+    3
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "NVIDIA A40"
+    ]
+   ],
+   "same_device": true,
+   "computed": {
+    "diff": 1.8666666666666671,
+    "ci": [
+     -4.469250350186096,
+     8.20258368351943
+    ],
+    "df": 2.5518327791608884,
+    "df_floored": 2
+   },
+   "final": {
+    "diff": 10.050505050505052,
+    "ci": [
+     1.4389644350130641,
+     18.66204566599704
+    ],
+    "df": 3.265950134905346,
+    "df_floored": 3
+   },
+   "bpb": {
+    "diff": 0.016394427616714946,
+    "ci": [
+     -0.06632979893896848,
+     0.09911865417239837
+    ],
+    "df": 2.7355411385446233,
+    "df_floored": 2
+   },
+   "recipe": "same",
+   "a": "entropy10",
+   "b": "dep10"
+  },
+  "12m noclip: nov10 - dep10": {
+   "n": [
+    3,
+    3
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "Tesla T4"
+    ]
+   ],
+   "same_device": false,
+   "computed": {
+    "diff": 2.3999999999999995,
+    "ci": [
+     -5.957211018037058,
+     10.757211018037058
+    ],
+    "df": 3.329285835593216,
+    "df_floored": 3
+   },
+   "final": {
+    "diff": 14.7979797979798,
+    "ci": [
+     8.567762662882982,
+     21.028196933076615
+    ],
+    "df": 2.35173473373552,
+    "df_floored": 2
+   },
+   "bpb": {
+    "diff": 0.0006677932224603556,
+    "ci": [
+     -0.07703553352130427,
+     0.07837111996622498
+    ],
+    "df": 3.9931846708847836,
+    "df_floored": 3
+   },
+   "recipe": "same",
+   "a": "dep10",
+   "b": "nov10"
+  },
+  "12m noclip: novc13 - nov10": {
+   "n": [
+    3,
+    3
+   ],
+   "devices": [
+    [
+     "Tesla T4"
+    ],
+    [
+     "Tesla T4"
+    ]
+   ],
+   "same_device": true,
+   "computed": {
+    "diff": 0.09999999999999964,
+    "ci": [
+     -8.534934626272513,
+     8.734934626272512
+    ],
+    "df": 3.547511312217195,
+    "df_floored": 3
+   },
+   "final": {
+    "diff": -1.6161616161616053,
+    "ci": [
+     -4.443923112125031,
+     1.2115998798018208
+    ],
+    "df": 3.024961440397879,
+    "df_floored": 3
+   },
+   "bpb": {
+    "diff": -0.054934350371234286,
+    "ci": [
+     -0.12815766364824427,
+     0.01828896290577571
+    ],
+    "df": 2.0527413895852877,
+    "df_floored": 2
+   },
+   "recipe": "same",
+   "a": "nov10",
+   "b": "novc13"
+  },
+  "12m noclip: novc13 - entropy10": {
+   "n": [
+    3,
+    3
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "Tesla T4"
+    ]
+   ],
+   "same_device": false,
+   "computed": {
+    "diff": 4.366666666666666,
+    "ci": [
+     -2.61706522331244,
+     11.350398556645771
+    ],
+    "df": 2.446248836204932,
+    "df_floored": 2
+   },
+   "final": {
+    "diff": 23.232323232323246,
+    "ci": [
+     12.677688407079135,
+     33.78695805756736
+    ],
+    "df": 2.452752895557692,
+    "df_floored": 2
+   },
+   "bpb": {
+    "diff": -0.037872129532058985,
+    "ci": [
+     -0.07200618432970866,
+     -0.003738074734409305
+    ],
+    "df": 2.2538195649306614,
+    "df_floored": 2
+   },
+   "recipe": "same",
+   "a": "entropy10",
+   "b": "novc13"
+  },
+  "12m noclip: novc13 - syntax+entropy10": {
+   "n": [
+    3,
+    3
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "Tesla T4"
+    ]
+   ],
+   "same_device": false,
+   "computed": {
+    "diff": -2.6999999999999993,
+    "ci": [
+     -9.2351385601225,
+     3.8351385601225028
+    ],
+    "df": 3.9410181217371236,
+    "df_floored": 3
+   },
+   "final": {
+    "diff": -6.414141414141412,
+    "ci": [
+     -11.2829161943528,
+     -1.5453666339300236
+    ],
+    "df": 3.2733336563151054,
+    "df_floored": 3
+   },
+   "bpb": {
+    "diff": -0.026258046395136736,
+    "ci": [
+     -0.08182119807355577,
+     0.0293051052832823
+    ],
+    "df": 2.0924612612442246,
+    "df_floored": 2
+   },
+   "recipe": "same",
+   "a": "syntax+entropy10",
+   "b": "novc13"
+  },
+  "12m noclip: typed14 - entropy10": {
+   "n": [
+    3,
+    3
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "Tesla T4"
+    ]
+   ],
+   "same_device": false,
+   "computed": {
+    "diff": 0.36666666666666714,
+    "ci": [
+     -1.535435328495527,
+     2.2687686618288616
+    ],
+    "df": 3.207945298722192,
+    "df_floored": 3
+   },
+   "final": {
+    "diff": -27.727272727272723,
+    "ci": [
+     -43.237195496773744,
+     -12.217349957771702
+    ],
+    "df": 3.0824993562936407,
+    "df_floored": 3
+   },
+   "bpb": {
+    "diff": 0.021479141514896938,
+    "ci": [
+     -0.02131527869908178,
+     0.06427356172887566
+    ],
+    "df": 3.5728224415841785,
+    "df_floored": 3
+   },
+   "recipe": "same",
+   "a": "entropy10",
+   "b": "typed14"
+  },
+  "50m clip: nov10 - entropy10": {
+   "n": [
+    3,
+    3
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "NVIDIA A40"
+    ]
+   ],
+   "same_device": true,
+   "computed": {
+    "diff": 36.766666666666666,
+    "ci": [
+     17.039188087002426,
+     56.4941452463309
+    ],
+    "df": 2.080092788709538,
+    "df_floored": 2
+   },
+   "final": {
+    "diff": 29.5959595959596,
+    "ci": [
+     26.64762424206158,
+     32.544294949857616
+    ],
+    "df": 3.791636758200469,
+    "df_floored": 3
+   },
+   "bpb": {
+    "diff": 0.030802308994342775,
+    "ci": [
+     0.012419699018565482,
+     0.04918491897012007
+    ],
+    "df": 3.2762099124471256,
+    "df_floored": 3
+   },
+   "recipe": "same",
+   "a": "entropy10",
+   "b": "nov10"
+  },
+  "50m clip: nov10 - dep10": {
+   "n": [
+    3,
+    3
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "NVIDIA A40"
+    ]
+   ],
+   "same_device": true,
+   "computed": {
+    "diff": 22.43333333333333,
+    "ci": [
+     18.524246483441143,
+     26.342420183225517
+    ],
+    "df": 3.3190731861379894,
+    "df_floored": 3
+   },
+   "final": {
+    "diff": 11.313131313131322,
+    "ci": [
+     8.898692803877498,
+     13.727569822385146
+    ],
+    "df": 3.9213819577735234,
+    "df_floored": 3
+   },
+   "bpb": {
+    "diff": 0.026061894132481278,
+    "ci": [
+     0.01020120519682172,
+     0.04192258306814084
+    ],
+    "df": 3.693461472793807,
+    "df_floored": 3
+   },
+   "recipe": "same",
+   "a": "dep10",
+   "b": "nov10"
+  },
+  "50m clip: novc13 - nov10": {
+   "n": [
+    3,
+    3
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "NVIDIA A40"
+    ]
+   ],
+   "same_device": true,
+   "computed": {
+    "diff": -0.2333333333333414,
+    "ci": [
+     -6.554642093743983,
+     6.0879754270773
+    ],
+    "df": 2.8958595911606104,
+    "df_floored": 2
+   },
+   "final": {
+    "diff": -3.131313131313135,
+    "ci": [
+     -5.90380359975707,
+     -0.3588226628692004
+    ],
+    "df": 3.9292066722711274,
+    "df_floored": 3
+   },
+   "bpb": {
+    "diff": -0.01051783041352028,
+    "ci": [
+     -0.029503936456735227,
+     0.008468275629694669
+    ],
+    "df": 3.191852048889296,
+    "df_floored": 3
+   },
+   "recipe": "same",
+   "a": "nov10",
+   "b": "novc13"
+  },
+  "50m clip: novc13 - entropy10": {
+   "n": [
+    3,
+    3
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "NVIDIA A40"
+    ]
+   ],
+   "same_device": true,
+   "computed": {
+    "diff": 36.533333333333324,
+    "ci": [
+     16.19009640090566,
+     56.87657026576099
+    ],
+    "df": 2.3363943836700027,
+    "df_floored": 2
+   },
+   "final": {
+    "diff": 26.464646464646464,
+    "ci": [
+     23.346240842027598,
+     29.58305208726533
+    ],
+    "df": 3.95764705882353,
+    "df_floored": 3
+   },
+   "bpb": {
+    "diff": 0.020284478580822496,
+    "ci": [
+     -0.002503743183389414,
+     0.04307270034503441
+    ],
+    "df": 3.992470516089937,
+    "df_floored": 3
+   },
+   "recipe": "same",
+   "a": "entropy10",
+   "b": "novc13"
+  },
+  "50m clip: dep10 - entropy10": {
+   "n": [
+    3,
+    3
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "NVIDIA A40"
+    ]
+   ],
+   "same_device": true,
+   "computed": {
+    "diff": 14.333333333333336,
+    "ci": [
+     -5.712334250683146,
+     34.37900091734981
+    ],
+    "df": 2.212204294080824,
+    "df_floored": 2
+   },
+   "final": {
+    "diff": 18.282828282828277,
+    "ci": [
+     15.477964017924124,
+     21.087692547732427
+    ],
+    "df": 3.532170182066716,
+    "df_floored": 3
+   },
+   "bpb": {
+    "diff": 0.004740414861861497,
+    "ci": [
+     -0.015517726267187133,
+     0.024998555990910127
+    ],
+    "df": 3.8303872568334154,
+    "df_floored": 3
+   },
+   "recipe": "same",
+   "a": "entropy10",
+   "b": "dep10"
+  },
+  "50m clip: typed14 - entropy10": {
+   "n": [
+    3,
+    3
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "NVIDIA A40"
+    ]
+   ],
+   "same_device": true,
+   "computed": {
+    "diff": -11.866666666666667,
+    "ci": [
+     -31.591541543047732,
+     7.858208209714398
+    ],
+    "df": 2.0790171189669553,
+    "df_floored": 2
+   },
+   "final": {
+    "diff": -24.898989898989896,
+    "ci": [
+     -77.32291094858775,
+     27.524931150607948
+    ],
+    "df": 2.014329079156993,
+    "df_floored": 2
+   },
+   "bpb": {
+    "diff": -0.005564983403108625,
+    "ci": [
+     -0.03255462585445838,
+     0.02142465904824113
+    ],
+    "df": 3.6325208128378934,
+    "df_floored": 3
+   },
+   "recipe": "same",
+   "a": "entropy10",
+   "b": "typed14"
+  },
+  "50m noclip: syntax+entropy10 - entropy10": {
+   "n": [
+    3,
+    2
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "NVIDIA A40"
+    ]
+   ],
+   "same_device": true,
+   "computed": {
+    "diff": 29.449999999999996,
+    "ci": [
+     -56.89618738108825,
+     115.79618738108823
+    ],
+    "df": 1.1539339151188586,
+    "df_floored": 1
+   },
+   "final": {
+    "diff": 26.48989898989899,
+    "ci": [
+     23.102785958077092,
+     29.877012021720887
+    ],
+    "df": 2.341111245743618,
+    "df_floored": 2
+   },
+   "bpb": {
+    "diff": -0.008423393772741372,
+    "ci": [
+     -0.14381645299741314,
+     0.1269696654519304
+    ],
+    "df": 1.1814301052381015,
+    "df_floored": 1
+   },
+   "recipe": "same",
+   "a": "entropy10",
+   "b": "syntax+entropy10"
+  },
+  "50m noclip: syntax+entropy10 - dep10": {
+   "n": [
+    3,
+    2
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "NVIDIA A40"
+    ]
+   ],
+   "same_device": true,
+   "computed": {
+    "diff": 7.416666666666657,
+    "ci": [
+     -79.40011799521643,
+     94.23345132854975
+    ],
+    "df": 1.1781690446077078,
+    "df_floored": 1
+   },
+   "final": {
+    "diff": 6.641414141414145,
+    "ci": [
+     3.701563565963242,
+     9.581264716865048
+    ],
+    "df": 2.4521091856713166,
+    "df_floored": 2
+   },
+   "bpb": {
+    "diff": 0.01054684913793591,
+    "ci": [
+     -0.12795635629385144,
+     0.14905005456972326
+    ],
+    "df": 1.2863657483394013,
+    "df_floored": 1
+   },
+   "recipe": "same",
+   "a": "dep10",
+   "b": "syntax+entropy10"
+  },
+  "50m noclip: dep10 - entropy10": {
+   "n": [
+    3,
+    3
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "NVIDIA A40"
+    ]
+   ],
+   "same_device": true,
+   "computed": {
+    "diff": 22.03333333333334,
+    "ci": [
+     13.617173639030957,
+     30.449493027635718
+    ],
+    "df": 3.979360811596861,
+    "df_floored": 3
+   },
+   "final": {
+    "diff": 19.848484848484844,
+    "ci": [
+     16.693076414143658,
+     23.00389328282603
+    ],
+    "df": 3.905633175181527,
+    "df_floored": 3
+   },
+   "bpb": {
+    "diff": -0.018970242910677282,
+    "ci": [
+     -0.034496476657921014,
+     -0.0034440091634335476
+    ],
+    "df": 3.8134014951310657,
+    "df_floored": 3
+   },
+   "recipe": "same",
+   "a": "entropy10",
+   "b": "dep10"
+  },
+  "50m: entropy10 clip - entropy10 noclip": {
+   "n": [
+    3,
+    3
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "NVIDIA A40"
+    ]
+   ],
+   "same_device": true,
+   "computed": {
+    "diff": 6.833333333333334,
+    "ci": [
+     -14.181503753300907,
+     27.848170419967573
+    ],
+    "df": 2.6147638491931415,
+    "df_floored": 2
+   },
+   "final": {
+    "diff": 0.9090909090909065,
+    "ci": [
+     -2.4251775547800514,
+     4.243359372961864
+    ],
+    "df": 3.995160926091211,
+    "df_floored": 3
+   },
+   "bpb": {
+    "diff": -0.023503343022172052,
+    "ci": [
+     -0.04200321074966115,
+     -0.005003475294682952
+    ],
+    "df": 3.3227949960965626,
+    "df_floored": 3
+   },
+   "recipe": "across (clipped vs unclipped)",
+   "a": "entropy10 noclip",
+   "b": "entropy10 clip"
+  },
+  "50m: dep10 clip - dep10 noclip": {
+   "n": [
+    3,
+    3
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "NVIDIA A40"
+    ]
+   ],
+   "same_device": true,
+   "computed": {
+    "diff": -0.8666666666666671,
+    "ci": [
+     -7.871494430430738,
+     6.138161097097404
+    ],
+    "df": 3.0774600333957727,
+    "df_floored": 3
+   },
+   "final": {
+    "diff": -0.656565656565661,
+    "ci": [
+     -3.2462605696555045,
+     1.9331292565241824
+    ],
+    "df": 3.757852020679306,
+    "df_floored": 3
+   },
+   "bpb": {
+    "diff": 0.0002073147503667272,
+    "ci": [
+     -0.017377084882373342,
+     0.017791714383106796
+    ],
+    "df": 3.990829716080376,
+    "df_floored": 3
+   },
+   "recipe": "across (clipped vs unclipped)",
+   "a": "dep10 noclip",
+   "b": "dep10 clip"
+  },
+  "50m: nov10 clip - syntax+entropy10 noclip": {
+   "n": [
+    2,
+    3
+   ],
+   "devices": [
+    [
+     "NVIDIA A40"
+    ],
+    [
+     "NVIDIA A40"
+    ]
+   ],
+   "same_device": true,
+   "computed": {
+    "diff": 14.150000000000006,
+    "ci": [
+     -69.50056671405959,
+     97.8005667140596
+    ],
+    "df": 1.0193140094150503,
+    "df_floored": 1
+   },
+   "final": {
+    "diff": 4.015151515151516,
+    "ci": [
+     1.3620098783665013,
+     6.668293151936529
+    ],
+    "df": 2.551446427420918,
+    "df_floored": 2
+   },
+   "bpb": {
+    "diff": 0.015722359744912096,
+    "ci": [
+     -0.11941532241570271,
+     0.1508600419055269
+    ],
+    "df": 1.1729590767407947,
+    "df_floored": 1
+   },
+   "recipe": "across (clipped vs unclipped)",
+   "a": "syntax+entropy10 noclip",
+   "b": "nov10 clip"
+  }
+ },
+ "t4_reruns": {
+  "seed 0": {
+   "device": "Tesla T4",
+   "table1_device": "Tesla T4",
+   "final_rerun": 68.93939393939394,
+   "final_table1": 72.27272727272728,
+   "final_rerun_minus_table1": -3.3333333333333326,
+   "computed_rerun": 12.0,
+   "computed_table1": 14.2,
+   "bpb_rerun": 1.6683862236859242,
+   "bpb_table1": 1.6531178958202042,
+   "switched_layout": {
+    "nov10": {
+     "final": 68.93939393939394,
+     "computed": 12.0,
+     "bpb": 1.6683862236859242,
+     "rate": 0.11947782221201225
+    },
+    "entropy10": {
+     "final": 0.0,
+     "computed": 3.8,
+     "bpb": 2.561444170118832,
+     "rate": 0.11204459467695582
+    },
+    "typed14": {
+     "final": 0.9090909090909091,
+     "computed": 2.1999999999999997,
+     "bpb": 2.8969320966661227,
+     "rate": 0.10565801996258772
+    },
+    "final+typed14": {
+     "final": 0.0,
+     "computed": 2.1999999999999997,
+     "bpb": 2.898849184759956,
+     "rate": 0.1070012048814106
+    }
+   }
+  },
+  "seed 1": {
+   "device": "Tesla T4",
+   "table1_device": "Tesla T4",
+   "final_rerun": 78.33333333333333,
+   "final_table1": 71.21212121212122,
+   "final_rerun_minus_table1": 7.1212121212121176,
+   "computed_rerun": 12.2,
+   "computed_table1": 9.6,
+   "bpb_rerun": 1.6498784135665263,
+   "bpb_table1": 1.6613750507790292,
+   "switched_layout": {
+    "nov10": {
+     "final": 78.33333333333333,
+     "computed": 12.2,
+     "bpb": 1.6498784135665263,
+     "rate": 0.11947782221201225
+    },
+    "entropy10": {
+     "final": 0.0,
+     "computed": 2.6,
+     "bpb": 2.5149223005937036,
+     "rate": 0.11204459467695582
+    },
+    "typed14": {
+     "final": 0.0,
+     "computed": 3.3000000000000003,
+     "bpb": 2.8343107089941535,
+     "rate": 0.10565801996258772
+    },
+    "final+typed14": {
+     "final": 0.0,
+     "computed": 3.3000000000000003,
+     "bpb": 2.8298924815612363,
+     "rate": 0.1070012048814106
+    }
+   }
+  },
+  "mean over the two re-runs": {
+   "nov10": 73.63636363636363,
+   "entropy10": 0.0,
+   "typed14": 0.45454545454545453,
+   "final+typed14": 0.0
+  }
+ },
+ "floors": {
+  "table1_runs_ok": {
+   "n_runs": 38,
+   "e2e_max_solved": 1,
+   "e2e_n": [
+    100
+   ],
+   "e2e_runs_at_max": [
+    "1m_dep10_s1",
+    "1m_entropy10_s0",
+    "1m_entropy10_s1",
+    "50m_novc13_s2_clip"
+   ],
+   "boxed_min": 1.8571428571428572,
+   "boxed_min_run": "12m_nov10_s0",
+   "boxed_max": 4.0,
+   "boxed_max_run": "50m_nov10_s2_clip"
+  },
+  "table1_runs_failed": [
+   {
+    "run": "1m_dep10_s0",
+    "boxed": 0.0,
+    "e2e_solved": 0
+   }
+  ],
+  "hand_rule_50m_unclipped": {
+   "n_runs": 2,
+   "e2e_max_solved": 0,
+   "e2e_n": [
+    100
+   ],
+   "e2e_runs_at_max": [
+    "50m_syntax+entropy10_s0",
+    "50m_syntax+entropy10_s1"
+   ],
+   "boxed_min": 1.4285714285714286,
+   "boxed_min_run": "50m_syntax+entropy10_s0",
+   "boxed_max": 3.7142857142857144,
+   "boxed_max_run": "50m_syntax+entropy10_s1"
+  },
+  "all_runs_ok": {
+   "n_runs": 69,
+   "e2e_max_solved": 2,
+   "e2e_n": [
+    100
+   ],
+   "e2e_runs_at_max": [
+    "50m_typed14_s1_clip"
+   ],
+   "boxed_min": 0.7142857142857143,
+   "boxed_min_run": "1m_final+typed14_s0",
+   "boxed_max": 6.142857142857143,
+   "boxed_max_run": "50m_entropy20_s0"
+  }
+ },
+ "r13_pilot": {
+  "pilot": {
+   "arm": "probetop3+entropy10",
+   "device": "mps",
+   "final": 73.48484848484848,
+   "computed": 10.5,
+   "bpb": 1.6140163545080046,
+   "rate": 0.13026901204412586
+  },
+  "12m": {
+   "entropy10": {
+    "final": [
+     41.96969696969697,
+     49.09090909090909,
+     48.78787878787879
+    ],
+    "computed": [
+     4.8,
+     6.4,
+     6.3
+    ],
+    "bpb": [
+     1.6696715403126408,
+     1.6430792738481115,
+     1.658048120746138
+    ],
+    "rate": [
+     0.11204459467695582,
+     0.11204459467695582,
+     0.11204459467695582
+    ],
+    "devices": [
+     "NVIDIA A40"
+    ]
+   },
+   "nov10": {
+    "final": [
+     72.27272727272728,
+     71.21212121212122,
+     70.9090909090909
+    ],
+    "computed": [
+     14.2,
+     9.6,
+     6.5
+    ],
+    "bpb": [
+     1.6531178958202042,
+     1.6613750507790292,
+     1.7074926508251826
+    ],
+    "rate": [
+     0.11947782221201225,
+     0.11947782221201225,
+     0.11947782221201225
+    ],
+    "devices": [
+     "Tesla T4"
+    ]
+   },
+   "syntax+entropy10": {
+    "final": [
+     76.36363636363637,
+     73.93939393939394,
+     78.48484848484848
+    ],
+    "computed": [
+     14.899999999999999,
+     10.299999999999999,
+     13.5
+    ],
+    "bpb": [
+     1.6473690439469955,
+     1.666349043210833,
+     1.6222385983382952
+    ],
+    "rate": [
+     0.12126287511896446,
+     0.12126287511896446,
+     0.12126287511896446
+    ],
+    "devices": [
+     "NVIDIA A40"
+    ]
+   },
+   "dep10": {
+    "final": [
+     58.484848484848484,
+     53.939393939393945,
+     57.57575757575758
+    ],
+    "computed": [
+     7.199999999999999,
+     5.6000000000000005,
+     10.299999999999999
+    ],
+    "bpb": [
+     1.673769954389294,
+     1.7036422974082508,
+     1.6425699659594888
+    ],
+    "rate": [
+     0.1089327657419866,
+     0.1089327657419866,
+     0.1089327657419866
+    ],
+    "devices": [
+     "NVIDIA A40"
+    ]
+   }
+  }
+ },
+ "check": {
+  "pairs_compared_with_paper2v2_intervals": 15,
+  "largest_abs_difference": 0.0
+ }
+}

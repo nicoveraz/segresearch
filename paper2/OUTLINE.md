@@ -1,5 +1,8 @@
 # Paper 2 outline (local draft, not for release until submission)
 
+> Version 1 working file (October 2026), kept as a record. Several of its claims are corrected or withdrawn in
+> version 2 of the paper; see `manuscript.md`, "Changes in version 2".
+
 Working title: **Patch where the text is new: a label-free fix for the computation blind spot of entropy patching**
 (alternatives: "Reuse, not uncertainty: where byte-level models should spend their compute"; "Novelty patching")
 

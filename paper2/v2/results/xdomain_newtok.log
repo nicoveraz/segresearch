@@ -1,0 +1,24 @@
+probes fitted math
+probes fitted algebra
+probes fitted code
+probes fitted prose
+probes fitted clinical
+probes fitted traces
+math      bits | E 0.23 | G_dom 0.32 (+0.10 [+0.06,+0.14]) | P_dom 0.36 (+0.13 [+0.09,+0.16]) | NUM_dom 0.31 (+0.09 [+0.05,+0.12]) | N_dom 0.21 (-0.02 [-0.05,+0.01]) | N_lodo 0.20 (-0.03 [-0.06,+0.00])
+math      unit | E 0.35 | G_dom 0.33 (-0.02 [-0.08,+0.05]) | P_dom 0.35 (+0.00 [-0.06,+0.07]) | NUM_dom 0.33 (-0.02 [-0.08,+0.05]) | N_dom 0.22 (-0.13 [-0.18,-0.08]) | N_lodo 0.20 (-0.15 [-0.21,-0.10])
+algebra   bits | E 0.19 | G_dom 0.23 (+0.05 [+0.02,+0.07]) | P_dom 0.25 (+0.06 [+0.02,+0.10]) | NUM_dom 0.22 (+0.03 [+0.00,+0.06]) | N_dom 0.20 (+0.01 [-0.01,+0.04]) | N_lodo 0.20 (+0.02 [-0.01,+0.04])
+algebra   unit | E 0.25 | G_dom 0.19 (-0.05 [-0.14,+0.04]) | P_dom 0.21 (-0.04 [-0.13,+0.04]) | NUM_dom 0.13 (-0.11 [-0.21,-0.03]) | N_dom 0.23 (-0.02 [-0.10,+0.07]) | N_lodo 0.21 (-0.03 [-0.12,+0.06])
+code      bits | E 0.13 | G_dom 0.16 (+0.03 [-0.00,+0.07]) | P_dom 0.17 (+0.04 [+0.00,+0.08]) | NUM_dom 0.01 (-0.12 [-0.15,-0.08]) | N_dom 0.19 (+0.06 [+0.03,+0.10]) | N_lodo 0.17 (+0.05 [+0.01,+0.08])
+code      unit | E 0.44 | G_dom 0.41 (-0.02 [-0.14,+0.10]) | P_dom 0.44 (+0.00 [-0.10,+0.09]) | NUM_dom 0.46 (+0.02 [-0.10,+0.14]) | N_dom 0.44 (+0.00 [-0.09,+0.11]) | N_lodo 0.41 (-0.03 [-0.14,+0.06])
+prose     bits | E 0.22 | G_dom 0.18 (-0.04 [-0.07,-0.01]) | P_dom 0.21 (-0.01 [-0.05,+0.02]) | NUM_dom 0.15 (-0.07 [-0.10,-0.04]) | N_dom 0.20 (-0.01 [-0.04,+0.01]) | N_lodo 0.19 (-0.02 [-0.06,+0.00])
+prose     unit | E 0.48 | G_dom 0.31 (-0.17 [-0.27,-0.08]) | P_dom 0.45 (-0.04 [-0.14,+0.06]) | NUM_dom 0.35 (-0.13 [-0.23,-0.03]) | N_dom 0.32 (-0.16 [-0.25,-0.08]) | N_lodo 0.33 (-0.15 [-0.25,-0.05])
+clinical  bits | E 0.26 | G_dom 0.26 (-0.00 [-0.03,+0.02]) | P_dom 0.29 (+0.03 [+0.00,+0.05]) | NUM_dom 0.19 (-0.07 [-0.10,-0.04]) | N_dom 0.25 (-0.01 [-0.04,+0.01]) | N_lodo 0.25 (-0.01 [-0.03,+0.01])
+clinical  unit | E 0.34 | G_dom 0.30 (-0.04 [-0.13,+0.05]) | P_dom 0.38 (+0.05 [-0.04,+0.14]) | NUM_dom 0.18 (-0.15 [-0.22,-0.10]) | N_dom 0.34 (+0.00 [-0.09,+0.09]) | N_lodo 0.24 (-0.10 [-0.16,-0.02])
+traces    bits | E 0.06 | G_dom 0.12 (+0.05 [+0.02,+0.09]) | P_dom 0.14 (+0.08 [+0.04,+0.12]) | NUM_dom 0.12 (+0.06 [+0.02,+0.09]) | N_dom 0.08 (+0.02 [-0.01,+0.05]) | N_lodo 0.14 (+0.07 [+0.04,+0.11])
+traces    unit | E 0.05 | G_dom 0.17 (+0.11 [-0.01,+0.23]) | P_dom 0.19 (+0.14 [+0.02,+0.24]) | NUM_dom 0.04 (-0.01 [-0.10,+0.07]) | N_dom 0.00 (-0.05 [-0.13,+0.03]) | N_lodo 0.15 (+0.10 [+0.00,+0.20])
+AUC {"math|N_dom": 0.96, "math|N_lodo": 0.952, "math|NUM_dom": 0.983, "algebra|N_dom": 0.953, "algebra|N_lodo": 0.95, "algebra|NUM_dom": 0.965, "code|N_dom": 0.962, "code|N_lodo": 0.925, "code|NUM_dom": 0.974, "prose|N_dom": 0.973, "prose|N_lodo": 0.969, "prose|NUM_dom": 0.99, "clinical|N_dom": 0.983, "clinical|N_lodo": 0.977, "clinical|NUM_dom": 0.99, "traces|N_dom": 0.957, "traces|N_lodo": 0.929, "traces|NUM_dom": 0.968}
+LABEL RATES {"math": {"new_any": 0.095, "new_num": 0.014}, "algebra": {"new_any": 0.094, "new_num": 0.015}, "code": {"new_any": 0.063, "new_num": 0.005}, "prose": {"new_any": 0.11, "new_num": 0.004}, "clinical": {"new_any": 0.12, "new_num": 0.007}, "traces": {"new_any": 0.102, "new_num": 0.055}}
+VERDICT V1_bits {"verdict": "fails", "domains": ["code"]}
+VERDICT V2_bits {"verdict": "fails", "domains": ["code", "traces"]}
+VERDICT V1_unit {"verdict": "fails", "domains": []}
+VERDICT V2_unit {"verdict": "fails", "domains": []}

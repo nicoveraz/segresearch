@@ -1,0 +1,58 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:16<1:08:37,  8.11s/it]Loading weights: 100%|██████████| 510/510 [00:16<00:00, 31.43it/s]
+  orig: 25/275
+  orig: 50/275
+  orig: 75/275
+  orig: 100/275
+  orig: 125/275
+  orig: 150/275
+  orig: 175/275
+  orig: 200/275
+  orig: 225/275
+  orig: 250/275
+  orig: 275/275
+orig: 1382 train / 275 test; entropy train rate 0.100
+  prose: 25/275
+  prose: 50/275
+  prose: 75/275
+  prose: 100/275
+  prose: 125/275
+  prose: 150/275
+  prose: 175/275
+  prose: 200/275
+  prose: 225/275
+  prose: 250/275
+  prose: 275/275
+prose: 1382 train / 275 test; entropy train rate 0.100
+RESULT orig|default|res         n  711 exact 0.779
+RESULT orig|default|fin         n  275 exact 0.742
+RESULT orig|entropy|res         n  711 exact 0.166 covered 0.136
+RESULT orig|entropy|fin         n  275 exact 0.516 covered 0.931
+RESULT orig|nov|res             n  711 exact 0.586 covered 1.000
+RESULT orig|nov|fin             n  275 exact 0.211 covered 0.000
+RESULT orig|oracle|res          n  711 exact 0.508 covered 1.000
+RESULT orig|oracle|fin          n  275 exact 0.600 covered 0.931
+RESULT orig|with|res            n  711 exact 0.536 covered 1.000
+RESULT orig|with|fin            n  275 exact 0.629 covered 0.931
+RESULT orig|without|res         n  711 exact 0.093 covered 0.000
+RESULT orig|without|fin         n  275 exact 0.520 covered 0.931
+RESULT prose|default|res        n  711 exact 0.568
+RESULT prose|default|fin        n  275 exact 0.731
+RESULT prose|entropy|res        n  711 exact 0.217 covered 0.572
+RESULT prose|entropy|fin        n  275 exact 0.622 covered 0.800
+RESULT prose|nov|res            n  711 exact 0.128 covered 0.229
+RESULT prose|nov|fin            n  275 exact 0.164 covered 0.000
+RESULT prose|oracle|res         n  711 exact 0.331 covered 1.000
+RESULT prose|oracle|fin         n  275 exact 0.622 covered 0.789
+RESULT prose|with|res           n  711 exact 0.346 covered 1.000
+RESULT prose|with|fin           n  275 exact 0.629 covered 0.800
+RESULT prose|without|res        n  711 exact 0.062 covered 0.000
+RESULT prose|without|fin        n  275 exact 0.589 covered 0.800
+rates {"orig|entropy": 0.104, "orig|nov": 0.104, "orig|oracle": 0.103, "orig|with": 0.109, "orig|without": 0.103, "prose|entropy": 0.101, "prose|nov": 0.102, "prose|oracle": 0.101, "prose|with": 0.102, "prose|without": 0.099}
+VERDICT V1_coverage_prose_minus_orig {"value": 0.4360056258790436, "ci": [0.3875525618763967, 0.4821983898101418], "n": 711, "above_0": true}
+VERDICT V2_gain_prose {"value": 0.2841068917018284, "ci": [0.2471747399845917, 0.3219870176703931], "n": 711, "above_0": true}
+VERDICT V2_gain_orig {"value": 0.4430379746835443, "ci": [0.39888369636700616, 0.48485280767734407], "n": 711}
+VERDICT V2_gain_prose_minus_orig {"value": -0.1589310829817159, "ci": [-0.20771566493499868, -0.11289497264667048], "n": 711}
+VERDICT V3_nov_minus_entropy {"prose": {"value": -0.08860759493670886, "ci": [-0.13961611826418693, -0.03775308486527328], "n": 711}, "orig": {"value": 0.42053445850914206, "ci": [0.3772263200111599, 0.46358797709027744], "n": 711}, "holds": true}
+VERDICT overall "format-tied"
+VERDICT n_problems 221
+VERDICT n_values 711

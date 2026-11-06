@@ -1,0 +1,2142 @@
+{
+ "pilot": {
+  "n": 20,
+  "usd": 0.14016,
+  "input_tokens": 15175,
+  "output_tokens": 3973,
+  "valid": 17,
+  "failures": [
+   [
+    9,
+    "too long"
+   ],
+   [
+    11,
+    "too long"
+   ],
+   [
+    17,
+    "too long"
+   ]
+  ],
+  "usd_per_rewrite": 0.007008,
+  "projected_total_usd_with_batch": 6.37728
+ },
+ "batch_id": {
+  "id": "msgbatch_[redacted]",
+  "n": 1780,
+  "created": "2026-10-26 11:06"
+ },
+ "batch": {
+  "n": 1780,
+  "usd": 5.944643999999996,
+  "input_tokens": 1328947,
+  "output_tokens": 328675,
+  "valid": 1614,
+  "failures": [
+   [
+    "train",
+    1246,
+    "too long"
+   ],
+   [
+    "train",
+    29,
+    "too long"
+   ],
+   [
+    "test",
+    165,
+    "too long"
+   ],
+   [
+    "train",
+    1215,
+    "too long"
+   ],
+   [
+    "train",
+    310,
+    "too long"
+   ],
+   [
+    "train",
+    334,
+    "too long"
+   ],
+   [
+    "train",
+    103,
+    "too long"
+   ],
+   [
+    "train",
+    1253,
+    "too long"
+   ],
+   [
+    "train",
+    404,
+    "too long"
+   ],
+   [
+    "train",
+    1120,
+    "too long"
+   ],
+   [
+    "train",
+    486,
+    "too long"
+   ],
+   [
+    "train",
+    858,
+    "too long"
+   ],
+   [
+    "train",
+    1081,
+    "too long"
+   ],
+   [
+    "test",
+    63,
+    "too long"
+   ],
+   [
+    "train",
+    1231,
+    "too long"
+   ],
+   [
+    "train",
+    817,
+    "too long"
+   ],
+   [
+    "train",
+    397,
+    "too long"
+   ],
+   [
+    "test",
+    107,
+    "too long"
+   ],
+   [
+    "train",
+    620,
+    "marked values differ"
+   ],
+   [
+    "train",
+    67,
+    "too long"
+   ],
+   [
+    "train",
+    593,
+    "too long"
+   ],
+   [
+    "test",
+    150,
+    "too long"
+   ],
+   [
+    "train",
+    1484,
+    "too long"
+   ],
+   [
+    "train",
+    1205,
+    "too long"
+   ],
+   [
+    "train",
+    1476,
+    "too long"
+   ],
+   [
+    "train",
+    617,
+    "too long"
+   ],
+   [
+    "train",
+    1263,
+    "too long"
+   ],
+   [
+    "train",
+    289,
+    "too long"
+   ],
+   [
+    "train",
+    1130,
+    "too long"
+   ],
+   [
+    "train",
+    1424,
+    "too long"
+   ],
+   [
+    "train",
+    604,
+    "too long"
+   ],
+   [
+    "train",
+    597,
+    "too long"
+   ],
+   [
+    "train",
+    121,
+    "too long"
+   ],
+   [
+    "train",
+    674,
+    "too long"
+   ],
+   [
+    "test",
+    183,
+    "too long"
+   ],
+   [
+    "train",
+    75,
+    "non-ascii"
+   ],
+   [
+    "train",
+    757,
+    "too long"
+   ],
+   [
+    "train",
+    1103,
+    "too long"
+   ],
+   [
+    "train",
+    331,
+    "too long"
+   ],
+   [
+    "train",
+    1226,
+    "too long"
+   ],
+   [
+    "train",
+    107,
+    "too long"
+   ],
+   [
+    "train",
+    261,
+    "too long"
+   ],
+   [
+    "test",
+    74,
+    "too long"
+   ],
+   [
+    "train",
+    288,
+    "too long"
+   ],
+   [
+    "train",
+    738,
+    "too long"
+   ],
+   [
+    "test",
+    186,
+    "too long"
+   ],
+   [
+    "train",
+    175,
+    "too long"
+   ],
+   [
+    "test",
+    177,
+    "too long"
+   ],
+   [
+    "train",
+    362,
+    "too long"
+   ],
+   [
+    "train",
+    1125,
+    "too long"
+   ],
+   [
+    "train",
+    568,
+    "too long"
+   ],
+   [
+    "train",
+    116,
+    "too long"
+   ],
+   [
+    "train",
+    361,
+    "too long"
+   ],
+   [
+    "train",
+    1412,
+    "too long"
+   ],
+   [
+    "train",
+    778,
+    "too long"
+   ],
+   [
+    "train",
+    400,
+    "too long"
+   ],
+   [
+    "train",
+    304,
+    "too long"
+   ],
+   [
+    "train",
+    1380,
+    "too long"
+   ],
+   [
+    "train",
+    675,
+    "too long"
+   ],
+   [
+    "train",
+    1321,
+    "marked values differ"
+   ],
+   [
+    "train",
+    166,
+    "too long"
+   ],
+   [
+    "train",
+    1367,
+    "too long"
+   ],
+   [
+    "test",
+    211,
+    "marked values differ"
+   ],
+   [
+    "train",
+    744,
+    "too long"
+   ],
+   [
+    "train",
+    922,
+    "too long"
+   ],
+   [
+    "test",
+    163,
+    "marked values differ"
+   ],
+   [
+    "train",
+    442,
+    "too long"
+   ],
+   [
+    "train",
+    212,
+    "too long"
+   ],
+   [
+    "train",
+    583,
+    "too long"
+   ],
+   [
+    "test",
+    198,
+    "too long"
+   ],
+   [
+    "train",
+    601,
+    "too long"
+   ],
+   [
+    "test",
+    19,
+    "too long"
+   ],
+   [
+    "train",
+    578,
+    "too long"
+   ],
+   [
+    "train",
+    144,
+    "too long"
+   ],
+   [
+    "train",
+    187,
+    "too long"
+   ],
+   [
+    "train",
+    1157,
+    "too long"
+   ],
+   [
+    "train",
+    760,
+    "too long"
+   ],
+   [
+    "train",
+    1030,
+    "too long"
+   ],
+   [
+    "train",
+    1038,
+    "too long"
+   ],
+   [
+    "train",
+    211,
+    "too long"
+   ],
+   [
+    "train",
+    1498,
+    "too long"
+   ],
+   [
+    "train",
+    370,
+    "too long"
+   ],
+   [
+    "train",
+    1279,
+    "too long"
+   ],
+   [
+    "train",
+    216,
+    "too long"
+   ],
+   [
+    "train",
+    515,
+    "too long"
+   ],
+   [
+    "train",
+    225,
+    "too long"
+   ],
+   [
+    "train",
+    385,
+    "too long"
+   ],
+   [
+    "train",
+    1443,
+    "too long"
+   ],
+   [
+    "test",
+    206,
+    "too long"
+   ],
+   [
+    "train",
+    616,
+    "too long"
+   ],
+   [
+    "train",
+    839,
+    "too long"
+   ],
+   [
+    "train",
+    1363,
+    "too long"
+   ],
+   [
+    "train",
+    97,
+    "too long"
+   ],
+   [
+    "train",
+    414,
+    "too long"
+   ],
+   [
+    "test",
+    144,
+    "too long"
+   ],
+   [
+    "train",
+    27,
+    "too long"
+   ],
+   [
+    "test",
+    157,
+    "too long"
+   ],
+   [
+    "train",
+    537,
+    "too long"
+   ],
+   [
+    "test",
+    119,
+    "too long"
+   ],
+   [
+    "test",
+    267,
+    "too long"
+   ],
+   [
+    "test",
+    115,
+    "too long"
+   ],
+   [
+    "test",
+    45,
+    "too long"
+   ],
+   [
+    "train",
+    1071,
+    "too long"
+   ],
+   [
+    "test",
+    275,
+    "too long"
+   ],
+   [
+    "test",
+    265,
+    "too long"
+   ],
+   [
+    "train",
+    399,
+    "too long"
+   ],
+   [
+    "train",
+    276,
+    "too long"
+   ],
+   [
+    "test",
+    13,
+    "too long"
+   ],
+   [
+    "train",
+    1292,
+    "too long"
+   ],
+   [
+    "train",
+    572,
+    "too long"
+   ],
+   [
+    "train",
+    1102,
+    "too long"
+   ],
+   [
+    "train",
+    993,
+    "too long"
+   ],
+   [
+    "test",
+    100,
+    "too long"
+   ],
+   [
+    "train",
+    866,
+    "too long"
+   ],
+   [
+    "train",
+    1093,
+    "too long"
+   ],
+   [
+    "test",
+    147,
+    "too long"
+   ],
+   [
+    "train",
+    81,
+    "too long"
+   ],
+   [
+    "test",
+    193,
+    "too long"
+   ],
+   [
+    "test",
+    153,
+    "too long"
+   ],
+   [
+    "train",
+    61,
+    "too long"
+   ],
+   [
+    "train",
+    1104,
+    "too long"
+   ],
+   [
+    "train",
+    559,
+    "too long"
+   ],
+   [
+    "train",
+    247,
+    "too long"
+   ],
+   [
+    "train",
+    819,
+    "too long"
+   ],
+   [
+    "train",
+    636,
+    "too long"
+   ],
+   [
+    "test",
+    154,
+    "too long"
+   ],
+   [
+    "train",
+    643,
+    "too long"
+   ],
+   [
+    "train",
+    1202,
+    "too long"
+   ],
+   [
+    "train",
+    427,
+    "too long"
+   ],
+   [
+    "train",
+    699,
+    "too long"
+   ],
+   [
+    "train",
+    338,
+    "too long"
+   ],
+   [
+    "train",
+    803,
+    "too long"
+   ],
+   [
+    "train",
+    72,
+    "too long"
+   ],
+   [
+    "train",
+    1242,
+    "too long"
+   ],
+   [
+    "train",
+    1375,
+    "too long"
+   ],
+   [
+    "train",
+    743,
+    "too long"
+   ],
+   [
+    "train",
+    237,
+    "too long"
+   ],
+   [
+    "train",
+    474,
+    "too long"
+   ],
+   [
+    "train",
+    333,
+    "too long"
+   ],
+   [
+    "train",
+    1338,
+    "too long"
+   ],
+   [
+    "train",
+    504,
+    "too long"
+   ],
+   [
+    "test",
+    214,
+    "too long"
+   ],
+   [
+    "train",
+    618,
+    "too long"
+   ],
+   [
+    "train",
+    890,
+    "too long"
+   ],
+   [
+    "train",
+    774,
+    "too long"
+   ],
+   [
+    "train",
+    1183,
+    "too long"
+   ],
+   [
+    "train",
+    585,
+    "marked values differ"
+   ],
+   [
+    "train",
+    877,
+    "too long"
+   ],
+   [
+    "train",
+    406,
+    "too long"
+   ],
+   [
+    "test",
+    210,
+    "too long"
+   ],
+   [
+    "train",
+    840,
+    "too long"
+   ],
+   [
+    "test",
+    41,
+    "too long"
+   ],
+   [
+    "train",
+    1308,
+    "too long"
+   ],
+   [
+    "train",
+    122,
+    "too long"
+   ],
+   [
+    "train",
+    242,
+    "too long"
+   ],
+   [
+    "train",
+    45,
+    "non-ascii"
+   ],
+   [
+    "train",
+    816,
+    "too long"
+   ],
+   [
+    "train",
+    567,
+    "too long"
+   ],
+   [
+    "train",
+    1386,
+    "too long"
+   ],
+   [
+    "test",
+    46,
+    "too long"
+   ],
+   [
+    "test",
+    8,
+    "too long"
+   ],
+   [
+    "train",
+    1298,
+    "too long"
+   ],
+   [
+    "test",
+    284,
+    "too long"
+   ],
+   [
+    "train",
+    1379,
+    "too long"
+   ],
+   [
+    "train",
+    99,
+    "too long"
+   ],
+   [
+    "train",
+    1413,
+    "too long"
+   ]
+  ]
+ },
+ "retry": {
+  "n": 166,
+  "usd": 1.4823600000000001,
+  "input_tokens": 145985,
+  "output_tokens": 44921,
+  "valid": 26,
+  "failures": [
+   [
+    "train",
+    1246,
+    "too long"
+   ],
+   [
+    "train",
+    29,
+    "too long"
+   ],
+   [
+    "train",
+    310,
+    "too long"
+   ],
+   [
+    "train",
+    334,
+    "too long"
+   ],
+   [
+    "train",
+    103,
+    "too long"
+   ],
+   [
+    "train",
+    1253,
+    "too long"
+   ],
+   [
+    "train",
+    404,
+    "too long"
+   ],
+   [
+    "train",
+    1120,
+    "too long"
+   ],
+   [
+    "train",
+    486,
+    "too long"
+   ],
+   [
+    "train",
+    858,
+    "too long"
+   ],
+   [
+    "train",
+    1081,
+    "too long"
+   ],
+   [
+    "train",
+    1231,
+    "too long"
+   ],
+   [
+    "train",
+    817,
+    "too long"
+   ],
+   [
+    "train",
+    397,
+    "too long"
+   ],
+   [
+    "test",
+    107,
+    "too long"
+   ],
+   [
+    "train",
+    620,
+    "marked values differ"
+   ],
+   [
+    "train",
+    67,
+    "too long"
+   ],
+   [
+    "train",
+    593,
+    "too long"
+   ],
+   [
+    "test",
+    150,
+    "too long"
+   ],
+   [
+    "train",
+    1205,
+    "too long"
+   ],
+   [
+    "train",
+    1476,
+    "too long"
+   ],
+   [
+    "train",
+    617,
+    "too long"
+   ],
+   [
+    "train",
+    1130,
+    "too long"
+   ],
+   [
+    "train",
+    1424,
+    "too long"
+   ],
+   [
+    "train",
+    604,
+    "too long"
+   ],
+   [
+    "train",
+    597,
+    "too long"
+   ],
+   [
+    "train",
+    121,
+    "too long"
+   ],
+   [
+    "test",
+    183,
+    "too long"
+   ],
+   [
+    "train",
+    75,
+    "non-ascii"
+   ],
+   [
+    "train",
+    757,
+    "too long"
+   ],
+   [
+    "train",
+    1103,
+    "too long"
+   ],
+   [
+    "train",
+    331,
+    "too long"
+   ],
+   [
+    "train",
+    1226,
+    "too long"
+   ],
+   [
+    "train",
+    107,
+    "too long"
+   ],
+   [
+    "train",
+    261,
+    "too long"
+   ],
+   [
+    "test",
+    74,
+    "too long"
+   ],
+   [
+    "train",
+    288,
+    "too long"
+   ],
+   [
+    "test",
+    186,
+    "too long"
+   ],
+   [
+    "train",
+    175,
+    "too long"
+   ],
+   [
+    "test",
+    177,
+    "too long"
+   ],
+   [
+    "train",
+    362,
+    "too long"
+   ],
+   [
+    "train",
+    116,
+    "too long"
+   ],
+   [
+    "train",
+    361,
+    "too long"
+   ],
+   [
+    "train",
+    1412,
+    "too long"
+   ],
+   [
+    "train",
+    778,
+    "too long"
+   ],
+   [
+    "train",
+    304,
+    "too long"
+   ],
+   [
+    "train",
+    1380,
+    "too long"
+   ],
+   [
+    "train",
+    675,
+    "too long"
+   ],
+   [
+    "train",
+    1321,
+    "marked values differ"
+   ],
+   [
+    "train",
+    1367,
+    "too long"
+   ],
+   [
+    "test",
+    211,
+    "marked values differ"
+   ],
+   [
+    "train",
+    744,
+    "too long"
+   ],
+   [
+    "train",
+    922,
+    "too long"
+   ],
+   [
+    "test",
+    163,
+    "marked values differ"
+   ],
+   [
+    "train",
+    442,
+    "too long"
+   ],
+   [
+    "train",
+    212,
+    "too long"
+   ],
+   [
+    "train",
+    583,
+    "too long"
+   ],
+   [
+    "test",
+    198,
+    "too long"
+   ],
+   [
+    "train",
+    601,
+    "too long"
+   ],
+   [
+    "train",
+    578,
+    "too long"
+   ],
+   [
+    "train",
+    144,
+    "too long"
+   ],
+   [
+    "train",
+    187,
+    "too long"
+   ],
+   [
+    "train",
+    1157,
+    "too long"
+   ],
+   [
+    "train",
+    760,
+    "too long"
+   ],
+   [
+    "train",
+    1030,
+    "too long"
+   ],
+   [
+    "train",
+    1038,
+    "too long"
+   ],
+   [
+    "train",
+    211,
+    "too long"
+   ],
+   [
+    "train",
+    1498,
+    "too long"
+   ],
+   [
+    "train",
+    370,
+    "too long"
+   ],
+   [
+    "train",
+    1279,
+    "too long"
+   ],
+   [
+    "train",
+    216,
+    "too long"
+   ],
+   [
+    "train",
+    515,
+    "too long"
+   ],
+   [
+    "train",
+    225,
+    "too long"
+   ],
+   [
+    "train",
+    385,
+    "too long"
+   ],
+   [
+    "train",
+    616,
+    "too long"
+   ],
+   [
+    "train",
+    839,
+    "too long"
+   ],
+   [
+    "train",
+    1363,
+    "too long"
+   ],
+   [
+    "test",
+    144,
+    "too long"
+   ],
+   [
+    "train",
+    27,
+    "too long"
+   ],
+   [
+    "test",
+    157,
+    "too long"
+   ],
+   [
+    "train",
+    537,
+    "too long"
+   ],
+   [
+    "test",
+    119,
+    "too long"
+   ],
+   [
+    "test",
+    267,
+    "too long"
+   ],
+   [
+    "test",
+    115,
+    "operator between numbers"
+   ],
+   [
+    "train",
+    1071,
+    "too long"
+   ],
+   [
+    "test",
+    275,
+    "too long"
+   ],
+   [
+    "train",
+    399,
+    "too long"
+   ],
+   [
+    "train",
+    276,
+    "too long"
+   ],
+   [
+    "test",
+    13,
+    "too long"
+   ],
+   [
+    "train",
+    1292,
+    "too long"
+   ],
+   [
+    "train",
+    572,
+    "too long"
+   ],
+   [
+    "train",
+    1102,
+    "too long"
+   ],
+   [
+    "test",
+    100,
+    "too long"
+   ],
+   [
+    "train",
+    866,
+    "too long"
+   ],
+   [
+    "train",
+    1093,
+    "too long"
+   ],
+   [
+    "test",
+    147,
+    "too long"
+   ],
+   [
+    "train",
+    81,
+    "too long"
+   ],
+   [
+    "test",
+    193,
+    "too long"
+   ],
+   [
+    "test",
+    153,
+    "too long"
+   ],
+   [
+    "train",
+    61,
+    "too long"
+   ],
+   [
+    "train",
+    1104,
+    "too long"
+   ],
+   [
+    "train",
+    559,
+    "too long"
+   ],
+   [
+    "train",
+    247,
+    "too long"
+   ],
+   [
+    "train",
+    819,
+    "too long"
+   ],
+   [
+    "train",
+    636,
+    "too long"
+   ],
+   [
+    "test",
+    154,
+    "too long"
+   ],
+   [
+    "train",
+    643,
+    "too long"
+   ],
+   [
+    "train",
+    1202,
+    "too long"
+   ],
+   [
+    "train",
+    427,
+    "too long"
+   ],
+   [
+    "train",
+    699,
+    "too long"
+   ],
+   [
+    "train",
+    338,
+    "too long"
+   ],
+   [
+    "train",
+    803,
+    "too long"
+   ],
+   [
+    "train",
+    1242,
+    "too long"
+   ],
+   [
+    "train",
+    1375,
+    "too long"
+   ],
+   [
+    "train",
+    743,
+    "too long"
+   ],
+   [
+    "train",
+    237,
+    "too long"
+   ],
+   [
+    "train",
+    474,
+    "too long"
+   ],
+   [
+    "train",
+    333,
+    "too long"
+   ],
+   [
+    "train",
+    1338,
+    "too long"
+   ],
+   [
+    "train",
+    504,
+    "too long"
+   ],
+   [
+    "test",
+    214,
+    "too long"
+   ],
+   [
+    "train",
+    618,
+    "too long"
+   ],
+   [
+    "train",
+    774,
+    "too long"
+   ],
+   [
+    "train",
+    1183,
+    "too long"
+   ],
+   [
+    "train",
+    585,
+    "marked values differ"
+   ],
+   [
+    "train",
+    877,
+    "too long"
+   ],
+   [
+    "train",
+    406,
+    "too long"
+   ],
+   [
+    "test",
+    41,
+    "too long"
+   ],
+   [
+    "train",
+    1308,
+    "too long"
+   ],
+   [
+    "train",
+    122,
+    "too long"
+   ],
+   [
+    "train",
+    242,
+    "too long"
+   ],
+   [
+    "train",
+    816,
+    "too long"
+   ],
+   [
+    "train",
+    567,
+    "too long"
+   ],
+   [
+    "train",
+    1386,
+    "too long"
+   ],
+   [
+    "test",
+    8,
+    "too long"
+   ],
+   [
+    "train",
+    1298,
+    "too long"
+   ],
+   [
+    "test",
+    284,
+    "too long"
+   ],
+   [
+    "train",
+    1379,
+    "too long"
+   ],
+   [
+    "train",
+    99,
+    "too long"
+   ],
+   [
+    "train",
+    1413,
+    "too long"
+   ]
+  ]
+ },
+ "fresh_batch_id": {
+  "id": "msgbatch_[redacted]",
+  "n": 1019,
+  "created": "2026-10-29 09:27",
+  "projected_usd": 3.403141705617975
+ },
+ "fresh_batch": {
+  "n": 1019,
+  "usd": 3.460877999999999,
+  "input_tokens": 767039,
+  "output_tokens": 192680,
+  "valid": 915,
+  "failures": [
+   [
+    "fresh",
+    640,
+    "too long"
+   ],
+   [
+    "fresh",
+    945,
+    "too long"
+   ],
+   [
+    "fresh",
+    1217,
+    "too long"
+   ],
+   [
+    "fresh",
+    696,
+    "too long"
+   ],
+   [
+    "fresh",
+    601,
+    "too long"
+   ],
+   [
+    "fresh",
+    572,
+    "too long"
+   ],
+   [
+    "fresh",
+    1193,
+    "too long"
+   ],
+   [
+    "fresh",
+    1215,
+    "too long"
+   ],
+   [
+    "fresh",
+    522,
+    "too long"
+   ],
+   [
+    "fresh",
+    675,
+    "too long"
+   ],
+   [
+    "fresh",
+    415,
+    "marked values differ"
+   ],
+   [
+    "fresh",
+    1038,
+    "too long"
+   ],
+   [
+    "fresh",
+    812,
+    "too long"
+   ],
+   [
+    "fresh",
+    1199,
+    "too long"
+   ],
+   [
+    "fresh",
+    806,
+    "too long"
+   ],
+   [
+    "fresh",
+    724,
+    "too long"
+   ],
+   [
+    "fresh",
+    319,
+    "too long"
+   ],
+   [
+    "fresh",
+    1195,
+    "too long"
+   ],
+   [
+    "fresh",
+    1317,
+    "too long"
+   ],
+   [
+    "fresh",
+    1047,
+    "too long"
+   ],
+   [
+    "fresh",
+    1306,
+    "too long"
+   ],
+   [
+    "fresh",
+    814,
+    "too long"
+   ],
+   [
+    "fresh",
+    890,
+    "too long"
+   ],
+   [
+    "fresh",
+    780,
+    "too long"
+   ],
+   [
+    "fresh",
+    959,
+    "too long"
+   ],
+   [
+    "fresh",
+    423,
+    "too long"
+   ],
+   [
+    "fresh",
+    1029,
+    "too long"
+   ],
+   [
+    "fresh",
+    777,
+    "too long"
+   ],
+   [
+    "fresh",
+    550,
+    "too long"
+   ],
+   [
+    "fresh",
+    459,
+    "too long"
+   ],
+   [
+    "fresh",
+    1094,
+    "too long"
+   ],
+   [
+    "fresh",
+    935,
+    "too long"
+   ],
+   [
+    "fresh",
+    1102,
+    "too long"
+   ],
+   [
+    "fresh",
+    965,
+    "too long"
+   ],
+   [
+    "fresh",
+    855,
+    "too long"
+   ],
+   [
+    "fresh",
+    1077,
+    "too long"
+   ],
+   [
+    "fresh",
+    801,
+    "too long"
+   ],
+   [
+    "fresh",
+    968,
+    "too long"
+   ],
+   [
+    "fresh",
+    310,
+    "too long"
+   ],
+   [
+    "fresh",
+    325,
+    "too long"
+   ],
+   [
+    "fresh",
+    1086,
+    "too long"
+   ],
+   [
+    "fresh",
+    331,
+    "too long"
+   ],
+   [
+    "fresh",
+    499,
+    "marked values differ"
+   ],
+   [
+    "fresh",
+    341,
+    "too long"
+   ],
+   [
+    "fresh",
+    1198,
+    "too long"
+   ],
+   [
+    "fresh",
+    882,
+    "too long"
+   ],
+   [
+    "fresh",
+    457,
+    "marked values differ"
+   ],
+   [
+    "fresh",
+    837,
+    "too long"
+   ],
+   [
+    "fresh",
+    1088,
+    "too long"
+   ],
+   [
+    "fresh",
+    340,
+    "too long"
+   ],
+   [
+    "fresh",
+    1011,
+    "too long"
+   ],
+   [
+    "fresh",
+    1168,
+    "too long"
+   ],
+   [
+    "fresh",
+    677,
+    "too long"
+   ],
+   [
+    "fresh",
+    926,
+    "too long"
+   ],
+   [
+    "fresh",
+    1122,
+    "too long"
+   ],
+   [
+    "fresh",
+    783,
+    "too long"
+   ],
+   [
+    "fresh",
+    966,
+    "too long"
+   ],
+   [
+    "fresh",
+    823,
+    "too long"
+   ],
+   [
+    "fresh",
+    1288,
+    "too long"
+   ],
+   [
+    "fresh",
+    1225,
+    "too long"
+   ],
+   [
+    "fresh",
+    443,
+    "too long"
+   ],
+   [
+    "fresh",
+    1166,
+    "too long"
+   ],
+   [
+    "fresh",
+    721,
+    "too long"
+   ],
+   [
+    "fresh",
+    1263,
+    "too long"
+   ],
+   [
+    "fresh",
+    576,
+    "too long"
+   ],
+   [
+    "fresh",
+    587,
+    "too long"
+   ],
+   [
+    "fresh",
+    1209,
+    "too long"
+   ],
+   [
+    "fresh",
+    746,
+    "too long"
+   ],
+   [
+    "fresh",
+    1096,
+    "too long"
+   ],
+   [
+    "fresh",
+    831,
+    "too long"
+   ],
+   [
+    "fresh",
+    439,
+    "too long"
+   ],
+   [
+    "fresh",
+    827,
+    "too long"
+   ],
+   [
+    "fresh",
+    510,
+    "too long"
+   ],
+   [
+    "fresh",
+    660,
+    "too long"
+   ],
+   [
+    "fresh",
+    976,
+    "too long"
+   ],
+   [
+    "fresh",
+    876,
+    "too long"
+   ],
+   [
+    "fresh",
+    1181,
+    "too long"
+   ],
+   [
+    "fresh",
+    1176,
+    "too long"
+   ],
+   [
+    "fresh",
+    1156,
+    "too long"
+   ],
+   [
+    "fresh",
+    590,
+    "too long"
+   ],
+   [
+    "fresh",
+    1249,
+    "too long"
+   ],
+   [
+    "fresh",
+    1216,
+    "too long"
+   ],
+   [
+    "fresh",
+    534,
+    "too long"
+   ],
+   [
+    "fresh",
+    1190,
+    "too long"
+   ],
+   [
+    "fresh",
+    362,
+    "too long"
+   ],
+   [
+    "fresh",
+    999,
+    "marked values differ"
+   ],
+   [
+    "fresh",
+    1006,
+    "too long"
+   ],
+   [
+    "fresh",
+    993,
+    "too long"
+   ],
+   [
+    "fresh",
+    1264,
+    "too long"
+   ],
+   [
+    "fresh",
+    409,
+    "too long"
+   ],
+   [
+    "fresh",
+    754,
+    "too long"
+   ],
+   [
+    "fresh",
+    672,
+    "too long"
+   ],
+   [
+    "fresh",
+    798,
+    "too long"
+   ],
+   [
+    "fresh",
+    960,
+    "too long"
+   ],
+   [
+    "fresh",
+    1030,
+    "too long"
+   ],
+   [
+    "fresh",
+    369,
+    "too long"
+   ],
+   [
+    "fresh",
+    1165,
+    "too long"
+   ],
+   [
+    "fresh",
+    953,
+    "too long"
+   ],
+   [
+    "fresh",
+    796,
+    "too long"
+   ],
+   [
+    "fresh",
+    361,
+    "too long"
+   ],
+   [
+    "fresh",
+    1012,
+    "too long"
+   ],
+   [
+    "fresh",
+    333,
+    "too long"
+   ],
+   [
+    "fresh",
+    611,
+    "too long"
+   ],
+   [
+    "fresh",
+    916,
+    "too long"
+   ]
+  ]
+ },
+ "fresh_retry": {
+  "n": 4,
+  "usd": 0.0,
+  "input_tokens": 0,
+  "output_tokens": 0,
+  "valid": 0,
+  "failures": [
+   [
+    "fresh",
+    415,
+    "api 400"
+   ],
+   [
+    "fresh",
+    499,
+    "api 400"
+   ],
+   [
+    "fresh",
+    457,
+    "api 400"
+   ],
+   [
+    "fresh",
+    999,
+    "api 400"
+   ]
+  ]
+ }
+}

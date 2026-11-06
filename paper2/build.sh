@@ -101,7 +101,9 @@ tex = tex[: m.start()] + "\\begin{abstract}\n" + m.group(1).strip() + "\n\\end{a
 # Drop horizontal rules from the Markdown '---' separators.
 tex = re.sub(r"\\begin\{center\}\\rule\{0\.5\\linewidth\}\{0\.5pt\}\\end\{center\}\n", "", tex)
 # Bibliography where the References heading is (natbib prints its own heading).
-tex = re.sub(r"\\section\{References\}\\label\{references\}\n", "\\\\bibliographystyle{plainnat}\n\\\\bibliography{refs}\n", tex, count=1)
+# (pandoc's natbib preamble already sets \bibliographystyle{plainnat}; a second one makes BibTeX report an error.)
+style = "" if "\\bibliographystyle{" in tex else "\\\\bibliographystyle{plainnat}\n"
+tex = re.sub(r"\\section\{References\}\\label\{references\}\n", style + "\\\\bibliography{refs}\n", tex, count=1)
 tex = re.sub(r"\n\\bibliography\{refs\.bib\}\n", "\n", tex)
 # Newer pandoc emits \\renewcommand\\refname{References} instead of a References section.
 tex = tex.replace("\\renewcommand\\refname{References}", "\\bibliography{refs}", 1)
@@ -125,11 +127,31 @@ tex = re.sub(r"(\\begin\{longtable\}.*?\\end\{longtable\})", lambda m: "{\\footn
 path.write_text(tex, encoding="utf8")
 PY
 cp refs.bib build/arxiv/
-cp figures/*.png build/arxiv/figures/
+# Only the figures the manuscript uses (version 1's figures stay in figures/ as a record).
+for f in $(grep -o 'figures/[A-Za-z0-9_.-]*\.png' manuscript.md | sort -u); do cp "$f" build/arxiv/figures/; done
 (cd build/arxiv && tectonic -X compile main.tex --keep-intermediates >/dev/null 2>&1)
 [ -f build/arxiv/main.bbl ] || { echo "FAIL: main.bbl was not produced"; exit 1; }
 rm -f arxiv_source.zip
-(cd build/arxiv && tar czf ../../arxiv-submission.tar.gz main.tex main.bbl refs.bib figures/)
+# No macOS metadata: COPYFILE_DISABLE and --no-mac-metadata keep AppleDouble ._ files out, --no-xattrs drops extended
+# attributes, and the ustar format carries no pax headers (macOS tar would merge ._ files back on extraction, so the
+# check below lists the members instead of extracting them).
+(cd build/arxiv && COPYFILE_DISABLE=1 tar --no-mac-metadata --no-xattrs --format ustar --uid 0 --gid 0 --uname "" \
+  --gname "" -czf ../../arxiv-submission.tar.gz main.tex main.bbl refs.bib figures/)
+python3 - <<'PY2'
+import tarfile
+with tarfile.open("arxiv-submission.tar.gz") as t:
+    members = t.getmembers()
+names = [m.name for m in members]
+bad = [n for n in names if n.split("/")[-1].startswith("._") or "__MACOSX" in n]
+pax = [m.name for m in members if m.pax_headers]
+files = sorted(m.name for m in members if m.isfile())
+assert not bad and not pax, (bad, pax)
+assert files == sorted(["main.tex", "main.bbl", "refs.bib"] + [n for n in files if n.startswith("figures/")]), files
+assert all(n.endswith(".png") for n in files if n.startswith("figures/")), files
+print("  tarball members:", ", ".join(files))
+PY2
+bst=$(grep -c '\\bibliographystyle' build/arxiv/main.tex || true)
+[ "$bst" -eq 1 ] || { echo "FAIL: $bst \\bibliographystyle commands in main.tex"; exit 1; }
 
 # VERIFY: build from the tarball alone, then check the output, not just the exit status.
 rm -rf build/verify && mkdir -p build/verify

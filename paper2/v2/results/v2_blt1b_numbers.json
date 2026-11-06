@@ -1,0 +1,322 @@
+{
+ "source": "results/blt_waste.json, blt_hybrid.json, blt_compress.json, paper2v2_intervals.json",
+ "convention": "b - a; paired problem bootstrap, 2000 resamples, 2.5th and 97.5th percentiles",
+ "bpb_vs_entropy": {
+  "eq@0.1 - entropy@0.1 | all": {
+   "diff": -0.01003966950102364,
+   "ci": [
+    -0.013302295528506387,
+    -0.006906198530384207
+   ],
+   "a": 0.867196994848225,
+   "b": 0.8571573253472013,
+   "n_problems": 294
+  },
+  "eq@0.1 - entropy@0.1 | q": {
+   "diff": 0.011370395413465517,
+   "ci": [
+    0.009267327583689583,
+    0.01349347004516731
+   ],
+   "a": 0.9458310709309204,
+   "b": 0.957201466344386,
+   "n_problems": 294
+  },
+  "eq@0.1 - entropy@0.1 | sol": {
+   "diff": -0.029470972749865987,
+   "ci": [
+    -0.034958787336397526,
+    -0.02417838676032553
+   ],
+   "a": 0.7958305093115237,
+   "b": 0.7663595365616577,
+   "n_problems": 294
+  },
+  "table@0.1 - entropy@0.1 | all": {
+   "diff": 0.1749394704244278,
+   "ci": [
+    0.1638576906974755,
+    0.18608636254010735
+   ],
+   "a": 0.867196994848225,
+   "b": 1.0421364652726528,
+   "n_problems": 294
+  },
+  "table@0.1 - entropy@0.1 | q": {
+   "diff": 0.2799846361273478,
+   "ci": [
+    0.2673962660008247,
+    0.29245184091652027
+   ],
+   "a": 0.9458310709309204,
+   "b": 1.2258157070582683,
+   "n_problems": 294
+  },
+  "table@0.1 - entropy@0.1 | sol": {
+   "diff": 0.0796028765265947,
+   "ci": [
+    0.06540290115077693,
+    0.09386297421227058
+   ],
+   "a": 0.7958305093115237,
+   "b": 0.8754333858381184,
+   "n_problems": 294
+  },
+  "table+marker@0.1 - entropy@0.1 | all": {
+   "diff": 0.17539597510915206,
+   "ci": [
+    0.16454633406636782,
+    0.18698074210684415
+   ],
+   "a": 0.867196994848225,
+   "b": 1.042592969957377,
+   "n_problems": 294
+  },
+  "table+marker@0.1 - entropy@0.1 | q": {
+   "diff": 0.2836445961863835,
+   "ci": [
+    0.27125612054218023,
+    0.2969032834949383
+   ],
+   "a": 0.9458310709309204,
+   "b": 1.229475667117304,
+   "n_problems": 294
+  },
+  "table+marker@0.1 - entropy@0.1 | sol": {
+   "diff": 0.07715200738123051,
+   "ci": [
+    0.06268707063150697,
+    0.09046354813425875
+   ],
+   "a": 0.7958305093115237,
+   "b": 0.8729825166927542,
+   "n_problems": 294
+  },
+  "hybrid(0.03)@0.1 - entropy@0.1 | all": {
+   "diff": 0.004511838663799228,
+   "ci": [
+    -0.0013150309018234163,
+    0.009733931628482882
+   ],
+   "a": 0.867196994848225,
+   "b": 0.8717088335120242,
+   "n_problems": 294
+  },
+  "hybrid(0.03)@0.1 - entropy@0.1 | q": {
+   "diff": 0.032376505095746855,
+   "ci": [
+    0.026837133354414767,
+    0.037806198792286576
+   ],
+   "a": 0.9458310709309204,
+   "b": 0.9782075760266673,
+   "n_problems": 294
+  },
+  "hybrid(0.03)@0.1 - entropy@0.1 | sol": {
+   "diff": -0.020777494892770698,
+   "ci": [
+    -0.029906772319514933,
+    -0.011590897425595919
+   ],
+   "a": 0.7958305093115237,
+   "b": 0.775053014418753,
+   "n_problems": 294
+  }
+ },
+ "zero_value": {
+  "table@0.1": {
+   "n_starts": 6788,
+   "share_value_le_0": 0.4323806717737183,
+   "by_type": {
+    "computed": {
+     "share_of_starts": 0.05583382439599293,
+     "share_value_le_0": 0.21635883905013192,
+     "share_of_zero_value_starts": 0.027938671209540036
+    },
+    "mid-word": {
+     "share_of_starts": 0.17295226870948732,
+     "share_value_le_0": 0.5664395229982965,
+     "share_of_zero_value_starts": 0.22657580919931858
+    },
+    "newline": {
+     "share_of_starts": 0.033441367118444316,
+     "share_value_le_0": 0.8237885462555066,
+     "share_of_zero_value_starts": 0.0637137989778535
+    },
+    "number": {
+     "share_of_starts": 0.18473777253977608,
+     "share_value_le_0": 0.21610845295055822,
+     "share_of_zero_value_starts": 0.09233390119250427
+    },
+    "punct": {
+     "share_of_starts": 0.039923394225103125,
+     "share_value_le_0": 0.28413284132841327,
+     "share_of_zero_value_starts": 0.0262350936967632
+    },
+    "question": {
+     "share_of_starts": 0.3292575132586918,
+     "share_value_le_0": 0.5029082774049217,
+     "share_of_zero_value_starts": 0.38296422487223175
+    },
+    "space": {
+     "share_of_starts": 0.08028874484384207,
+     "share_value_le_0": 0.671559633027523,
+     "share_of_zero_value_starts": 0.12470187393526407
+    },
+    "word start": {
+     "share_of_starts": 0.10356511490866234,
+     "share_value_le_0": 0.23186344238975817,
+     "share_of_zero_value_starts": 0.0555366269165247
+    }
+   }
+  },
+  "entropy@0.1": {
+   "n_starts": 7090,
+   "share_value_le_0": 0.23145275035260932,
+   "by_type": {
+    "computed": {
+     "share_of_starts": 0.007475317348377997,
+     "share_value_le_0": 0.07547169811320754,
+     "share_of_zero_value_starts": 0.0024375380865326018
+    },
+    "final": {
+     "share_of_starts": 0.020451339915373765,
+     "share_value_le_0": 0.05517241379310345,
+     "share_of_zero_value_starts": 0.0048750761730652035
+    },
+    "mid-word": {
+     "share_of_starts": 0.0038081805359661495,
+     "share_value_le_0": 0.2962962962962963,
+     "share_of_zero_value_starts": 0.0048750761730652035
+    },
+    "newline": {
+     "share_of_starts": 0.0015514809590973203,
+     "share_value_le_0": 0.18181818181818182,
+     "share_of_zero_value_starts": 0.001218769043266301
+    },
+    "number": {
+     "share_of_starts": 0.12087447108603668,
+     "share_value_le_0": 0.18436406067677946,
+     "share_of_zero_value_starts": 0.09628275441803778
+    },
+    "punct": {
+     "share_of_starts": 0.029901269393511988,
+     "share_value_le_0": 0.18867924528301888,
+     "share_of_zero_value_starts": 0.02437538086532602
+    },
+    "question": {
+     "share_of_starts": 0.5167842031029619,
+     "share_value_le_0": 0.24208515283842794,
+     "share_of_zero_value_starts": 0.5405240706886044
+    },
+    "space": {
+     "share_of_starts": 0.010578279266572637,
+     "share_value_le_0": 0.41333333333333333,
+     "share_of_zero_value_starts": 0.018890920170627663
+    },
+    "word start": {
+     "share_of_starts": 0.2885754583921015,
+     "share_value_le_0": 0.2458455522971652,
+     "share_of_zero_value_starts": 0.30652041438147465
+    }
+   }
+  }
+ },
+ "k_bracket": {
+  "table": {
+   "rate": 0.10322541982067714,
+   "acc_res": 0.5653266331658291
+  },
+  "entropy_below": {
+   "layout": "entropy@0.15",
+   "rate": 0.15712560529542097,
+   "acc_res": 0.46984924623115576
+  },
+  "entropy_above": {
+   "layout": "entropy@0.2",
+   "rate": 0.21012382490510784,
+   "acc_res": 0.6846733668341709
+  },
+  "k_linear": 1.7503476360790804,
+  "k_range_from_bracketing_points": [
+   1.5221600025301816,
+   2.0355821780152046
+  ],
+  "k_bootstrap_ci_stored": [
+   1.6573787522733845,
+   1.8388409721196064
+  ]
+ },
+ "compress_pairs": {
+  "grouping_check": {
+   "reproduces": "paper2v2_intervals.json extras 'blt1b res <k>-entropy@<R>'",
+   "largest_abs_difference": 0.0,
+   "n_problems_with_results": 237,
+   "n_computed_results": 796
+  },
+  "lz+nov@10 - nov@10": {
+   "diff": -2.386934673366834,
+   "ci": [
+    -4.918138962031768,
+    0.12644235563576228
+   ],
+   "acc_a": 56.53266331658291,
+   "acc_b": 54.14572864321608
+  },
+  "lz+nov@15 - nov@15": {
+   "diff": -6.281407035175879,
+   "ci": [
+    -8.985915893469395,
+    -3.624814276485789
+   ],
+   "acc_a": 66.4572864321608,
+   "acc_b": 60.175879396984925
+  }
+ },
+ "prose_by_cue": {
+  "source": "results/blt_prose.json rows; data/prose_rewrites/test.jsonl; cue() of r9_cue_split.py",
+  "note": "after the data, descriptive; '<format>|<layout>|<cue>', layout 'nov' is the novelty table",
+  "split": {
+   "orig|entropy|$": {
+    "n": 167,
+    "covered": 0.0,
+    "exact": 0.041916167664670656
+   },
+   "orig|entropy|= ": {
+    "n": 544,
+    "covered": 0.17830882352941177,
+    "exact": 0.20404411764705882
+   },
+   "orig|nov|$": {
+    "n": 167,
+    "covered": 1.0,
+    "exact": 0.6047904191616766
+   },
+   "orig|nov|= ": {
+    "n": 544,
+    "covered": 1.0,
+    "exact": 0.5808823529411765
+   },
+   "prose|entropy|$": {
+    "n": 163,
+    "covered": 0.0,
+    "exact": 0.09202453987730061
+   },
+   "prose|entropy|space": {
+    "n": 548,
+    "covered": 0.7427007299270073,
+    "exact": 0.25364963503649635
+   },
+   "prose|nov|$": {
+    "n": 163,
+    "covered": 1.0,
+    "exact": 0.50920245398773
+   },
+   "prose|nov|space": {
+    "n": 548,
+    "covered": 0.0,
+    "exact": 0.014598540145985401
+   }
+  }
+ }
+}

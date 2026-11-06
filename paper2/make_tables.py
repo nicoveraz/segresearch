@@ -1,4 +1,8 @@
-"""Every table and figure of paper 2, built from the result files (local; no plotting dependencies).
+"""Version 1's tables and figures of paper 2, built from the result files (local; no plotting dependencies).
+
+Version 2 writes its tables in manuscript.md, where tests/test_paper2_numbers.py recomputes every cell; its Figure 1
+comes from paper2/fig1_v2.py and its Figure 2 from paper2/v2/scripts/fig_tradeoff.py. This script still rebuilds
+version 1's tables/ and figures/*.svg byte for byte (checked on 2026-11-02), as a record.
 
     python3 paper2/make_tables.py            # -> paper2/tables/*.md, paper2/figures/*.svg
 

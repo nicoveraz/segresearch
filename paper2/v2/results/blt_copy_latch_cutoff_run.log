@@ -1,0 +1,406 @@
+O6c confirmatory run under filing commit 48618dc86e21f797c4120978074b0b9b0134861a (the PI's go-ahead, 2026-11-01). Each job ran alone, through a driver that checked pgrep -fl realblt first and set O6C_FILED=48618dc, PYTHONDONTWRITEBYTECODE=1 and HF_HUB_OFFLINE=1; caffeinate -i -w waited on the driver's shell, never on the job. Each output was committed and pushed before the next job. Times are UTC.
+
+===== blocks: exit 0; start 2026-11-01T19:01:09Z end 2026-11-01T19:01:17Z
+{
+ "seed": 6301,
+ "visited": 924,
+ "first_idx": 6253,
+ "last_idx": 7176,
+ "pool_ended": false,
+ "fit": 300,
+ "test": 600
+}
+wrote results/blt_copy_latch_cutoff_blocks.json - commit and push it before the score job
+
+===== score: exit 0; start 2026-11-01T19:01:41Z end 2026-11-01T19:24:15Z
+
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]
+Loading weights:   0%|          | 2/510 [00:19<1:20:41,  9.53s/it]
+Loading weights: 100%|██████████| 510/510 [00:19<00:00, 26.63it/s]
+  patcher: fit 300 texts, 31s
+  patcher: test 600 texts, 91s
+  checks: fit changed 0, misaligned 0, 22s
+  checks: test changed 0, misaligned 0, 63s
+300 fit / 600 test; D's train rate 0.3146
+  50 texts, 100s
+  100 texts, 209s
+  150 texts, 308s
+  200 texts, 413s
+  250 texts, 512s
+  300 texts, 610s
+  350 texts, 699s
+  400 texts, 793s
+  450 texts, 884s
+  500 texts, 982s
+  550 texts, 1071s
+  600 texts, 1166s
+{
+ "D-all vs D": [
+  42.3,
+  [
+   37.0,
+   47.7
+  ]
+ ],
+ "D.L8 vs D": [
+  50.0,
+  [
+   46.0,
+   54.0
+  ]
+ ],
+ "D.SIVPO vs D": [
+  42.5,
+  [
+   37.2,
+   48.2
+  ]
+ ],
+ "D.SIVPO620 vs D": [
+  53.2,
+  [
+   49.2,
+   57.2
+  ]
+ ],
+ "D.L8 vs D.SIVPO": [
+  7.5,
+  [
+   4.3,
+   10.7
+  ]
+ ],
+ "D.L8 vs D.SIVPO620": [
+  -3.2,
+  [
+   -5.0,
+   -1.3
+  ]
+ ]
+}
+wrote results/blt_copy_latch_cutoff_score.json - commit and push it before `verdict`
+
+===== verdict: exit 0; start 2026-11-01T19:24:43Z end 2026-11-01T19:24:49Z
+{
+ "status": "O6c confirmatory code, run under its filing",
+ "code": {
+  "head": "c5ce09004a7c8758bbe524472d7ca8226a84e5e7",
+  "filed_commit": "48618dc86e21f797c4120978074b0b9b0134861a",
+  "files_sha256": {
+   "_seg.py": "563fdcaac8927ab2ca6c1b8b02b399414fed7fc7f688c6f7c513ef5e9b902b14",
+   "analysis/2026-10-30_copyfix/bytes/final_rules.py": "cd4e9c6f04ad6cf8a20b832a694106cc5f4727c0749796feb1e69bfd23c54872",
+   "blt_light.py": "c28fd4871e50cc56edb315dd00b4bcb50c705ba8ad20bdbcb11dcaf0d991a5c5",
+   "realblt_copy_latch.py": "6caaea296b245ac885cf1210a9d45c326a0f1ab868bb79126d1a490feed1c14f",
+   "realblt_copy_latch_cutoff.py": "69afabdea19d5437f6d9fe3f2c87b42f83916dac2521433100ca79f397460e18",
+   "realblt_copy_latch_fresh.py": "a48b9f82eecd5b6a8a4c8a38ad775f9eb9ec7ef8bd5bd81107e1d66c385edff8",
+   "realblt_copy_veto.py": "e3529304a486d7d413786c1a7e8d3bc1b78c29edbdd150f16b0db146c3f3826c",
+   "realblt_quadrant.py": "35418d9524d88054dd14a9d6fa916a79c52f8adbc2a36b774c909148b47c8f83",
+   "segresearch/blt_layouts.py": "520cc6daff9aaee982a258f5598d3fb2033c6a582d275839bceee16a93ef2823",
+   "segresearch/blt_load.py": "e3e68750c06485bf5b13975b9bb8a7a5e738d805897ad2a154dc5391c342d5dd",
+   "segresearch/realblt_budget.py": "4662645e86b11825096397ffd4faa16a06eaf210f77602e1dc47939fe93d409f",
+   "segresearch/registry.py": "5f53758b9bf006e137c539b27588c2eb7ea09e584a6612c8778e693b296e2195"
+  },
+  "submodules": {
+   "segresearch": "19859849b3d8e80f00ef8778bd8e6870b7e8aa95"
+  },
+  "script_sha256": "69afabdea19d5437f6d9fe3f2c87b42f83916dac2521433100ca79f397460e18",
+  "rules_sha256": "558e78342ed66bb777dd5cb0187f4a27ee885898e8fefba8c57acd1ae4b99b0b",
+  "threshold_mode": "train",
+  "model": "itazap/blt-1b-hf",
+  "snapshot": "91aa6b8e168046ad91e517d2191e1e974f50cc01",
+  "weights_blob": "fdc3e6f1571c7c81a2d6f1b3c36b0deabd56509c466d4735aef72a9517436f94",
+  "transformers": "5.18.0",
+  "torch": "2.14.1",
+  "numpy": "2.5.3",
+  "modeling_blt_sha256": "df8ecdd41c5a85d3623ea8670bbbeeeda4c3c52827a0961a33ede11a085a5f32",
+  "device": "mps"
+ },
+ "class": "the cutoff better",
+ "reading": "A byte rule that stops at token 620, a position fixed from dev texts, beats L8 under the released conversion, on this template.",
+ "primary": [
+  -0.03166666666666667,
+  [
+   -0.05,
+   -0.013333333333333334
+  ]
+ ],
+ "n": 600,
+ "beside": {
+  "D.L8 - D.SIVPO (O6b's released row, replicated)": {
+   "diff": [
+    0.075,
+    [
+     0.043333333333333335,
+     0.10666666666666667
+    ]
+   ],
+   "class": "L8 better"
+  },
+  "D-all - D": [
+   0.42333333333333334,
+   [
+    0.36995833333333333,
+    0.4766666666666667
+   ]
+  ],
+  "D.SIVPO620 - D": [
+   0.5316666666666666,
+   [
+    0.49166666666666664,
+    0.5717083333333332
+   ]
+  ],
+  "by length": {
+   "tokens 0-600": {
+    "n": 426,
+    "L8_fires_c1": 0.9765258215962441,
+    "D": 0.16666666666666666,
+    "D-all": 0.8568075117370892,
+    "D.L8": 0.8403755868544601,
+    "D.SIVPO": 0.8474178403755869,
+    "D.SIVPO620": 0.8474178403755869
+   },
+   "tokens 600-700": {
+    "n": 83,
+    "L8_fires_c1": 0.26506024096385544,
+    "D": 0.30120481927710846,
+    "D-all": 0.40963855421686746,
+    "D.L8": 0.4819277108433735,
+    "D.SIVPO": 0.46987951807228917,
+    "D.SIVPO620": 0.6626506024096386
+   },
+   "tokens 700-2000": {
+    "n": 91,
+    "L8_fires_c1": 0.01098901098901099,
+    "D": 0.5384615384615384,
+    "D-all": 0.0,
+    "D.L8": 0.5164835164835165,
+    "D.SIVPO": 0.0,
+    "D.SIVPO620": 0.5274725274725275
+   },
+   "copy starts before token 620": {
+    "n": 481,
+    "L8_fires_c1": 0.9106029106029107,
+    "D": 0.16216216216216217,
+    "D-all": 0.8274428274428275,
+    "D.L8": 0.7900207900207901,
+    "D.SIVPO": 0.8316008316008316,
+    "D.SIVPO620": 0.8274428274428275
+   },
+   "copy starts at token 620 or later": {
+    "n": 119,
+    "L8_fires_c1": 0.008403361344537815,
+    "D": 0.5630252100840336,
+    "D-all": 0.008403361344537815,
+    "D.L8": 0.5462184873949579,
+    "D.SIVPO": 0.0,
+    "D.SIVPO620": 0.5546218487394958
+   }
+  },
+  "discordant split (primary)": {
+   "n": 25,
+   "a": 22,
+   "b": 3
+  },
+  "discordant texts (primary)": {
+   "lost": {
+    "copies": 25,
+    "L8 did not fire at c1": 22,
+    "D.SIVPO620 does not start at c1": 24,
+    "L8 fired at c1": 3,
+    "D.SIVPO620 starts at c1": 1
+   },
+   "kept": {
+    "copies": 6,
+    "L8 did not fire at c1": 1,
+    "D.SIVPO620 does not start at c1": 6,
+    "L8 fired at c1": 5
+   },
+   "joint": {
+    "D.L8 lost the copy; L8 does not fire at c1; D.SIVPO620 does not start at c1": 22,
+    "D.L8 kept the copy; L8 does not fire at c1; D.SIVPO620 does not start at c1": 1,
+    "D.L8 lost the copy; L8 fires at c1; D.SIVPO620 does not start at c1": 2,
+    "D.L8 kept the copy; L8 fires at c1; D.SIVPO620 does not start at c1": 5,
+    "D.L8 lost the copy; L8 fires at c1; D.SIVPO620 starts at c1": 1
+   },
+   "texts (problem idx)": {
+    "lost": [
+     6587,
+     6638,
+     6672,
+     6703,
+     6722,
+     6734,
+     6760,
+     6780,
+     6785,
+     6786,
+     6819,
+     6835,
+     6852,
+     6862,
+     6879,
+     6901,
+     6923,
+     6966,
+     6977,
+     6979,
+     7035,
+     7105,
+     7111,
+     7119,
+     7168
+    ],
+    "kept": [
+     6630,
+     6763,
+     6833,
+     6934,
+     7036,
+     7171
+    ]
+   }
+  },
+  "discordant texts (D.L8 vs D.SIVPO)": {
+   "lost": {
+    "copies": 29,
+    "L8 did not fire at c1": 24,
+    "D.SIVPO does not start at c1": 29,
+    "L8 fired at c1": 5
+   },
+   "kept": {
+    "copies": 74,
+    "L8 fired at c1": 8,
+    "D.SIVPO does not start at c1": 74,
+    "L8 did not fire at c1": 66
+   },
+   "joint": {
+    "D.L8 kept the copy; L8 fires at c1; D.SIVPO does not start at c1": 8,
+    "D.L8 kept the copy; L8 does not fire at c1; D.SIVPO does not start at c1": 66,
+    "D.L8 lost the copy; L8 does not fire at c1; D.SIVPO does not start at c1": 24,
+    "D.L8 lost the copy; L8 fires at c1; D.SIVPO does not start at c1": 5
+   },
+   "texts (problem idx)": {
+    "lost": [
+     6587,
+     6638,
+     6672,
+     6703,
+     6722,
+     6734,
+     6760,
+     6780,
+     6785,
+     6786,
+     6819,
+     6835,
+     6852,
+     6858,
+     6862,
+     6879,
+     6893,
+     6901,
+     6923,
+     6966,
+     6977,
+     6979,
+     7024,
+     7033,
+     7105,
+     7111,
+     7119,
+     7168,
+     7176
+    ],
+    "kept": [
+     6564,
+     6571,
+     6585,
+     6605,
+     6608,
+     6610,
+     6619,
+     6620,
+     6621,
+     6629,
+     6630,
+     6632,
+     6635,
+     6642,
+     6661,
+     6667,
+     6685,
+     6709,
+     6724,
+     6757,
+     6759,
+     6763,
+     6766,
+     6767,
+     6775,
+     6776,
+     6787,
+     6797,
+     6813,
+     6833,
+     6845,
+     6846,
+     6847,
+     6857,
+     6866,
+     6875,
+     6897,
+     6911,
+     6914,
+     6918,
+     6919,
+     6932,
+     6933,
+     6934,
+     6938,
+     6946,
+     6953,
+     6955,
+     6957,
+     6960,
+     6980,
+     6985,
+     7002,
+     7005,
+     7008,
+     7014,
+     7025,
+     7030,
+     7036,
+     7039,
+     7050,
+     7063,
+     7065,
+     7113,
+     7125,
+     7128,
+     7130,
+     7131,
+     7133,
+     7139,
+     7152,
+     7159,
+     7171,
+     7175
+    ]
+   }
+  }
+ },
+ "sentences": [
+  "A byte rule that stops at token 620, a position fixed from dev texts, beats L8 under the released conversion, on this template.",
+  "Primary: D.L8 - D.SIVPO<620 on exact copies, -3.17 [-5.00, -1.33] points on 600 texts (class: the cutoff better; at least 2 points with the 95% interval on that side of 0, or a tie).",
+  "Beside it: D.L8 - D.SIVPO +7.50 [+4.33, +10.67] points (class under O6b's rule: L8 better); D-all - D +42.33 [+37.00, +47.67] points; D.SIVPO<620 - D +53.17 [+49.17, +57.17] points; of the 25 copies L8 lost to the cutoff, L8 did not fire at c1 on 22 and fired on 3."
+ ],
+ "rules file changes since filing": ""
+}
+O6c result (filing 48618dc86e21f797c4120978074b0b9b0134861a)
+A byte rule that stops at token 620, a position fixed from dev texts, beats L8 under the released conversion, on this template.
+Primary: D.L8 - D.SIVPO<620 on exact copies, -3.17 [-5.00, -1.33] points on 600 texts (class: the cutoff better; at least 2 points with the 95% interval on that side of 0, or a tie).
+Beside it: D.L8 - D.SIVPO +7.50 [+4.33, +10.67] points (class under O6b's rule: L8 better); D-all - D +42.33 [+37.00, +47.67] points; D.SIVPO<620 - D +53.17 [+49.17, +57.17] points; of the 25 copies L8 lost to the cutoff, L8 did not fire at c1 on 22 and fired on 3.
+wrote results/blt_copy_latch_cutoff_verdict.json
+

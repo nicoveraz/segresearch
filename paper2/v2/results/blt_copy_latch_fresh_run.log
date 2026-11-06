@@ -1,0 +1,2644 @@
+O6b confirmatory run under filing commit 7e9c6fa2a31b400a3e6238d51e268b3d7e21a35c (the PI's go, 2026-10-31). Each job ran alone, through a driver that checked pgrep -fl realblt first and set O6B_FILED, PYTHONDONTWRITEBYTECODE=1 and HF_HUB_OFFLINE=1; caffeinate -i kept the Mac awake. Times are UTC.
+J1's first start was refused by the job guard: the driver then ran the job under caffeinate, whose command line named the script and which the guard does not count as a parent. Nothing was read or written; J1 was rerun unchanged with caffeinate watching the driver's PID instead.
+
+===== blocks: exit 0; start 2026-10-31T22:54:58Z end 2026-10-31T22:55:17Z 
+{
+ "F1": {
+  "seed": 6101,
+  "visited": 922,
+  "first_idx": 1800,
+  "last_idx": 2721,
+  "fit": 300,
+  "test": 600
+ },
+ "F2a": {
+  "seed": 6102,
+  "visited": 615,
+  "first_idx": 2722,
+  "last_idx": 3336,
+  "fit": 300,
+  "test": 300
+ },
+ "F2b": {
+  "seed": 6103,
+  "visited": 628,
+  "first_idx": 3337,
+  "last_idx": 3964,
+  "fit": 300,
+  "test": 300
+ },
+ "F3": {
+  "seed": 6104,
+  "visited": 721,
+  "first_idx": 3965,
+  "last_idx": 4685,
+  "fit": 300,
+  "test": 400
+ },
+ "F4": {
+  "seed": 6105,
+  "visited": 1567,
+  "first_idx": 4686,
+  "last_idx": 6252,
+  "fit": 300,
+  "test": 200
+ },
+ "F6": {
+  "fit": 300,
+  "test": 600
+ }
+}
+{
+ "F6.test": {
+  "computed_value_positions": {
+   "all": 1947,
+   "V8": 121,
+   "SIV": 2,
+   "PO": 0,
+   "SIVPO": 2,
+   "L8b": 95
+  },
+  "texts": 600
+ },
+ "F6.fit": {
+  "computed_value_positions": {
+   "all": 1013,
+   "V8": 49,
+   "SIV": 0,
+   "PO": 0,
+   "SIVPO": 0,
+   "L8b": 41
+  },
+  "texts": 300
+ },
+ "F1.test": {
+  "texts": 600,
+  "fires_c1": {
+   "V8": 600,
+   "SIV": 600,
+   "PO": 600,
+   "SIVPO": 600,
+   "L8b": 600
+  }
+ },
+ "F2a.test": {
+  "texts": 300,
+  "fires_c1": {
+   "V8": 0,
+   "SIV": 0,
+   "PO": 0,
+   "SIVPO": 0,
+   "L8b": 0
+  }
+ },
+ "F2b.test": {
+  "texts": 300,
+  "fires_c1": {
+   "V8": 300,
+   "SIV": 0,
+   "PO": 300,
+   "SIVPO": 300,
+   "L8b": 300
+  }
+ },
+ "F3.test": {
+  "texts": 400,
+  "fires_c1": {
+   "V8": 400,
+   "SIV": 400,
+   "PO": 311,
+   "SIVPO": 400,
+   "L8b": 400
+  }
+ },
+ "F4.test": {
+  "texts": 200,
+  "fires_c1": {
+   "V8": 200,
+   "SIV": 200,
+   "PO": 200,
+   "SIVPO": 200,
+   "L8b": 200
+  }
+ }
+}
+wrote results/blt_copy_latch_fresh_blocks.json - commit it before J1
+
+===== j1_refused_start: exit 1; start 2026-10-31T22:55:48Z end 2026-10-31T22:55:54Z 
+another BLT-1B job is running: 93561 caffeinate -i ../segresearch/.venv-blt/bin/python -B -u realblt_copy_latch_fresh.py j1
+
+===== j1: exit 0; start 2026-10-31T22:56:40Z end 2026-10-31T23:10:31Z 
+texts: F1.fit 300, F1.test 600, F2a.fit 300, F2a.test 300, F2b.fit 300, F2b.test 300, F3.fit 300, F3.test 400, F4.fit 300, F4.test 200, F6.fit 300, F6.test 600
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:22<1:34:35, 11.17s/it]Loading weights: 100%|██████████| 510/510 [00:22<00:00, 22.79it/s]
+  patcher: F1.fit 300 texts, 33s
+  patcher: F1.test 600 texts, 90s
+  patcher: F2a.fit 300 texts, 118s
+  patcher: F2a.test 300 texts, 148s
+  patcher: F2b.fit 300 texts, 178s
+  patcher: F2b.test 300 texts, 209s
+  patcher: F3.fit 300 texts, 238s
+  patcher: F3.test 400 texts, 276s
+  patcher: F4.fit 300 texts, 313s
+  patcher: F4.test 200 texts, 339s
+  patcher: F6.fit 300 texts, 366s
+  patcher: F6.test 600 texts, 417s
+  checks: F1.fit changed 0, misaligned 0, 24s
+  checks: F1.test changed 0, misaligned 0, 67s
+  checks: F2a.fit changed 0, misaligned 0, 90s
+  checks: F2a.test changed 0, misaligned 0, 116s
+  checks: F2b.fit changed 0, misaligned 0, 143s
+  checks: F2b.test changed 0, misaligned 0, 169s
+  checks: F3.fit changed 0, misaligned 0, 194s
+  checks: F3.test changed 0, misaligned 0, 227s
+  checks: F4.fit changed 0, misaligned 0, 270s
+  checks: F4.test changed 0, misaligned 0, 298s
+  checks: F6.fit changed 0, misaligned 0, 320s
+  checks: F6.test changed 0, misaligned 0, 358s
+{
+ "status": "O6b confirmatory test (fresh problems)",
+ "code": {
+  "head": "a2d8c95fee3f1aca63e6943736a278afedc71bf5",
+  "filed_commit": "7e9c6fa2a31b400a3e6238d51e268b3d7e21a35c",
+  "files_sha256": {
+   "_seg.py": "563fdcaac8927ab2ca6c1b8b02b399414fed7fc7f688c6f7c513ef5e9b902b14",
+   "analysis/2026-10-30_copyfix/bytes/final_rules.py": "cd4e9c6f04ad6cf8a20b832a694106cc5f4727c0749796feb1e69bfd23c54872",
+   "blt_light.py": "c28fd4871e50cc56edb315dd00b4bcb50c705ba8ad20bdbcb11dcaf0d991a5c5",
+   "realblt_copy_latch.py": "6caaea296b245ac885cf1210a9d45c326a0f1ab868bb79126d1a490feed1c14f",
+   "realblt_copy_latch_fresh.py": "a48b9f82eecd5b6a8a4c8a38ad775f9eb9ec7ef8bd5bd81107e1d66c385edff8",
+   "realblt_copy_veto.py": "e3529304a486d7d413786c1a7e8d3bc1b78c29edbdd150f16b0db146c3f3826c",
+   "realblt_quadrant.py": "35418d9524d88054dd14a9d6fa916a79c52f8adbc2a36b774c909148b47c8f83",
+   "segresearch/blt_layouts.py": "520cc6daff9aaee982a258f5598d3fb2033c6a582d275839bceee16a93ef2823",
+   "segresearch/blt_load.py": "e3e68750c06485bf5b13975b9bb8a7a5e738d805897ad2a154dc5391c342d5dd",
+   "segresearch/realblt_budget.py": "4662645e86b11825096397ffd4faa16a06eaf210f77602e1dc47939fe93d409f",
+   "segresearch/registry.py": "5f53758b9bf006e137c539b27588c2eb7ea09e584a6612c8778e693b296e2195"
+  },
+  "submodules": {
+   "segresearch": "19859849b3d8e80f00ef8778bd8e6870b7e8aa95"
+  },
+  "script_sha256": "a48b9f82eecd5b6a8a4c8a38ad775f9eb9ec7ef8bd5bd81107e1d66c385edff8",
+  "rules_sha256": "e81336680cd44f4016661a62ce30e1c75b94a870931f6f9fa021d74675f05c54",
+  "window": 512,
+  "threshold_mode": "train",
+  "model": "itazap/blt-1b-hf",
+  "snapshot": "91aa6b8e168046ad91e517d2191e1e974f50cc01",
+  "weights_blob": "fdc3e6f1571c7c81a2d6f1b3c36b0deabd56509c466d4735aef72a9517436f94",
+  "transformers": "5.18.0",
+  "torch": "2.14.1",
+  "numpy": "2.5.3",
+  "modeling_blt_sha256": "df8ecdd41c5a85d3623ea8670bbbeeeda4c3c52827a0961a33ede11a085a5f32",
+  "device": "mps"
+ },
+ "patcher_sha256": "d6610ef78a20e4d5674da07fec79a2f06a9556dd01b36868a84703fd46acd1cd",
+ "subset_check": "passed: L8 within V_8, L8c within L8, L8 within L8b on every text",
+ "checks": {
+  "F1.fit": {
+   "texts": 300,
+   "changed": 0,
+   "comparisons": 182614136,
+   "boundary_comparisons": 624940,
+   "distinct_decisions": 313670,
+   "confident_positions": 45480,
+   "misaligned": 0
+  },
+  "F1.test": {
+   "texts": 600,
+   "changed": 0,
+   "comparisons": 327921728,
+   "boundary_comparisons": 1183340,
+   "distinct_decisions": 594070,
+   "confident_positions": 83724,
+   "misaligned": 0
+  },
+  "F2a.fit": {
+   "texts": 300,
+   "changed": 0,
+   "comparisons": 178456860,
+   "boundary_comparisons": 620132,
+   "distinct_decisions": 311266,
+   "confident_positions": 43108,
+   "misaligned": 0
+  },
+  "F2a.test": {
+   "texts": 300,
+   "changed": 0,
+   "comparisons": 193775200,
+   "boundary_comparisons": 647968,
+   "distinct_decisions": 325184,
+   "confident_positions": 46000,
+   "misaligned": 0
+  },
+  "F2b.fit": {
+   "texts": 300,
+   "changed": 0,
+   "comparisons": 211552940,
+   "boundary_comparisons": 679236,
+   "distinct_decisions": 340818,
+   "confident_positions": 49492,
+   "misaligned": 0
+  },
+  "F2b.test": {
+   "texts": 300,
+   "changed": 0,
+   "comparisons": 201604944,
+   "boundary_comparisons": 662092,
+   "distinct_decisions": 332246,
+   "confident_positions": 48825,
+   "misaligned": 0
+  },
+  "F3.fit": {
+   "texts": 300,
+   "changed": 0,
+   "comparisons": 193108832,
+   "boundary_comparisons": 645160,
+   "distinct_decisions": 323780,
+   "confident_positions": 47234,
+   "misaligned": 0
+  },
+  "F3.test": {
+   "texts": 400,
+   "changed": 0,
+   "comparisons": 249746412,
+   "boundary_comparisons": 844276,
+   "distinct_decisions": 423738,
+   "confident_positions": 60293,
+   "misaligned": 0
+  },
+  "F4.fit": {
+   "texts": 300,
+   "changed": 0,
+   "comparisons": 328639260,
+   "boundary_comparisons": 877976,
+   "distinct_decisions": 440188,
+   "confident_positions": 68137,
+   "misaligned": 0
+  },
+  "F4.test": {
+   "texts": 200,
+   "changed": 0,
+   "comparisons": 223709852,
+   "boundary_comparisons": 591524,
+   "distinct_decisions": 296562,
+   "confident_positions": 46475,
+   "misaligned": 0
+  },
+  "F6.fit": {
+   "texts": 300,
+   "changed": 0,
+   "comparisons": 162545516,
+   "boundary_comparisons": 585340,
+   "distinct_decisions": 293870,
+   "confident_positions": 45422,
+   "misaligned": 0
+  },
+  "F6.test": {
+   "texts": 600,
+   "changed": 0,
+   "comparisons": 289980308,
+   "boundary_comparisons": 1104140,
+   "distinct_decisions": 554470,
+   "confident_positions": 83607,
+   "misaligned": 0
+  },
+  "passed": true,
+  "G2 (a)": {
+   "F2a test texts": 300,
+   "L8_fires_c1": 0.0,
+   "holds": true
+  }
+ },
+ "R": {
+  "n_copies": 600,
+  "n_E10_c1": 182,
+  "L8_fires_c1": 0.9833333333333333,
+  "L8_fires_c1_at_E10_starts": 0.9725274725274725,
+  "L8_latched_whole_copy": 0.9833333333333333,
+  "SIVPO_fires_c1": 1.0,
+  "outside_per_text": {
+   "L8": 0.27166666666666667,
+   "L8c": 0.13,
+   "SIV": 0.5516666666666666,
+   "SIVPO": 0.5833333333333334,
+   "V8": 11.246666666666666,
+   "L8b": 10.161666666666667
+  },
+  "R1 at E10's c1 starts": true,
+  "R1": true,
+  "R2": true
+ },
+ "C4": {
+  "D_new_value": 0,
+  "D_allowed": 4,
+  "D_strict": 0,
+  "D_in_layout": 1583,
+  "E10_new_value": 0,
+  "E10_strict": 0,
+  "E10_in_layout": 249,
+  "holds": true
+ },
+ "stop": []
+}
+wrote results/blt_copy_latch_fresh_j1.json
+
+===== j2: exit 0; start 2026-10-31T23:10:59Z end 2026-10-31T23:36:18Z 
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:21<1:29:19, 10.55s/it]Loading weights: 100%|██████████| 510/510 [00:21<00:00, 24.14it/s]
+F1: 300 fit / 600 test; D's train rate 0.2624; patcher rerun differs on 0
+  50 texts, 132s
+  100 texts, 261s
+  150 texts, 383s
+  200 texts, 500s
+  250 texts, 619s
+  300 texts, 740s
+  350 texts, 856s
+  400 texts, 970s
+  450 texts, 1079s
+  500 texts, 1193s
+  550 texts, 1307s
+  600 texts, 1423s
+F1 {"D-all vs D": [74.8, [71.3, 78.2]], "D.L8 vs D": [73.7, [70.2, 77.2]], "D.V8 vs D": [68.3, [64.5, 71.8]], "D.SIVPO vs D": [75.7, [72.3, 79.0]], "E10-all vs E10": [14.5, [11.7, 17.5]], "E10.L8 vs E10": [13.8, [10.8, 17.0]], "E10-L8 vs E10": [13.8, [11.0, 16.8]], "E10.V8 vs E10": [14.0, [10.3, 17.8]], "E10.SIVPO vs E10": [14.3, [11.3, 17.5]], "D.L8 vs D.SIVPO": [-2.0, [-3.3, -0.8]], "E10.L8 vs E10.SIVPO": [-0.5, [-1.7, 0.5]]}
+wrote results/blt_copy_latch_fresh_j2.json
+
+===== j3: exit 0; start 2026-10-31T23:36:49Z end 2026-10-31T23:48:58Z 
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:18<1:17:06,  9.11s/it]Loading weights: 100%|██████████| 510/510 [00:18<00:00, 27.96it/s]
+F6: 300 fit / 600 test; D's train rate 0.2453; patcher rerun differs on 0
+  50 texts, 61s
+  100 texts, 115s
+  150 texts, 169s
+  200 texts, 223s
+  250 texts, 278s
+  300 texts, 332s
+  350 texts, 386s
+  400 texts, 440s
+  450 texts, 490s
+  500 texts, 542s
+  550 texts, 594s
+  600 texts, 645s
+F6 {}
+wrote results/blt_copy_latch_fresh_j3.json
+
+===== j4: exit 0; start 2026-10-31T23:49:16Z end 2026-11-01T00:07:30Z 
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:14<1:01:43,  7.29s/it]Loading weights: 100%|██████████| 510/510 [00:14<00:00, 34.94it/s]
+F2a: 300 fit / 300 test; D's train rate 0.2745; patcher rerun differs on 0
+  50 texts, 72s
+  100 texts, 144s
+  150 texts, 213s
+  200 texts, 283s
+  250 texts, 349s
+  300 texts, 429s
+F2b: 300 fit / 300 test; D's train rate 0.2590; patcher rerun differs on 0
+  50 texts, 98s
+  100 texts, 197s
+  150 texts, 292s
+  200 texts, 390s
+  250 texts, 485s
+  300 texts, 578s
+F2a {"D-all vs D": [-53.3, [-59.3, -47.3]], "D.L8 vs D": [-0.3, [-1.7, 0.7]], "D.SIVPO vs D": [0.0, [-1.3, 1.3]], "E10.L8 vs E10": [0.0, [0.0, 0.0]], "E10.SIVPO vs E10": [0.3, [-0.7, 1.7]], "D.L8 vs D.SIVPO": [-0.3, [-2.0, 1.0]], "E10.L8 vs E10.SIVPO": [-0.3, [-1.7, 0.7]]}
+F2b {"D-all vs D": [0.0, [0.0, 0.0]], "D.L8 vs D": [0.0, [0.0, 0.0]], "D.SIV vs D": [0.0, [0.0, 0.0]], "D.SIVPO vs D": [0.0, [0.0, 0.0]], "E10-all vs E10": [0.0, [0.0, 0.0]], "E10.L8 vs E10": [0.0, [0.0, 0.0]], "E10.SIVPO vs E10": [0.0, [0.0, 0.0]], "D.L8 vs D.SIVPO": [0.0, [0.0, 0.0]], "E10.L8 vs E10.SIVPO": [0.0, [0.0, 0.0]]}
+wrote results/blt_copy_latch_fresh_j4.json
+
+===== j5: exit 0; start 2026-11-01T00:07:56Z end 2026-11-01T00:21:56Z 
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:19<1:22:59,  9.80s/it]Loading weights: 100%|██████████| 510/510 [00:19<00:00, 25.91it/s]
+F3: 300 fit / 400 test; D's train rate 0.2591; patcher rerun differs on 0
+  50 texts, 105s
+  100 texts, 194s
+  150 texts, 296s
+  200 texts, 394s
+  250 texts, 488s
+  300 texts, 576s
+  350 texts, 673s
+  400 texts, 761s
+F3 {"D-all vs D": [21.2, [17.2, 25.8]], "D.L8 vs D": [21.0, [17.2, 25.2]], "D.SIVPO vs D": [21.2, [17.2, 25.8]], "E10-all vs E10": [5.8, [3.8, 8.2]], "E10.L8 vs E10": [5.5, [3.5, 8.0]], "E10.SIVPO vs E10": [5.2, [3.0, 7.8]], "D.L8 vs D.SIVPO": [-0.2, [-1.5, 1.0]], "E10.L8 vs E10.SIVPO": [0.2, [-0.5, 1.0]]}
+wrote results/blt_copy_latch_fresh_j5.json
+
+===== j6: exit 0; start 2026-11-01T00:22:17Z end 2026-11-01T00:31:51Z 
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:16<1:09:57,  8.26s/it]Loading weights: 100%|██████████| 510/510 [00:16<00:00, 30.84it/s]
+F4: 300 fit / 200 test; D's train rate 0.2383; patcher rerun differs on 0
+  50 texts, 135s
+  100 texts, 260s
+  150 texts, 390s
+  200 texts, 518s
+F4 {"D-all vs D": [37.0, [29.5, 44.5]], "D.L8 vs D": [36.5, [28.5, 44.0]], "D.SIVPO vs D": [36.5, [28.5, 44.0]], "E10-all vs E10": [20.0, [14.5, 26.0]], "E10.L8 vs E10": [19.0, [13.5, 25.0]], "E10.SIVPO vs E10": [20.0, [14.0, 26.0]], "D.L8 vs D.SIVPO": [0.0, [-2.5, 2.5]], "E10.L8 vs E10.SIVPO": [-1.0, [-2.5, 0.0]]}
+wrote results/blt_copy_latch_fresh_j6.json
+
+===== j7: exit 0; start 2026-11-01T00:32:09Z end 2026-11-01T00:50:10Z 
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:15<1:03:33,  7.51s/it]Loading weights: 100%|██████████| 510/510 [00:15<00:00, 33.94it/s]
+  patcher: F1.fit 300 texts, 27s
+  patcher: F1.test 600 texts, 76s
+  checks: F1.fit changed 0, misaligned 0, 20s
+  checks: F1.test changed 0, misaligned 0, 55s
+F1: 300 fit / 600 test; D's train rate 0.3139; patcher rerun differs on None
+  50 texts, 82s
+  100 texts, 156s
+  150 texts, 231s
+  200 texts, 306s
+  250 texts, 388s
+  300 texts, 470s
+  350 texts, 546s
+  400 texts, 624s
+  450 texts, 694s
+  500 texts, 768s
+  550 texts, 842s
+  600 texts, 918s
+{
+ "cell": "F5",
+ "train_rate_default": 0.31392865113016866,
+ "thresholds_nats": {
+  "entl8@0.3139": [
+   1.3203125,
+   0.8535564853556485
+  ],
+  "entl8@0.1000": [
+   2.5625,
+   0.7615176151761518
+  ],
+  "entropy@0.3139": [
+   1.34375,
+   1.0
+  ],
+  "entropy@0.1000": [
+   2.5625,
+   0.47058823529411764
+  ],
+  "entsivpo@0.3139": [
+   1.2890625,
+   0.783410138248848
+  ],
+  "entsivpo@0.1000": [
+   2.546875,
+   0.6073298429319371
+  ]
+ },
+ "patcher_rerun_mismatched_texts": null,
+ "n": 600,
+ "fires_c1": {
+  "L8": 0.76,
+  "L8c": 0.3883333333333333,
+  "SIV": 1.0,
+  "PO": 1.0,
+  "SIVPO": 1.0,
+  "V8": 1.0,
+  "L8b": 1.0
+ },
+ "checks": {
+  "F1.fit": {
+   "texts": 300,
+   "changed": 0,
+   "comparisons": 182614136,
+   "boundary_comparisons": 624940,
+   "distinct_decisions": 313670,
+   "confident_positions": 40470,
+   "misaligned": 0
+  },
+  "F1.test": {
+   "texts": 600,
+   "changed": 0,
+   "comparisons": 327921728,
+   "boundary_comparisons": 1183340,
+   "distinct_decisions": 594070,
+   "confident_positions": 76171,
+   "misaligned": 0
+  },
+  "passed": true
+ },
+ "R": {
+  "n_copies": 600,
+  "n_E10_c1": 250,
+  "L8_fires_c1": 0.76,
+  "L8_fires_c1_at_E10_starts": 0.444,
+  "L8_latched_whole_copy": 0.76,
+  "SIVPO_fires_c1": 1.0,
+  "outside_per_text": {
+   "L8": 0.3883333333333333,
+   "L8c": 0.25,
+   "SIV": 1.5033333333333334,
+   "SIVPO": 1.535,
+   "V8": 16.488333333333333,
+   "L8b": 12.845
+  },
+  "R1 at E10's c1 starts": false,
+  "R1": false,
+  "R2": true
+ },
+ "by_length": {
+  "tokens 0-600": {
+   "n": 448,
+   "L8_fires_c1": 0.9821428571428571,
+   "D": 0.13839285714285715,
+   "D-all": 0.8883928571428571,
+   "D.L8": 0.8794642857142857,
+   "D.SIVPO": 0.8794642857142857
+  },
+  "tokens 600-700": {
+   "n": 73,
+   "L8_fires_c1": 0.2054794520547945,
+   "D": 0.2465753424657534,
+   "D-all": 0.2465753424657534,
+   "D.L8": 0.3835616438356164,
+   "D.SIVPO": 0.3287671232876712
+  },
+  "tokens 700-2000": {
+   "n": 79,
+   "L8_fires_c1": 0.012658227848101266,
+   "D": 0.46835443037974683,
+   "D-all": 0.0,
+   "D.L8": 0.45569620253164556,
+   "D.SIVPO": 0.0
+  }
+ }
+}
+wrote results/blt_copy_latch_fresh_j7.json
+
+===== verdict: exit 0; start 2026-11-01T00:50:29Z end 2026-11-01T00:50:38Z 
+{
+ "code": {
+  "head": "b60f319ca73e335e3669eafdbfb764017460cffa",
+  "filed_commit": "7e9c6fa2a31b400a3e6238d51e268b3d7e21a35c",
+  "files_sha256": {
+   "_seg.py": "563fdcaac8927ab2ca6c1b8b02b399414fed7fc7f688c6f7c513ef5e9b902b14",
+   "analysis/2026-10-30_copyfix/bytes/final_rules.py": "cd4e9c6f04ad6cf8a20b832a694106cc5f4727c0749796feb1e69bfd23c54872",
+   "blt_light.py": "c28fd4871e50cc56edb315dd00b4bcb50c705ba8ad20bdbcb11dcaf0d991a5c5",
+   "realblt_copy_latch.py": "6caaea296b245ac885cf1210a9d45c326a0f1ab868bb79126d1a490feed1c14f",
+   "realblt_copy_latch_fresh.py": "a48b9f82eecd5b6a8a4c8a38ad775f9eb9ec7ef8bd5bd81107e1d66c385edff8",
+   "realblt_copy_veto.py": "e3529304a486d7d413786c1a7e8d3bc1b78c29edbdd150f16b0db146c3f3826c",
+   "realblt_quadrant.py": "35418d9524d88054dd14a9d6fa916a79c52f8adbc2a36b774c909148b47c8f83",
+   "segresearch/blt_layouts.py": "520cc6daff9aaee982a258f5598d3fb2033c6a582d275839bceee16a93ef2823",
+   "segresearch/blt_load.py": "e3e68750c06485bf5b13975b9bb8a7a5e738d805897ad2a154dc5391c342d5dd",
+   "segresearch/realblt_budget.py": "4662645e86b11825096397ffd4faa16a06eaf210f77602e1dc47939fe93d409f",
+   "segresearch/registry.py": "5f53758b9bf006e137c539b27588c2eb7ea09e584a6612c8778e693b296e2195"
+  },
+  "submodules": {
+   "segresearch": "19859849b3d8e80f00ef8778bd8e6870b7e8aa95"
+  },
+  "script_sha256": "a48b9f82eecd5b6a8a4c8a38ad775f9eb9ec7ef8bd5bd81107e1d66c385edff8",
+  "rules_sha256": "e81336680cd44f4016661a62ce30e1c75b94a870931f6f9fa021d74675f05c54",
+  "window": 512,
+  "threshold_mode": "train",
+  "model": "itazap/blt-1b-hf",
+  "snapshot": "91aa6b8e168046ad91e517d2191e1e974f50cc01",
+  "weights_blob": "fdc3e6f1571c7c81a2d6f1b3c36b0deabd56509c466d4735aef72a9517436f94",
+  "transformers": "5.18.0",
+  "torch": "2.14.1",
+  "numpy": "2.5.3",
+  "modeling_blt_sha256": "df8ecdd41c5a85d3623ea8670bbbeeeda4c3c52827a0961a33ede11a085a5f32",
+  "device": "mps"
+ },
+ "status": "O6b confirmatory test (fresh problems)",
+ "bars": {
+  "checks": true,
+  "R1": true,
+  "R2": true,
+  "C4": {
+   "D_new_value": 0,
+   "allowed": 4,
+   "E10_new_value": 0,
+   "D_strict_O6": 0,
+   "E10_strict_O6": 0,
+   "holds": true
+  },
+  "C0": {
+   "value": [
+    0.7483333333333333,
+    [
+     0.7133333333333334,
+     0.7817083333333331
+    ]
+   ],
+   "holds": true
+  },
+  "C1": {
+   "value": [
+    0.7366666666666667,
+    [
+     0.7016666666666667,
+     0.7716666666666666
+    ]
+   ],
+   "holds": true
+  },
+  "C1e": {
+   "onset_removal_bound": [
+    0.145,
+    [
+     0.11666666666666667,
+     0.175
+    ]
+   ],
+   "E10-L8 - E10": [
+    0.13833333333333334,
+    [
+     0.11,
+     0.16833333333333333
+    ]
+   ],
+   "E10.L8 - E10": [
+    0.13833333333333334,
+    [
+     0.10833333333333334,
+     0.17
+    ]
+   ],
+   "testable": true,
+   "i": true,
+   "ii": true,
+   "holds": true
+  },
+  "C3": {
+   "value": {
+    "D": 0.0019267822736030828,
+    "E10": 0.00449582530507386
+   },
+   "holds": {
+    "D": true,
+    "E10": true
+   }
+  },
+  "C3f": {
+   "value": {
+    "D": -0.008333333333333333,
+    "E10": 0.0033333333333333335
+   },
+   "holds": {
+    "D": true,
+    "E10": true
+   }
+  },
+  "C3c": {
+   "value": {
+    "D": 0.0,
+    "E10": 0.0
+   },
+   "holds": {
+    "D": true,
+    "E10": true
+   }
+  },
+  "C2": {
+   "value": {
+    "D": 0.0006082558104032959,
+    "E10": -0.0025725932956818286
+   },
+   "holds": {
+    "D": true,
+    "E10": true
+   }
+  },
+  "C4s": {
+   "value": {
+    "D": -0.0006422607578676942,
+    "E10": 0.0032113037893384713
+   },
+   "holds": {
+    "D": true,
+    "E10": true
+   }
+  },
+  "rate": {
+   "value": {
+    "F1 D": -0.0008978114411351545,
+    "F1 E10": -3.0820463108802154e-05,
+    "F6 D": -1.6796932481188964e-05,
+    "F6 E10": 4.560744311128684e-05
+   },
+   "holds": {
+    "F1 D": true,
+    "F1 E10": true,
+    "F6 D": true,
+    "F6 E10": true
+   }
+  },
+  "control": {
+   "computed": -0.05202312138728324,
+   "bpb_without_copy": 0.0193236056697576,
+   "holds": true
+  },
+  "G1": {
+   "F2b D-all - D": [
+    0.0,
+    [
+     0.0,
+     0.0
+    ]
+   ],
+   "D.L8 - D": [
+    0.0,
+    [
+     0.0,
+     0.0
+    ]
+   ],
+   "testable": false,
+   "holds": null,
+   "status": "not testable: no hazard in F2b (D-all - D below +20)"
+  },
+  "G2": {
+   "(a) L8 fires at F2a's c1, J1's check": true,
+   "(a) in J4": 0.0,
+   "D.L8 - D": [
+    -0.0033333333333333335,
+    [
+     -0.016666666666666666,
+     0.006666666666666667
+    ]
+   ],
+   "E10.L8 - E10": [
+    0.0,
+    [
+     0.0,
+     0.0
+    ]
+   ],
+   "(b) holds": {
+    "D": true,
+    "E10": true
+   }
+  },
+  "G3": {
+   "digits6": {
+    "D-all - D": [
+     0.54,
+     [
+      0.44975000000000004,
+      0.64
+     ]
+    ],
+    "D.L8 - D": [
+     0.53,
+     [
+      0.44,
+      0.63
+     ]
+    ],
+    "applies": true,
+    "holds": true
+   },
+   "letters4": {
+    "D-all - D": [
+     0.02,
+     [
+      0.0,
+      0.05
+     ]
+    ],
+    "D.L8 - D": [
+     0.02,
+     [
+      0.0,
+      0.05
+     ]
+    ],
+    "applies": false,
+    "holds": null,
+    "status": "not testable: no hazard in letters4 IDs (D-all - D below +20)"
+   },
+   "mixed": {
+    "D-all - D": [
+     0.28,
+     [
+      0.19,
+      0.37
+     ]
+    ],
+    "D.L8 - D": [
+     0.29,
+     [
+      0.2,
+      0.38
+     ]
+    ],
+    "applies": true,
+    "holds": true
+   }
+  }
+ },
+ "stops": [],
+ "kills": [],
+ "reported": {
+  "C1 share of D-all - D": 0.9844097995545658,
+  "PI target +15 at E10": {
+   "E10.L8 - E10": 0.13833333333333334,
+   "met": false
+  },
+  "K8": "target not met; reading: bound-limited (L8 fires at 0.9725274725274725 of E10's c1 starts)",
+  "G1e (reported only)": {
+   "F2b E10-all - E10": [
+    0.0,
+    [
+     0.0,
+     0.0
+    ]
+   ],
+   "E10.L8 - E10": [
+    0.0,
+    [
+     0.0,
+     0.0
+    ]
+   ],
+   "testable": false,
+   "lower bound > 0": null,
+   "status": "not testable: E10-all - E10 has no lower bound above 0 in F2b"
+  },
+  "G1s (D.SIV - D, decided by construction)": [
+   0.0,
+   [
+    0.0,
+    0.0
+   ]
+  ],
+  "F3 doses": {
+   "L8_fires": 0.5,
+   "D.L8 - D": [
+    0.0,
+    [
+     0.0,
+     0.0
+    ]
+   ],
+   "D-all - D": [
+    0.01,
+    [
+     -0.03,
+     0.05
+    ]
+   ]
+  },
+  "patcher rerun mismatches (a limitation, not a stop)": {
+   "F1": 0,
+   "F6": 0,
+   "F2a": 0,
+   "F2b": 0,
+   "F3": 0,
+   "F4": 0
+  },
+  "F4": {
+   "D-all - D": [
+    0.37,
+    [
+     0.294875,
+     0.445
+    ]
+   ],
+   "D.L8 - D": [
+    0.365,
+    [
+     0.285,
+     0.44
+    ]
+   ],
+   "L8_fires": 0.97
+  },
+  "F5": {
+   "D.L8 - D": [
+    0.5683333333333334,
+    [
+     0.5283333333333333,
+     0.6083333333333333
+    ]
+   ],
+   "bits per copy D.L8, D": [
+    2.6126042259732882,
+    3.640395425458749
+   ],
+   "by_length": {
+    "tokens 0-600": {
+     "n": 448,
+     "L8_fires_c1": 0.9821428571428571,
+     "D": 0.13839285714285715,
+     "D-all": 0.8883928571428571,
+     "D.L8": 0.8794642857142857,
+     "D.SIVPO": 0.8794642857142857
+    },
+    "tokens 600-700": {
+     "n": 73,
+     "L8_fires_c1": 0.2054794520547945,
+     "D": 0.2465753424657534,
+     "D-all": 0.2465753424657534,
+     "D.L8": 0.3835616438356164,
+     "D.SIVPO": 0.3287671232876712
+    },
+    "tokens 700-2000": {
+     "n": 79,
+     "L8_fires_c1": 0.012658227848101266,
+     "D": 0.46835443037974683,
+     "D-all": 0.0,
+     "D.L8": 0.45569620253164556,
+     "D.SIVPO": 0.0
+    }
+   }
+  }
+ },
+ "fix_claim": {
+  "holds": true,
+  "scope": "both rates"
+ },
+ "generality_claim": {
+  "holds": true,
+  "parts": {
+   "fix claim": true,
+   "G2 (a)": true,
+   "G2 (b) at D": true,
+   "G2 (b) at E10": true,
+   "digits6 IDs (G3)": true,
+   "mixed IDs (G3)": true
+  },
+  "failing": [],
+  "scope": "digits6 IDs (G3); mixed IDs (G3) (G1 and G3 at the default rate; G2 (b) at D and E10)"
+ },
+ "paired": {
+  "windowed": {
+   "class": "SIV+PO better",
+   "reading": "L8 lost copies the byte rule kept, in F1 at D: in 5 of the 13 lost copies L8 did not fire at c1 (copies L8 missed); in 8 it fired, and the loss is a side effect of the refit.",
+   "class rows": [
+    {
+     "cell": "F1",
+     "rate": "D",
+     "row": "id_copy exact",
+     "class": "SIV+PO better",
+     "diff": [
+      -0.02,
+      [
+       -0.03333333333333333,
+       -0.008333333333333333
+      ]
+     ],
+     "discordant texts": {
+      "lost": {
+       "copies": 13,
+       "L8 did not fire at c1": 5,
+       "D starts at c1": 13,
+       "L8 fired at c1": 8
+      },
+      "kept": {
+       "copies": 1,
+       "L8 fired at c1": 1,
+       "D starts at c1": 1
+      },
+      "joint": {
+       "L8 lost the copy; L8 does not fire at c1; D starts at c1": 5,
+       "L8 lost the copy; L8 fires at c1; D starts at c1": 8,
+       "L8 kept the copy; L8 fires at c1; D starts at c1": 1
+      },
+      "texts (problem idx)": {
+       "lost": [
+        2193,
+        2244,
+        2258,
+        2301,
+        2349,
+        2379,
+        2410,
+        2435,
+        2440,
+        2533,
+        2552,
+        2647,
+        2694
+       ],
+       "kept": [
+        2603
+       ]
+      }
+     }
+    },
+    {
+     "cell": "F1",
+     "rate": "E10",
+     "row": "id_copy exact",
+     "class": "tie",
+     "diff": [
+      -0.005,
+      [
+       -0.016666666666666666,
+       0.005
+      ]
+     ]
+    },
+    {
+     "cell": "F3 digits6",
+     "rate": "D",
+     "row": "id_copy exact",
+     "class": "tie",
+     "diff": [
+      0.0,
+      [
+       -0.03,
+       0.03
+      ]
+     ]
+    },
+    {
+     "cell": "F3 digits6",
+     "rate": "E10",
+     "row": "id_copy exact",
+     "class": "tie",
+     "diff": [
+      0.0,
+      [
+       0.0,
+       0.0
+      ]
+     ]
+    },
+    {
+     "cell": "F3 mixed",
+     "rate": "D",
+     "row": "id_copy exact",
+     "class": "tie",
+     "diff": [
+      0.01,
+      [
+       0.0,
+       0.03
+      ]
+     ]
+    }
+   ]
+  },
+  "released": {
+   "class": "L8 better",
+   "reading": "Relative to SIV+PO, a rule that stops where the model cannot copy helps under the released conversion; F5's exact copies by text length show where. A byte rule with a length cutoff might match it; that is untested.",
+   "class row": {
+    "cell": "F5",
+    "rate": "D",
+    "row": "id_copy exact",
+    "class": "L8 better",
+    "diff": [
+     0.06666666666666667,
+     [
+      0.04,
+      0.095
+     ]
+    ],
+    "discordant texts": {
+     "lost": {
+      "copies": 16,
+      "L8 did not fire at c1": 13,
+      "D starts at c1": 16,
+      "L8 fired at c1": 3
+     },
+     "kept": {
+      "copies": 56,
+      "L8 did not fire at c1": 50,
+      "D starts at c1": 56,
+      "L8 fired at c1": 6
+     },
+     "joint": {
+      "L8 kept the copy; L8 does not fire at c1; D starts at c1": 50,
+      "L8 lost the copy; L8 does not fire at c1; D starts at c1": 13,
+      "L8 kept the copy; L8 fires at c1; D starts at c1": 6,
+      "L8 lost the copy; L8 fires at c1; D starts at c1": 3
+     },
+     "texts (problem idx)": {
+      "lost": [
+       2142,
+       2163,
+       2192,
+       2234,
+       2244,
+       2255,
+       2288,
+       2301,
+       2410,
+       2440,
+       2487,
+       2541,
+       2647,
+       2687,
+       2694,
+       2695
+      ],
+      "kept": [
+       2114,
+       2116,
+       2121,
+       2122,
+       2127,
+       2129,
+       2132,
+       2143,
+       2147,
+       2186,
+       2211,
+       2239,
+       2242,
+       2246,
+       2247,
+       2258,
+       2272,
+       2283,
+       2287,
+       2289,
+       2309,
+       2317,
+       2340,
+       2353,
+       2364,
+       2366,
+       2379,
+       2399,
+       2401,
+       2409,
+       2413,
+       2422,
+       2428,
+       2432,
+       2491,
+       2507,
+       2514,
+       2524,
+       2534,
+       2560,
+       2573,
+       2582,
+       2594,
+       2602,
+       2603,
+       2612,
+       2614,
+       2632,
+       2643,
+       2653,
+       2667,
+       2685,
+       2698,
+       2700,
+       2713,
+       2714
+      ]
+     }
+    }
+   },
+   "beside": [
+    {
+     "cell": "F5",
+     "rate": "D",
+     "row": "C3 computed",
+     "class": "tie",
+     "diff": [
+      -0.0019267822736030828,
+      [
+       -0.007683075154376953,
+       0.0037807779316657805
+      ]
+     ]
+    },
+    {
+     "cell": "F5",
+     "rate": "D",
+     "row": "C3f final",
+     "class": "tie",
+     "diff": [
+      0.0016666666666666668,
+      [
+       -0.005,
+       0.008333333333333333
+      ]
+     ]
+    },
+    {
+     "cell": "F5",
+     "rate": "D",
+     "row": "C3c copied",
+     "class": "tie",
+     "diff": [
+      -0.00044218439089100157,
+      [
+       -0.005274971352075455,
+       0.0043223080068646134
+      ]
+     ]
+    },
+    {
+     "cell": "F5",
+     "rate": "D",
+     "row": "C2 bits per byte without the copy",
+     "class": "tie",
+     "diff": [
+      0.0006851685635624785,
+      [
+       -0.00011164169014569821,
+       0.0016890817914131343
+      ]
+     ]
+    },
+    {
+     "cell": "F5",
+     "rate": "D",
+     "row": "id_copy bits per copy",
+     "class": "L8 better",
+     "diff": [
+      2.275037601093451,
+      [
+       1.8878427843302492,
+       2.6899617504005633
+      ]
+     ],
+     "sentence": "L8's copies cost fewer bits than the byte rule's on F5, D, id_copy bits per copy."
+    }
+   ],
+   "L8 against D (beside)": {
+    "id_copy exact": {
+     "diff": [
+      0.5683333333333334,
+      [
+       0.5283333333333333,
+       0.6083333333333333
+      ]
+     ],
+     "class": "L8 better"
+    },
+    "C3 computed": {
+     "diff": [
+      0.002569043031470777,
+      [
+       -0.0033608752813661076,
+       0.008264857609096172
+      ]
+     ],
+     "class": "tie"
+    },
+    "C3f final": {
+     "diff": [
+      -0.008333333333333333,
+      [
+       -0.016666666666666666,
+       -0.0016666666666666668
+      ]
+     ],
+     "class": "tie"
+    },
+    "C3c copied": {
+     "diff": [
+      0.0006632765863365023,
+      [
+       -0.0028427727968510824,
+       0.004237359056506001
+      ]
+     ],
+     "class": "tie"
+    },
+    "C2 bits per byte without the copy": {
+     "diff": [
+      -0.0010243003964799152,
+      [
+       -0.0014749307674397844,
+       -0.0005772291123305348
+      ]
+     ],
+     "class": "tie"
+    },
+    "id_copy bits per copy": {
+     "diff": [
+      1.027791199485461,
+      [
+       0.9450209593549371,
+       1.1042859540979069
+      ]
+     ],
+     "class": "L8 better"
+    }
+   }
+  },
+  "beside": [
+   {
+    "cell": "F1",
+    "rate": "D",
+    "row": "C3 computed",
+    "class": "tie",
+    "diff": [
+     0.00449582530507386,
+     [
+      0.0006146092847712953,
+      0.009174462325161678
+     ]
+    ]
+   },
+   {
+    "cell": "F1",
+    "rate": "D",
+    "row": "C3f final",
+    "class": "tie",
+    "diff": [
+     -0.0016666666666666668,
+     [
+      -0.005,
+      0.0
+     ]
+    ]
+   },
+   {
+    "cell": "F1",
+    "rate": "D",
+    "row": "C3c copied",
+    "class": "tie",
+    "diff": [
+     0.0006632765863365023,
+     [
+      -0.0031388588231186457,
+      0.004471272076905879
+     ]
+    ]
+   },
+   {
+    "cell": "F1",
+    "rate": "D",
+    "row": "C2 bits per byte without the copy",
+    "class": "tie",
+    "diff": [
+     0.00045760304958597725,
+     [
+      0.00012707782296395324,
+      0.0007947606187584697
+     ]
+    ]
+   },
+   {
+    "cell": "F1",
+    "rate": "D",
+    "row": "id_copy bits per copy",
+    "class": "tie",
+    "diff": [
+     -0.021340480248133342,
+     [
+      -0.03944576112677653,
+      -0.005881981576482455
+     ]
+    ]
+   },
+   {
+    "cell": "F1",
+    "rate": "E10",
+    "row": "C3 computed",
+    "class": "tie",
+    "diff": [
+     0.0019267822736030828,
+     [
+      -0.0006653470688449997,
+      0.004905116829807982
+     ]
+    ]
+   },
+   {
+    "cell": "F1",
+    "rate": "E10",
+    "row": "C3f final",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      -0.01,
+      0.011666666666666667
+     ]
+    ]
+   },
+   {
+    "cell": "F1",
+    "rate": "E10",
+    "row": "C3c copied",
+    "class": "tie",
+    "diff": [
+     0.001105460977227504,
+     [
+      -0.001954728539300878,
+      0.004044125986802701
+     ]
+    ]
+   },
+   {
+    "cell": "F1",
+    "rate": "E10",
+    "row": "C2 bits per byte without the copy",
+    "class": "tie",
+    "diff": [
+     6.905187850099263e-05,
+     [
+      -0.0003573001935347519,
+      0.0004724050552925738
+     ]
+    ]
+   },
+   {
+    "cell": "F1",
+    "rate": "E10",
+    "row": "id_copy bits per copy",
+    "class": "tie",
+    "diff": [
+     -0.008616619308789571,
+     [
+      -0.023589975568155445,
+      0.005284556391338507
+     ]
+    ]
+   },
+   {
+    "cell": "F6",
+    "rate": "D",
+    "row": "C3 computed",
+    "class": "tie",
+    "diff": [
+     0.0019267822736030828,
+     [
+      -0.0043983834567238225,
+      0.007888469252716029
+     ]
+    ]
+   },
+   {
+    "cell": "F6",
+    "rate": "D",
+    "row": "C3f final",
+    "class": "tie",
+    "diff": [
+     0.0016666666666666668,
+     [
+      -0.0033333333333333335,
+      0.008333333333333333
+     ]
+    ]
+   },
+   {
+    "cell": "F6",
+    "rate": "D",
+    "row": "C3c copied",
+    "class": "tie",
+    "diff": [
+     0.0008843687817820031,
+     [
+      -0.0028881060441737117,
+      0.0049395157520013425
+     ]
+    ]
+   },
+   {
+    "cell": "F6",
+    "rate": "D",
+    "row": "C2 bits per byte without the copy",
+    "class": "tie",
+    "diff": [
+     0.0008117273675326073,
+     [
+      0.0004026922923388149,
+      0.001249293533962707
+     ]
+    ]
+   },
+   {
+    "cell": "F6",
+    "rate": "E10",
+    "row": "C3 computed",
+    "class": "tie",
+    "diff": [
+     0.0032113037893384713,
+     [
+      -0.002496996015768282,
+      0.008712701730055923
+     ]
+    ]
+   },
+   {
+    "cell": "F6",
+    "rate": "E10",
+    "row": "C3f final",
+    "class": "tie",
+    "diff": [
+     0.0033333333333333335,
+     [
+      -0.008333333333333333,
+      0.015
+     ]
+    ]
+   },
+   {
+    "cell": "F6",
+    "rate": "E10",
+    "row": "C3c copied",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      -0.004119799548972481,
+      0.003858065611485536
+     ]
+    ]
+   },
+   {
+    "cell": "F6",
+    "rate": "E10",
+    "row": "C2 bits per byte without the copy",
+    "class": "tie",
+    "diff": [
+     0.0006889505289997425,
+     [
+      2.056435494341877e-05,
+      0.0013769939250082982
+     ]
+    ]
+   },
+   {
+    "cell": "F2a",
+    "rate": "D",
+    "row": "id_copy exact",
+    "class": "tie",
+    "diff": [
+     -0.0033333333333333335,
+     [
+      -0.02,
+      0.01
+     ]
+    ]
+   },
+   {
+    "cell": "F2a",
+    "rate": "D",
+    "row": "C3 computed",
+    "class": "tie",
+    "diff": [
+     -0.0035046728971962616,
+     [
+      -0.009384087683330704,
+      0.002398153506006719
+     ]
+    ]
+   },
+   {
+    "cell": "F2a",
+    "rate": "D",
+    "row": "C3f final",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      0.0,
+      0.0
+     ]
+    ]
+   },
+   {
+    "cell": "F2a",
+    "rate": "D",
+    "row": "C3c copied",
+    "class": "tie",
+    "diff": [
+     0.002134927412467976,
+     [
+      -0.002999207406068249,
+      0.007542482500246473
+     ]
+    ]
+   },
+   {
+    "cell": "F2a",
+    "rate": "D",
+    "row": "C2 bits per byte without the copy",
+    "class": "tie",
+    "diff": [
+     0.00021732562301299388,
+     [
+      -0.0002041394017979527,
+      0.0006105778231564278
+     ]
+    ]
+   },
+   {
+    "cell": "F2a",
+    "rate": "D",
+    "row": "id_copy bits per copy",
+    "class": "tie",
+    "diff": [
+     0.013255650798479715,
+     [
+      0.002791273688276615,
+      0.023896649196743964
+     ]
+    ]
+   },
+   {
+    "cell": "F2a",
+    "rate": "E10",
+    "row": "id_copy exact",
+    "class": "tie",
+    "diff": [
+     -0.0033333333333333335,
+     [
+      -0.016666666666666666,
+      0.006666666666666667
+     ]
+    ]
+   },
+   {
+    "cell": "F2a",
+    "rate": "E10",
+    "row": "C3 computed",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      -0.00460352408256118,
+      0.004673445658373916
+     ]
+    ]
+   },
+   {
+    "cell": "F2a",
+    "rate": "E10",
+    "row": "C3f final",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      -0.01,
+      0.01
+     ]
+    ]
+   },
+   {
+    "cell": "F2a",
+    "rate": "E10",
+    "row": "C3c copied",
+    "class": "tie",
+    "diff": [
+     0.0008539709649871904,
+     [
+      -0.002993442339213313,
+      0.004778704870257514
+     ]
+    ]
+   },
+   {
+    "cell": "F2a",
+    "rate": "E10",
+    "row": "C2 bits per byte without the copy",
+    "class": "tie",
+    "diff": [
+     -0.0002980114200171859,
+     [
+      -0.0009133587035294234,
+      0.0002923188440377189
+     ]
+    ]
+   },
+   {
+    "cell": "F2a",
+    "rate": "E10",
+    "row": "id_copy bits per copy",
+    "class": "tie",
+    "diff": [
+     -0.014756393035252889,
+     [
+      -0.036245675464471175,
+      0.0025683658719062802
+     ]
+    ]
+   },
+   {
+    "cell": "F2b",
+    "rate": "D",
+    "row": "id_copy exact",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      0.0,
+      0.0
+     ]
+    ]
+   },
+   {
+    "cell": "F2b",
+    "rate": "D",
+    "row": "C3 computed",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      -0.007230896790572766,
+      0.0071174377224199285
+     ]
+    ]
+   },
+   {
+    "cell": "F2b",
+    "rate": "D",
+    "row": "C3f final",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      0.0,
+      0.0
+     ]
+    ]
+   },
+   {
+    "cell": "F2b",
+    "rate": "D",
+    "row": "C3c copied",
+    "class": "tie",
+    "diff": [
+     -0.00043725404459991256,
+     [
+      -0.006404538203486053,
+      0.0049865138469082
+     ]
+    ]
+   },
+   {
+    "cell": "F2b",
+    "rate": "D",
+    "row": "C2 bits per byte without the copy",
+    "class": "tie",
+    "diff": [
+     0.0002389227636284511,
+     [
+      -0.0001749790420987792,
+      0.0006218496695206201
+     ]
+    ]
+   },
+   {
+    "cell": "F2b",
+    "rate": "D",
+    "row": "id_copy bits per copy",
+    "class": "tie",
+    "diff": [
+     -0.0008038272708654403,
+     [
+      -0.005591134240229925,
+      0.004306129767249028
+     ]
+    ]
+   },
+   {
+    "cell": "F2b",
+    "rate": "E10",
+    "row": "id_copy exact",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      0.0,
+      0.0
+     ]
+    ]
+   },
+   {
+    "cell": "F2b",
+    "rate": "E10",
+    "row": "C3 computed",
+    "class": "tie",
+    "diff": [
+     0.0024154589371980675,
+     [
+      0.0,
+      0.0061961716964141385
+     ]
+    ]
+   },
+   {
+    "cell": "F2b",
+    "rate": "E10",
+    "row": "C3f final",
+    "class": "tie",
+    "diff": [
+     0.006666666666666667,
+     [
+      -0.01,
+      0.023333333333333334
+     ]
+    ]
+   },
+   {
+    "cell": "F2b",
+    "rate": "E10",
+    "row": "C3c copied",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      -0.005007712794768783,
+      0.0049066077888021455
+     ]
+    ]
+   },
+   {
+    "cell": "F2b",
+    "rate": "E10",
+    "row": "C2 bits per byte without the copy",
+    "class": "tie",
+    "diff": [
+     -0.00042246947128233127,
+     [
+      -0.001137359413651011,
+      0.00022275329358704268
+     ]
+    ]
+   },
+   {
+    "cell": "F2b",
+    "rate": "E10",
+    "row": "id_copy bits per copy",
+    "class": "tie",
+    "diff": [
+     0.0018220161894957224,
+     [
+      -0.0031680799846847798,
+      0.007367299510786931
+     ]
+    ]
+   },
+   {
+    "cell": "F3 digits6",
+    "rate": "D",
+    "row": "C3 computed",
+    "class": "tie",
+    "diff": [
+     0.006802721088435374,
+     [
+      -0.006580586641021157,
+      0.02105448480355818
+     ]
+    ]
+   },
+   {
+    "cell": "F3 digits6",
+    "rate": "D",
+    "row": "C3f final",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      -0.03,
+      0.03
+     ]
+    ]
+   },
+   {
+    "cell": "F3 digits6",
+    "rate": "D",
+    "row": "C3c copied",
+    "class": "tie",
+    "diff": [
+     0.00340522133938706,
+     [
+      -0.003421046108404719,
+      0.010333694223184592
+     ]
+    ]
+   },
+   {
+    "cell": "F3 digits6",
+    "rate": "D",
+    "row": "C2 bits per byte without the copy",
+    "class": "tie",
+    "diff": [
+     0.00039545918054396977,
+     [
+      -0.000487100454379795,
+      0.001344638939879105
+     ]
+    ]
+   },
+   {
+    "cell": "F3 digits6",
+    "rate": "D",
+    "row": "id_copy bits per copy",
+    "class": "tie",
+    "diff": [
+     -0.03107551544904709,
+     [
+      -0.08778939028084262,
+      0.008590320885181427
+     ]
+    ]
+   },
+   {
+    "cell": "F3 digits6",
+    "rate": "E10",
+    "row": "C3 computed",
+    "class": "tie",
+    "diff": [
+     0.006802721088435374,
+     [
+      -0.006780237518736308,
+      0.020689655172413793
+     ]
+    ]
+   },
+   {
+    "cell": "F3 digits6",
+    "rate": "E10",
+    "row": "C3f final",
+    "class": "tie",
+    "diff": [
+     0.01,
+     [
+      0.0,
+      0.03
+     ]
+    ]
+   },
+   {
+    "cell": "F3 digits6",
+    "rate": "E10",
+    "row": "C3c copied",
+    "class": "tie",
+    "diff": [
+     0.0011350737797956867,
+     [
+      -0.005681979780742579,
+      0.007743362831858407
+     ]
+    ]
+   },
+   {
+    "cell": "F3 digits6",
+    "rate": "E10",
+    "row": "C2 bits per byte without the copy",
+    "class": "tie",
+    "diff": [
+     -0.00045228272864046885,
+     [
+      -0.002413463497944643,
+      0.001449768174214075
+     ]
+    ]
+   },
+   {
+    "cell": "F3 digits6",
+    "rate": "E10",
+    "row": "id_copy bits per copy",
+    "class": "tie",
+    "diff": [
+     0.007015562653541565,
+     [
+      -0.019434439793229098,
+      0.035985956639051436
+     ]
+    ]
+   },
+   {
+    "cell": "F3 letters4",
+    "rate": "D",
+    "row": "id_copy exact",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      0.0,
+      0.0
+     ]
+    ]
+   },
+   {
+    "cell": "F3 letters4",
+    "rate": "D",
+    "row": "C3 computed",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      -0.010529115341545353,
+      0.01056338028169014
+     ]
+    ]
+   },
+   {
+    "cell": "F3 letters4",
+    "rate": "D",
+    "row": "C3f final",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      0.0,
+      0.0
+     ]
+    ]
+   },
+   {
+    "cell": "F3 letters4",
+    "rate": "D",
+    "row": "C3c copied",
+    "class": "tie",
+    "diff": [
+     0.013613861386138614,
+     [
+      0.004750032288314999,
+      0.023778857646096743
+     ]
+    ]
+   },
+   {
+    "cell": "F3 letters4",
+    "rate": "D",
+    "row": "C2 bits per byte without the copy",
+    "class": "tie",
+    "diff": [
+     0.00048655217871274687,
+     [
+      -0.00019844121671251,
+      0.0011983276616879632
+     ]
+    ]
+   },
+   {
+    "cell": "F3 letters4",
+    "rate": "D",
+    "row": "id_copy bits per copy",
+    "class": "tie",
+    "diff": [
+     -0.002217620611190796,
+     [
+      -0.008523684360086915,
+      0.0035325968936085698
+     ]
+    ]
+   },
+   {
+    "cell": "F3 letters4",
+    "rate": "E10",
+    "row": "id_copy exact",
+    "class": "tie",
+    "diff": [
+     0.01,
+     [
+      0.0,
+      0.03
+     ]
+    ]
+   },
+   {
+    "cell": "F3 letters4",
+    "rate": "E10",
+    "row": "C3 computed",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      0.0,
+      0.0
+     ]
+    ]
+   },
+   {
+    "cell": "F3 letters4",
+    "rate": "E10",
+    "row": "C3f final",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      0.0,
+      0.0
+     ]
+    ]
+   },
+   {
+    "cell": "F3 letters4",
+    "rate": "E10",
+    "row": "C3c copied",
+    "class": "tie",
+    "diff": [
+     -0.0012376237623762376,
+     [
+      -0.011287533540610758,
+      0.008707010458927305
+     ]
+    ]
+   },
+   {
+    "cell": "F3 letters4",
+    "rate": "E10",
+    "row": "C2 bits per byte without the copy",
+    "class": "tie",
+    "diff": [
+     -0.0006604048753906211,
+     [
+      -0.0016779818900225817,
+      0.00032866445587950526
+     ]
+    ]
+   },
+   {
+    "cell": "F3 letters4",
+    "rate": "E10",
+    "row": "id_copy bits per copy",
+    "class": "tie",
+    "diff": [
+     0.008877212107181549,
+     [
+      -0.003996825799345955,
+      0.025194858826696875
+     ]
+    ]
+   },
+   {
+    "cell": "F3 mixed",
+    "rate": "D",
+    "row": "C3 computed",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      -0.013469150969150969,
+      0.013335570469798646
+     ]
+    ]
+   },
+   {
+    "cell": "F3 mixed",
+    "rate": "D",
+    "row": "C3f final",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      -0.03,
+      0.03
+     ]
+    ]
+   },
+   {
+    "cell": "F3 mixed",
+    "rate": "D",
+    "row": "C3c copied",
+    "class": "tie",
+    "diff": [
+     0.002304147465437788,
+     [
+      -0.006811024436406134,
+      0.011339159809709754
+     ]
+    ]
+   },
+   {
+    "cell": "F3 mixed",
+    "rate": "D",
+    "row": "C2 bits per byte without the copy",
+    "class": "tie",
+    "diff": [
+     0.0007697135084360695,
+     [
+      -9.179232197773129e-05,
+      0.001713058614941007
+     ]
+    ]
+   },
+   {
+    "cell": "F3 mixed",
+    "rate": "D",
+    "row": "id_copy bits per copy",
+    "class": "tie",
+    "diff": [
+     -0.019292146861553193,
+     [
+      -0.056019469618797293,
+      0.0037520948350429533
+     ]
+    ]
+   },
+   {
+    "cell": "F3 mixed",
+    "rate": "E10",
+    "row": "id_copy exact",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      0.0,
+      0.0
+     ]
+    ]
+   },
+   {
+    "cell": "F3 mixed",
+    "rate": "E10",
+    "row": "C3 computed",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      0.0,
+      0.0
+     ]
+    ]
+   },
+   {
+    "cell": "F3 mixed",
+    "rate": "E10",
+    "row": "C3f final",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      -0.03,
+      0.03
+     ]
+    ]
+   },
+   {
+    "cell": "F3 mixed",
+    "rate": "E10",
+    "row": "C3c copied",
+    "class": "tie",
+    "diff": [
+     -0.002304147465437788,
+     [
+      -0.013728551925387198,
+      0.007760963291451094
+     ]
+    ]
+   },
+   {
+    "cell": "F3 mixed",
+    "rate": "E10",
+    "row": "C2 bits per byte without the copy",
+    "class": "tie",
+    "diff": [
+     0.0002805104091549507,
+     [
+      -0.0004877508184093938,
+      0.0010209380784868968
+     ]
+    ]
+   },
+   {
+    "cell": "F3 mixed",
+    "rate": "E10",
+    "row": "id_copy bits per copy",
+    "class": "tie",
+    "diff": [
+     -0.013805017471313477,
+     [
+      -0.03331244806945323,
+      0.007117145299911499
+     ]
+    ]
+   }
+  ],
+  "doses (apart)": [
+   {
+    "cell": "F3 dose",
+    "rate": "D",
+    "row": "id_copy exact",
+    "class": "tie",
+    "diff": [
+     -0.02,
+     [
+      -0.06,
+      0.02
+     ]
+    ]
+   },
+   {
+    "cell": "F3 dose",
+    "rate": "D",
+    "row": "C3 computed",
+    "class": "tie",
+    "diff": [
+     0.0038314176245210726,
+     [
+      -0.00816326530612245,
+      0.017026779163609656
+     ]
+    ]
+   },
+   {
+    "cell": "F3 dose",
+    "rate": "D",
+    "row": "C3f final",
+    "class": "tie",
+    "diff": [
+     0.01,
+     [
+      0.0,
+      0.03
+     ]
+    ]
+   },
+   {
+    "cell": "F3 dose",
+    "rate": "D",
+    "row": "C3c copied",
+    "class": "tie",
+    "diff": [
+     0.007425742574257425,
+     [
+      -0.0012972711782508074,
+      0.0168502352040258
+     ]
+    ]
+   },
+   {
+    "cell": "F3 dose",
+    "rate": "D",
+    "row": "C2 bits per byte without the copy",
+    "class": "tie",
+    "diff": [
+     0.0009688477366386139,
+     [
+      0.0002074325129341898,
+      0.0018805120873713254
+     ]
+    ]
+   },
+   {
+    "cell": "F3 dose",
+    "rate": "D",
+    "row": "id_copy bits per copy",
+    "class": "tie",
+    "diff": [
+     -0.25666207402944563,
+     [
+      -0.33822601396963,
+      -0.1755476808026433
+     ]
+    ]
+   },
+   {
+    "cell": "F3 dose",
+    "rate": "E10",
+    "row": "id_copy exact",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      -0.03,
+      0.03
+     ]
+    ]
+   },
+   {
+    "cell": "F3 dose",
+    "rate": "E10",
+    "row": "C3 computed",
+    "class": "tie",
+    "diff": [
+     -0.007662835249042145,
+     [
+      -0.018796992481203006,
+      0.0
+     ]
+    ]
+   },
+   {
+    "cell": "F3 dose",
+    "rate": "E10",
+    "row": "C3f final",
+    "class": "tie",
+    "diff": [
+     0.01,
+     [
+      0.0,
+      0.03
+     ]
+    ]
+   },
+   {
+    "cell": "F3 dose",
+    "rate": "E10",
+    "row": "C3c copied",
+    "class": "tie",
+    "diff": [
+     0.0024752475247524753,
+     [
+      0.0,
+      0.006418485237483954
+     ]
+    ]
+   },
+   {
+    "cell": "F3 dose",
+    "rate": "E10",
+    "row": "C2 bits per byte without the copy",
+    "class": "tie",
+    "diff": [
+     -0.00013623522262417722,
+     [
+      -0.0012999418367993655,
+      0.001029058482549758
+     ]
+    ]
+   },
+   {
+    "cell": "F3 dose",
+    "rate": "E10",
+    "row": "id_copy bits per copy",
+    "class": "tie",
+    "diff": [
+     -0.0573057359457016,
+     [
+      -0.11907192538678645,
+      -0.008010587066411973
+     ]
+    ]
+   }
+  ],
+  "F4 (apart)": [
+   {
+    "cell": "F4",
+    "rate": "D",
+    "row": "id_copy exact",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      -0.025,
+      0.025
+     ]
+    ]
+   },
+   {
+    "cell": "F4",
+    "rate": "D",
+    "row": "C3 computed",
+    "class": "tie",
+    "diff": [
+     -0.0013440860215053765,
+     [
+      -0.009396288879266796,
+      0.006822453637767411
+     ]
+    ]
+   },
+   {
+    "cell": "F4",
+    "rate": "D",
+    "row": "C3f final",
+    "class": "tie",
+    "diff": [
+     0.0,
+     [
+      0.0,
+      0.0
+     ]
+    ]
+   },
+   {
+    "cell": "F4",
+    "rate": "D",
+    "row": "C3c copied",
+    "class": "tie",
+    "diff": [
+     0.005270092226613966,
+     [
+      -0.0016744430864208543,
+      0.012670756804276704
+     ]
+    ]
+   },
+   {
+    "cell": "F4",
+    "rate": "D",
+    "row": "C2 bits per byte without the copy",
+    "class": "L8 better",
+    "diff": [
+     0.0051295257017523604,
+     [
+      0.003957123208826346,
+      0.0062590661867142315
+     ]
+    ]
+   },
+   {
+    "cell": "F4",
+    "rate": "D",
+    "row": "id_copy bits per copy",
+    "class": "tie",
+    "diff": [
+     -0.039026416391134265,
+     [
+      -0.09467695308104157,
+      0.007944670572876929
+     ]
+    ]
+   },
+   {
+    "cell": "F4",
+    "rate": "E10",
+    "row": "id_copy exact",
+    "class": "tie",
+    "diff": [
+     -0.01,
+     [
+      -0.025,
+      0.0
+     ]
+    ]
+   },
+   {
+    "cell": "F4",
+    "rate": "E10",
+    "row": "C3 computed",
+    "class": "tie",
+    "diff": [
+     -0.004032258064516129,
+     [
+      -0.009421582569389776,
+      0.0
+     ]
+    ]
+   },
+   {
+    "cell": "F4",
+    "rate": "E10",
+    "row": "C3f final",
+    "class": "tie",
+    "diff": [
+     -0.005,
+     [
+      -0.025,
+      0.01
+     ]
+    ]
+   },
+   {
+    "cell": "F4",
+    "rate": "E10",
+    "row": "C3c copied",
+    "class": "tie",
+    "diff": [
+     0.001756697408871322,
+     [
+      -0.003918453536319445,
+      0.007549120554000996
+     ]
+    ]
+   },
+   {
+    "cell": "F4",
+    "rate": "E10",
+    "row": "C2 bits per byte without the copy",
+    "class": "L8 better",
+    "diff": [
+     0.002812009078660964,
+     [
+      0.001370869597165631,
+      0.004215450645950764
+     ]
+    ]
+   },
+   {
+    "cell": "F4",
+    "rate": "E10",
+    "row": "id_copy bits per copy",
+    "class": "tie",
+    "diff": [
+     -0.04932506144046783,
+     [
+      -0.1039268614798782,
+      -0.007614690225571394
+     ]
+    ]
+   }
+  ],
+  "note": "No outcome of this test shows that reading the model is needed.",
+  "SIV+PO matched rate minus the unlatched layout's (reported; L8's tolerance is 0.005)": {
+   "F1": {
+    "D": -0.0010679438889001358,
+    "E10": -0.00013930975595834172
+   },
+   "F6": {
+    "D": 0.0001536270014201313,
+    "E10": -0.000212572616605608
+   },
+   "F2a": {
+    "D": 0.0001081496821834782,
+    "E10": 5.5295821914339016e-05
+   },
+   "F2b": {
+    "D": -0.00048682443596798075,
+    "E10": -4.154996124260124e-05
+   },
+   "F4": {
+    "D": -0.00010965935321893827,
+    "E10": -9.904932810692046e-05
+   },
+   "F5": {
+    "D": 0.0012090156660344298
+   },
+   "F3": {
+    "D": -6.712113418699817e-05,
+    "E10": -8.800577680030675e-05
+   }
+  }
+ },
+ "sentences": [
+  "On fresh GSM8K problems in O6's `\\nTicket NNNN` template, in BLT-1B with its 512-byte local windows, scored teacher-forced, L8 restores verbatim copies at BLT-1B's default patch rate and at entropy@10%, each compared at a matched rate. At the default rate it gains +73.7 [+70.2, +77.2] points of exact copies, 0.98 of what removing every copy start gains; at 10% it gains +13.8 [+10.8, +17.0]. Its costs stay within the bars, read on point estimates: at most 2 points on computed values, final answers and copied numbers; at most +0.01 bits per byte outside the copy; a patch rate within 0.005; at most 4 new-value removals of about 1,700 computed-value starts at the default rate, and none at 10%.",
+  "In BLT-1B with its 512-byte local windows, the fix also holds for 6-digit IDs and mixed IDs in the same `\\nTicket` template, at the default rate.",
+  "Paired verdict, windowed: L8 lost copies the byte rule kept, in F1 at D: in 5 of the 13 lost copies L8 did not fire at c1 (copies L8 missed); in 8 it fired, and the loss is a side effect of the refit.",
+  "Paired verdict, released: Relative to SIV+PO, a rule that stops where the model cannot copy helps under the released conversion; F5's exact copies by text length show where. A byte rule with a length cutoff might match it; that is untested.",
+  "No outcome of this test shows that reading the model is needed."
+ ],
+ "rules file changes since filing": "",
+ "result": {
+  "counts": "this filing's chain",
+  "filing": "7e9c6fa2a31b400a3e6238d51e268b3d7e21a35c"
+ }
+}
+Confirmatory result (filing 7e9c6fa2a31b400a3e6238d51e268b3d7e21a35c)
+On fresh GSM8K problems in O6's `\nTicket NNNN` template, in BLT-1B with its 512-byte local windows, scored teacher-forced, L8 restores verbatim copies at BLT-1B's default patch rate and at entropy@10%, each compared at a matched rate. At the default rate it gains +73.7 [+70.2, +77.2] points of exact copies, 0.98 of what removing every copy start gains; at 10% it gains +13.8 [+10.8, +17.0]. Its costs stay within the bars, read on point estimates: at most 2 points on computed values, final answers and copied numbers; at most +0.01 bits per byte outside the copy; a patch rate within 0.005; at most 4 new-value removals of about 1,700 computed-value starts at the default rate, and none at 10%.
+In BLT-1B with its 512-byte local windows, the fix also holds for 6-digit IDs and mixed IDs in the same `\nTicket` template, at the default rate.
+Paired verdict, windowed: L8 lost copies the byte rule kept, in F1 at D: in 5 of the 13 lost copies L8 did not fire at c1 (copies L8 missed); in 8 it fired, and the loss is a side effect of the refit.
+Paired verdict, released: Relative to SIV+PO, a rule that stops where the model cannot copy helps under the released conversion; F5's exact copies by text length show where. A byte rule with a length cutoff might match it; that is untested.
+No outcome of this test shows that reading the model is needed.
+wrote results/blt_copy_latch_fresh_verdict.json

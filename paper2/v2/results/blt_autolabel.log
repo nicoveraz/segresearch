@@ -1,0 +1,26 @@
+Loading weights:   0%|          | 0/510 [00:00<?, ?it/s]Loading weights:   0%|          | 2/510 [00:12<53:52,  6.36s/it]Loading weights: 100%|██████████| 510/510 [00:12<00:00, 40.03it/s]
+patcher orig/train: 1382 problems
+patcher orig/test: 275 problems
+patcher prose/train: 1382 problems
+patcher prose/test: 275 problems
+auto-labels orig: {'precision': 0.4976044936395176, 'recall': 0.8373644703919934, 'n_true': 3597, 'n_auto': 6053}
+auto-labels prose: {'precision': 0.6361277445109781, 'recall': 0.8860161245482346, 'n_true': 3597, 'n_auto': 5010}
+probe marker_prose fitted
+probe auto_prose fitted
+probe auto_orig fitted
+AUC orig  marker_prose 0.966
+AUC orig  auto_prose   0.956
+AUC orig  auto_orig    0.980
+AUC prose marker_prose 0.969
+AUC prose auto_prose   0.960
+AUC prose auto_orig    0.911
+LAYOUT orig  entropy      exact res 0.166 fin 0.516 bpb 0.8142 rate 0.104
+LAYOUT orig  marker_prose exact res 0.626 fin 0.615 bpb 0.7366 rate 0.103 | vs entropy +46.0 [+42.0, +50.0]
+LAYOUT orig  auto_prose   exact res 0.644 fin 0.633 bpb 0.7301 rate 0.103 | vs entropy +47.8 [+43.7, +51.9]
+LAYOUT orig  auto_orig    exact res 0.712 fin 0.658 bpb 0.7220 rate 0.103 | vs entropy +54.6 [+50.8, +58.5]
+LAYOUT prose entropy      exact res 0.217 fin 0.622 bpb 0.7988 rate 0.101
+LAYOUT prose marker_prose exact res 0.366 fin 0.585 bpb 0.7864 rate 0.102 | vs entropy +14.9 [+11.3, +18.7]
+LAYOUT prose auto_prose   exact res 0.384 fin 0.575 bpb 0.7866 rate 0.102 | vs entropy +16.7 [+12.7, +20.9]
+LAYOUT prose auto_orig    exact res 0.361 fin 0.600 bpb 0.7886 rate 0.101 | vs entropy +14.5 [+10.8, +18.3]
+VERDICT Z1_auto_prose_minus_entropy {"value": 0.16736990154711673, "ci": [0.12661681765698551, 0.2085821867834063], "holds": true}
+VERDICT Z2_auto_minus_marker {"value": 0.01828410689170183, "ci": [0.0014141295916808671, 0.03776561984310339], "holds": true}

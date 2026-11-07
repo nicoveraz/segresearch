@@ -30,7 +30,7 @@ Version 2: *When the next byte's type is fixed: why entropy patching skips compu
 - In BLT-style models trained from scratch (teacher-forced exact match), it beats entropy at 50M by 36.8 points on computed results and 29.6 on final answers, on the same A40 GPU. The 1M and 12M comparisons mixed GPUs and precision, and a hand-written marker rule is not distinguishable from it there.
 - Version 1's statement that the rule lowers bits per byte on prose is withdrawn, and "the corpus-fitted table keeps the gain" is corrected (it keeps most of it). The paper's "Changes in version 2" lists every change.
 
-Manuscript, tables and the arXiv build: `paper2/`. Results, scripts, data and the filed decision rules behind version 2: `paper2/v2/`. Archived releases: v2.0.0 (version 1), [doi:10.5281/zenodo.23400010](https://doi.org/10.5281/zenodo.23400010); v2.1.0 (version 2 of both papers), doi:ZENODO_V210_DOI.
+Manuscript, tables and the arXiv build: `paper2/`. Results, scripts, data and the filed decision rules behind version 2: `paper2/v2/`. Archived releases: v2.0.0 (version 1), [doi:10.5281/zenodo.23400010](https://doi.org/10.5281/zenodo.23400010); v2.1.0 (version 2 of both papers), [doi:10.5281/zenodo.24023934](https://doi.org/10.5281/zenodo.24023934).
 
 ## Layout
 

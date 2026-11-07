@@ -22,6 +22,9 @@ identifiers:
     value: "10.5281/zenodo.23400010"
     description: "Zenodo DOI of v2.0.0 (paper 2)"
   - type: doi
+    value: "10.5281/zenodo.24023934"
+    description: "Zenodo DOI of v2.1.0 (version 2 of both papers)"
+  - type: doi
     value: "10.48550/arXiv.2610.22100"
     description: "arXiv DOI of paper 2 (version 2: When the next byte's type is fixed)"
   - type: doi

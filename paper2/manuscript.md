@@ -712,7 +712,7 @@ Code, configurations, the corpus recipe (SHA-256), per-run results, the dated de
 with amendments A-1 to A-3 (A-4 is summarized and A-5 and A-6 are recorded in
 `paper2/v2/rules/STUDY_A_INTERIM_RULES.md`), the prose rewrites, the copy-test texts, and the scripts and results behind
 every table, figure and number are at <https://github.com/nicoveraz/segresearch>, release v2.1.0
-(doi:ZENODO_V210_DOI). The models trained from scratch are in `results/scale/` and `results/generic/`; the results
+(doi:10.5281/zenodo.24023934). The models trained from scratch are in `results/scale/` and `results/generic/`; the results
 specific to this version, with their scripts, rules and provenance, are in `paper2/v2/` (see `paper2/v2/README.md`);
 and `tests/test_paper2_numbers.py` checks the paper's result numbers against those files. Some results cannot be
 recomputed from the release alone, because their inputs (the 1.9 GB training corpus and caches derived from it) are

@@ -31,8 +31,8 @@ before the arXiv replacement:
      redistributed" needs that exception.
 3. Push the tag v2.1.0 and let Zenodo archive it. This needs the author's OK: pushing makes the branch, `paper/v2/`
    (with the prose rewrites) and the release public.
-4. Check that the version DOI resolves, then replace the placeholder `ZENODO_V210_DOI` in the Comments line below and
-   in `SUBMISSION.md`. The manuscript cites the concept DOI (10.5281/zenodo.23238215), which resolves to the newest
+4. Check that the version DOI resolves, then put it in the Comments line below and in `SUBMISSION.md` (done
+   2026-11-06: 10.5281/zenodo.24023934). The manuscript cites the concept DOI (10.5281/zenodo.23238215), which resolves to the newest
    version, and names release v2.1.0, so the PDF needs no change for the DOI.
 
 ## Then: the replacement on arXiv
@@ -64,10 +64,10 @@ What to expect:
 
 ## Comments line for version 2
 
-`ZENODO_V210_DOI` is a placeholder for the DOI of the v2.1.0 release; replace it before submitting.
+The DOI of the v2.1.0 release is 10.5281/zenodo.24023934 (Zenodo, 2026-11-06).
 
 ```
-15 pages, 4 figures, 6 tables. v2: the blind spot scoped to type-fixing cues and, in BLT-1B, to tight patch budgets (new Section 5: entropy ceiling, budget, prose rewrite); final answers shown to be mostly copies under teacher forcing, and their explanations corrected; the gap is no longer said to grow with model size; seed-level intervals and a second training recipe for the scaling study. Code, logs and results: https://github.com/nicoveraz/segresearch (archived: doi:ZENODO_V210_DOI; all versions: doi:10.5281/zenodo.23238215)
+15 pages, 4 figures, 6 tables. v2: the blind spot scoped to type-fixing cues and, in BLT-1B, to tight patch budgets (new Section 5: entropy ceiling, budget, prose rewrite); final answers shown to be mostly copies under teacher forcing, and their explanations corrected; the gap is no longer said to grow with model size; seed-level intervals and a second training recipe for the scaling study. Code, logs and results: https://github.com/nicoveraz/segresearch (archived: doi:10.5281/zenodo.24023934; all versions: doi:10.5281/zenodo.23238215)
 ```
 
 Version 1's line, for reference: `13 pages, 4 figures, 6 tables. Code, logs and results:

@@ -65,8 +65,7 @@ Checklist:
 - [ ] The main session's release steps in `ARXIV_V2.md` ("First") are done: `scale/analyze.load()` keeps the runs with
       gradient clipping apart, Figure 3's legend is corrected and the figures rebuilt, and the root release files are
       updated for v2.1.0.
-- [ ] Release v2.1.0 of segresearch is on GitHub and its Zenodo record exists; `ZENODO_V210_DOI` below is replaced by
-      its DOI (the manuscript cites the concept DOI, which resolves to the newest version, so it needs no change).
+- [x] Release v2.1.0 of segresearch is on GitHub and its Zenodo record exists; its DOI, 10.5281/zenodo.24023934, is in the line below (the manuscript cites the concept DOI, which resolves to the newest version, so it needs no change).
 - [ ] Version 2 of arXiv:2610.22100 is announced, and its title and its description of the two-byte table match
       `refs.bib` (`verazuniga2026patch`) and §13.
 - [ ] `./build.sh` ends with `OK -- verified from the tarball's own contents.`; the page count below matches `arxiv.pdf`.
@@ -85,9 +84,9 @@ the solution's last number and corrects the explanations that assumed otherwise,
 model size, and adds seed-level intervals and a second training recipe to the scaling study.
 
 ### Comments
-`ZENODO_V210_DOI` is a placeholder for the DOI of the v2.1.0 release on Zenodo; replace it before submitting.
+The DOI of the v2.1.0 release is 10.5281/zenodo.24023934 (Zenodo, 2026-11-06).
 ```
-15 pages, 4 figures, 6 tables. v2: the blind spot scoped to type-fixing cues and, in BLT-1B, to tight patch budgets (new Section 5: entropy ceiling, budget, prose rewrite); final answers shown to be mostly copies under teacher forcing, and their explanations corrected; the gap is no longer said to grow with model size; seed-level intervals and a second training recipe for the scaling study. Code, logs and results: https://github.com/nicoveraz/segresearch (archived: doi:ZENODO_V210_DOI; all versions: doi:10.5281/zenodo.23238215)
+15 pages, 4 figures, 6 tables. v2: the blind spot scoped to type-fixing cues and, in BLT-1B, to tight patch budgets (new Section 5: entropy ceiling, budget, prose rewrite); final answers shown to be mostly copies under teacher forcing, and their explanations corrected; the gap is no longer said to grow with model size; seed-level intervals and a second training recipe for the scaling study. Code, logs and results: https://github.com/nicoveraz/segresearch (archived: doi:10.5281/zenodo.24023934; all versions: doi:10.5281/zenodo.23238215)
 ```
 
 ### Abstract (plain text, ready to paste)

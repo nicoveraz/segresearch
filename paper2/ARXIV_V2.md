@@ -14,7 +14,7 @@ no venue is intended.
    into the public repository, update README.md and CITATION.cff, and publish the GitHub release v2.1.0 so that
    Zenodo archives it and mints its DOI. The paper's "Code and data" section and every number test point to files in
    that release, so it must be public before the replacement is announced.
-3. **Fill in the DOI.** Replace the placeholder `ZENODO_V210_DOI` with the new DOI in `paper2/manuscript.md`,
+3. **Fill in the DOI** (done 2026-11-06: 10.5281/zenodo.24023934). Put the new DOI in `paper2/manuscript.md`,
    `paper2/v2/README.md` and the Comments line in `paper2/SUBMISSION.md` (and in this file), then run, from the
    repository root:
 
@@ -42,7 +42,7 @@ no venue is intended.
    version 1's comments (counts updated, the code link) and says what changed:
 
    ```
-   v2 corrects v1's main claims (new title, abstract and framing; the paper's section "Changes in version 2" lists each change) and is the project's final record; no venue is intended. 29 pages, 2 figures, 8 tables. Code, logs and results: https://github.com/nicoveraz/segresearch (release v2.1.0, doi:ZENODO_V210_DOI)
+   v2 corrects v1's main claims (new title, abstract and framing; the paper's section "Changes in version 2" lists each change) and is the project's final record; no venue is intended. 29 pages, 2 figures, 8 tables. Code, logs and results: https://github.com/nicoveraz/segresearch (release v2.1.0, doi:10.5281/zenodo.24023934)
    ```
 
 6. Preview: compare arXiv's compiled PDF with `paper2/arxiv.pdf` page by page (29 pages, 2 figures, 8 tables),

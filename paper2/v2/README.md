@@ -2,7 +2,7 @@
 
 This folder is the record behind version 2 of paper 2 (arXiv:2610.22100), for the results that are not already
 elsewhere in segresearch. Version 2 is a corrected and completed record of closed work; it is not aimed at any venue.
-It is part of segresearch release v2.1.0 (doi:ZENODO_V210_DOI).
+It is part of segresearch release v2.1.0 (doi:10.5281/zenodo.24023934).
 
 Most files here were produced between 2026-10-22 and 2026-11-01 in the author's private working repository, which held
 segresearch as a submodule pinned to commit 1985984 (the parent of this release). They are copied unchanged, except for

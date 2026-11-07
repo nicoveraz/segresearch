@@ -864,4 +864,4 @@ def test_arxiv_abstract():
     # the Comments line is the same in SUBMISSION.md and ARXIV_V2.md; the concept DOI is labelled as covering all versions
     c1 = re.search(r"### Comments\n.*?```\n(.*?)\n```", v2, flags=re.S).group(1)
     c2 = re.search(r"## Comments line for version 2\n.*?```\n(.*?)\n```", (ROOT / "paper" / "ARXIV_V2.md").read_text(), flags=re.S).group(1)
-    assert c1 == c2 and c1.isascii() and "(archived: doi:ZENODO_V210_DOI; all versions: doi:10.5281/zenodo.23238215)" in c1
+    assert c1 == c2 and c1.isascii() and "(archived: doi:10.5281/zenodo.24023934; all versions: doi:10.5281/zenodo.23238215)" in c1

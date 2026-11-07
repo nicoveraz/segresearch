@@ -2,16 +2,15 @@
 
 Paste these by hand into the arXiv form. `./build.sh` builds and verifies `arxiv-submission.tar.gz`.
 
-## Version 2 (replacement of arXiv:2610.22100; prepared, not submitted)
-Prepared on the local branch `paper2-v2`; nothing is pushed or posted. The author reviews it and posts it as a
-replacement of 2610.22100 (not a withdrawal and not a new submission): see `ARXIV_V2.md` for the steps and the order
-(the v2.1.0 release and its Zenodo record first, then the replacement). Paste the fields below by hand.
+## Version 2 (replacement of arXiv:2610.22100; ready, not yet submitted)
+In release v2.1.0 (doi:10.5281/zenodo.24023934), published 2026-11-06. The author posts it as a replacement of
+2610.22100 (not a withdrawal and not a new submission): see `ARXIV_V2.md` for the steps. Paste the fields below by hand.
 
 Checklist:
 - [x] References checked against their arXiv abstract pages (2026-11-02), including BLT's §4.2, Fig. 3(f) and §5.1.
 - [x] `./build.sh` ends with `OK -- verified from the tarball's own contents.` (29 pages)
 - [x] `tests/test_paper2_numbers.py` passes (the paper's result numbers recomputed from the files of release v2.1.0).
-- [ ] Release v2.1.0 published and its Zenodo DOI known; `ZENODO_V210_DOI` replaced in the Comments below, in
+- [x] Release v2.1.0 published and its Zenodo DOI known (10.5281/zenodo.24023934); the DOI is in the Comments below, in
       `manuscript.md` ("Code and data") and in `v2/README.md`, then `./build.sh` re-run.
 - [ ] Upload `paper2/arxiv-submission.tar.gz`; compare arXiv's compiled PDF with `paper2/arxiv.pdf` before confirming.
 
@@ -24,10 +23,10 @@ When the next byte's type is fixed: why entropy patching skips computed values u
 Nicolás Vera Zúñiga (Independent Researcher, Chile; nicovera@quetru.cl). Primary cs.CL, cross-list cs.LG. CC BY 4.0.
 
 ### Comments
-`ZENODO_V210_DOI` is a placeholder: replace it with the DOI of the v2.1.0 Zenodo record before pasting. The line keeps
+The DOI is that of the v2.1.0 Zenodo record (10.5281/zenodo.24023934). The line keeps
 version 1's comments (counts updated, the code link) and says what changed, as arXiv asks of a replacement.
 ```
-v2 corrects v1's main claims (new title, abstract and framing; the paper's section "Changes in version 2" lists each change) and is the project's final record; no venue is intended. 29 pages, 2 figures, 8 tables. Code, logs and results: https://github.com/nicoveraz/segresearch (release v2.1.0, doi:ZENODO_V210_DOI)
+v2 corrects v1's main claims (new title, abstract and framing; the paper's section "Changes in version 2" lists each change) and is the project's final record; no venue is intended. 29 pages, 2 figures, 8 tables. Code, logs and results: https://github.com/nicoveraz/segresearch (release v2.1.0, doi:10.5281/zenodo.24023934)
 ```
 
 ### Abstract (plain ASCII, 1,897 of 1,920 characters)

@@ -584,7 +584,7 @@ def test_submission_metadata_in_sync(head):
     assert "$" not in a and "$" not in plain and "\\" not in plain
     assert len(plain) <= 1920
     assert f"{len(plain):,} of 1,920 characters" in v2
-    assert "ZENODO_V210_DOI" in v2
+    assert "10.5281/zenodo.24023934" in v2 and "ZENODO_" + "V210_DOI" not in v2
 
 
 # ============================================================================= section 6 onward (`later`)
@@ -1233,7 +1233,7 @@ def test_changes_numbers(later, runs):
 
 def test_code_and_data(later):
     cd = flat(later.split("## Code and data", 1)[1].split("## References", 1)[0])
-    for frag in ("release v2.1.0 (doi:ZENODO_V210_DOI)", "`paper2/v2/README.md`", "`tests/test_paper2_numbers.py`",
+    for frag in ("release v2.1.0 (doi:10.5281/zenodo.24023934)", "`paper2/v2/README.md`", "`tests/test_paper2_numbers.py`",
                  "**Funding:** none", "**Competing interests:** none", "**Use of AI.**", "`claude-opus-5-5`"):
         assert frag in cd, frag
     assert (ROOT / "paper2" / "v2" / "README.md").exists()
@@ -1518,7 +1518,7 @@ def test_appendix_constants(full):
 
 
 def test_submission_comments_and_counts(full):
-    """The Comments line of version 2 carries the paper's counts, the code link and the DOI placeholder."""
+    """The Comments line of version 2 carries the paper's counts, the code link and the DOI of release v2.1.0."""
     import shutil
     import subprocess
     sub = (ROOT / "paper2" / "SUBMISSION.md").read_text()
@@ -1532,9 +1532,9 @@ def test_submission_comments_and_counts(full):
     assert m and (int(m.group(2)), int(m.group(3))) == (figures, tables), comments
     for frag in ("v2 corrects v1's main claims", "final record", "no venue is intended",
                  "Code, logs and results: https://github.com/nicoveraz/segresearch", "release v2.1.0",
-                 "doi:ZENODO_V210_DOI"):
+                 "doi:10.5281/zenodo.24023934"):
         assert frag in comments, frag
-    assert "placeholder" in v2
+    assert "10.5281/zenodo.24023934" in v2   # the v2.1.0 DOI, filled in after the release (2026-11-06)
     pdf = ROOT / "paper2" / "arxiv.pdf"
     if shutil.which("pdfinfo") and pdf.exists():
         info = subprocess.run(["pdfinfo", str(pdf)], capture_output=True, text=True).stdout

@@ -127,7 +127,11 @@ cp figures/*.pdf build/arxiv/figures/
 (cd build/arxiv && tectonic -X compile main.tex --keep-intermediates >/dev/null 2>&1)
 [ -f build/arxiv/main.bbl ] || { echo "FAIL: main.bbl was not produced"; exit 1; }
 rm -f arxiv_source.zip
-(cd build/arxiv && tar czf ../../arxiv-submission.tar.gz main.tex main.bbl refs.bib figures/)
+# No macOS metadata (as paper2/build.sh): COPYFILE_DISABLE and --no-mac-metadata keep AppleDouble ._ files out,
+# --no-xattrs drops extended attributes, and the ustar format carries no pax headers.
+(cd build/arxiv && COPYFILE_DISABLE=1 tar --no-mac-metadata --no-xattrs --format ustar --uid 0 --gid 0 --uname "" \
+  --gname "" -czf ../../arxiv-submission.tar.gz main.tex main.bbl refs.bib figures/)
+python3 -c "import tarfile,os,sys; n=[m.name for m in tarfile.open('arxiv-submission.tar.gz')]; bad=[x for x in n if os.path.basename(x).startswith('._')]; sys.exit('macOS metadata in the tarball: %s' % bad) if bad else None"
 
 # VERIFY: build from the tarball alone, then check the output, not just the exit status.
 rm -rf build/verify && mkdir -p build/verify

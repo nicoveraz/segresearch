@@ -50,8 +50,9 @@ cue before values, against §13.
 3. Upload `paper/arxiv-submission.tar.gz`. Keep the title. Paste the version 2 abstract and the Comments line below,
    both from `SUBMISSION.md`.
 4. The Comments field must say what changed, and it must repeat the old comments: arXiv replaces the field, so old
-   comments that are not merged into the new text are lost. The line below does both (page counts, the change, the code
-   link, the archive of this version and the concept DOI that covers all versions, version 1's archive included).
+   comments that are not merged into the new text are lost. The field takes at most 400 characters. The line below does
+   both in 397 (page counts, the change, the code link and this release's archive, whose Zenodo page links every
+   version, version 1's archive included).
 5. Check arXiv's compiled PDF against `paper/arxiv.pdf`, then submit.
 
 What to expect:
@@ -67,7 +68,7 @@ What to expect:
 The DOI of the v2.1.0 release is 10.5281/zenodo.24023934 (Zenodo, 2026-11-06).
 
 ```
-15 pages, 4 figures, 6 tables. v2: the blind spot scoped to type-fixing cues and, in BLT-1B, to tight patch budgets (new Section 5: entropy ceiling, budget, prose rewrite); final answers shown to be mostly copies under teacher forcing, and their explanations corrected; the gap is no longer said to grow with model size; seed-level intervals and a second training recipe for the scaling study. Code, logs and results: https://github.com/nicoveraz/segresearch (archived: doi:10.5281/zenodo.24023934; all versions: doi:10.5281/zenodo.23238215)
+15 pages, 4 figures, 6 tables. v2: blind spot scoped to type-fixing cues and, in BLT-1B, to tight patch budgets (new Section 5); final answers shown to be mostly copies under teacher forcing; gap no longer said to grow with model size; seed-level intervals and a second training recipe. Code, logs and results: https://github.com/nicoveraz/segresearch (release v2.1.0, doi:10.5281/zenodo.24023934)
 ```
 
 Version 1's line, for reference: `13 pages, 4 figures, 6 tables. Code, logs and results:

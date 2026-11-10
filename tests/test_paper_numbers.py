@@ -861,7 +861,9 @@ def test_arxiv_abstract():
     a = re.search(r"## Abstract\n\n(.*?)\n\n## 1\.", ms, flags=re.S).group(1)
     plain = (a.replace("$\\log_2 10 = 3.32$", "log2(10) = 3.32").replace("`= `", '"= "').replace("`=`", '"="').replace("*", ""))
     assert plain == block, "the arXiv abstract differs from the manuscript's"
-    # the Comments line is the same in SUBMISSION.md and ARXIV_V2.md; the concept DOI is labelled as covering all versions
+    # the Comments line is the same in SUBMISSION.md and ARXIV_V2.md, plain ASCII, within arXiv's 400-character limit, and
+    # names the release and its version DOI
     c1 = re.search(r"### Comments\n.*?```\n(.*?)\n```", v2, flags=re.S).group(1)
     c2 = re.search(r"## Comments line for version 2\n.*?```\n(.*?)\n```", (ROOT / "paper" / "ARXIV_V2.md").read_text(), flags=re.S).group(1)
-    assert c1 == c2 and c1.isascii() and "(archived: doi:10.5281/zenodo.24023934; all versions: doi:10.5281/zenodo.23238215)" in c1
+    assert c1 == c2 and c1.isascii() and len(c1) <= 400, (c1 == c2, c1.isascii(), len(c1))
+    assert "(release v2.1.0, doi:10.5281/zenodo.24023934)" in c1

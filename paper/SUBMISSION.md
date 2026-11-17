@@ -86,7 +86,7 @@ model size, and adds seed-level intervals and a second training recipe to the sc
 ### Comments
 The DOI of the v2.1.0 release is 10.5281/zenodo.24023934 (Zenodo, 2026-11-06).
 ```
-15 pages, 4 figures, 6 tables. v2: the blind spot scoped to type-fixing cues and, in BLT-1B, to tight patch budgets (new Section 5: entropy ceiling, budget, prose rewrite); final answers shown to be mostly copies under teacher forcing, and their explanations corrected; the gap is no longer said to grow with model size; seed-level intervals and a second training recipe for the scaling study. Code, logs and results: https://github.com/nicoveraz/segresearch (archived: doi:10.5281/zenodo.24023934; all versions: doi:10.5281/zenodo.23238215)
+15 pages, 4 figures, 6 tables. v2: blind spot scoped to type-fixing cues and, in BLT-1B, to tight patch budgets (new Section 5); final answers shown to be mostly copies under teacher forcing; gap no longer said to grow with model size; seed-level intervals and a second training recipe. Code, logs and results: https://github.com/nicoveraz/segresearch (release v2.1.0, doi:10.5281/zenodo.24023934)
 ```
 
 ### Abstract (plain text, ready to paste)
